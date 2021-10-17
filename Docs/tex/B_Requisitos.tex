@@ -1,0 +1,167 @@
+\apendice{Especificación de Requisitos}
+
+\section{Introducción}
+
+\section{Objetivos generales}
+
+\section{Catalogo de requisitos}
+
+\subsection{Requisitos funcionales}\label{requisitos-funcionales}
+\begin{itemize}
+\tightlist
+
+    \item
+        \textbf{RF-1 Gestión de Biblioteca:} Se requiere que la web sea capaz de mostrar la biblioteca de música personal del usuario.
+        \begin{itemize}
+           \tightlist
+           
+            \item
+                \textbf{RF-1.1 Listar Biblioteca:} Se requiere que el usuario pueda visualizar su biblioteca de usuario
+                \begin{itemize}
+                    \item
+                        \textbf{RF-1.1.1 Filtrar Vista:} Se requiere que el usuario pueda filtrar la vista de su biblioteca mediante filtros avanzados.
+                    \item
+                        \textbf{RF-1.1.2 Seleccionar Vista:} Se requiere que el usuario pueda marcar como seleccionados los elementos filtrados.
+                    \item
+                        \textbf{RF-1.1.3 Ordenar Vista:} Se requiere que el usuario pueda ordenar la vista actual a partir de parámetros.
+                    \item
+                        \textbf{RF-1.1.3 Detallar Canción:} Se requiere que el usuario pueda ver detalles de cualquier item de la vista. 
+                \end{itemize}
+                
+            \item
+                \textbf{RF-1.2 Crear de Playlists:} Se requiere que el usuario pueda crear playlists a partir de una selección de canciones.   
+                \begin{itemize}
+                    \item 
+                        \textbf{RF-1.2.1 Configurar Playlist:} Se requiere que el usuario pueda escoger el título, descripción y opciones de privacidad de cada playlist.
+                    \item 
+                        \textbf{RF-1.2.2 Dividir Playlist:} Se requiere que el usuario pueda dividir una playlist en múltiples playlists.
+                \end{itemize}
+                
+            \item
+                \textbf{RF-1.3 Ampliar Playlists:} Se requiere que el usuario pueda ampliar sus playlists ya creadas a partir de una selección de canciones.
+                \begin{itemize}
+                    \item
+                        \textbf{RF-1.3.1 Buscar Playlist:} Se requiere que el usuario pueda seleccionar su playlist a partir de un listado.
+                    \item
+                        \textbf{RF-1.3.2 Detallar Playlist:} Se requiere que el usuario pueda ver los detalles de una playlist.
+                \end{itemize}
+        \end{itemize}
+    
+
+        
+    \item  
+        \textbf{RF-2 Gestión de Álbumes:} Se requiere que la web sea capaz de mostrar los álbumes del usuario.
+        \begin{itemize}
+            \item 
+                \textbf{RF-2.1 Listar Álbumes:} Se requiere que el usuario pueda visualizar sus álbumes.
+                \begin{itemize}
+                    \item 
+                        \textbf{RF-2.1.1 Albumes Favoritos:} Se requiere que el usuario pueda visualizar sus álbumes marcados como favoritos.
+                    \item 
+                        \textbf{RF-2.1.2 Albumes Etiquetados:} Se requiere que el usuario pueda visualizar sus álbumes etiquetados.
+                        
+                    \item
+                        \textbf{RF-2.1.3 Filtrar Vista:} Se requiere que el usuario pueda filtrar la vista actual de sus álbumes mediante filtros avanzados.
+                    \item
+                        \textbf{RF-1.1.3 Ordenar Vista:} Se requiere que el usuario pueda ordenar la vista actual a partir de parámetros.
+                    \item
+                        \textbf{RF-1.1.3 Detallar Álbum:} Se requiere que el usuario pueda ver detalles de cualquier álbum en la vista. 
+                \end{itemize}
+                
+            \item 
+                \textbf{RF-2.2 Buscar Álbumes:} Se requiere que el usuario pueda visualizar álbumes a partir de una cadena.
+            \item
+                \textbf{RF-2.3 Gestionar Álbumes Favoritos:} Se requiere que el usuario pueda marcar o desmarcar cualquier álbum como favorito.
+            \item
+                \textbf{RF-2.4 Etiquetar Álbumes:} Se requiere que el usuario Añadir etiquetas a cualquier álbum.
+                \begin{itemize}
+                    \item 
+                    \textbf{RF-2.4.1 Etiquetas Personalizadas:} Se requiere que el usuario pueda crear sus propias etiquetas.
+                \end{itemize}
+        \end{itemize}
+
+    \item
+        \textbf{RF-3 Detallar Elementos:} Se requiere que el usuario pueda ver detalles de un álbum, playlist o seleccionado por el usuario.
+            \begin{itemize}
+                \item 
+                \textbf{RF-3.1 Detallar Canción:} Se requiere que el usuario pueda ver detalles de una canción específica.
+                    \begin{itemize}
+                        \item 
+                            \textbf{RF-3.1.1 Previsualizar Canción:} Se requiere que el usuario pueda escuchar un fragmento de la canción.
+                        \item
+                            \textbf{RF-3.1.2 Analizar Canción:} Se requiere que el usuario pueda obtener detalles especiales a partir de un análisis de un fragmento de la canción.
+                        \item
+                            \textbf{RF-3.1.3 Reproducir Canción:} Se requiere que el usuario pueda reproducir o añadir a la cola una canción en un cliente de Spotify.
+                        \item
+                            \textbf{RF-3.1.4 Detallar Álbum:} Se requiere que el usuario obtenga los detalles del álbum al que pertenece dicha canción.
+
+                    \end{itemize}
+                    
+                \item 
+                \textbf{RF-3.2 Detallar Álbum:} Se requiere que el usuario pueda ver detalles de un álbum específico.
+                    \begin{itemize}
+                        \item 
+                            \textbf{RF-3.2.1 Gestionar Etiquetas:} Se requiere que el usuario pueda visualizar o gestionar las etiquetas de un álbum
+                        \item 
+                            \textbf{RF-3.2.2 Conocer Estadísticas:} Se requiere que el usuario pueda ver las estadísticas del álbum mediante LastFM.
+                        \item 
+                            \textbf{RF-3.2.3 Reproducir Álbum:} Se requiere que el usuario pueda reproducir el álbum en un cliente Spotify.                 
+                        \item 
+                            \textbf{RF-3.2.3 Detallar Artistas:} Se requiere que el usuario pueda conocer los detalles de los artistas que han participado en el álbum.
+                    \end{itemize}
+                
+                \item
+                    \textbf{RF-3.3 Detallar Artistas:} Se requiere que el usuario pueda conocer los detalles de un artista en específico.
+                    \begin{itemize}
+                        \item \textbf{RF-3.3.1 Géneros Musicales} Se requiere que el usuario pueda conocer los géneros musicales de un artista. 
+                    \end{itemize}
+            \end{itemize}
+
+    \item
+        \textbf{RF-4 Gestión de Tema:} Se requiere que el usuario pueda cambiar el tema actual en cualquier punto de la web.
+            \begin{itemize}
+                \item 
+                \textbf{RF-4.1 Tema Persistente:} Se requiere que el tema seleccionado se mantenga entre sesiones. 
+            \end{itemize}
+            
+    \item
+        \textbf{RF-5 Gestión de Sesión:} Se requiere que el usuario tenga el control de la sesión actual.
+        \begin{itemize}
+            \item
+                \textbf{RF-5.1 Cerrar Sesión:} Se requiere que el usuario pueda cerrar su sesión desde la web.
+                \begin{itemize}
+                    \item
+                    \textbf{RF-5.1.1 Limpieza de Sesión:} Se requiere que todos los datos locales sean borrados al cerrar sesión.
+                \end{itemize}
+            \item
+                \textbf{RF-5.2 Limpiar Datos Locales:} Se requiere que los datos locales puedan borrarse desde la web.
+        \end{itemize}
+    
+    \item
+        \textbf{RF-5 Estadísticas:} Se requiere que el usuario pueda visualizar las estadísticas relacionadas con su cuenta.
+        \begin{itemize}
+            \item \textbf{RF-5.1 Listar Canciones}: Se requiere que el usuario pueda conocer sus canciones más escuchadas en diversos periodos de tiempo.
+            \item \textbf{RF-5.2 Listar Artistas}: Se requiere que el usuario pueda conocer sus artistas más escuchadas en diversos periodos de tiempo.
+        \end{itemize}
+    
+    \item
+        \textbf{RF-6 Cachear Peticiones:} Se requiere que la aplicación realice el mínimo número de peticiones a la API para no sobrepasar los límites.
+            \begin{itemize}
+                \item \textbf{RF-6.1 Cachear Canciones:} Se requiere que los datos de las canciones se almacenen de forma local.
+                \item \textbf{RF-6.2 Cachear Artistas:} Se requiere que los datos de los artistas se almacenen de forma local.
+                \item \textbf{RF-6.3 Cachear Álbumes:} Se requiere que los datos de los álbumes se almacenen de forma local.
+                \item \textbf{RF-6.4 Refrescar Caché:} Se requiere que los distintos datos almacenados puedan actualizarse para evitar inconsistencias.
+            \end{itemize}
+    \item
+        \texbf{RF-7 Analizar Canciones:}
+    \item
+        \textbf{RF-8 Internacionalización:} Se requiere que la web se encuentre disponible en al menos dos idiomas.
+    
+\end{itemize}
+
+\subsection{Requisitos no funcionales}\label{requisitos-no-funcionales}
+
+
+\section{Especificación de requisitos}
+
+
