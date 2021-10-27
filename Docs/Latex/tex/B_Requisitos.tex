@@ -56,9 +56,9 @@
                 \textbf{RF-2.1 Listar Álbumes:} Se requiere que el usuario pueda visualizar sus álbumes.
                 \begin{itemize}
                     \item 
-                        \textbf{RF-2.1.1 Albumes Favoritos:} Se requiere que el usuario pueda visualizar sus álbumes marcados como favoritos.
+                        \textbf{RF-2.1.1 Álbumes Favoritos:} Se requiere que el usuario pueda visualizar sus álbumes marcados como favoritos.
                     \item 
-                        \textbf{RF-2.1.2 Albumes Etiquetados:} Se requiere que el usuario pueda visualizar sus álbumes etiquetados.
+                        \textbf{RF-2.1.2 Álbumes Etiquetados:} Se requiere que el usuario pueda visualizar sus álbumes etiquetados.
                         
                     \item
                         \textbf{RF-2.1.3 Filtrar Vista:} Se requiere que el usuario pueda filtrar la vista actual de sus álbumes mediante filtros avanzados.
@@ -153,15 +153,95 @@
                 \item \textbf{RF-6.4 Refrescar Caché:} Se requiere que los distintos datos almacenados puedan actualizarse para evitar inconsistencias.
             \end{itemize}
     \item
-        \texbf{RF-7 Analizar Canciones:}
-    \item
-        \textbf{RF-8 Internacionalización:} Se requiere que la web se encuentre disponible en al menos dos idiomas.
+        \texbf{RF-7 Analizar Canciones:} Se requiere que el usuario pueda conocer detalles de cada una de las canciones a partir de un fragmento de la canción.
+    
     
 \end{itemize}
 
 \subsection{Requisitos no funcionales}\label{requisitos-no-funcionales}
+\begin{itemize}
+    \item \textbf{RNF-1 Diseño Responsive:} Se requiere un diseño "responsive" para poder utilizarla en dispositivos con distintos tamaños de pantalla o relaciones de aspecto sin perder información.
+    \item \textbf{RNF-2 Minimizar Peticiones:} Se requiere minimizar el número de peticiones posibles a las  distintas APIs para evitar alcanzar los límites ver \textbf{RF-6}). 
+    \item \textbf{RNF-3 Internacionalización:} Se requiere que la web esté disponible en, al menos, dos idiomas. Algunos elementos como las fechas de lanzamiento deberán tener el formato de fecha adecuado. 
+    
+    \item\textbf{RNF-4 Compatibilidad:} Se requiere que la web sea funcional a lo largo de los motores webs más utilizados (Chromium, Firefox y Apple Webkit).
+    \item\textbf{RNF-5 Carga Diferida:} Se requiere que la web evite cargar un exceso de datos si el usuario no va a necesitarlos, por ejemplo aplicando el patón de Carga Diferida para paginar la carga de imágenes.
+    \item\textbf{RNF-6 Accesibilidad:} Se requiere que la web cumpla con el mayor número de recomendaciones posible de Web Content Accessibility Guidelines (WCAG) 2.1
+    \item\textbf{RNF-7 Rendimiento y Buenas Prácticas: Se requiere que la web funcione correctamente en dispositivos móviles y en escritorio, minimizando el tamaño de la aplicación para acelerar las cargas de JavaScript y evitar las esperas en el navegador.}
+    \item\textbf{RNF-8 Seo:} Se requiere que la web pueda ser indexada en distintos motores de búsqueda y si apliquen técnicas para mejorar la posición de esta.
+    \item\textbf{RNF-9 Seguridad: Se requiere que la web sea segura, utilizando TSL o SSL y con actualizaciones constantes para evitar paquetes de terceros con vulnerabilidades.}
+    \item\textbf{RNF-10 Privacidad: Se requiere almacenar el mínimo de información que puede identificar a un usuario para mejorar la privacidad de los datos.}
+\end{itemize}
+
+
+
 
 
 \section{Especificación de requisitos}
+
+\subsection{Diagrama de Casos de Uso}
+
+\subsection{Casos de Uso}
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{r|p{0.6\textwidth}}
+\hline
+\textbf{CU-01}         & \textbf{Gestionar Tema}                                 \\ \hline
+\textbf{Versión}       & 1.0                                                     \\
+\textbf{Autor}         & Jorge Ruiz Gómez                                        \\
+\textbf{Requisitos}    & RF-4                                         \\
+\textbf{Descripción}   & Permite al usuario cambiar el tema general de la página \\ \hline
+\textbf{Precondición}  & Ninguna                                                 \\
+\textbf{Acciones}      &    \begin{itemize}
+                                \item El Usuario entra en la página.
+                                \item La web carga el tema almacenado.
+                                \item El usuario pulsa el botón de cambio de tema.
+                                \item El Tema se alterna.
+                                \item La selección del tema se almacena de forma local.
+                            \end{itemize}\\
+                                                                          
+\textbf{Postcondición} & El tema ha cambiado                                     \\
+\textbf{Excepciones}   & Ninguna                                                 \\
+\textbf{Importancia}   & Baja                                                    \\ \hline
+\end{tabular}
+\caption{CU-01}
+\label{tab:my-table}
+\end{table}
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{r|p{0.6\textwidth}}
+\hline
+\textbf{CU-02}         & \textbf{Gestionar Tema}                                 \\ \hline
+\textbf{Versión}       & 1.0                                                     \\
+\textbf{Autor}         & Jorge Ruiz Gómez                                        \\
+\textbf{Requisitos}    & RF-4                                         \\
+\textbf{Descripción}   & Permite al usuario cambiar el tema general de la página \\ \hline
+\textbf{Precondición}  & La página ha cargado                                                 \\
+\textbf{Acciones}      &    \begin{itemize}
+                                \item El Usuario entra en la página.
+                                \item La web carga el tema almacenado o selecciona un por defecto.
+                                \item El usuario pulsa el botón de cambio de tema.
+                                \item El Tema se alterna.
+                                \item La selección del tema se almacena de forma local.
+                            \end{itemize}\\
+                                                                          
+\textbf{Postcondición} & El tema ha cambiado                                     \\
+\textbf{Excepciones}   & Ninguna                                                 \\
+\textbf{Importancia}   & Baja                                                    \\ \hline
+\end{tabular}
+\caption{CU-02}
+\label{tab:my-table}
+\end{table}
+
+
+
+
+
+
+
 
 
