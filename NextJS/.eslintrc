@@ -1,0 +1,32 @@
+{
+  "extends": "next",
+
+  "rules": {
+    "react/no-unescaped-entities": 0,
+
+    // Unused Imports
+    /*
+    "no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    */
+
+    // Order Imports
+    "sort-imports": [
+      "error",
+      {
+        "ignoreDeclarationSort": true
+      }
+    ]
+  },
+
+  "plugins": ["unused-imports"]
+}

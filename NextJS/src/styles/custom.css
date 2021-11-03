@@ -1,0 +1,71 @@
+.grecaptcha-badge {
+  width: 70px !important;
+  overflow: hidden !important;
+  transition: all 0.3s ease !important;
+  left: -45px !important;
+  bottom: 60px !important;
+}
+
+.grecaptcha-badge:hover {
+  width: 256px !important;
+  left: 0 !important;
+}
+
+/* Custom Divider TOP */
+.custom-shape-divider-top-1630680612 {
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+
+  z-index: 0;
+}
+
+.custom-shape-divider-top-1630680612 svg {
+  position: relative;
+  display: block;
+  width: calc(134% + 1.3px);
+  height: 146px;
+}
+
+.custom-shape-divider-top-1630680612 .shape-fill {
+  fill: rgb(5, 150, 105);
+}
+
+/** For mobile devices **/
+@media (max-width: 767px) {
+  .custom-shape-divider-top-1630680612 svg {
+    width: calc(160% + 1.3px);
+    height: 166px;
+  }
+}
+
+/* Custom Divider Bottom */
+.custom-shape-divider-bottom-1630680696 {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1630680696 svg {
+  position: relative;
+  display: block;
+  width: calc(134% + 1.3px);
+  height: 146px;
+}
+
+.custom-shape-divider-bottom-1630680696 .shape-fill {
+  fill: rgb(5, 150, 105);
+}
+
+/** For mobile devices **/
+@media (max-width: 767px) {
+  .custom-shape-divider-bottom-1630680696 svg {
+    width: calc(160% + 1.3px);
+    height: 166px;
+  }
+}
