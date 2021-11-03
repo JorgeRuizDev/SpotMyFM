@@ -1,4 +1,4 @@
-import ToggleThemeButtonFlip from "components/util/ToggleThemeButtonFlip";
+import ToggleThemeButtonFlip from "components/theme/ToggleThemeButtonFlip";
 
 export default function Home() {
   return (

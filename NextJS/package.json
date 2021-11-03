@@ -9,6 +9,7 @@
     "export": "next export",
     "lint": "next lint",
     "fix": "npx eslint ./ --fix",
+    "test": "jest --watch",
     "format": "prettier --write src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
@@ -53,6 +54,8 @@
     "zustand": "^3.6.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.15.0",
+    "@testing-library/react": "^12.1.2",
     "@types/base-64": "1.0.0",
     "@types/js-cookie": "2.2.7",
     "@types/lodash": "4.14.172",
@@ -62,12 +65,16 @@
     "@types/spotify-web-api-node": "5.0.3",
     "@types/tiny-async-pool": "1.0.0",
     "@types/utf8": "3.0.0",
+    "babel-jest": "^27.3.1",
     "babel-plugin-macros": "3.1.0",
     "babel-plugin-styled-components": "1.13.2",
     "eslint": "7.32.0",
     "eslint-config-next": "11.1.2",
     "eslint-plugin-unused-imports": "1.1.4",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.3.1",
     "lint": "0.7.0",
+    "react-test-renderer": "^17.0.2",
     "tailwindcss": "2.2.9",
     "typescript": "4.4.2"
   },
