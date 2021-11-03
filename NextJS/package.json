@@ -76,7 +76,7 @@
     "lint": "0.7.0",
     "react-test-renderer": "^17.0.2",
     "tailwindcss": "2.2.19",
-    "typescript": 4.4.42"
+    "typescript": "4.4.42"
   },
   "babelMacros": {
     "twin": {
