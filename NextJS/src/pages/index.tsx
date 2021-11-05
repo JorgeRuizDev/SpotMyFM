@@ -1,10 +1,14 @@
 import ToggleThemeButtonFlip from "components/theme/ToggleThemeButtonFlip";
+import { useState } from "react";
+import { useLoginStore } from "store/useLogin";
 import Buttons from "styles/Buttons";
 import { getOauth } from "util/spotify/oauthFrontend";
+
 export default function Home() {
+  const isLogged = useLoginStore((set) => set.isLogged);
+
   return (
     <>
-      <h1>Hola</h1>;
       <Buttons.PrimaryGreenButton
         onClick={() => {
           getOauth().promptCredentials();
@@ -13,6 +17,7 @@ export default function Home() {
         Log In
       </Buttons.PrimaryGreenButton>
       <ToggleThemeButtonFlip />
+      {isLogged && <h1>Logueado</h1>}
     </>
   );
 }

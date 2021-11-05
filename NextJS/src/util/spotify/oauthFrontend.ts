@@ -6,11 +6,17 @@ import env from "env";
  * @returns
  */
 export function getOauth() {
+  let callbackUri = "";
+
+  if (typeof window !== "undefined") {
+    callbackUri = `${window.location.origin}/spotify/callback`;
+  }
+
   const oauth = new Oauth2Frontend(
     "https://accounts.spotify.com/authorize",
     env.SPOTIFY_PUBLIC,
     scopes,
-    `${window.location.origin}/spotify/callback`
+    callbackUri
   );
 
   return oauth;

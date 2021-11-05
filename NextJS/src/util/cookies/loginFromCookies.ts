@@ -19,10 +19,13 @@ export default async function getAuthToken(): Promise<string | null> {
 
   // If the auth token has expired but we can refresh it
   if (authToken === undefined && refreshToken !== undefined) {
-    const [res, err] = await oauth.refreshAuthToken(
-      cfg.api_spotify_refresh,
-      refreshToken
-    );
+    let endpoint = cfg.api_spotify_refresh;
+
+    if (typeof window !== "undefined") {
+      endpoint = `${window.location.origin}/${endpoint}`;
+    }
+
+    const [res, err] = await oauth.refreshAuthToken(endpoint, refreshToken);
 
     if (err || !res) {
       CookieManager.removeAll();

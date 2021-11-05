@@ -1,6 +1,49 @@
 import { useRouter } from "next/dist/client/router";
-import { useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
+import { useLoginStore } from "store/useLogin";
+import { getOauth } from "util/spotify/oauthFrontend";
+import cfg from "config";
+import { toast } from "react-toastify";
+import cookieManager from "util/cookies/loginCookieManager";
+import Head from "components/util/Head";
 
 export default function Callback() {
   const router = useRef(useRouter());
+
+  const { isLogged, logIn } = useLoginStore();
+
+  const handleLogin = useCallback(async () => {
+    const [res, err] = await getOauth().getAuthToken(
+      `${window.location.origin}/${cfg.api_spotify_auth}`
+    );
+
+    if (err || res == null) {
+      toast.error("An error occurred while getting the auth token : " + err);
+      router.current.push("/");
+      return;
+    }
+
+    const canLog = await logIn(res.access_token);
+
+    if (canLog) {
+      cookieManager.saveAuthToken(res.access_token, res.expires_in);
+      cookieManager.saveRefreshToken(res.refresh_token);
+      router.current.push("/");
+    } else {
+      toast.error("Couldn't Log In");
+      router.current.push("/");
+    }
+  }, [logIn, router]);
+
+  useEffect(() => {
+    if (isLogged === undefined) {
+      handleLogin();
+    }
+  }, [isLogged, handleLogin]);
+
+  return (
+    <>
+      <Head title="Redirecting..."></Head>
+    </>
+  );
 }
