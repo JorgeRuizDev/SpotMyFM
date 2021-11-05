@@ -1,17 +1,8 @@
 import axios from "axios";
-
-interface AuthTokenResponse {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-  refresh_token: string;
-  scope?: string;
-}
-
-interface RefreshTokenResponse {
-  access_token: string;
-  expires_in: number;
-}
+import {
+  AuthTokenResponse,
+  RefreshTokenResponse,
+} from "interfaces/oauth2Responses";
 
 class Oauth2Frontend {
   private endpoint: string;
@@ -73,11 +64,11 @@ class Oauth2Frontend {
   public async getAuthToken(
     apiEndpoint: string
   ): Promise<AuthTokenResponse | undefined> {
-    const code = this.getGrantCode();
+    const responseCode = this.getGrantCode();
 
     try {
       const response = await axios.post(apiEndpoint, {
-        code,
+        responseCode,
         redirectUri: this.callbackUri,
       });
 
