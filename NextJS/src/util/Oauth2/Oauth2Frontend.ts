@@ -95,22 +95,22 @@ class Oauth2Frontend {
    * @param refreshToken
    * @returns
    */
-  static async refreshAuthToken(
+  async refreshAuthToken(
     apiEndpoint: string,
     refreshToken: string
-  ): Promise<RefreshTokenResponse | undefined> {
+  ): Promise<[RefreshTokenResponse | null, any]> {
     try {
       const response = await axios.post(apiEndpoint, { refreshToken });
       const data = response.data;
-      return {
-        access_token: data.access_token,
-        expires_in: data.expires_in,
-      };
+      return [
+        {
+          access_token: data.access_token,
+          expires_in: data.expires_in,
+        },
+        null,
+      ];
     } catch (e) {
-      if (axios.isAxiosError(e)) {
-      } else {
-        throw e;
-      }
+      return [null, e];
     }
   }
 
