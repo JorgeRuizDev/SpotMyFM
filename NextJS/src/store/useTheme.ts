@@ -1,6 +1,5 @@
 import create from "zustand";
 import { Theme } from "enums/Theme";
-import { persist } from "zustand/middleware";
 
 /**
  * Updates the current tailwind theme by appending it to the html body.
