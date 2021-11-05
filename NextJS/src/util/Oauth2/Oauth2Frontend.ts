@@ -3,6 +3,7 @@ import {
   AuthTokenResponse,
   RefreshTokenResponse,
 } from "interfaces/oauth2Responses";
+import { toast } from "react-toastify";
 
 class Oauth2Frontend {
   private endpoint: string;
@@ -42,17 +43,17 @@ class Oauth2Frontend {
    *
    * @returns String with the Authorization Code Grant
    */
-  private getGrantCode(): string {
+  private getGrantCode(): [string | null, any] {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
 
     const code = urlParams.get("code");
 
     if (code === null) {
-      throw `Incorrect API Callback, no "code" received`;
+      return [null, "No Code Received"];
     }
 
-    return code;
+    return [code, null];
   }
 
   /**
@@ -63,8 +64,12 @@ class Oauth2Frontend {
   */
   public async getAuthToken(
     apiEndpoint: string
-  ): Promise<AuthTokenResponse | undefined> {
-    const responseCode = this.getGrantCode();
+  ): Promise<[AuthTokenResponse | null, any]> {
+    const [responseCode, err] = this.getGrantCode();
+
+    if (err) {
+      return [null, err];
+    }
 
     try {
       const response = await axios.post(apiEndpoint, {
@@ -74,18 +79,18 @@ class Oauth2Frontend {
 
       const data = response.data;
 
-      return {
-        access_token: data.token || "",
-        expires_in: parseInt(data.expires_in) || 0,
-        refresh_token: data.refresh_token,
-        token_type: data.token_type,
-        scope: data.scope,
-      };
+      return [
+        {
+          access_token: data.access_token || "",
+          expires_in: parseInt(data.expires_in) || 0,
+          refresh_token: data.refresh_token,
+          token_type: data.token_type,
+          scope: data.scope,
+        },
+        null,
+      ];
     } catch (e) {
-      if (axios.isAxiosError(e)) {
-      } else {
-        throw e;
-      }
+      return [null, e];
     }
   }
 

@@ -61,7 +61,7 @@ class Oauth2Backend {
 
       return [
         {
-          access_token: data.token || "",
+          access_token: data.access_token || "",
           expires_in: parseInt(data.expires_in) || 0,
           refresh_token: data.refresh_token,
           token_type: data.token_type,
