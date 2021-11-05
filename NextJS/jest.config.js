@@ -1,11 +1,13 @@
 module.exports = {
+  preset: "ts-jest",
+  testEnvironment: "node",
   collectCoverageFrom: [
     "**/*.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
     "!**/node_modules/**",
   ],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-
+  moduleDirectories: ["node_modules", "src"],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
     https://jestjs.io/docs/webpack#mocking-css-modules */

@@ -45,9 +45,9 @@ interface IThemeStore {
  */
 const useThemeStore = create<IThemeStore>((set, get) => {
   const currentTheme = loadSavedTheme();
+
   const toggleTheme = () => {
     const { currentTheme } = get();
-
     if (currentTheme === Theme.DARK) {
       setTheme(Theme.LIGHT);
       set(() => ({
