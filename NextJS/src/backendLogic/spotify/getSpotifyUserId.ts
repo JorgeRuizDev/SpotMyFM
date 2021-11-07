@@ -14,6 +14,7 @@ export async function getSpotifyUserId(
 
   try {
     // Configure the api
+    // TODO: Replace the object with the improved one
     const api = new SpotifyWebApi();
     api.setAccessToken(spotifyApiToken);
 
