@@ -12,7 +12,7 @@ enum Errors {
   TOO_MANY_REQUEST = 429,
   INTERNAL_SERVER_ERROR = 500,
   BAD_GATEWAY = 502,
-  SERVICE_UNAVAILABLE = 503
+  SERVICE_UNAVAILABLE = 503,
 }
 
 /**
@@ -30,7 +30,7 @@ function parse(e: any) {
       return {
         status: 0,
         message: error?.error?.toString() || "",
-        description: error?.error_description
+        description: error?.error_description,
       };
     }
 
@@ -38,13 +38,13 @@ function parse(e: any) {
     return {
       status: parseInt(error?.status) || 0,
       message: error?.message?.toString() || "",
-      description: ""
+      description: "",
     };
   } catch (e) {
     return {
       status: -1,
-      message: "Not Found",
-      description: (e as any)?.toString()
+      message: "-1 Not Found",
+      description: (e as any)?.toString(),
     };
   }
 }

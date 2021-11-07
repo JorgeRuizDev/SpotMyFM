@@ -20,6 +20,7 @@
     "base-64": "1.0.0",
     "date-fns": "2.23.0",
     "dexie": "3.0.3",
+    "dynamoose": "^2.8.2",
     "firebase": "9.0.1",
     "framer-motion": "4.1.17",
     "html-react-parser": "1.2.8",
