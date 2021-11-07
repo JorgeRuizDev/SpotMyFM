@@ -2,7 +2,8 @@ import * as dynamoose from "dynamoose";
 import { Document } from "dynamoose/dist/Document";
 export const UserSchema = new dynamoose.Schema(
   {
-    id: String,
+    PK: String,
+    spotifyId: String,
     lastLogin: Date,
     isAdmin: {
       type: Boolean,
@@ -14,9 +15,3 @@ export const UserSchema = new dynamoose.Schema(
     timestamps: true,
   }
 );
-
-export class UserModel extends Document {
-  id: string = "";
-  lastLogin: Date = new Date();
-  isAdmin: boolean = false;
-}

@@ -1,7 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import Oauth2Backend from "util/Oauth2/Oauth2Backend";
 import env from "env"
-const refresh = async (req: NextApiRequest, res: NextApiResponse<any>) => {
+import { RefreshTokenResponse } from "interfaces/oauth2Responses";
+import ApiError from "interfaces/apiError";
+const refresh = async (req: NextApiRequest, res: NextApiResponse<RefreshTokenResponse| ApiError>) => {
   const { refreshToken } = req.body;
 
   if (!refreshToken || refreshToken.length === 0){

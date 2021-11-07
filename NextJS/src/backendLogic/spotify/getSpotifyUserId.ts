@@ -9,7 +9,7 @@ export async function getSpotifyUserId(
   spotifyApiToken: string = ""
 ): Promise<[string | null, any]> {
   if (spotifyApiToken === null || spotifyApiToken.length === 0) {
-    return ["", "Empty Token!"];
+    return [null, "Empty Token!"];
   }
 
   try {

@@ -11,7 +11,6 @@ export default function Callback() {
   const router = useRef(useRouter());
 
   const { isLogged, logIn } = useLoginStore();
-
   const handleLogin = useCallback(async () => {
     const [res, err] = await getOauth().getAuthToken(
       `${window.location.origin}/${cfg.api_spotify_auth}`
@@ -36,8 +35,10 @@ export default function Callback() {
   }, [logIn, router]);
 
   useEffect(() => {
-    if (isLogged === undefined) {
+    if (!isLogged) {
       handleLogin();
+    } else {
+      router.current.push("/");
     }
   }, [isLogged, handleLogin]);
 

@@ -1,11 +1,13 @@
 import axios from 'axios';
 import b64 from "base-64";
 import env from 'env';
+import ApiError from 'interfaces/apiError';
+import { AuthTokenResponse } from 'interfaces/oauth2Responses';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import qs from 'query-string';
 import Oauth2Backend from 'util/Oauth2/Oauth2Backend';
 
-const auth = async(req: NextApiRequest, res: NextApiResponse<any>) => {
+const auth = async(req: NextApiRequest, res: NextApiResponse<AuthTokenResponse| ApiError>) => {
   const { redirectUri, responseCode} = req.body;
 
   const tokenURL = "https://accounts.spotify.com/api/token";

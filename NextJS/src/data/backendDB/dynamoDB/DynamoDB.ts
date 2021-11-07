@@ -1,6 +1,7 @@
 import { IBackendDB } from "data/backendDB/BackendDB";
 import * as dynamoose from "dynamoose";
 import env from "env";
+import { User } from "data/backendDB/dynamoDB/UserModel";
 export class DynamoDB implements IBackendDB {
   /**
    * Constructor
@@ -12,14 +13,25 @@ export class DynamoDB implements IBackendDB {
       region: env.AWS_REGION,
     });
   }
+  updateLastLogin(userId: string): Promise<Date> {
+    throw new Error("Method not implemented.");
+  }
 
-  updateLastLogin(userId: string): boolean {
-    throw new Error("Method not implemented.");
-  }
-  isUserAdmin(userId: string): boolean {
-    throw new Error("Method not implemented.");
-  }
-  getLastLogin(userId: string): Date {
-    throw new Error("Method not implemented.");
+  async isUserAdmin(userId: string): Promise<boolean> {
+    try {
+      const res = await User.query("PK")
+        .eq(userId)
+        //.attributes(["isAdmin"])
+        .exec();
+
+      if (res.count != 1) {
+        return false;
+      }
+
+      return res[0].isAdmin;
+    } catch (e) {
+      console.error(e);
+      return false;
+    }
   }
 }
