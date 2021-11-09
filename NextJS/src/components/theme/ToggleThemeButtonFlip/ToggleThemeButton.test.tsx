@@ -2,7 +2,7 @@ import ToggleThemeButtonFlip from "./ToggleThemeButtonFlip";
 
 import React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import { renderHook } from "@testing-library/react-hooks";
+import { act, renderHook } from "@testing-library/react-hooks";
 import { useThemeStore } from "store/useTheme";
 import { Theme } from "enums/Theme";
 describe("<ToggleThemeButtonFlip />", () => {
@@ -11,11 +11,17 @@ describe("<ToggleThemeButtonFlip />", () => {
 
     const { result: themeResult } = renderHook(() => useThemeStore());
 
-    expect(themeResult.current.currentTheme).toBe(Theme.DARK);
+    act(() => {
+      expect(themeResult.current.currentTheme).toBe(Theme.DARK);
+    });
 
     const btn = component.getByLabelText("Theme Button");
-    fireEvent.click(btn);
+    act(() => {
+      fireEvent.click(btn);
+    });
 
-    expect(themeResult.current.currentTheme).toBe(Theme.LIGHT);
+    act(() => {
+      expect(themeResult.current.currentTheme).toBe(Theme.LIGHT);
+    });
   });
 });
