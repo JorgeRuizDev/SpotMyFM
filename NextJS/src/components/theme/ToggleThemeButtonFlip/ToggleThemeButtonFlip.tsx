@@ -1,6 +1,7 @@
 import { Theme } from "enums/Theme";
 import Styled from "./ToggleThemeButtonFlip.styles";
 import { useThemeStore } from "store/useTheme";
+import { useEffect } from "react";
 
 function ToggleThemeButtonFlip(): JSX.Element {
   const { currentTheme, toggleTheme } = useThemeStore();
