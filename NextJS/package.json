@@ -58,6 +58,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.0",
     "@testing-library/react": "^12.1.2",
+    "@testing-library/react-hooks": "^7.0.2",
     "@types/base-64": "1.0.0",
     "@types/js-cookie": "2.2.7",
     "@types/lodash": "4.14.172",

@@ -6,7 +6,7 @@ import { useLoginStore } from "store/useLogin";
 import Buttons from "styles/Buttons";
 import { getOauth } from "util/spotify/oauthFrontend";
 
-export default function Home() {
+export default function Home(): JSX.Element {
   const { isLogged, spotifyApi } = useLoginStore();
   const [isAdmin, setIsAdmin] = useState(false);
 
