@@ -3,6 +3,34 @@
 \section{Introducción}
 
 \section{Diseño de datos}
+Una de las características de este proyecto es la de mostrar diferentes datos que no están disponibles por defecto en Spotify para enriquecer la experiencia de usuario. Este requisito nos obliga a usar tres fuentes de datos distintas las cuales debemos coordinar para el correcto funcionamiento de la web. 
+
+La solución a este problema es crear una clase de datos que permita almacenar y relacionar los distintos atributos de forma eficiente. 
+
+\subsection{Datos de Spotify}
+El principal problema que nos encontramos a la hora de obtener los datos de la API de Spotify es que vamos a recibir dos objetos distintos para la mayoría de los elementos, una versión simplificada (\textbf{Simplified}) que no incluye todos los atributos de un objeto y una versión completa (\textbf{Full}). 
+
+Por ejemplo, si intentamos obtener las últimas 50 canciones que hemos reproducido en la plataforma, nos vamos a encontrar con 50 \textbf{TrackObjectSimplified} que incluyen:
+
+\begin{itemize}
+    \item Artista o Artistas Asociados (Simplificados)
+    \item Nombre
+    \item ID
+    \item Uri
+    \item Duración
+    \item Número de disco
+    \item Posición en el disco
+    \item Lista de códigos de país en los que está disponible
+    \item Si contiene contenido explícito.
+    \item Varios enlaces (ejemplo de 30s, url de Spotify, etc)
+\end{itemize}
+
+Si bien este objeto incluye una gran variedad de datos relevantes, no incluye el álbum al que pertenece
+
+\begin{itemize}
+    \item Álbum Asociado (Simplificado).
+    \item Popularidad.
+\end{itemize}
 
 \section{Diseño procedimental}
 
