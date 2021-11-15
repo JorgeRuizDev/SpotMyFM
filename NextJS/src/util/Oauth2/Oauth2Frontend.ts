@@ -107,6 +107,11 @@ class Oauth2Frontend {
     try {
       const response = await axios.post(apiEndpoint, { refreshToken });
       const data = response.data;
+
+      if (!data.access_token) {
+        return [null, "No Access Token, response " + response.status];
+      }
+
       return [
         {
           access_token: data.access_token,
