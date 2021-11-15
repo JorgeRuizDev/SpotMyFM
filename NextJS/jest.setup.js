@@ -1,1 +1,2 @@
-import "@testing-library/jest-dom/extend-expect";
+const dotenv = require("dotenv");
+dotenv.config({ path: "./.env.local" });

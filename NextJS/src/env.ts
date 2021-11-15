@@ -11,4 +11,8 @@ const env = {
   LASTFM_KEY: process.env.NEXT_PUBLIC_LAST_KEY || "",
 };
 
+export const envtest = {
+  SPOTIFY_REFRESH_TOKEN: process.env.TEST_SPOTIFY_REFRESH || "",
+};
+
 export default env;
