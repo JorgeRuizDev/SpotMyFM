@@ -16,7 +16,7 @@
     "@date-io/date-fns": "2.11.0",
     "@tailwindcss/forms": "0.3.3",
     "@types/styled-components": "5.1.14",
-    "axios": "0.24.0",
+    "axios": "0.21.2",
     "base-64": "1.0.0",
     "date-fns": "2.23.0",
     "dexie": "3.0.3",
