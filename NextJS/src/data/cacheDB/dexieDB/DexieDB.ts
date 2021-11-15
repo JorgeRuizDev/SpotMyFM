@@ -5,58 +5,56 @@ import { Track } from "./models/Track";
 import * as album from "./logic/dbAlbums";
 import * as artist from "./logic/dbArtists";
 import * as track from "./logic/dbTracks";
-
+import { dropDatabase, resetDatabase } from "./logic/db";
 export class DexieDB implements CacheAdapter {
-  addTracks(tracks: Track[]): Promise<void> {
-    throw new Error("Method not implemented.");
+  constructor() {}
+
+  public addTracks(tracks: Track[]): Promise<void> {
+    return track.addTracks(tracks);
   }
-  addAlbums(albums: Album[]): Promise<void> {
-    throw new Error("Method not implemented.");
+  public addAlbums(albums: Album[]): Promise<void> {
+    return album.addAlbums(albums);
   }
-  addArtists(artists: Artist[]): Promise<void> {
-    throw new Error("Method not implemented.");
+  public addArtists(artists: Artist[]): Promise<void> {
+    return artist.addArtists(artists);
   }
-  joinTracks(
-    tracks: Track[],
-    albums: Album[],
-    artists: Artist[]
-  ): Promise<Track[]> {
-    throw new Error("Method not implemented.");
+  public joinTracks(tracks: Track[]): Promise<Track[]> {
+    return track.joinTracks(tracks);
   }
-  joinAlbums(albums: Album[], artists: Artist[]): Promise<Album[]> {
-    throw new Error("Method not implemented.");
+  public joinAlbums(albums: Album[]): Promise<Album[]> {
+    return album.joinAlbums(albums);
   }
-  getAllTracks(): Promise<Track[]> {
-    throw new Error("Method not implemented.");
+  public getAllTracks(): Promise<Track[]> {
+    return track.getAllTracks();
   }
-  getAllAlbums(): Promise<Album[]> {
-    throw new Error("Method not implemented.");
+  public getAllAlbums(): Promise<Album[]> {
+    return album.getAllAlbums();
   }
-  getAllArtists(): Promise<Artist[]> {
-    throw new Error("Method not implemented.");
+  public getAllArtists(): Promise<Artist[]> {
+    return artist.getAllArtists();
   }
-  getTracksBySpotifyId(spotifyIds: string[]): Promise<Track[]> {
-    throw new Error("Method not implemented.");
+  public getTracksBySpotifyId(spotifyIds: string[]): Promise<Track[]> {
+    return track.getTracksBySpotifyId(spotifyIds);
   }
-  getAlbumsBySpotifyId(spotifyIds: string[]): Promise<Album[]> {
-    throw new Error("Method not implemented.");
+  public getAlbumsBySpotifyId(spotifyIds: string[]): Promise<Album[]> {
+    return album.getAlbumsBySpotifyId(spotifyIds);
   }
-  getArtistsBySpotifyId(spotifyIds: string[]): Promise<Artist[]> {
-    throw new Error("Method not implemented.");
+  public getArtistsBySpotifyId(spotifyIds: string[]): Promise<Artist[]> {
+    return artist.getArtistsBySpotifyId(spotifyIds);
   }
-  getMissingTracks(spotifyIds: string[]): Promise<string[]> {
-    throw new Error("Method not implemented.");
+  public getMissingTracks(spotifyIds: string[]): Promise<string[]> {
+    return track.getMissingTracks(spotifyIds);
   }
-  getMissingAlbums(spotifyIds: string[]): Promise<string[]> {
-    throw new Error("Method not implemented.");
+  public getMissingAlbums(spotifyIds: string[]): Promise<string[]> {
+    return album.getMissingAlbums(spotifyIds);
   }
-  getMissingArtists(spotifyIds: string[]): Promise<string[]> {
-    throw new Error("Method not implemented.");
+  public getMissingArtists(spotifyIds: string[]): Promise<string[]> {
+    return artist.getMissingArtists(spotifyIds);
   }
-  dropDB(): void {
-    throw new Error("Method not implemented.");
+  public dropDB(): Promise<void> {
+    return dropDatabase();
   }
-  resetDB(): void {
-    throw new Error("Method not implemented.");
+  public resetDB(): Promise<void> {
+    return resetDatabase();
   }
 }

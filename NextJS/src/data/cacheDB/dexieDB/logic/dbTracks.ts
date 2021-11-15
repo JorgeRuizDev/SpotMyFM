@@ -39,6 +39,14 @@ export async function addTracks(tracks: Track[]) {
 }
 
 /**
+ * Returns every cached track
+ * @returns
+ */
+export async function getAllTracks(): Promise<Track[]> {
+  return await db.tracks.toArray();
+}
+
+/**
  * Joins a selected number of tracks and saves them in the DB.
  *
  * @export

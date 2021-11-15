@@ -103,10 +103,10 @@ export interface CacheAdapter {
   /**
    * Destroys the Database
    */
-  dropDB(): void;
+  dropDB(): Promise<void>;
 
   /**
    * Reset the database.
    */
-  resetDB(): void;
+  resetDB(): Promise<void>;
 }

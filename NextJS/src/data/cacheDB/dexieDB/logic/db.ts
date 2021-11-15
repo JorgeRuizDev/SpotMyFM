@@ -21,7 +21,7 @@ export class DexieCache extends Dexie {
 }
 export const db = new DexieCache();
 
-export function dropDatabase() {
+export async function dropDatabase() {
   return db.delete();
 }
 
@@ -57,7 +57,7 @@ export async function getGenericBySpotifyId<E extends SpotifyBaseObject>(
   return _.sortBy(items, (t) => spotifyIds?.indexOf(t.spotifyId));
 }
 
-export function resetDatabase() {
+export async function resetDatabase() {
   return db.transaction("rw", db.tracks, db.albums, db.artists, async () => {
     await Promise.all(db.tables.map((table) => table.clear()));
   });
