@@ -1,3 +1,4 @@
+import { DexieDB } from "./dexieDB/DexieDB";
 import { Album } from "./dexieDB/models/Album";
 import { Artist } from "./dexieDB/models/Artist";
 import { Track } from "./dexieDB/models/Track";
@@ -110,3 +111,5 @@ export interface CacheAdapter {
    */
   resetDB(): Promise<void>;
 }
+
+export const CacheDb = new DexieDB();

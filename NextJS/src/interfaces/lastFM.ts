@@ -3,4 +3,14 @@ export interface LastfmTag {
   url: string;
 }
 
+export interface ILastFMAlbum {
+  lastfmURL?: string;
+
+  lastfmListenersCount?: number;
+
+  lastfmPlayCount?: number;
+
+  lastfmDescription?: string;
+}
+
 export interface LastFMDetails {}
