@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { Album } from "../models/Album";
-import { db, getMissingGeneric } from "./db";
+import { db, getGenericBySpotifyId, getMissingGeneric } from "./db";
 
 /**
- * Gets all tracks given an array of Spotify Album Ids
+ * Gets all albums given an array of Spotify Album Ids
  *
  * @export
  * @param {string[]} albumIds Spotify Album Ids
@@ -12,12 +12,7 @@ import { db, getMissingGeneric } from "./db";
 export async function getAlbumsBySpotifyId(
   albumIds: string[]
 ): Promise<Album[]> {
-  const albums = await db.albums
-    .where("spotifyId")
-    .anyOf(albumIds)
-    .toArray();
-
-  return _.sortBy(albums, (t) => albumIds?.indexOf(t.spotifyId));
+  return getGenericBySpotifyId(albumIds, db.albums);
 }
 
 /**

@@ -26,19 +26,35 @@ export function dropDatabase() {
 }
 
 export async function getMissingGeneric(
-  spotifyIds: String[],
+  spotifyIds: string[],
   table: Table<SpotifyBaseObject, number>
-) {
-  const ids = new Set(spotifyIds);
-  const items = await table.toArray();
+): Promise<string[]> {
+  const items = await table
+    .where("spotifyId")
+    .noneOf(spotifyIds)
+    .toArray();
 
-  for (const i of items) {
-    if (ids.has(i.spotifyId)) {
-      ids.delete(i.spotifyId);
-    }
-  }
+  return items.map((i) => i.spotifyId);
+}
 
-  return Array.from(ids.values());
+/**
+ * Gets all the items that exist in an specific table given the spotify ids.
+ *
+ * @export
+ * @param {string[]} spotifyIds Spotify Album Ids
+ * @param {Table} table A cache table
+ * @return {*} Albums in the same order as the TrackIds
+ */
+export async function getGenericBySpotifyId<E extends SpotifyBaseObject>(
+  spotifyIds: string[],
+  table: Table<E, number>
+): Promise<E[]> {
+  const items = await table
+    .where("spotifyId")
+    .anyOf(spotifyIds)
+    .toArray();
+
+  return _.sortBy(items, (t) => spotifyIds?.indexOf(t.spotifyId));
 }
 
 export function resetDatabase() {

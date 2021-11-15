@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Track } from "../models/Track";
-import { db } from "./db";
+import { db, getGenericBySpotifyId, getMissingGeneric } from "./db";
 
 /**
  * Gets all tracks given an array of Spotify Track Ids
@@ -9,13 +9,33 @@ import { db } from "./db";
  * @param {string[]} trackIds Spotify Track Ids
  * @return {*} Tracks in the same order as the TrackIds
  */
-export async function getTracksBySpotifyId(trackIds: string[]) {
-  const tracks = await db.tracks
-    .where("spotifyId")
-    .anyOf(trackIds)
-    .toArray();
+export async function getTracksBySpotifyId(
+  trackIds: string[]
+): Promise<Track[]> {
+  return await getGenericBySpotifyId(trackIds, db.tracks);
+}
 
-  return _.sortBy(tracks, (t) => trackIds?.indexOf(t.spotifyId));
+/**
+ * Gets the spotify ids that are not stored in the db.
+ * @param {string[]} spotifyIds List of ids to check.
+ * @returns { Promise<string[]>} a list of strings
+ */
+export async function getMissingTracks(
+  spotifyIds: string[]
+): Promise<string[]> {
+  return await getMissingGeneric(spotifyIds, db.tracks);
+}
+
+/**
+ * Persists a batch of tracks in the cache.
+ * @param {Track[]} tracks Array of Tracks.
+ */
+export async function addTracks(tracks: Track[]) {
+  try {
+    await db.tracks.bulkPut(tracks);
+  } catch (e) {
+    console.warn(e);
+  }
 }
 
 /**
