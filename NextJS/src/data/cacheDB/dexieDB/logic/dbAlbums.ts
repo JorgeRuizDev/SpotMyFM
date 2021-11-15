@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { Album } from "../models/Album";
-import { db } from "./db";
+import { db, getMissingGeneric } from "./db";
 
 /**
  * Gets all tracks given an array of Spotify Album Ids
@@ -9,13 +9,39 @@ import { db } from "./db";
  * @param {string[]} albumIds Spotify Album Ids
  * @return {*} Albums in the same order as the TrackIds
  */
-export async function getAlbumsBySpotifyId(albumIds: string[]) {
+export async function getAlbumsBySpotifyId(
+  albumIds: string[]
+): Promise<Album[]> {
   const albums = await db.albums
     .where("spotifyId")
     .anyOf(albumIds)
     .toArray();
 
   return _.sortBy(albums, (t) => albumIds?.indexOf(t.spotifyId));
+}
+
+/**
+ * Function that retrieves every single cached album
+ * @returns
+ */
+export async function getAllAlbums(): Promise<Album[]> {
+  return await db.albums.toArray();
+}
+
+/**
+ * Stores multiple albums in the Database.
+ * @param albums Album Object list.
+ */
+export async function addAlbums(albums: Album[]) {
+  try {
+    await db.albums.bulkPut(albums);
+  } catch (e) {
+    console.warn(e);
+  }
+}
+
+export async function getMissingAlbums(spotifyIds: string[]) {
+  return getMissingGeneric(spotifyIds, db.albums);
 }
 
 /**
@@ -26,7 +52,7 @@ export async function getAlbumsBySpotifyId(albumIds: string[]) {
  * @param {Album[]} albums
  * @return {*}
  */
-export async function joinAlbums(albums: Album[]) {
+export async function joinAlbums(albums: Album[]): Promise<Album[]> {
   await Promise.all(
     albums.map(async (album) => {
       [album.artists] = await Promise.all([
@@ -37,7 +63,11 @@ export async function joinAlbums(albums: Album[]) {
       ]);
     })
   );
+  try {
+    await db.albums.bulkPut(albums);
+  } catch (e) {
+    console.warn(e);
+  }
 
-  await db.albums.bulkPut(albums);
   return albums;
 }

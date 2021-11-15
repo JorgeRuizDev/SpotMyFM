@@ -6,7 +6,7 @@ export interface Track extends SpotifyBaseObject {
   // Album:
   spotifyAlbumId: string;
 
-  album: Album;
+  album?: Album;
 
   // Others:
   spotifyArtistsIds: string[];

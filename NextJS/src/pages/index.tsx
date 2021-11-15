@@ -20,7 +20,7 @@ export default function Home(): JSX.Element {
           .then((r) => console.log(r.data))
           .catch((e) => toast.error);
       } catch (e) {
-        toast.error(e);
+        toast.error(e as any);
       }
     }
   }, [isLogged, spotifyApi]);

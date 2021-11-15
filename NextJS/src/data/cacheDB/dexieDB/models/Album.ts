@@ -1,6 +1,8 @@
 import { Artist } from "./Artist";
 import { LastfmTag } from "interfaces/lastFM";
-export interface Album {
+import SpotifyBaseObject from "./SpotifyObject";
+
+export interface Album extends SpotifyBaseObject {
   // Spotify:
 
   spotifyCoverUrl: string[];

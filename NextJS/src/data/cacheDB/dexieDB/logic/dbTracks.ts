@@ -27,6 +27,7 @@ export async function getTracksBySpotifyId(trackIds: string[]) {
  */
 export async function joinTracks(tracks: Track[]) {
   // Join the tracks:
+
   await Promise.all(
     tracks.map(async (track) => {
       [track.album, track.artists] = await Promise.all([
