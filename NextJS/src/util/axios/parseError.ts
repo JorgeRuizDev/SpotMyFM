@@ -1,3 +1,4 @@
+import { RestError } from "./../../interfaces/RestClient";
 import axios from "axios";
 
 /**
@@ -5,7 +6,7 @@ import axios from "axios";
  * @param e
  * @returns
  */
-export function parseAxiosError(e: any): { status: number; message: string } {
+export function parseAxiosError(e: any): RestError {
   if (axios.isAxiosError(e)) {
     return { status: e?.response?.status || -1, message: e.message };
   } else {

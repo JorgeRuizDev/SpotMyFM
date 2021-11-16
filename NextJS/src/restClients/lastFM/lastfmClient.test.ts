@@ -1,4 +1,3 @@
-import { RestError } from "interfaces/RestClient";
 import { LastfmClient } from "./lastfmClient";
 import env from "env";
 

@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 
-export type RestError = { status: number; message: string };
+export type RestError = { status: number; message: string } | null;
 
 export interface IRestClient {
   /**
