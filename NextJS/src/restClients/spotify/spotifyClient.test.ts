@@ -17,12 +17,13 @@ export default describe("SpotifyClient Test", () => {
     );
 
     expect(err).toBe(null);
-    console.log(res);
     expect(res?.access_token.length).toBeGreaterThan(2);
+    expect(res?.expires_in).toBeGreaterThan(3000);
     api.setAccessToken(res?.access_token || "");
   });
 
   test("Api Test", async () => {
-    api.getMe();
+    const res = await api.getMe();
+    expect(res?.id).not.toBe(null);
   });
 });

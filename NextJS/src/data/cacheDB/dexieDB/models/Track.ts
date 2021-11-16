@@ -17,7 +17,7 @@ export interface Track extends SpotifyBaseObject {
 
   spotifyIsPlayable: boolean;
 
-  spotifyPreviewURL: string;
+  spotifyPreviewURL: string | null;
 
   spotifyIsExplicit: boolean;
 

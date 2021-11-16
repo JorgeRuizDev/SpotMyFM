@@ -16,7 +16,7 @@
     "@date-io/date-fns": "2.11.0",
     "@tailwindcss/forms": "0.3.3",
     "@types/styled-components": "5.1.14",
-    "axios": "0.21.2",
+    "axios": "0.24.0",
     "base-64": "1.0.0",
     "date-fns": "2.23.0",
     "dexie": "3.0.3",
@@ -54,7 +54,7 @@
     "ts-jest": "^27.0.7",
     "twin.macro": "2.7.0",
     "utf8": "3.0.0",
-    "zustand": "^3.6.3"
+    "zustand": "^3.6.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.15.0",
