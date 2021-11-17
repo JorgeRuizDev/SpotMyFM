@@ -14,7 +14,9 @@ export class SpotifyClient extends SpotifyWebApi {
    * @param trackIds
    * @returns
    */
-  async getFullTracks(trackIds: string): Promise<SpotifyApi.TrackObjectFull[]> {
+  async getFullTracks(
+    trackIds: string[]
+  ): Promise<SpotifyApi.TrackObjectFull[]> {
     const tracks = [];
 
     for (const idChunks of _.chunk(trackIds, 50)) {
@@ -30,7 +32,9 @@ export class SpotifyClient extends SpotifyWebApi {
    * @param albumIds
    * @returns
    */
-  async getFullAlbums(albumIds: string): Promise<SpotifyApi.AlbumObjectFull[]> {
+  async getFullAlbums(
+    albumIds: string[]
+  ): Promise<SpotifyApi.AlbumObjectFull[]> {
     const albums = [];
     for (const idChunk of _.chunk(albumIds, 20)) {
       const res = await this.getAlbums(idChunk);
@@ -46,7 +50,7 @@ export class SpotifyClient extends SpotifyWebApi {
    * @returns
    */
   async getFullArtists(
-    artistIds: string
+    artistIds: string[]
   ): Promise<SpotifyApi.ArtistObjectFull[]> {
     const artists = [];
     for (const idChunk of _.chunk(artistIds, 50)) {
@@ -62,7 +66,7 @@ export class SpotifyClient extends SpotifyWebApi {
    * @param tracks
    * @returns tracks list
    */
-  spotifyTracks2Tracks(
+  static spotifyTracks2Tracks(
     tracks: SpotifyApi.TrackObjectFull[],
     areSaved = false
   ): Track[] {
@@ -99,7 +103,7 @@ export class SpotifyClient extends SpotifyWebApi {
    * @param albums
    * @returns album list
    */
-  spotifyAlbums2Albums(albums: SpotifyApi.AlbumObjectFull[]) {
+  static spotifyAlbums2Albums(albums: SpotifyApi.AlbumObjectFull[]) {
     const parsedAlbums: Album[] = [];
 
     for (const album of albums) {
@@ -124,13 +128,21 @@ export class SpotifyClient extends SpotifyWebApi {
       });
     }
   }
+  static parseReleaseDate(
+    release_date: string,
+    release_date_precision: string
+  ): Date | undefined {
+    throw new Error("Method not implemented.");
+  }
 
   /**
    * Parses a list of spotify artists into a local artist
    * @param artists
    * @returns artist list
    */
-  spotifyArtists2Artists(artists: SpotifyApi.ArtistObjectFull[]): Artist[] {
+  static spotifyArtists2Artists(
+    artists: SpotifyApi.ArtistObjectFull[]
+  ): Artist[] {
     const parsedArtists = [];
 
     for (const artist of artists) {

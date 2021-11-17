@@ -1,5 +1,6 @@
 import axios from "axios";
 import ToggleThemeButtonFlip from "components/theme/ToggleThemeButtonFlip";
+import { useDataFacade } from "hooks/dataFacade/useDataFacade";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useLoginStore } from "store/useLogin";
@@ -8,6 +9,7 @@ import { getOauth } from "util/spotify/oauthFrontend";
 
 export default function Home(): JSX.Element {
   const { isLogged, spotifyApi } = useLoginStore();
+  const { getArtists } = useDataFacade();
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -25,6 +27,12 @@ export default function Home(): JSX.Element {
     }
   }, [isLogged, spotifyApi]);
 
+  const testFetch = async () => {
+    const res = await spotifyApi.getMyTopArtists();
+    const artists = res.items;
+    const art = getArtists(artists);
+  };
+
   return (
     <>
       <Buttons.PrimaryGreenButton
@@ -35,7 +43,11 @@ export default function Home(): JSX.Element {
         Log In
       </Buttons.PrimaryGreenButton>
       <ToggleThemeButtonFlip />
-      {isLogged && <h1>Logueado</h1>}
+      {isLogged && (
+        <Buttons.PrimaryGreenButton onClick={testFetch}>
+          Test Fetch
+        </Buttons.PrimaryGreenButton>
+      )}
     </>
   );
 }

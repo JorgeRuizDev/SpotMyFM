@@ -112,4 +112,4 @@ export interface CacheAdapter {
   resetDB(): Promise<void>;
 }
 
-export const CacheDb = new DexieDB();
+export const CacheDb: CacheAdapter = new DexieDB();

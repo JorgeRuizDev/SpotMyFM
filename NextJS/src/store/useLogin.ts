@@ -1,13 +1,13 @@
-import { useCallback, useEffect } from "react";
 import create from "zustand";
-import Spotify from "spotify-web-api-js";
+import { CacheDb } from "data/cacheDB/CacheDB";
 import cookieManager from "util/cookies/loginCookieManager";
 import { toast } from "react-toastify";
 import getAuthToken from "util/cookies/loginFromCookies";
+import { SpotifyClient } from "restClients/spotify/spotifyClient";
 
 interface ILoginStore {
   isLogged: boolean | undefined;
-  spotifyApi: Spotify.SpotifyWebApiJs;
+  spotifyApi: SpotifyClient;
   logOut: () => void;
   logIn: (token: string) => Promise<boolean>;
 }
@@ -18,9 +18,8 @@ interface ILoginStore {
 const useLoginStore = create<ILoginStore>((set, get) => {
   /**
    * Current Spotify Api Object
-   * TODO: Replace with the improved class
    */
-  const spotifyApi = new Spotify();
+  const spotifyApi = new SpotifyClient();
 
   /**
    * Current boolean flag of the login process
@@ -40,11 +39,10 @@ const useLoginStore = create<ILoginStore>((set, get) => {
       return false;
     }
 
-    const api = new Spotify();
-    api.setAccessToken(token);
+    spotifyApi.setAccessToken(token);
     set(() => ({
       isLogged: true,
-      spotifyApi: api,
+      spotifyApi,
     }));
 
     return true;
@@ -56,7 +54,7 @@ const useLoginStore = create<ILoginStore>((set, get) => {
   const logOut = () => {
     cookieManager.removeAll();
     window.localStorage.clear();
-    // TODO: Reset Database
+    CacheDb.resetDB();
     set(() => {
       isLogged: false;
     });
