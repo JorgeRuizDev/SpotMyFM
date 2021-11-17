@@ -25,6 +25,7 @@ export function useDataFacade() {
 
   const getArtistsById = async (spotifyIds: string[]) => {
     const missingArtists = await cache.getMissingArtists(spotifyIds);
+    console.log(missingArtists);
     const missingArtistsObjects = await spotifyApi.getFullArtists(
       missingArtists
     );

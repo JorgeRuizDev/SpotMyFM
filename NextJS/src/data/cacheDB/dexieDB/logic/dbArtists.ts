@@ -26,6 +26,7 @@ export async function getArtistsBySpotifyId(
  */
 export async function addArtists(artists: Artist[]) {
   try {
+    console.log(artists);
     await db.artists.bulkPut(artists);
   } catch (e) {
     console.warn(e);

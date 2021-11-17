@@ -1,5 +1,6 @@
 import axios from "axios";
 import ToggleThemeButtonFlip from "components/theme/ToggleThemeButtonFlip";
+import { getArtistsBySpotifyId } from "data/cacheDB/dexieDB/logic/dbArtists";
 import { useDataFacade } from "hooks/dataFacade/useDataFacade";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -9,7 +10,7 @@ import { getOauth } from "util/spotify/oauthFrontend";
 
 export default function Home(): JSX.Element {
   const { isLogged, spotifyApi } = useLoginStore();
-  const { getArtists } = useDataFacade();
+  const { getArtists, getArtistsById } = useDataFacade();
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
@@ -30,7 +31,8 @@ export default function Home(): JSX.Element {
   const testFetch = async () => {
     const res = await spotifyApi.getMyTopArtists();
     const artists = res.items;
-    const art = getArtists(artists);
+    const art = await getArtistsById(artists.map((a) => a.id));
+    console.log(art);
   };
 
   return (

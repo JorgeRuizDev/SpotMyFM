@@ -31,10 +31,12 @@ export async function getMissingGeneric(
 ): Promise<string[]> {
   const items = await table
     .where("spotifyId")
-    .noneOf(spotifyIds)
+    .anyOf(spotifyIds)
     .toArray();
 
-  return items.map((i) => i.spotifyId);
+  const cached = new Set(items.map((i) => i.spotifyId));
+
+  return spotifyIds.filter((t) => !cached.has(t));
 }
 
 /**
