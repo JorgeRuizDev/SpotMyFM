@@ -149,6 +149,24 @@ export class SpotifyClient extends SpotifyWebApi {
     return parsedArtists;
   }
 
+  async getMySavedTracksFull(): Promise<SpotifyApi.TrackObjectFull[]> {
+    const tracks: SpotifyApi.TrackObjectFull[] = [];
+    const limit = 50;
+    let offset = 0;
+
+    while (true) {
+      const res = await this.getMySavedTracks({ limit, offset });
+      tracks.push(...res.items.map((t) => t.track));
+
+      if (res.total < offset) {
+        break;
+      }
+      offset += limit;
+    }
+
+    return tracks;
+  }
+
   /**
    * Parses an album release date response into a JS Date object
    * @param date: Spotify Date String
