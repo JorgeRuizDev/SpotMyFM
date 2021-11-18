@@ -100,7 +100,14 @@ export function useDataFacade() {
     return await cache.getArtistsBySpotifyId(spotifyIds);
   };
 
-  return { getArtists, getArtistsById };
+  return {
+    getTracks,
+    getTracksByIds,
+    getAlbums,
+    getAlbumsById,
+    getArtists,
+    getArtistsById,
+  };
 
   async function addTags(albums: Album[]) {
     const tagged: Album[] = [];
@@ -109,11 +116,13 @@ export function useDataFacade() {
         album.name,
         album?.artists[0]?.name
       );
+
       if (err || !res) {
         toast.error(`${err?.status}: ${err?.message}`);
         tagged.push(album);
         continue;
       }
+
       album.lastfmTagsFull = res;
       album.lastfmTagsNames = res.map((t) => t.name);
       tagged.push(album);
