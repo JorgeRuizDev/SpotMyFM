@@ -112,7 +112,6 @@ export function useDataFacade() {
   async function addTags(albums: Album[]) {
     const tagged: Album[] = [];
     for (const album of albums) {
-      console.log(album);
       const [res, err] = await lastfmApi.getAlbumTags(
         album.artists[0]?.name,
         album.name

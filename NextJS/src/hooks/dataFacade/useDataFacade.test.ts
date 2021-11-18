@@ -7,9 +7,9 @@ import { getOauth } from "util/spotify/oauthFrontend";
 import { useDataFacade } from "./useDataFacade";
 export default describe("data facade hook test", () => {
   const { result } = renderHook(() => useDataFacade());
-
-  let spotifyApi = new SpotifyClient();
-
+  const { result: rClient } = renderHook(() => useClientsStore());
+  const spotifyApi = rClient.current.spotifyApi;
+  const cache = rClient.current.cacheClient;
   // Fixes an Axios ENV problem:
   axios.defaults.adapter = require("axios/lib/adapters/http");
 
@@ -21,17 +21,104 @@ export default describe("data facade hook test", () => {
     );
 
     expect(err).toBe(null);
+
     spotifyApi.setAccessToken(res?.access_token || "");
   });
 
-  test("getTracks", async () => {
+  beforeEach(async () => {
+    await cache.resetDB();
+  });
+
+  test("getTracks()", async () => {
     try {
-      const tracks = await spotifyApi.getMyTopTracks({ limit: 50 });
-      const cached = result.current.getTracks(tracks.items);
-      console.log(cached);
+      expect((await cache.getAllTracks()).length).toBe(0);
+      const tracks = await spotifyApi.getMyTopTracks({ limit: 5 });
+      const cached = await result.current.getTracks(tracks.items);
+
+      expect(cached.length).toBe(5);
+      expect((await cache.getAllTracks()).length).toBe(5);
+      expect(SpotifyClient.spotifyTracks2Tracks).toBeCalled();
     } catch (e) {
-      console.error(e);
-      expect(null).toBe("");
+      console.log(e);
+      throw e;
+    }
+  });
+
+  test("getTracksById()", async () => {
+    try {
+      expect((await cache.getAllTracks()).length).toBe(0);
+      const tracks = await spotifyApi.getMyTopTracks({ limit: 5 });
+      const cached = await result.current.getTracksByIds(
+        tracks.items.map((t) => t.id)
+      );
+
+      expect(cached.length).toBe(5);
+      expect((await cache.getAllTracks()).length).toBe(5);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  });
+
+  test("getArtists()", async () => {
+    try {
+      expect((await cache.getAllArtists()).length).toBe(0);
+      const artists = await spotifyApi.getMyTopArtists({ limit: 5 });
+      const cached = await result.current.getArtists(artists.items);
+
+      expect(cached.length).toBe(5);
+      expect((await cache.getAllArtists()).length).toBe(5);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  });
+
+  test("getArtistsById()", async () => {
+    try {
+      expect((await cache.getAllArtists()).length).toBe(0);
+      const artists = await spotifyApi.getMyTopArtists({ limit: 5 });
+      const cached = await result.current.getArtistsById(
+        artists.items.map((a) => a.id)
+      );
+
+      expect(cached.length).toBe(5);
+      expect((await cache.getAllArtists()).length).toBe(5);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  });
+
+  test("getAlbumsById()", async () => {
+    try {
+      expect((await cache.getAllAlbums()).length).toBe(0);
+      const artists = await spotifyApi.getMySavedAlbums({ limit: 5 });
+      const cached = await result.current.getAlbumsById(
+        artists.items.map((a) => a.album.id)
+      );
+
+      expect(cached.length).toBe(5);
+      expect((await cache.getAllAlbums()).length).toBe(5);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  });
+
+  test("getAlbums()", async () => {
+    try {
+      expect((await cache.getAllAlbums()).length).toBe(0);
+      const artists = await spotifyApi.getMySavedAlbums({ limit: 5 });
+      const cached = await result.current.getAlbums(
+        artists.items.map((a) => a.album)
+      );
+
+      expect(cached.length).toBe(5);
+      expect((await cache.getAllAlbums()).length).toBe(5);
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
   });
 });
