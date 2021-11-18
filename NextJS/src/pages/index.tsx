@@ -1,4 +1,5 @@
 import axios from "axios";
+import GenericCardView from "components/core/cards/views/GenericCardView";
 import SimpleTrackCard from "components/core/cards/simpleCards/SimpleTrackCard";
 import ToggleThemeButtonFlip from "components/theme/ToggleThemeButtonFlip";
 import { getArtistsBySpotifyId } from "data/cacheDB/dexieDB/logic/dbArtists";
@@ -52,9 +53,11 @@ export default function Home(): JSX.Element {
           Test Fetch
         </Buttons.PrimaryGreenButton>
       )}
-      {tracks.map((t, i) => (
-        <SimpleTrackCard track={t} key={i} />
-      ))}
+      <GenericCardView>
+        {tracks.map((t, i) => (
+          <SimpleTrackCard track={t} key={i} />
+        ))}
+      </GenericCardView>
     </>
   );
 }

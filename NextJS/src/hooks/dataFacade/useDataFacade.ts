@@ -49,10 +49,10 @@ export function useDataFacade() {
     await getAlbumsById(missing.map((t) => t.spotifyAlbumId));
     setTrackStatus("Getting Artists");
     await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
-    await cache.addTracks(missing);
+    await cache.joinTracks(missing);
     setNumberCaching((s) => s - 1);
     setTrackStatus("");
-    return await cache.joinTracks(parsed, false);
+    return await cache.getTracksBySpotifyId(tracks.map((t) => t.id));
   };
 
   /**

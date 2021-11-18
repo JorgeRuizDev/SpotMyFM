@@ -3,10 +3,10 @@ import useInfiniteScrollArray from "hooks/infiniteScroll/useInfiniteScrollArray"
 import usePaginatedArray from "hooks/paginatedArray/usePaginatedArray";
 import React, { ReactNode, createRef } from "react";
 import { isMobile } from "react-device-detect";
-import SkelletonCard from "../simpleCards/SkelletonCard";
+import SkelletonCard from "../../simpleCards/SkelletonCard";
 import Styled from "./GenericCardView.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
-import MultipleSkeletonCards from "../simpleCards/MultipleSkeletonCards";
+import MultipleSkeletonCards from "../../simpleCards/MultipleSkeletonCards";
 import DropdownMenu from "components/core/input/atoms/DropdownMenu";
 import Buttons from "styles/Buttons";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
@@ -16,20 +16,22 @@ interface IGenericCardViewProps<T> {
   setIsAscendant: (o: boolean) => void;
   sortingOptions: { options: string[]; isAscendant: boolean; selected: string };
   setInputFilter: (s: string) => void;
-  children: ReactNode[] | null;
+  children: ReactNode[];
+  isLoading?: boolean;
   view?: "card" | "list";
   toggleView: (s: string) => void;
   filterInputProps: IFilterInputProps<T>;
 }
 
 function GenericCardView<T>({
-  children = null,
+  children,
   setSorting,
   sortingOptions,
   setInputFilter,
   setIsAscendant,
   view = "card",
   filterInputProps,
+  isLoading = false,
 }: IGenericCardViewProps<T>): JSX.Element {
   // Paginate the current children
   const pageSize = isMobile ? 20 : 50;
@@ -94,7 +96,7 @@ function GenericCardView<T>({
   function ItemLayout(): JSX.Element {
     return (
       <Styled.CardLayout>
-        {children == null ? (
+        {isLoading ? (
           <MultipleSkeletonCards />
         ) : children.length == 0 ? (
           "No Items to load"

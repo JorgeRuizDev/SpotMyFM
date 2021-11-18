@@ -1,6 +1,6 @@
 import Buttons from "styles/Buttons";
 import tw from "twin.macro";
-import StyledCard from "../Card.styles";
+import StyledCard from "../../Card.styles";
 
 const Layout = tw(StyledCard.Layout)`
 	animate-pulse
