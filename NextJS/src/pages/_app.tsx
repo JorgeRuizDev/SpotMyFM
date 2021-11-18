@@ -12,16 +12,10 @@ import "styles/tailwind.css"
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <ToastConfig />
-      
+      <div id="modal-core"></div>
+        <ToastConfig />
         <GlobalStyle />
-
-
-
-
-          <Component {...pageProps} />
-
-
+        <Component {...pageProps} />
     </>
   );
 }

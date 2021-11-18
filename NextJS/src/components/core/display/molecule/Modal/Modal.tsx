@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom";
 import useBackButton from "hooks/back/useBackButton";
 import useEscapeKey from "hooks/back/useEscapeKey";
-import React, { useState } from "react";
+import React, { createRef, useState } from "react";
 import { MouseEvent, useEffect } from "react";
 import Buttons from "styles/Buttons";
 import Styled from "./Modal.styles";
@@ -112,10 +112,10 @@ function Modal({
       )
     : // Mount / Umount conditionally.
       isOpen && <>{modalBody}</>;
-
   return ReactDOM.createPortal(
     modalHideLogic,
-    document.getElementById("modal-core") || new Element()
+    document.getElementById("modal-core") ||
+      createRef<HTMLDivElement>().current!
   );
 }
 
