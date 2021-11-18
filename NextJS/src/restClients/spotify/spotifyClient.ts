@@ -103,7 +103,7 @@ export class SpotifyClient extends SpotifyWebApi {
    * @param albums
    * @returns album list
    */
-  static spotifyAlbums2Albums(albums: SpotifyApi.AlbumObjectFull[]) {
+  static spotifyAlbums2Albums(albums: SpotifyApi.AlbumObjectFull[]): Album[] {
     const parsedAlbums: Album[] = [];
 
     for (const album of albums) {
@@ -127,6 +127,7 @@ export class SpotifyClient extends SpotifyWebApi {
         markets: album.available_markets,
       });
     }
+    return parsedAlbums;
   }
   static parseReleaseDate(
     release_date: string,

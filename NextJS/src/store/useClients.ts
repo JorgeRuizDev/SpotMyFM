@@ -3,7 +3,7 @@ import { SpotifyClient } from "restClients/spotify/spotifyClient";
 import { CacheAdapter, CacheDb } from "./../data/cacheDB/CacheDB";
 import create from "zustand";
 import env from "env";
-import { useLoginStore } from "./useLogin";
+
 interface IClientStore {
   cacheClient: CacheAdapter;
   spotifyApi: SpotifyClient;
