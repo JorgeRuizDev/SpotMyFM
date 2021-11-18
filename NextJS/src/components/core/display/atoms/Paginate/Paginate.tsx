@@ -18,7 +18,7 @@ interface IPaginateProps {
   goBackToTop?: boolean;
 }
 
-function Paginate(props: IPaginateProps) {
+function Paginate(props: IPaginateProps): JSX.Element {
   const totalPages = Math.ceil(props.total / props.itemsPerPage);
 
   useEffect(() => {
@@ -90,7 +90,9 @@ function Paginate(props: IPaginateProps) {
         </p>
       </Styled.InlineCenter>
     </>
-  ) : null;
+  ) : (
+    <></>
+  );
 
   function clickHandler(page: number, resetPos?: boolean) {
     if (page < 0) {

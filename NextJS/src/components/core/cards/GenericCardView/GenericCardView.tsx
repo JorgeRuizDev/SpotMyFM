@@ -7,22 +7,30 @@ import SkelletonCard from "../simpleCards/SkelletonCard";
 import Styled from "./GenericCardView.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
 import MultipleSkeletonCards from "../simpleCards/MultipleSkeletonCards";
-interface IGenericCardViewProps {
+import DropdownMenu from "components/core/input/atoms/DropdownMenu";
+import Buttons from "styles/Buttons";
+import { IFilterInputProps } from "interfaces/IFilterInputProps";
+import FilterInput from "components/core/input/atoms/FilterInput";
+interface IGenericCardViewProps<T> {
   setSorting: (option: string) => void;
-  sortingOptions: string[];
+  setIsAscendant: (o: boolean) => void;
+  sortingOptions: { options: string[]; isAscendant: boolean; selected: string };
   setInputFilter: (s: string) => void;
   children: ReactNode[] | null;
   view?: "card" | "list";
   toggleView: (s: string) => void;
+  filterInputProps: IFilterInputProps<T>;
 }
 
-function GenericCardView({
+function GenericCardView<T>({
   children = null,
   setSorting,
   sortingOptions,
   setInputFilter,
+  setIsAscendant,
   view = "card",
-}: IGenericCardViewProps) {
+  filterInputProps,
+}: IGenericCardViewProps<T>): JSX.Element {
   // Paginate the current children
   const pageSize = isMobile ? 20 : 50;
   const { activePageItems, currentPage, setCurrentPage } = usePaginatedArray(
@@ -47,6 +55,8 @@ function GenericCardView({
     <>
       <div ref={layoutStartRef}></div>
       <PaginationBar />
+      <FilterInput {...filterInputProps} />
+      <SortRow />
       <InfiniteScroll
         dataLength={length} //This is important field to render the next data
         next={next}
@@ -65,7 +75,7 @@ function GenericCardView({
    *
    * @return {Pagination component}
    */
-  function PaginationBar() {
+  function PaginationBar(): JSX.Element {
     return (
       <>
         <Paginate
@@ -78,12 +88,10 @@ function GenericCardView({
             layoutStartRef?.current?.scrollIntoView();
           }}
         />
-
-        <ItemLayout />
       </>
     );
   }
-  function ItemLayout() {
+  function ItemLayout(): JSX.Element {
     return (
       <Styled.CardLayout>
         {children == null ? (
@@ -93,6 +101,33 @@ function GenericCardView({
         ) : null}
         {scrollItems}
       </Styled.CardLayout>
+    );
+  }
+
+  function SortRow(): JSX.Element {
+    return (
+      <Styled.LayoutButtonsWrap>
+        <DropdownMenu
+          items={sortingOptions.options.map((o) => {
+            return {
+              component: o,
+              onClick: () => {
+                setSorting(o);
+              },
+            };
+          })}
+        >
+          <span>Sort Tracks</span>
+        </DropdownMenu>
+        <Buttons.SecondaryGreenButton
+          onClick={() => setIsAscendant(!sortingOptions.isAscendant)}
+        >
+          <span>
+            {sortingOptions.selected}{" "}
+            {sortingOptions.isAscendant ? "Ascending" : "Descending"}
+          </span>
+        </Buttons.SecondaryGreenButton>
+      </Styled.LayoutButtonsWrap>
     );
   }
 }
