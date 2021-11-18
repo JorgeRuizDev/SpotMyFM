@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import Styled from "./genericCardView.styles";
-interface IgenericCardViewProps {
+import Styled from "./GenericCardView.styles";
+interface IGenericCardViewProps {
   setSorting: (option: string) => void;
   sortingOptions: string[];
   setInputFilter: (s: string) => void;
@@ -9,15 +9,15 @@ interface IgenericCardViewProps {
   type?: "card" | "list";
 }
 
-function genericCardView({
+function GenericCardView({
   children,
   setSorting,
   sortingOptions,
   setInputFilter,
   pageSize = 50,
   type = "card",
-}: IgenericCardViewProps): JSX.Element {
+}: IGenericCardViewProps) {
   return <></>;
 }
 
-export default genericCardView;
+export default GenericCardView;
