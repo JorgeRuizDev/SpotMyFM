@@ -84,6 +84,7 @@ function Modal({
       variants={variants}
       animate={isOpen ? "open" : "closed"}
       transition={{ duration: 0.3 }}
+      data-testid="modal-bg"
     >
       <Styled.ModalBody
         onClick={disableClick}
@@ -114,8 +115,7 @@ function Modal({
       isOpen && <>{modalBody}</>;
   return ReactDOM.createPortal(
     modalHideLogic,
-    document.getElementById("modal-core") ||
-      createRef<HTMLDivElement>().current!
+    document.getElementById("modal-core") || document.createElement("div")
   );
 }
 
