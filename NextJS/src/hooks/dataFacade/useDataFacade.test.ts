@@ -1,10 +1,10 @@
 import { renderHook } from "@testing-library/react-hooks";
 import { useClientsStore } from "store/useClients";
 import axios from "axios";
-import { SpotifyClient } from "restClients/spotify/spotifyClient";
 import { envtest } from "env";
 import { getOauth } from "util/spotify/oauthFrontend";
 import { useDataFacade } from "./useDataFacade";
+import { isAssetError } from "next/dist/client/route-loader";
 export default describe("data facade hook test", () => {
   const { result } = renderHook(() => useDataFacade());
   const { result: rClient } = renderHook(() => useClientsStore());
@@ -37,7 +37,30 @@ export default describe("data facade hook test", () => {
 
       expect(cached.length).toBe(5);
       expect((await cache.getAllTracks()).length).toBe(5);
-      expect(SpotifyClient.spotifyTracks2Tracks).toBeCalled();
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  });
+
+  test("getTracks() - Test if fetches from cache", async () => {
+    try {
+      expect((await cache.getAllTracks()).length).toBe(0);
+      const tracks = await spotifyApi.getMyTopTracks({ limit: 5 });
+      let start = performance.now();
+      const cached = await result.current.getTracks(tracks.items);
+      let end = performance.now();
+
+      const nonCached = end - start;
+
+      expect(cached.length).toBe(5);
+      start = performance.now();
+      end = performance.now();
+      expect((await cache.getAllTracks()).length).toBe(5);
+
+      const cachedT = end - start;
+
+      expect(cachedT).toBeLessThanOrEqual(nonCached * 0.7);
     } catch (e) {
       console.log(e);
       throw e;

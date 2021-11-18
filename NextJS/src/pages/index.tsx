@@ -15,6 +15,8 @@ export default function Home(): JSX.Element {
   const { isLogged, spotifyApi } = useLoginStore();
   const {
     getArtists,
+    numberCaching,
+    trackStatus,
     getArtistsById,
     getTracks,
     getTracksByIds,
@@ -53,6 +55,7 @@ export default function Home(): JSX.Element {
       >
         Log In
       </Buttons.PrimaryGreenButton>
+      {numberCaching > 0 ? <p>{trackStatus}</p> : ""}
       <ToggleThemeButtonFlip />
       {isLogged && (
         <Buttons.PrimaryGreenButton onClick={testFetch}>
