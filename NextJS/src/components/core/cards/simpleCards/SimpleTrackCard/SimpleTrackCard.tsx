@@ -16,8 +16,6 @@ import Styled from "./SimpleTrackCard.styles";
 
 interface ISimpleTrackCardProps {
   track: Track;
-  album?: Album;
-  artists?: Artist[];
 
   playOnHover?: boolean;
   isMuted?: boolean;
@@ -28,8 +26,6 @@ interface ISimpleTrackCardProps {
 
 function SimpleTrackCard({
   track,
-  album,
-  artists,
   playOnHover = false,
   isMuted = true,
   toggleFromPlaylist,
@@ -42,7 +38,8 @@ function SimpleTrackCard({
     isMuted,
     !playOnHover
   );
-
+  const album = track.album;
+  const artists = track.artists;
   // On Unmount, puase the music:
   useEffect(() => {
     return () => {
@@ -74,13 +71,13 @@ function SimpleTrackCard({
         />
         <Styled.ButtonRow>
           <PreviewButton />
-          <SpotifyButton track={track} artist={artists?.[0]} />
+          <SpotifyButton track={track} artist={artists[0]} />
           <PlaylistButton
             inPlaylist={inPlaylist}
             toggleFromPlaylist={toggleFromPlaylist}
             track={track}
           />
-          <EnqueueButton track={track} artist={artists?.[0]} />
+          <EnqueueButton track={track} artist={artists[0]} />
           <PlusButton setShowDetails={setShowDetails} />
         </Styled.ButtonRow>
 
@@ -96,7 +93,7 @@ function SimpleTrackCard({
           </p>
         </a>
         <ul>
-          {artists?.map((x, i) => (
+          {artists.map((x, i) => (
             <li key={i}>
               <a href={x.spotifyUrl}>
                 <p>{x.name}</p>

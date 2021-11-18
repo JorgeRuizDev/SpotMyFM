@@ -32,13 +32,18 @@ export default describe("data facade hook test", () => {
   test("getTracks()", async () => {
     try {
       expect((await cache.getAllTracks()).length).toBe(0);
-      const tracks = await spotifyApi.getMyTopTracks({ limit: 5 });
-      const cached = await result.current.getTracks(tracks.items);
-
+      const spotifyTracks = await spotifyApi.getMyTopTracks({ limit: 5 });
+      const tracks = await result.current.getTracks(spotifyTracks.items);
+      const cached = await cache.getAllTracks();
+      expect(tracks.length).toBe(5);
       expect(cached.length).toBe(5);
-      expect((await cache.getAllTracks()).length).toBe(5);
+      expect(tracks[0].album).not.toBe(null);
+      expect(tracks[0].artists.length).toBeGreaterThan(0);
+      expect(cached[0].album?.name).not.toBe(null);
+
+      expect(cached[0].artists.length).toBeGreaterThan(0);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       throw e;
     }
   });
@@ -62,7 +67,7 @@ export default describe("data facade hook test", () => {
 
       expect(cachedT).toBeLessThanOrEqual(nonCached * 0.7);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       throw e;
     }
   });
@@ -70,15 +75,19 @@ export default describe("data facade hook test", () => {
   test("getTracksById()", async () => {
     try {
       expect((await cache.getAllTracks()).length).toBe(0);
-      const tracks = await spotifyApi.getMyTopTracks({ limit: 5 });
-      const cached = await result.current.getTracksByIds(
-        tracks.items.map((t) => t.id)
+      const spotifyTracks = await spotifyApi.getMyTopTracks({ limit: 5 });
+      const tracks = await result.current.getTracksByIds(
+        spotifyTracks.items.map((t) => t.id)
       );
-
+      const cached = await cache.getAllTracks();
+      expect(tracks.length).toBe(5);
       expect(cached.length).toBe(5);
-      expect((await cache.getAllTracks()).length).toBe(5);
+      expect(tracks[0].album).not.toBe(null);
+      expect(tracks[0].artists.length).toBeGreaterThan(0);
+      expect(cached[0].album).not.toBe(null);
+      expect(cached[0].artists.length).toBeGreaterThan(0);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       throw e;
     }
   });
@@ -92,7 +101,7 @@ export default describe("data facade hook test", () => {
       expect(cached.length).toBe(5);
       expect((await cache.getAllArtists()).length).toBe(5);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       throw e;
     }
   });
@@ -108,7 +117,7 @@ export default describe("data facade hook test", () => {
       expect(cached.length).toBe(5);
       expect((await cache.getAllArtists()).length).toBe(5);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       throw e;
     }
   });
@@ -116,15 +125,17 @@ export default describe("data facade hook test", () => {
   test("getAlbumsById()", async () => {
     try {
       expect((await cache.getAllAlbums()).length).toBe(0);
-      const artists = await spotifyApi.getMySavedAlbums({ limit: 5 });
-      const cached = await result.current.getAlbumsById(
-        artists.items.map((a) => a.album.id)
+      const spotifyAlbums = await spotifyApi.getMySavedAlbums({ limit: 5 });
+      const albums = await result.current.getAlbumsById(
+        spotifyAlbums.items.map((a) => a.album.id)
       );
-
+      const cached = await cache.getAllAlbums();
+      expect(albums.length).toBe(5);
       expect(cached.length).toBe(5);
-      expect((await cache.getAllAlbums()).length).toBe(5);
+      expect(albums[0].artists.length).toBeGreaterThan(0);
+      expect(cached[0].artists.length).toBeGreaterThan(0);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       throw e;
     }
   });
@@ -132,15 +143,17 @@ export default describe("data facade hook test", () => {
   test("getAlbums()", async () => {
     try {
       expect((await cache.getAllAlbums()).length).toBe(0);
-      const artists = await spotifyApi.getMySavedAlbums({ limit: 5 });
-      const cached = await result.current.getAlbums(
-        artists.items.map((a) => a.album)
+      const spotifyArtists = await spotifyApi.getMySavedAlbums({ limit: 5 });
+      const albums = await result.current.getAlbums(
+        spotifyArtists.items.map((a) => a.album)
       );
-
+      const cached = await cache.getAllAlbums();
+      expect(albums.length).toBe(5);
       expect(cached.length).toBe(5);
-      expect((await cache.getAllAlbums()).length).toBe(5);
+      expect(albums[0].artists.length).toBeGreaterThan(0);
+      expect(cached[0].artists.length).toBeGreaterThan(0);
     } catch (e) {
-      console.log(e);
+      console.error(e);
       throw e;
     }
   });

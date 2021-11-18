@@ -28,27 +28,12 @@ export default function Home(): JSX.Element {
 
   const [tracks, setTracks] = useState<Track[]>([]);
 
-  useEffect(() => {
-    if (isLogged) {
-      const token = spotifyApi.getAccessToken() || "";
-
-      try {
-        axios
-          .post("/api/database/user/isAdmin", { spotifyAuthToken: token })
-          .then((r) => console.log(r.data))
-          .catch((e) => toast.error);
-      } catch (e) {
-        toast.error(e as any);
-      }
-    }
-  }, [isLogged, spotifyApi]);
-
   const testFetch = async () => {
     const res = await spotifyApi.getMyTopTracks();
-    const tracks = await getTracks(res.items);
-    console.log("Tracks:");
-    console.log(tracks);
-    setTracks(tracks);
+    //const tracks1 = await getTracks(res.items);
+    const track2 = await getTracksByIds(res.items.map((t) => t.id));
+
+    setTracks(track2);
   };
 
   return (
