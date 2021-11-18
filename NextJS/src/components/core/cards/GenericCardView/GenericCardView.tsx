@@ -47,6 +47,15 @@ function GenericCardView({
     <>
       <div ref={layoutStartRef}></div>
       <PaginationBar />
+      <InfiniteScroll
+        dataLength={length} //This is important field to render the next data
+        next={next}
+        scrollThreshold={0.6}
+        hasMore={hasMore}
+        loader={<MultipleSkeletonCards />}
+      >
+        <ItemLayout />
+      </InfiniteScroll>
       <PaginationBar />
     </>
   );
@@ -69,15 +78,7 @@ function GenericCardView({
             layoutStartRef?.current?.scrollIntoView();
           }}
         />
-        <InfiniteScroll
-          dataLength={length} //This is important field to render the next data
-          next={next}
-          scrollThreshold={0.6}
-          hasMore={hasMore}
-          loader={<MultipleSkeletonCards />}
-        >
-          <ItemLayout />
-        </InfiniteScroll>
+
         <ItemLayout />
       </>
     );
