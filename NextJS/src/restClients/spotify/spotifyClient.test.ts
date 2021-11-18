@@ -30,6 +30,5 @@ export default describe("SpotifyClient Test", () => {
   jest.setTimeout(60000);
   test("getFullLibrary()", async () => {
     const res = await api.getMySavedTracksFull();
-    console.log(res.length);
   });
 });

@@ -112,7 +112,7 @@ export class SpotifyClient extends SpotifyWebApi {
         name: album.name,
         spotifyCoverUrl: album.images.map((x) => x.url),
         spotifyUrl: album.external_urls.spotify,
-        spotifyReleaseDate: this.parseReleaseDate(
+        spotifyReleaseDate: parseReleaseDate(
           album.release_date,
           album.release_date_precision
         ),
@@ -128,12 +128,6 @@ export class SpotifyClient extends SpotifyWebApi {
       });
     }
     return parsedAlbums;
-  }
-  static parseReleaseDate(
-    release_date: string,
-    release_date_precision: string
-  ): Date | undefined {
-    throw new Error("Method not implemented.");
   }
 
   /**
@@ -195,5 +189,21 @@ export class SpotifyClient extends SpotifyWebApi {
       default:
         return new Date(-1);
     }
+  }
+}
+/**
+ * Parses an album release date response into a JS Date object
+ * @param date: Spotify Date String
+ * @param precision: Spotify Precision String
+ * @returns A Date
+ */
+function parseReleaseDate(date: string, precision: string): Date {
+  switch (precision) {
+    case "year":
+      return parse(date, "yyyy", new Date());
+    case "day":
+      return parse(date, "yyyy-MM-dd", new Date());
+    default:
+      return new Date(-1);
   }
 }

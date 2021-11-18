@@ -112,13 +112,14 @@ export function useDataFacade() {
   async function addTags(albums: Album[]) {
     const tagged: Album[] = [];
     for (const album of albums) {
+      console.log(album);
       const [res, err] = await lastfmApi.getAlbumTags(
-        album.name,
-        album?.artists[0]?.name
+        album.artists[0]?.name,
+        album.name
       );
 
       if (err || !res) {
-        toast.error(`${err?.status}: ${err?.message}`);
+        toast.error(`LASTFM TAG ${err?.status}: ${err?.message}`);
         tagged.push(album);
         continue;
       }

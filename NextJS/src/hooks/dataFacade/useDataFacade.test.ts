@@ -14,22 +14,21 @@ export default describe("data facade hook test", () => {
   axios.defaults.adapter = require("axios/lib/adapters/http");
 
   beforeAll(async () => {
-    try {
-      const oauth = getOauth();
-      const [res, err] = await oauth.refreshAuthToken(
-        envtest.SPOTIFY_REFRESH_ENDPOINT,
-        envtest.SPOTIFY_REFRESH_TOKEN
-      );
+    const oauth = getOauth();
+    const [res, err] = await oauth.refreshAuthToken(
+      envtest.SPOTIFY_REFRESH_ENDPOINT,
+      envtest.SPOTIFY_REFRESH_TOKEN
+    );
 
-      expect(err).toBe(null);
-      spotifyApi.setAccessToken(res?.access_token || "");
-    } catch {}
+    expect(err).toBe(null);
+    spotifyApi.setAccessToken(res?.access_token || "");
   });
 
   test("getTracks", async () => {
     try {
       const tracks = await spotifyApi.getMyTopTracks({ limit: 50 });
       const cached = result.current.getTracks(tracks.items);
+      console.log(cached);
     } catch (e) {
       console.error(e);
       expect(null).toBe("");

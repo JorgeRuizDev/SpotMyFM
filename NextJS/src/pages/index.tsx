@@ -12,20 +12,15 @@ import Buttons from "styles/Buttons";
 import { getOauth } from "util/spotify/oauthFrontend";
 
 export default function Home(): JSX.Element {
-  console.log(new SpotifyClient().getAccessToken());
-  const spot = new SpotifyClient();
-  console.log(spot.getAccessToken());
-  console.log(new SpotifyClient().getAccessToken());
-
-  return <h1>xD</h1>;
   const { isLogged, spotifyApi } = useLoginStore();
-  const { getArtists, getArtistsById } = useDataFacade();
+  const {
+    getArtists,
+    getArtistsById,
+    getTracks,
+    getTracksByIds,
+    getAlbums,
+  } = useDataFacade();
   const { spotifyApi: dos } = useClientsStore();
-
-  console.log(spotifyApi.getAccessToken());
-  console.log(dos.getAccessToken());
-  console.log(new SpotifyWebApi().getAccessToken());
-  console.log(new SpotifyClient().getAccessToken());
 
   useEffect(() => {
     if (isLogged) {
@@ -43,10 +38,10 @@ export default function Home(): JSX.Element {
   }, [isLogged, spotifyApi]);
 
   const testFetch = async () => {
-    const res = await spotifyApi.getMyTopArtists();
-    const artists = res.items;
-    const art = await getArtistsById(artists.map((a) => a.id));
-    console.log(art);
+    const res = await spotifyApi.getMyTopTracks();
+    const tracks = await getTracks(res.items);
+    console.log("Tracks:");
+    console.log(tracks);
   };
 
   return (
