@@ -32,7 +32,7 @@ export interface CacheAdapter {
    * @param {Artist[]} artists
    * @returns {Track[]} return tracks: Joined Tracks
    */
-  joinTracks(tracks: Track[]): Promise<Track[]>;
+  joinTracks(tracks: Track[], persist?: boolean): Promise<Track[]>;
 
   /**
    * Joins and persists the following elements
@@ -40,7 +40,7 @@ export interface CacheAdapter {
    * @param {Artist[]} artists
    * @returns {Album[]} joined albums.
    */
-  joinAlbums(albums: Album[]): Promise<Album[]>;
+  joinAlbums(albums: Album[], persist?: boolean): Promise<Album[]>;
 
   /**
    * Gets all cached tracks

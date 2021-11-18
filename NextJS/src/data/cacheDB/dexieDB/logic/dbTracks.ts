@@ -53,7 +53,7 @@ export async function getAllTracks(): Promise<Track[]> {
  * @param {Track[]} tracks
  * @return {*} Joined Track Array.
  */
-export async function joinTracks(tracks: Track[]) {
+export async function joinTracks(tracks: Track[], persist = true) {
   // Join the tracks:
 
   await Promise.all(
@@ -72,7 +72,12 @@ export async function joinTracks(tracks: Track[]) {
   );
 
   // Save them
-  await db.tracks.bulkPut(tracks);
+  try {
+    persist && (await db.tracks.bulkPut(tracks));
+  } catch (e) {
+    console.warn(e);
+  }
+
   return tracks;
 }
 
@@ -83,9 +88,12 @@ export async function joinTracks(tracks: Track[]) {
  * @param {string[]} trackIds
  * @return {*}
  */
-export async function joinTracksBySpotifyId(trackIds: string[]) {
+export async function joinTracksBySpotifyId(
+  trackIds: string[],
+  persist = true
+) {
   const tracks = await getTracksBySpotifyId(trackIds);
-  return joinTracks(tracks);
+  return joinTracks(tracks, persist);
 }
 /**
  * Returns the number of total tracks stored in the DB.

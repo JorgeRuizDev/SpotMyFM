@@ -18,11 +18,11 @@ export class DexieDB implements CacheAdapter {
   public addArtists(artists: Artist[]): Promise<void> {
     return artist.addArtists(artists);
   }
-  public joinTracks(tracks: Track[]): Promise<Track[]> {
-    return track.joinTracks(tracks);
+  public joinTracks(tracks: Track[], persist = true): Promise<Track[]> {
+    return track.joinTracks(tracks, persist);
   }
-  public joinAlbums(albums: Album[]): Promise<Album[]> {
-    return album.joinAlbums(albums);
+  public joinAlbums(albums: Album[], persist = true): Promise<Album[]> {
+    return album.joinAlbums(albums, persist);
   }
   public getAllTracks(): Promise<Track[]> {
     return track.getAllTracks();

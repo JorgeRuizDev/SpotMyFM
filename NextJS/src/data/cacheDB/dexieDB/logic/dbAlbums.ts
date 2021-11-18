@@ -47,7 +47,10 @@ export async function getMissingAlbums(spotifyIds: string[]) {
  * @param {Album[]} albums
  * @return {*}
  */
-export async function joinAlbums(albums: Album[]): Promise<Album[]> {
+export async function joinAlbums(
+  albums: Album[],
+  persist = true
+): Promise<Album[]> {
   await Promise.all(
     albums.map(async (album) => {
       [album.artists] = await Promise.all([
@@ -59,7 +62,7 @@ export async function joinAlbums(albums: Album[]): Promise<Album[]> {
     })
   );
   try {
-    await db.albums.bulkPut(albums);
+    persist && (await db.albums.bulkPut(albums));
   } catch (e) {
     console.warn(e);
   }

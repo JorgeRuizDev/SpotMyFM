@@ -47,7 +47,9 @@ export function useDataFacade() {
     const missingObjects = await spotifyApi.getFullAlbums(missingIds);
     const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
     await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
-    await cache.joinAlbums(parsedMissing);
+    const joined = await cache.joinAlbums(parsedMissing, false);
+    const tagged = await addTags(joined);
+    await cache.addAlbums(tagged);
     return await cache.getAlbumsBySpotifyId(spotifyIds);
   };
 
@@ -61,8 +63,10 @@ export function useDataFacade() {
     const parsed = spotifyStatic.spotifyAlbums2Albums(albums);
     const missing = getMissingObject(parsed, missingIds);
     await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
-    const tagged = 
-    return await cache.joinAlbums(parsed);
+    const joined = await cache.joinAlbums(parsed, false);
+    const tagged = await addTags(joined);
+    await cache.addAlbums(tagged);
+    return tagged;
   };
 
   /**
@@ -88,7 +92,9 @@ export function useDataFacade() {
     const missingArtistsObjects = await spotifyApi.getFullArtists(
       missingArtists
     );
-    const parsedArtists = spotifyStatic.spotifyArtists2Artists(missingArtistsObjects);
+    const parsedArtists = spotifyStatic.spotifyArtists2Artists(
+      missingArtistsObjects
+    );
     await cache.addArtists(parsedArtists);
 
     return await cache.getArtistsBySpotifyId(spotifyIds);
@@ -96,20 +102,26 @@ export function useDataFacade() {
 
   return { getArtists, getArtistsById };
 
-  async function addLastTags(album: Album){
-    const [res,err] = await lastfmApi.getAlbumTags(album.name, album?.artists[0]?.name)
-    if (err || !res){
-      toast.error(`${err?.status}: ${err?.message}`)
-      return album
+  async function addTags(albums: Album[]) {
+    const tagged: Album[] = [];
+    for (const album of albums) {
+      const [res, err] = await lastfmApi.getAlbumTags(
+        album.name,
+        album?.artists[0]?.name
+      );
+      if (err || !res) {
+        toast.error(`${err?.status}: ${err?.message}`);
+        tagged.push(album);
+        continue;
+      }
+      album.lastfmTagsFull = res;
+      album.lastfmTagsNames = res.map((t) => t.name);
+      tagged.push(album);
     }
-    album.lastfmTagsFull = res
-    album.lastfmTagsNames = res.map(t => t.name)
-    return album
+
+    return tagged;
   }
 }
-
-
-
 
 /**
  * Given a collection of spotify api items, returns the ones that are in the missing ids.
