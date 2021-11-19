@@ -3,7 +3,7 @@ import useTrackSorter, {
   trackSortingOptions,
 } from "hooks/sorters/useTrackSorter";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import filterTrack from "util/filters/filterTrack";
 import SimpleTrackCard from "../../simpleCards/SimpleTrackCard";

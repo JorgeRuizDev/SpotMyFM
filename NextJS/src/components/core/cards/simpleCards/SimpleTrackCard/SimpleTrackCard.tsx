@@ -10,6 +10,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 
 import Buttons from "styles/Buttons";
 import { EnqueueButton, SpotifyButton } from "../../buttons/CardButtons";
+import { PlaylistButton } from "../../buttons/CardButtons/CardButtons";
 import TrackCompleteDetails from "../../detailedCards/TrackCompleteDetails";
 
 import Styled from "./SimpleTrackCard.styles";
@@ -109,37 +110,6 @@ function SimpleTrackCard({
         </>
       </Modal>
     </>
-  );
-}
-
-interface IPlaylistButton {
-  inPlaylist?: boolean;
-  toggleFromPlaylist?: (track: Track) => void;
-  track: Track;
-}
-function PlaylistButton({
-  inPlaylist,
-  toggleFromPlaylist,
-  track,
-}: IPlaylistButton) {
-  return (
-    (toggleFromPlaylist !== undefined && (
-      <>
-        <Buttons.SecondaryGreenButton onClick={() => toggleFromPlaylist(track)}>
-          {inPlaylist ? (
-            <>
-              <FaMinus /> <span>Remove From Playlist</span>
-            </>
-          ) : (
-            <>
-              <BiAddToQueue />
-              <span>Add to Playlist</span>
-            </>
-          )}
-        </Buttons.SecondaryGreenButton>
-      </>
-    )) ||
-    null
   );
 }
 

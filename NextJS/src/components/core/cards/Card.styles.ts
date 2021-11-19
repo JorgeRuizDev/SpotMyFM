@@ -1,13 +1,13 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import { motion } from "framer-motion";
 import tw from "twin.macro";
 
 interface ILayout {
-	compact?: boolean
+  compact?: boolean;
 }
 
-const Layout = styled.article<ILayout>(({compact})=>[
-	tw`
+const Layout = styled.article<ILayout>(({ compact }) => [
+  tw`
 		flex
 		flex-col
 		space-y-1
@@ -31,9 +31,7 @@ const Layout = styled.article<ILayout>(({compact})=>[
 		transition-colors duration-200 ease-in-out
 	`,
 
-	compact && tw`width[15rem]`
-
-
+  compact && tw`width[15rem]`,
 ]);
 
 const ButtonRow = tw.div`
@@ -46,7 +44,6 @@ const ButtonRow = tw.div`
 const Image = tw(motion.img)`
 	width[312px]
 	h-auto
-	rounded-b-md
 `;
 
 const Styled = { Layout, ButtonRow, Image };

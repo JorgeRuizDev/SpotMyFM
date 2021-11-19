@@ -3,10 +3,12 @@ import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 
 import React from "react";
-import { FaLastfm, FaSpotify } from "react-icons/fa";
+import { BiAddToQueue } from "react-icons/bi";
+import { FaLastfm, FaMinus, FaSpotify } from "react-icons/fa";
 import { MdAlbum, MdQueueMusic } from "react-icons/md";
 import { toast } from "react-toastify";
 import Buttons from "styles/Buttons";
+import { BlockLike } from "typescript";
 import LikeIcon from "../LikeIcon";
 import Styled from "./CardButtons.styles";
 
@@ -125,6 +127,39 @@ function LikeButton({ isLiked }: { isLiked: boolean }) {
     </Buttons.SecondaryGreenButton>
   );
 }
+
+interface IPlaylistButton {
+  inPlaylist?: boolean;
+  toggleFromPlaylist?: (track: Track) => void;
+  track: Track;
+  showLabels?: boolean;
+}
+function PlaylistButton({
+  inPlaylist,
+  toggleFromPlaylist,
+  track,
+  showLabels = true,
+}: IPlaylistButton) {
+  return (
+    (toggleFromPlaylist !== undefined && (
+      <>
+        <Buttons.SecondaryGreenButton onClick={() => toggleFromPlaylist(track)}>
+          {inPlaylist ? (
+            <>
+              <FaMinus /> {showLabels && <span>Remove From Playlist</span>}
+            </>
+          ) : (
+            <>
+              <BiAddToQueue />
+              {showLabels && <span>Add to Playlist</span>}
+            </>
+          )}
+        </Buttons.SecondaryGreenButton>
+      </>
+    )) ||
+    null
+  );
+}
 export {
   EnqueueButton,
   SpotifyButton,
@@ -133,4 +168,5 @@ export {
   PlayAlbum,
   TagButton,
   LikeButton,
+  PlaylistButton,
 };

@@ -14,6 +14,10 @@ import { useLoginStore } from "store/useLogin";
 import Buttons from "styles/Buttons";
 import { getOauth } from "util/spotify/oauthFrontend";
 import TrackView from "components/core/cards/views/TrackView";
+import {
+  ListTrackCard,
+  ListTrackCardHeader,
+} from "components/core/cards/listCards/ListTrackCard";
 
 export default function Home(): JSX.Element {
   const { isLogged, spotifyApi } = useLoginStore();
@@ -35,11 +39,11 @@ export default function Home(): JSX.Element {
     const res = await spotifyApi.getMyTopTracks();
     //const tracks1 = await getTracks(res.items);
     const track2 = await getTracksByIds(res.items.map((t) => t.id));
-
+    console.log(track2);
     setTracks(track2);
     setIsLoading(false);
   };
-  console.log(isLoading);
+
   return (
     <>
       <Buttons.PrimaryGreenButton
@@ -56,6 +60,11 @@ export default function Home(): JSX.Element {
           Test Fetch
         </Buttons.PrimaryGreenButton>
       )}
+      <ListTrackCardHeader pos />
+      {tracks.map((t, i) => (
+        <ListTrackCard track={t} pos={i} key={i} />
+      ))}
+
       <TrackView tracks={tracks} isLoading={isLoading} />
     </>
   );
