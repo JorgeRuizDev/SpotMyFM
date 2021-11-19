@@ -10,15 +10,22 @@ import {
   sortByName,
 } from "../../util/sorters/commonSoters";
 
-export enum albumSortingOptions {
-  DEFAULT = "Default",
-  ALBUM_NAME = "Album Name",
-  RELEASE_DATE = "Release Date",
-  ALBUM_POPULARITY = "Album Popularity",
-  ARTIST_NAME = "Artist Name",
-  ARTIST_POPULARITY = "Artist Popularity",
-}
+type AlbumSortingOptions =
+  | "DEFAULT"
+  | "ALBUM_NAME"
+  | "RELEASE_DATE"
+  | "ALBUM_POPULARITY"
+  | "ARTIST_NAME"
+  | "ARTIST_POPULARITY";
 
+export const albumSortingOptions: Record<AlbumSortingOptions, string> = {
+  DEFAULT: "Default",
+  ALBUM_NAME: "Album Name",
+  RELEASE_DATE: "Release Date",
+  ARTIST_NAME: "Artist Name",
+  ARTIST_POPULARITY: "Artist Popularity",
+  ALBUM_POPULARITY: "Album Popularity",
+};
 export default function useAlbumSorter(
   albums: Album[],
   option = albumSortingOptions.DEFAULT,
