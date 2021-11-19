@@ -3,7 +3,6 @@ import useInfiniteScrollArray from "hooks/infiniteScroll/useInfiniteScrollArray"
 import usePaginatedArray from "hooks/paginatedArray/usePaginatedArray";
 import React, { ReactNode, createRef } from "react";
 import { isMobile } from "react-device-detect";
-import SkelletonCard from "../../simpleCards/SkelletonCard";
 import Styled from "./GenericCardView.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
 import MultipleSkeletonCards from "../../simpleCards/MultipleSkeletonCards";
@@ -11,10 +10,17 @@ import DropdownMenu from "components/core/input/atoms/DropdownMenu";
 import Buttons from "styles/Buttons";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import FilterInput from "components/core/input/atoms/FilterInput";
-interface IGenericCardViewProps<T> {
-  setSorting: (option: string) => void;
+import { albumSortingOptions } from "hooks/sorters/useAlbumSorter";
+import { trackSortingOptions } from "hooks/sorters/useTrackSorter";
+
+interface IGenericCardViewProps<T, Sort> {
+  setSorting: (option: Sort) => void;
   setIsAscendant: (o: boolean) => void;
-  sortingOptions: { options: string[]; isAscendant: boolean; selected: string };
+  sorting: {
+    options: Sort;
+    isAscendant: boolean;
+    selected: Sort;
+  };
   setInputFilter: (s: string) => void;
   children: ReactNode[];
   isLoading?: boolean;
@@ -23,16 +29,16 @@ interface IGenericCardViewProps<T> {
   filterInputProps: IFilterInputProps<T>;
 }
 
-function GenericCardView<T>({
+function GenericCardView<T, Sort>({
   children,
   setSorting,
-  sortingOptions,
+  sorting,
   setInputFilter,
   setIsAscendant,
   view = "card",
   filterInputProps,
   isLoading = false,
-}: IGenericCardViewProps<T>): JSX.Element {
+}: IGenericCardViewProps<T, Sort>): JSX.Element {
   // Paginate the current children
   const pageSize = isMobile ? 20 : 50;
   const { activePageItems, currentPage, setCurrentPage } = usePaginatedArray(
@@ -110,11 +116,11 @@ function GenericCardView<T>({
     return (
       <Styled.LayoutButtonsWrap>
         <DropdownMenu
-          items={sortingOptions.options.map((o) => {
+          items={Object.entries(sorting.options).map((o) => {
             return {
-              component: o,
+              component: o[1],
               onClick: () => {
-                setSorting(o);
+                setSorting(o[1]);
               },
             };
           })}
@@ -122,11 +128,11 @@ function GenericCardView<T>({
           <span>Sort Tracks</span>
         </DropdownMenu>
         <Buttons.SecondaryGreenButton
-          onClick={() => setIsAscendant(!sortingOptions.isAscendant)}
+          onClick={() => setIsAscendant(!sorting.isAscendant)}
         >
           <span>
-            {sortingOptions.selected}{" "}
-            {sortingOptions.isAscendant ? "Ascending" : "Descending"}
+            {sorting.selected}{" "}
+            {sorting.isAscendant ? "Ascending" : "Descending"}
           </span>
         </Buttons.SecondaryGreenButton>
       </Styled.LayoutButtonsWrap>
