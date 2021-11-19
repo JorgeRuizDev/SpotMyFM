@@ -4,6 +4,7 @@ import StyledList from "./../ListCard.styles";
 const ListItem = tw(StyledList.ListItem)`
   min-height[65px]
   p-1
+  cursor-pointer
 `;
 
 const Cover = tw.img`
@@ -24,9 +25,19 @@ const FirstTwoCols = tw.div`
   min-width[90px]
 `;
 
+const Length = tw.div`
+  hidden
+  min-width[100px]
+  lg:(block)
+`;
+
+const RightSideSpacing = tw.div`
+  lg:min-width[150px]
+`;
+
 const LeftSide = tw(StyledList.LeftSide)``;
 
-const RightSide = StyledList.RightSide;
+const RightSide = tw(StyledList.RightSide)``;
 
 const E1 = tw(StyledList.E1)`flex flex-col`;
 const E2 = tw(StyledList.E2)``;
@@ -43,6 +54,8 @@ const Styled = {
   Pos,
   TrucateP,
   FirstTwoCols,
+  Length,
+  RightSideSpacing,
   E1,
   E2,
   E3,

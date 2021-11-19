@@ -3,7 +3,10 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import prettyMilliseconds from "pretty-ms";
 import { useState } from "react";
 import formatPopularity from "util/spotify/formatPopularity";
-import { PlaylistButton } from "../../buttons/CardButtons/CardButtons";
+import {
+  PlaylistButton,
+  PlusButton,
+} from "../../buttons/CardButtons/CardButtons";
 import TrackCompleteDetails from "../../detailedCards/TrackCompleteDetails";
 import Styled from "./ListTrackCard.styles";
 interface IListTrackCardProps {
@@ -74,13 +77,16 @@ function ListTrackCard({
           </Styled.E6>
         </Styled.LeftSide>
 
-        <Styled.RightSide>
+        <Styled.RightSide onClick={(e) => e.stopPropagation()}>
+          <Styled.Length>
+            <p>{prettyMilliseconds(track.spotifyDurationMS)}</p>
+          </Styled.Length>
           <PlaylistButton
             track={track}
             inPlaylist={inPlaylist}
             toggleFromPlaylist={toggleFromPlaylist}
+            showLabels={false}
           />
-          <p>{prettyMilliseconds(track.spotifyDurationMS)}</p>
         </Styled.RightSide>
       </Styled.ListItem>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -94,7 +100,7 @@ function ListTrackCard({
   );
 }
 
-function ListTrackCardHeader({ pos }: { pos?: boolean }) {
+function ListTrackCardHeader({ pos }: { pos?: boolean }): JSX.Element {
   return (
     <Styled.ListItem>
       <Styled.LeftSide>
@@ -124,7 +130,7 @@ function ListTrackCardHeader({ pos }: { pos?: boolean }) {
       </Styled.LeftSide>
 
       <Styled.RightSide>
-        <p></p>
+        <Styled.RightSideSpacing />
       </Styled.RightSide>
     </Styled.ListItem>
   );

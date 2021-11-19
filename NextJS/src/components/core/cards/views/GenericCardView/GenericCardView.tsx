@@ -10,12 +10,14 @@ import DropdownMenu from "components/core/input/atoms/DropdownMenu";
 import Buttons from "styles/Buttons";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import FilterInput from "components/core/input/atoms/FilterInput";
-
+import { BsFillGrid3X2GapFill, BsListUl } from "react-icons/bs";
 export interface IGenericCardViewSort {
   options: Record<string, string>;
   isAscendant: boolean;
   selected: string;
 }
+
+export type ViewType = "card" | "list";
 
 interface IGenericCardViewProps<T> {
   setSorting: (option: string) => void;
@@ -23,8 +25,8 @@ interface IGenericCardViewProps<T> {
   sorting: IGenericCardViewSort;
   children: ReactNode[];
   isLoading?: boolean;
-  view?: "card" | "list";
-  toggleView: (s: string) => void;
+  view?: ViewType;
+  setView?: (s: ViewType) => void;
   filterInputProps: IFilterInputProps<T>;
 }
 
@@ -34,6 +36,7 @@ function GenericCardView<T>({
   sorting,
   setIsAscendant,
   view = "card",
+  setView,
   filterInputProps,
   isLoading = false,
 }: IGenericCardViewProps<T>): JSX.Element {
@@ -132,6 +135,14 @@ function GenericCardView<T>({
             {sorting.isAscendant ? "Ascending" : "Descending"}
           </span>
         </Buttons.SecondaryGreenButton>
+        {setView && (
+          <Buttons.SecondaryGreenButton
+            rounded
+            onClick={() => setView(view == "card" ? "list" : "card")}
+          >
+            {view == "list" ? <BsFillGrid3X2GapFill /> : <BsListUl />}
+          </Buttons.SecondaryGreenButton>
+        )}
       </Styled.LayoutButtonsWrap>
     );
   }

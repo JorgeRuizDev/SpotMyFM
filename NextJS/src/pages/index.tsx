@@ -18,6 +18,7 @@ import {
   ListTrackCard,
   ListTrackCardHeader,
 } from "components/core/cards/listCards/ListTrackCard";
+import useTrackToPlaylistSelector from "hooks/tracksToPlaylist/useTrackToPlaylistSelector";
 
 export default function Home(): JSX.Element {
   const { isLogged, spotifyApi } = useLoginStore();
@@ -44,6 +45,13 @@ export default function Home(): JSX.Element {
     setIsLoading(false);
   };
 
+  const {
+    trackSet,
+    toggleFromPlaylist,
+    contains,
+    addAll,
+    removeAll,
+  } = useTrackToPlaylistSelector();
   return (
     <>
       <Buttons.PrimaryGreenButton
@@ -60,10 +68,6 @@ export default function Home(): JSX.Element {
           Test Fetch
         </Buttons.PrimaryGreenButton>
       )}
-      <ListTrackCardHeader pos />
-      {tracks.map((t, i) => (
-        <ListTrackCard track={t} pos={i} key={i} />
-      ))}
 
       <TrackView tracks={tracks} isLoading={isLoading} />
     </>

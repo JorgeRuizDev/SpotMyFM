@@ -26,7 +26,7 @@ const RightSide = tw.div`
   flex-row
   flex-nowrap
   items-center
-  justify-center
+  justify-around
   flex-grow-0
   space-x-2
   min-width[80px]

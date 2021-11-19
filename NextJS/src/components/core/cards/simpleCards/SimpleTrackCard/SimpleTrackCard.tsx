@@ -10,7 +10,10 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 
 import Buttons from "styles/Buttons";
 import { EnqueueButton, SpotifyButton } from "../../buttons/CardButtons";
-import { PlaylistButton } from "../../buttons/CardButtons/CardButtons";
+import {
+  PlaylistButton,
+  PlusButton,
+} from "../../buttons/CardButtons/CardButtons";
 import TrackCompleteDetails from "../../detailedCards/TrackCompleteDetails";
 
 import Styled from "./SimpleTrackCard.styles";
@@ -30,7 +33,7 @@ function SimpleTrackCard({
   playOnHover = false,
   isMuted = true,
   toggleFromPlaylist,
-  inPlaylist,
+  inPlaylist = false,
 }: ISimpleTrackCardProps) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -79,7 +82,7 @@ function SimpleTrackCard({
             track={track}
           />
           <EnqueueButton track={track} artist={artists[0]} />
-          <PlusButton setShowDetails={setShowDetails} />
+          <PlusButton onClick={() => setShowDetails(true)} />
         </Styled.ButtonRow>
 
         <a href={track.spotifyUrl}>
@@ -110,20 +113,6 @@ function SimpleTrackCard({
         </>
       </Modal>
     </>
-  );
-}
-
-interface IPlusButton {
-  setShowDetails: (boolean: boolean) => void;
-}
-function PlusButton({ setShowDetails }: IPlusButton) {
-  return (
-    <Styled.RoundButton
-      onClick={() => setShowDetails(true)}
-      aria-label={"More"}
-    >
-      <FaPlus />
-    </Styled.RoundButton>
   );
 }
 

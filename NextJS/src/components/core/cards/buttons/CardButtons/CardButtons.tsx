@@ -4,7 +4,7 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 
 import React from "react";
 import { BiAddToQueue } from "react-icons/bi";
-import { FaLastfm, FaMinus, FaSpotify } from "react-icons/fa";
+import { FaLastfm, FaMinus, FaPlus, FaSpotify } from "react-icons/fa";
 import { MdAlbum, MdQueueMusic } from "react-icons/md";
 import { toast } from "react-toastify";
 import Buttons from "styles/Buttons";
@@ -128,6 +128,14 @@ function LikeButton({ isLiked }: { isLiked: boolean }) {
   );
 }
 
+function PlusButton({ onClick }: { onClick: () => void }) {
+  return (
+    <Buttons.SecondaryGreenButton rounded onClick={onClick} aria-label={"More"}>
+      <FaPlus />
+    </Buttons.SecondaryGreenButton>
+  );
+}
+
 interface IPlaylistButton {
   inPlaylist?: boolean;
   toggleFromPlaylist?: (track: Track) => void;
@@ -143,7 +151,10 @@ function PlaylistButton({
   return (
     (toggleFromPlaylist !== undefined && (
       <>
-        <Buttons.SecondaryGreenButton onClick={() => toggleFromPlaylist(track)}>
+        <Buttons.SecondaryGreenButton
+          onClick={() => toggleFromPlaylist(track)}
+          rounded={!showLabels}
+        >
           {inPlaylist ? (
             <>
               <FaMinus /> {showLabels && <span>Remove From Playlist</span>}
@@ -168,5 +179,6 @@ export {
   PlayAlbum,
   TagButton,
   LikeButton,
+  PlusButton,
   PlaylistButton,
 };
