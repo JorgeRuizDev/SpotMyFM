@@ -1,8 +1,16 @@
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { useCallback, useEffect, useState } from "react";
+import {
+  sortByAlbumReleaseDate,
+  sortByTrackLength,
+  sortTrackByAlbumName,
+} from "util/sorters/trackSorters";
 
-import { sortByArtistName, sortByArtistPop, sortByName } from "./commonSoters";
-import { sortByReleaseDate } from "./useAlbumSorter";
+import {
+  sortByArtistName,
+  sortByArtistPop,
+  sortByName,
+} from "../../util/sorters/commonSoters";
 
 export enum trackSortingOptions {
   DEFAULT = "Default",
@@ -76,18 +84,3 @@ export default function useTrackSorter(
     sortOptions: trackSortingOptions,
   };
 }
-
-function sortByTrackLength(a: Track, b: Track) {
-  return a.spotifyDurationMS - b.spotifyDurationMS;
-}
-
-function sortTrackByAlbumName(a: Track, b: Track) {
-  // Sort by album name + Track Name
-  return sortByName(a.album, b.album);
-}
-
-function sortByAlbumReleaseDate(a: Track, b: Track) {
-  return sortByReleaseDate(a.album, b.album);
-}
-
-export { sortTrackByAlbumName, sortByTrackLength };
