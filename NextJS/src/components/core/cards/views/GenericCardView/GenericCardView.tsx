@@ -10,18 +10,17 @@ import DropdownMenu from "components/core/input/atoms/DropdownMenu";
 import Buttons from "styles/Buttons";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import FilterInput from "components/core/input/atoms/FilterInput";
-import { albumSortingOptions } from "hooks/sorters/useAlbumSorter";
-import { trackSortingOptions } from "hooks/sorters/useTrackSorter";
 
-interface IGenericCardViewProps<T, Sort> {
-  setSorting: (option: Sort) => void;
+export interface IGenericCardViewSort {
+  options: Record<string, string>;
+  isAscendant: boolean;
+  selected: string;
+}
+
+interface IGenericCardViewProps<T> {
+  setSorting: (option: string) => void;
   setIsAscendant: (o: boolean) => void;
-  sorting: {
-    options: Sort;
-    isAscendant: boolean;
-    selected: Sort;
-  };
-  setInputFilter: (s: string) => void;
+  sorting: IGenericCardViewSort;
   children: ReactNode[];
   isLoading?: boolean;
   view?: "card" | "list";
@@ -33,12 +32,11 @@ function GenericCardView<T, Sort>({
   children,
   setSorting,
   sorting,
-  setInputFilter,
   setIsAscendant,
   view = "card",
   filterInputProps,
   isLoading = false,
-}: IGenericCardViewProps<T, Sort>): JSX.Element {
+}: IGenericCardViewProps<T>): JSX.Element {
   // Paginate the current children
   const pageSize = isMobile ? 20 : 50;
   const { activePageItems, currentPage, setCurrentPage } = usePaginatedArray(
@@ -105,7 +103,7 @@ function GenericCardView<T, Sort>({
         {isLoading ? (
           <MultipleSkeletonCards />
         ) : children.length == 0 ? (
-          "No Items to load"
+          <p>No Items Found</p>
         ) : null}
         {scrollItems}
       </Styled.CardLayout>

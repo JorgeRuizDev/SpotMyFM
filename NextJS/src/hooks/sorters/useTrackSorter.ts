@@ -12,15 +12,24 @@ import {
   sortByName,
 } from "../../util/sorters/commonSoters";
 
-export enum trackSortingOptions {
-  DEFAULT = "Default",
-  TRACK_NAME = "Track Name",
-  ALBUM_NAME = "Album Name",
-  RELEASE_DATE = "Release Date",
-  TRACK_LENGTH = "Track Length ",
-  ARTIST_NAME = "Artist Name",
-  ARTIST_POPULARITY = "Artist Popularity",
-}
+type TrackSortingOptions =
+  | "DEFAULT"
+  | "TRACK_NAME"
+  | "ALBUM_NAME"
+  | "RELEASE_DATE"
+  | "TRACK_LENGTH"
+  | "ARTIST_NAME"
+  | "ARTIST_POPULARITY";
+
+export const trackSortingOptions: Record<TrackSortingOptions, string> = {
+  DEFAULT: "Default",
+  TRACK_NAME: "Track Name",
+  ALBUM_NAME: "Album Name",
+  RELEASE_DATE: "Release Date",
+  TRACK_LENGTH: "Track Length",
+  ARTIST_NAME: "Artist Name",
+  ARTIST_POPULARITY: "Artist Popularity",
+};
 
 export default function useTrackSorter(
   tracks: Track[],

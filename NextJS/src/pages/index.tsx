@@ -13,6 +13,7 @@ import { useClientsStore } from "store/useClients";
 import { useLoginStore } from "store/useLogin";
 import Buttons from "styles/Buttons";
 import { getOauth } from "util/spotify/oauthFrontend";
+import TrackView from "components/core/cards/views/TrackView";
 
 export default function Home(): JSX.Element {
   const { isLogged, spotifyApi } = useLoginStore();
@@ -28,13 +29,15 @@ export default function Home(): JSX.Element {
   const { spotifyApi: dos } = useClientsStore();
 
   const [tracks, setTracks] = useState<Track[]>([]);
-
+  const [isLoading, setIsLoading] = useState(false);
   const testFetch = async () => {
+    setIsLoading(true);
     const res = await spotifyApi.getMyTopTracks();
     //const tracks1 = await getTracks(res.items);
     const track2 = await getTracksByIds(res.items.map((t) => t.id));
 
     setTracks(track2);
+    setIsLoading(false);
   };
 
   return (
@@ -53,11 +56,7 @@ export default function Home(): JSX.Element {
           Test Fetch
         </Buttons.PrimaryGreenButton>
       )}
-      <GenericCardView>
-        {tracks.map((t, i) => (
-          <SimpleTrackCard track={t} key={i} />
-        ))}
-      </GenericCardView>
+      <TrackView tracks={tracks} isLoading={isLoading} />
     </>
   );
 }

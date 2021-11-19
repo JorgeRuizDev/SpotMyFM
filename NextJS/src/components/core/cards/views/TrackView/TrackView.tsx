@@ -6,16 +6,21 @@ import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { useCallback, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import filterTrack from "util/filters/filterTrack";
+import SimpleTrackCard from "../../simpleCards/SimpleTrackCard";
+import GenericCardView from "../GenericCardView";
+import { IGenericCardViewSort } from "../GenericCardView/GenericCardView";
 import Styled from "./TrackView.styles";
 interface ITrackViewProps {
   tracks: Track[];
-  defaultTrackSort?: trackSortingOptions;
+  defaultTrackSort?: string;
+  isLoading?: boolean;
   isNested?: boolean;
 }
 
 function TrackView({
   tracks,
   defaultTrackSort = trackSortingOptions.DEFAULT,
+  isLoading = false,
   isNested = false,
 }: ITrackViewProps) {
   const [mute, setMute] = useState(false);
@@ -31,6 +36,12 @@ function TrackView({
     setIsAscendentState,
     sortOptions,
   } = useTrackSorter(tracks, defaultTrackSort);
+
+  const sorting: IGenericCardViewSort = {
+    options: trackSortingOptions,
+    isAscendant: isAscendentState,
+    selected: optionState,
+  };
 
   useEffect(() => {
     setFilteredTracks(sortedTracks);
@@ -59,7 +70,22 @@ function TrackView({
   function toggleHover() {
     setHover(!hover);
   }
-  return <></>;
+
+  return (
+    <>
+      <GenericCardView
+        filterInputProps={filter}
+        setIsAscendant={setIsAscendentState}
+        setSorting={setOptionState}
+        sorting={sorting}
+        toggleView={() => {}}
+      >
+        {filteredTracks.map((t, i) => (
+          <SimpleTrackCard track={t} key={i} />
+        ))}
+      </GenericCardView>
+    </>
+  );
 }
 
 export default TrackView;
