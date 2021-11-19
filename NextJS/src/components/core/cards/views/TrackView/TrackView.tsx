@@ -79,6 +79,7 @@ function TrackView({
         setSorting={setOptionState}
         sorting={sorting}
         toggleView={() => {}}
+        isLoading={isLoading}
       >
         {filteredTracks.map((t, i) => (
           <SimpleTrackCard track={t} key={i} />

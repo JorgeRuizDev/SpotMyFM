@@ -28,7 +28,7 @@ interface IGenericCardViewProps<T> {
   filterInputProps: IFilterInputProps<T>;
 }
 
-function GenericCardView<T, Sort>({
+function GenericCardView<T>({
   children,
   setSorting,
   sorting,
@@ -83,29 +83,28 @@ function GenericCardView<T, Sort>({
    */
   function PaginationBar(): JSX.Element {
     return (
-      <>
-        <Paginate
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          itemsPerPage={pageSize}
-          total={children?.length || 0}
-          onChange={() => {
-            resetScrollOffset();
-            layoutStartRef?.current?.scrollIntoView();
-          }}
-        />
-      </>
+      <Paginate
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        itemsPerPage={pageSize}
+        total={children.length}
+        onChange={() => {
+          resetScrollOffset();
+          layoutStartRef?.current?.scrollIntoView();
+        }}
+      />
     );
   }
   function ItemLayout(): JSX.Element {
     return (
       <Styled.CardLayout>
-        {isLoading ? (
+        {scrollItems.length > 0 ? (
+          scrollItems
+        ) : isLoading ? (
           <MultipleSkeletonCards />
-        ) : children.length == 0 ? (
-          <p>No Items Found</p>
-        ) : null}
-        {scrollItems}
+        ) : (
+          <h3>No Items Found</h3>
+        )}
       </Styled.CardLayout>
     );
   }

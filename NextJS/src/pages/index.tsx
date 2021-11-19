@@ -39,7 +39,7 @@ export default function Home(): JSX.Element {
     setTracks(track2);
     setIsLoading(false);
   };
-
+  console.log(isLoading);
   return (
     <>
       <Buttons.PrimaryGreenButton
