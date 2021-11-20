@@ -44,8 +44,8 @@ export default describe("<Modal />", () => {
     // Check  that the component closes on
     fireEvent.click(component.getByTestId("modal-bg"));
     expect(mockClose).toBeCalled();
-
-    expect(mockClose).toBeCalled();
+    fireEvent.click(component.getByTestId("modal-close-btn"));
+    expect(mockClose).toBeCalledTimes(2);
 
     // On hide does not unmount
     component.rerender(

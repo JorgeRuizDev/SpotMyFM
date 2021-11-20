@@ -91,7 +91,10 @@ function Modal({
         darkBackground={bodyBackgroundColor}
       >
         <Styled.TopRow>
-          <Buttons.GreenCloseButton onClick={onClose} />
+          <Buttons.GreenCloseButton
+            onClick={onClose}
+            data-testid="modal-close-btn"
+          />
         </Styled.TopRow>
         <div style={{ overflow: scrollOverflow ? "auto" : "hidden" }}>
           {children}
