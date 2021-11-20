@@ -63,9 +63,10 @@ function GenericCardView<T>({
   return (
     <>
       <div ref={layoutStartRef}></div>
-      <PaginationBar />
-      <FilterInput {...filterInputProps} />
       <SortRow />
+
+      <FilterInput {...filterInputProps} />
+      <PaginationBar />
       <InfiniteScroll
         style={{ overflow: "unset" }}
         dataLength={length} //This is important field to render the next data
