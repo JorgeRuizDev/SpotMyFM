@@ -3,10 +3,7 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import prettyMilliseconds from "pretty-ms";
 import { useState } from "react";
 import formatPopularity from "util/spotify/formatPopularity";
-import {
-  PlaylistButton,
-  PlusButton,
-} from "../../buttons/CardButtons/CardButtons";
+import { PlaylistButton } from "../../buttons/CardButtons/CardButtons";
 import TrackCompleteDetails from "../../detailedCards/TrackCompleteDetails";
 import Styled from "./ListTrackCard.styles";
 interface IListTrackCardProps {
@@ -102,7 +99,7 @@ function ListTrackCard({
 
 function ListTrackCardHeader({ pos }: { pos?: boolean }): JSX.Element {
   return (
-    <Styled.ListItem>
+    <Styled.Header>
       <Styled.LeftSide>
         <Styled.FirstTwoCols>
           <Styled.Pos>{pos && <p>#</p>}</Styled.Pos>
@@ -132,7 +129,7 @@ function ListTrackCardHeader({ pos }: { pos?: boolean }): JSX.Element {
       <Styled.RightSide>
         <Styled.RightSideSpacing />
       </Styled.RightSide>
-    </Styled.ListItem>
+    </Styled.Header>
   );
 }
 

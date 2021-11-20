@@ -5,6 +5,19 @@ const ListItem = tw(StyledList.ListItem)`
   min-height[65px]
   p-1
   cursor-pointer
+
+`;
+
+const Header = tw(ListItem)`
+  sticky
+  w-full
+  top-0
+  hover:(dark:bg-darkMaterialBG-base bg-lightCard-base)
+  dark:bg-darkMaterialBG-base
+  bg-lightMaterialBG-base
+  border-b-2
+  border-lightCard-base
+  dark:border-darkCard-base
 `;
 
 const Cover = tw.img`
@@ -55,6 +68,7 @@ const Styled = {
   TrucateP,
   FirstTwoCols,
   Length,
+  Header,
   RightSideSpacing,
   E1,
   E2,

@@ -67,6 +67,7 @@ function GenericCardView<T>({
       <FilterInput {...filterInputProps} />
       <SortRow />
       <InfiniteScroll
+        style={{ overflow: "unset" }}
         dataLength={length} //This is important field to render the next data
         next={next}
         scrollThreshold={0.6}

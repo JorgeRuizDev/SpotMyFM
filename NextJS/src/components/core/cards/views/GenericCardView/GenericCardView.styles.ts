@@ -9,8 +9,8 @@ const CardLayout = tw.div`
 
 	justify-around
 	items-start
-
-	overflow-y-auto
+  relative
+	
 `;
 
 const LayoutButtonsWrap = tw.section`
