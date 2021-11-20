@@ -28,7 +28,10 @@ export default function HomeTopTracks() {
       />
 
       {trackList !== undefined ? (
-        <TrackView tracks={trackList || []} isLoading={isLoading} />
+        <TrackView
+          tracks={trackList || []}
+          settings={{ isLoading: isLoading }}
+        />
       ) : (
         ""
       )}
