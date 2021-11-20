@@ -13,6 +13,7 @@ interface IGetMyTopSelectorProps {
   setTracks: (tracksIds: Track[] | undefined) => void;
   setArtists: (artistIds: Artist[] | undefined) => void;
   setHeaderType: (type: string) => void;
+  setIsLoading: (is: boolean) => void;
 }
 
 type HomeItemType = "Tracks" | "Artists";
@@ -33,6 +34,7 @@ function GetMyTopSelector({
   setTracks,
   setArtists,
   setHeaderType,
+  setIsLoading,
 }: IGetMyTopSelectorProps): JSX.Element {
   const [term, setTerm] = useState<string>(Term.Short);
   const [type, setType] = useState<string>(homeItemType.Tracks);
@@ -44,6 +46,7 @@ function GetMyTopSelector({
 
   const getAllTracks = useCallback(async () => {
     try {
+      setIsLoading(true);
       if (type === homeItemType.Tracks) {
         // Set the IDs to empty so the card skeleton shows up.
         setTracks([]);
@@ -85,6 +88,7 @@ function GetMyTopSelector({
         setArtists(artists);
         setHeaderType(homeItemType.Artists);
       }
+      setIsLoading(false);
     } catch (e) {
       console.error(e);
       const code = api.parse(e);
@@ -93,6 +97,7 @@ function GetMyTopSelector({
       );
     }
   }, [
+    setIsLoading,
     type,
     setTracks,
     term,

@@ -12,6 +12,8 @@ export default function HomeTopTracks() {
 
   const [artistList, setArtistList] = useState<Artist[] | undefined>([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   const [type, setType] = useState<string>("Tracks");
   console.log();
   return (
@@ -22,9 +24,14 @@ export default function HomeTopTracks() {
         setTracks={setTrackList}
         setArtists={setArtistList}
         setHeaderType={setType}
+        setIsLoading={setIsLoading}
       />
 
-      {trackList !== undefined ? <TrackView tracks={trackList || []} /> : ""}
+      {trackList !== undefined ? (
+        <TrackView tracks={trackList || []} isLoading={isLoading} />
+      ) : (
+        ""
+      )}
     </>
   );
 }
