@@ -4,11 +4,17 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import _ from "lodash";
 import SpotifyWebApi from "spotify-web-api-js";
 import { parse } from "date-fns";
-
+import { IRestClient, RestError } from "interfaces/RestClient";
+import SpotifyResponse from "./spotifyResponseCodes";
 /**
  * Spotify Api Rest Client
  */
-export class SpotifyClient extends SpotifyWebApi {
+export class SpotifyClient extends SpotifyWebApi implements IRestClient {
+  parse(e: any): RestError {
+    const res = SpotifyResponse.parse(e);
+    return { status: res.status, message: res.message };
+  }
+
   /**
    * Fetches all the tracks given an array of ids
    * @param trackIds
