@@ -13,63 +13,24 @@ import { useClientsStore } from "store/useClients";
 import { useLoginStore } from "store/useLogin";
 import Buttons from "styles/Buttons";
 import { getOauth } from "util/spotify/oauthFrontend";
-import TrackView from "components/core/cards/views/TrackView";
-import {
-  ListTrackCard,
-  ListTrackCardHeader,
-} from "components/core/cards/listCards/ListTrackCard";
-import useTrackToPlaylistSelector from "hooks/tracksToPlaylist/useTrackToPlaylistSelector";
+import HomeTopTracks from "components/pages/HomeTopTracks";
 
 export default function Home(): JSX.Element {
-  const { isLogged, spotifyApi } = useLoginStore();
-  const {
-    getArtists,
-    numberCaching,
-    trackStatus,
-    getArtistsById,
-    getTracks,
-    getTracksByIds,
-    getAlbums,
-  } = useDataFacade();
-  const { spotifyApi: dos } = useClientsStore();
+  const { isLogged } = useLoginStore();
 
-  const [tracks, setTracks] = useState<Track[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const testFetch = async () => {
-    setIsLoading(true);
-    const res = await spotifyApi.getMyTopTracks();
-    //const tracks1 = await getTracks(res.items);
-    const track2 = await getTracksByIds(res.items.map((t) => t.id));
-    console.log(track2);
-    setTracks(track2);
-    setIsLoading(false);
-  };
-
-  const {
-    trackSet,
-    toggleFromPlaylist,
-    contains,
-    addAll,
-    removeAll,
-  } = useTrackToPlaylistSelector();
   return (
     <>
-      <Buttons.PrimaryGreenButton
-        onClick={() => {
-          getOauth().promptCredentials();
-        }}
-      >
-        Log In
-      </Buttons.PrimaryGreenButton>
-      {numberCaching > 0 ? <p>{trackStatus}</p> : ""}
-      <ToggleThemeButtonFlip />
-      {isLogged && (
-        <Buttons.PrimaryGreenButton onClick={testFetch}>
-          Test Fetch
+      {!isLogged ? (
+        <Buttons.PrimaryGreenButton
+          onClick={() => {
+            getOauth().promptCredentials();
+          }}
+        >
+          Log In
         </Buttons.PrimaryGreenButton>
+      ) : (
+        <HomeTopTracks />
       )}
-
-      <TrackView tracks={tracks} isLoading={isLoading} />
     </>
   );
 }
