@@ -1,14 +1,16 @@
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import useTrackToPlaylistSelector from "hooks/tracksToPlaylist/useTrackToPlaylistSelector";
+import { trackViewSettings } from "interfaces/Track";
 import React from "react";
 import TrackView from "../TrackView";
 import Styled from "./TrackSelectorView.styles";
 import TracksToPlaylist from "./TracksToPlaylist";
 interface ITrackSelectorViewProps {
   tracks: Track[];
+  settings?: trackViewSettings;
 }
 
-function TrackSelectorView({ tracks }: ITrackSelectorViewProps) {
+function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
   const {
     trackSet,
     toggleFromPlaylist,

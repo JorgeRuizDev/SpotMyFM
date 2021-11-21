@@ -7,6 +7,7 @@ import GlobalStyle from "styles/GlobalStyle";
 
 import "styles/custom.css"
 import "styles/tailwind.css"
+import ToggleThemeButtonFlip from "components/theme/ToggleThemeButtonFlip";
 
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -14,6 +15,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <>
       <div id="modal-core"></div>
         <ToastConfig />
+        <ToggleThemeButtonFlip />
         <GlobalStyle />
         <Component {...pageProps} />
     </>

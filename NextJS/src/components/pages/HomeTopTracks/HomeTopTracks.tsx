@@ -1,4 +1,4 @@
-import TrackView from "components/core/cards/views/TrackView";
+import TrackSelectorView from "components/core/cards/views/TrackSelectorView";
 import GetMyTopSelector from "components/pages/HomeTopTracks/GetMyTopSelector";
 
 import Head from "components/util/Head";
@@ -28,7 +28,7 @@ export default function HomeTopTracks() {
       />
 
       {trackList !== undefined ? (
-        <TrackView
+        <TrackSelectorView
           tracks={trackList || []}
           settings={{ isLoading: isLoading }}
         />

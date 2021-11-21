@@ -1,9 +1,9 @@
 import {
   EnqueueButton,
-  SpotifyButton,
   OpenLastFMButton,
   OpenSpotifyButton,
   PlayAlbum,
+  SpotifyButton,
   TagButton,
 } from "./CardButtons";
 

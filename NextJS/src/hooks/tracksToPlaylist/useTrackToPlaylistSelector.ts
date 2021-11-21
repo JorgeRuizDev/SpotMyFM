@@ -1,4 +1,4 @@
-import { Track } from "models/Track";
+import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { useState } from "react";
 
 interface IReturn {
