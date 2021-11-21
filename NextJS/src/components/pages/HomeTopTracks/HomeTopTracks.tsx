@@ -1,3 +1,4 @@
+import SkelletonList from "components/core/cards/listCards/SkeletonList";
 import TrackSelectorView from "components/core/cards/views/TrackSelectorView";
 import GetMyTopSelector from "components/pages/HomeTopTracks/GetMyTopSelector";
 
@@ -26,7 +27,7 @@ export default function HomeTopTracks() {
         setHeaderType={setType}
         setIsLoading={setIsLoading}
       />
-
+      <SkelletonList />
       {trackList !== undefined ? (
         <TrackSelectorView
           tracks={trackList || []}

@@ -11,6 +11,7 @@ import Buttons from "styles/Buttons";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import FilterInput from "components/core/input/atoms/FilterInput";
 import { BsFillGrid3X2GapFill, BsListUl } from "react-icons/bs";
+import MultipleSkeletonList from "../../listCards/MultipleSkeletonList";
 export interface IGenericCardViewSort {
   options: Record<string, string>;
   isAscendant: boolean;
@@ -71,7 +72,9 @@ function GenericCardView<T>({
         next={next}
         scrollThreshold={0.6}
         hasMore={hasMore}
-        loader={<MultipleSkeletonCards />}
+        loader={
+          view == "card" ? <MultipleSkeletonCards /> : <MultipleSkeletonList />
+        }
       >
         <ItemLayout />
       </InfiniteScroll>
@@ -104,7 +107,11 @@ function GenericCardView<T>({
         {scrollItems.length > 0 ? (
           scrollItems
         ) : isLoading ? (
-          <MultipleSkeletonCards />
+          view == "card" ? (
+            <MultipleSkeletonCards />
+          ) : (
+            <MultipleSkeletonList />
+          )
         ) : (
           <h3>No Items Found</h3>
         )}
