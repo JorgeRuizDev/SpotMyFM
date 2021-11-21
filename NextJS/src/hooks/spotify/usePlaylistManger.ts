@@ -62,7 +62,7 @@ export function usePlaylistManager() {
   }
 
   /**
-   *
+   * Flushes a playlist
    * @param playlistId
    */
   async function removeAllTracksFromPlaylist(playlistId: string) {
@@ -84,6 +84,11 @@ export function usePlaylistManager() {
     }
   }
 
+  /**
+   * Flushes an existing playlist but adds a set of tracks.
+   * @param playlistId
+   * @param trackUris
+   */
   async function replacePlaylistTracksWith(
     playlistId: string,
     trackUris: string[]
@@ -96,6 +101,7 @@ export function usePlaylistManager() {
     removeAllTracksFromPlaylist,
     replacePlaylistTracksWith,
     getPlaylist,
+    addTracksToPlaylist
     createPlaylist,
   };
 
