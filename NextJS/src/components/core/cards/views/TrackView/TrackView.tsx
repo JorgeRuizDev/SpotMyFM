@@ -2,7 +2,6 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import useTrackSorter, {
   trackSortingOptions,
 } from "hooks/sorters/useTrackSorter";
-import useTrackToPlaylistSelector from "hooks/tracksToPlaylist/useTrackToPlaylistSelector";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { selectManager, trackViewSettings } from "interfaces/Track";
 import { useEffect, useState } from "react";

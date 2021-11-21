@@ -1,8 +1,14 @@
+import { Track } from "data/cacheDB/dexieDB/models/Track";
 import useTrackToPlaylistSelector from "hooks/tracksToPlaylist/useTrackToPlaylistSelector";
+import React from "react";
+import TrackView from "../TrackView";
 import Styled from "./TrackSelectorView.styles";
-interface ITrackSelectorViewProps {}
+import TracksToPlaylist from "./TracksToPlaylist";
+interface ITrackSelectorViewProps {
+  tracks: Track[];
+}
 
-function TrackSelectorView(props: ITrackSelectorViewProps) {
+function TrackSelectorView({ tracks }: ITrackSelectorViewProps) {
   const {
     trackSet,
     toggleFromPlaylist,
@@ -10,7 +16,24 @@ function TrackSelectorView(props: ITrackSelectorViewProps) {
     addAll,
     removeAll,
   } = useTrackToPlaylistSelector();
-  return <></>;
+
+  return (
+    <>
+      {trackSet.size > 0 ? (
+        <TracksToPlaylist
+          tracks={Array.from(trackSet.values()).map((t) => t.spotifyUri)}
+          unselectAll={removeAll}
+        />
+      ) : null}
+      <TrackView
+        tracks={tracks}
+        selectManager={{
+          isSelected: contains,
+          toggleSelected: toggleFromPlaylist,
+        }}
+      />
+    </>
+  );
 }
 
 export default TrackSelectorView;

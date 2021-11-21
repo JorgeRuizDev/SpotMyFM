@@ -101,7 +101,7 @@ export function usePlaylistManager() {
     removeAllTracksFromPlaylist,
     replacePlaylistTracksWith,
     getPlaylist,
-    addTracksToPlaylist
+    addTracksToPlaylist,
     createPlaylist,
   };
 
