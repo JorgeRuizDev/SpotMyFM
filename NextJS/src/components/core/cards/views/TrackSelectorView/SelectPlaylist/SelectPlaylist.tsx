@@ -10,6 +10,7 @@ import PlaylistCompleteDetails from "components/core/cards/detailedCards/Playlis
 import GenericCardView from "components/core/cards/views/GenericCardView";
 import { usePlaylistManager } from "hooks/spotify/usePlaylistManger";
 import { useClientsStore } from "store/useClients";
+import SimplePlaylistCard from "components/core/cards/simpleCards/SimplePlaylistCard";
 interface ISelectPlaylistProps {
   playlists?: SpotifyApi.PlaylistObjectSimplified[];
   trackUris: string[];
@@ -61,6 +62,19 @@ function SelectPlaylist({
         </Styled.Center>
       </Styled.MenuWrap>
 
+      <GenericCardView>
+        {filteredPlaylist
+          ?.filter((p) => p.owner.id === owner?.id)
+          .map((p, i) => (
+            <SimplePlaylistCard
+              key={i}
+              compact
+              playlist={p}
+              onDetailsClick={() => setModalPlaylist(p)}
+            />
+          ))}
+        <></>
+      </GenericCardView>
       <Modal
         isOpen={modalPlaylist !== undefined}
         onClose={() => setModalPlaylist(undefined)}

@@ -15,26 +15,24 @@ export interface IGenericCardViewSort {
   options: Record<string, string>;
   isAscendant: boolean;
   selected: string;
+  setSorting: (option: string) => void;
+  setIsAscendant: (o: boolean) => void;
 }
 
 export type ViewType = "card" | "list";
 
 interface IGenericCardViewProps<T> {
-  setSorting: (option: string) => void;
-  setIsAscendant: (o: boolean) => void;
-  sorting: IGenericCardViewSort;
+  sorting?: IGenericCardViewSort;
   children: ReactNode[];
   isLoading?: boolean;
   view?: ViewType;
   setView?: (s: ViewType) => void;
-  filterInputProps: IFilterInputProps<T>;
+  filterInputProps?: IFilterInputProps<T>;
 }
 
 function GenericCardView<T>({
   children,
-  setSorting,
   sorting,
-  setIsAscendant,
   view = "card",
   setView,
   filterInputProps,
@@ -65,7 +63,7 @@ function GenericCardView<T>({
       <div ref={layoutStartRef}></div>
       <SortRow />
 
-      <FilterInput {...filterInputProps} />
+      {filterInputProps && <FilterInput {...filterInputProps} />}
       <PaginationBar />
       <InfiniteScroll
         style={{ overflow: "unset" }}
@@ -117,26 +115,30 @@ function GenericCardView<T>({
   function SortRow(): JSX.Element {
     return (
       <Styled.LayoutButtonsWrap>
-        <DropdownMenu
-          items={Object.entries(sorting.options).map((o) => {
-            return {
-              component: o[1],
-              onClick: () => {
-                setSorting(o[1]);
-              },
-            };
-          })}
-        >
-          <span>Sort Tracks</span>
-        </DropdownMenu>
-        <Buttons.SecondaryGreenButton
-          onClick={() => setIsAscendant(!sorting.isAscendant)}
-        >
-          <span>
-            {sorting.selected}{" "}
-            {sorting.isAscendant ? "Ascending" : "Descending"}
-          </span>
-        </Buttons.SecondaryGreenButton>
+        {sorting && (
+          <>
+            <DropdownMenu
+              items={Object.entries(sorting.options).map((o) => {
+                return {
+                  component: o[1],
+                  onClick: () => {
+                    sorting.setSorting(o[1]);
+                  },
+                };
+              })}
+            >
+              <span>Sort Tracks</span>
+            </DropdownMenu>
+            <Buttons.SecondaryGreenButton
+              onClick={() => sorting.setIsAscendant(!sorting?.isAscendant)}
+            >
+              <span>
+                {sorting?.selected}{" "}
+                {sorting?.isAscendant ? "Ascending" : "Descending"}
+              </span>
+            </Buttons.SecondaryGreenButton>
+          </>
+        )}
         {setView && (
           <Buttons.SecondaryGreenButton
             rounded

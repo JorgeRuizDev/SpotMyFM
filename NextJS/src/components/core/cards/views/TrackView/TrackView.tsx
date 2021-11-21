@@ -54,6 +54,10 @@ function TrackView({
     options: trackSortingOptions,
     isAscendant: isAscendentState,
     selected: optionState,
+    setIsAscendant: setIsAscendentState,
+    setSorting: (s: string) => {
+      setOptionState(s);
+    },
   };
 
   useEffect(() => {
@@ -80,8 +84,6 @@ function TrackView({
     <>
       <GenericCardView
         filterInputProps={filter}
-        setIsAscendant={setIsAscendentState}
-        setSorting={setOptionState}
         sorting={sorting}
         setView={setCurrentView}
         view={currentView}
