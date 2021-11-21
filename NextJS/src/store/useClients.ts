@@ -8,6 +8,7 @@ interface IClientStore {
   cacheClient: CacheAdapter;
   spotifyApi: SpotifyClient;
   lastfmApi: LastfmClient;
+  getUser: () => Promise<SpotifyApi.CurrentUsersProfileResponse>;
 }
 
 /**
@@ -18,5 +19,13 @@ export const useClientsStore = create<IClientStore>((set, get) => {
   const cacheClient = CacheDb;
   const spotifyApi = new SpotifyClient();
   const lastfmApi = new LastfmClient(env.LASTFM_KEY);
-  return { cacheClient, spotifyApi, lastfmApi };
+  let _user: SpotifyApi.CurrentUsersProfileResponse;
+  const getUser = async () => {
+    if (!_user) {
+      _user = await spotifyApi.getMe();
+    }
+
+    return _user;
+  };
+  return { cacheClient, spotifyApi, lastfmApi, getUser };
 });

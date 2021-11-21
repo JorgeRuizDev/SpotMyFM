@@ -68,6 +68,33 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   }
 
   /**
+   * Methods that retrieves all the playlists from an specific user.
+   * @param userId optional: The user we want to retrieve the playlists from
+   * @returns
+   */
+  async getAllPlaylists(userId?: string) {
+    const playlists = [];
+    let offset = 0;
+    let limit = 50;
+
+    while (true) {
+      try {
+        const res = await this.getUserPlaylists(userId, { offset, limit });
+        playlists.push(...res.items);
+
+        if (offset > res.total) {
+          break;
+        }
+        offset += limit;
+      } catch (e) {
+        throw e;
+      }
+    }
+
+    return playlists;
+  }
+
+  /**
    * Parses a list of spotify tracks into a local track
    * @param tracks
    * @returns tracks list
