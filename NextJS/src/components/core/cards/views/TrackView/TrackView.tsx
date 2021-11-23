@@ -4,7 +4,7 @@ import useTrackSorter, {
 } from "hooks/sorters/useTrackSorter";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { selectManager, trackViewSettings } from "interfaces/Track";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import filterTrack from "util/filters/filterTrack";
 import {
@@ -14,8 +14,8 @@ import {
 import SimpleTrackCard from "../../simpleCards/SimpleTrackCard";
 import GenericCardView from "../GenericCardView";
 import {
-  IGenericCardViewSort,
-  ViewType,
+  IGenericCardViewSortProps,
+  ViewTypeOption,
 } from "../GenericCardView/GenericCardView";
 import Styled from "./TrackView.styles";
 interface ITrackViewProps {
@@ -36,8 +36,8 @@ function TrackView({
   const [mute, setMute] = useState(false);
   const [hover, setHover] = useState(!isMobile);
   const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
-  const [currentView, setCurrentView] = useState<ViewType>(
-    isMobile ? "list" : "card"
+  const [currentView, setCurrentView] = useState<ViewTypeOption>(
+    isMobile ? "LIST" : "GRID"
   );
 
   // Sort Item:
@@ -50,7 +50,7 @@ function TrackView({
     sortOptions,
   } = useTrackSorter(tracks, settings.defaultTrackSort);
 
-  const sorting: IGenericCardViewSort = {
+  const sorting: IGenericCardViewSortProps = {
     options: trackSortingOptions,
     isAscendant: isAscendentState,
     selected: optionState,
@@ -86,10 +86,14 @@ function TrackView({
         filterInputProps={filter}
         sorting={sorting}
         setView={setCurrentView}
-        view={currentView}
+        view={
+          currentView === "GRID"
+            ? { type: currentView }
+            : { type: currentView, ListHeader: <ListTrackCardHeader /> }
+        }
         isLoading={settings.isLoading}
       >
-        {currentView == "card"
+        {currentView === "GRID"
           ? filteredTracks.map((t, i) => (
               <SimpleTrackCard
                 track={t}
@@ -100,18 +104,15 @@ function TrackView({
                 playOnHover={hover}
               />
             ))
-          : [
-              <ListTrackCardHeader pos key={-1} />,
-              ...filteredTracks.map((t, i) => (
-                <ListTrackCard
-                  track={t}
-                  pos={i + 1}
-                  key={i}
-                  inPlaylist={selectManager?.isSelected(t)}
-                  toggleFromPlaylist={() => selectManager?.toggleSelected(t)}
-                />
-              )),
-            ]}
+          : filteredTracks.map((t, i) => (
+              <ListTrackCard
+                track={t}
+                pos={i + 1}
+                key={i}
+                inPlaylist={selectManager?.isSelected(t)}
+                toggleFromPlaylist={() => selectManager?.toggleSelected(t)}
+              />
+            ))}
       </GenericCardView>
     </>
   );

@@ -29,6 +29,7 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
       ) : null}
       <TrackView
         tracks={tracks}
+        settings={settings}
         selectManager={{
           isSelected: contains,
           toggleSelected: toggleFromPlaylist,

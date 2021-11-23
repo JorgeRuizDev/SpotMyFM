@@ -12,7 +12,7 @@ import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import FilterInput from "components/core/input/atoms/FilterInput";
 import { BsFillGrid3X2GapFill, BsListUl } from "react-icons/bs";
 import MultipleSkeletonList from "../../listCards/MultipleSkeletonList";
-export interface IGenericCardViewSort {
+export interface IGenericCardViewSortProps {
   options: Record<string, string>;
   isAscendant: boolean;
   selected: string;
@@ -20,21 +20,30 @@ export interface IGenericCardViewSort {
   setIsAscendant: (o: boolean) => void;
 }
 
-export type ViewType = "card" | "list";
+export type ViewTypeOption = "GRID" | "LIST";
+
+export type ViewType =
+  | {
+      type: "GRID";
+    }
+  | {
+      type: "LIST";
+      ListHeader: JSX.Element;
+    };
 
 interface IGenericCardViewProps<T> {
-  sorting?: IGenericCardViewSort;
   children: ReactNode[];
-  isLoading?: boolean;
   view?: ViewType;
-  setView?: (s: ViewType) => void;
+  sorting?: IGenericCardViewSortProps;
+  isLoading?: boolean;
+  setView?: (s: ViewTypeOption) => void;
   filterInputProps?: IFilterInputProps<T>;
 }
 
 function GenericCardView<T>({
   children,
   sorting,
-  view = "card",
+  view = { type: "GRID" },
   setView,
   filterInputProps,
   isLoading = false,
@@ -73,7 +82,11 @@ function GenericCardView<T>({
         scrollThreshold={0.6}
         hasMore={hasMore}
         loader={
-          view == "card" ? <MultipleSkeletonCards /> : <MultipleSkeletonList />
+          view.type == "GRID" ? (
+            <MultipleSkeletonCards />
+          ) : (
+            <MultipleSkeletonList />
+          )
         }
       >
         <ItemLayout />
@@ -104,13 +117,14 @@ function GenericCardView<T>({
   function ItemLayout(): JSX.Element {
     return (
       <Styled.CardLayout>
+        {view.type == "LIST" && view.ListHeader}
         {scrollItems.length > 0 ? (
           scrollItems
         ) : isLoading ? (
-          view == "card" ? (
+          view.type == "GRID" ? (
             <MultipleSkeletonCards />
           ) : (
-            <MultipleSkeletonList />
+            <MultipleSkeletonList key={2} />
           )
         ) : (
           <h3>No Items Found</h3>
@@ -146,12 +160,13 @@ function GenericCardView<T>({
             </Buttons.SecondaryGreenButton>
           </>
         )}
+
         {setView && (
           <Buttons.SecondaryGreenButton
             rounded
-            onClick={() => setView(view == "card" ? "list" : "card")}
+            onClick={() => setView(view.type == "GRID" ? "LIST" : "GRID")}
           >
-            {view == "list" ? <BsFillGrid3X2GapFill /> : <BsListUl />}
+            {view.type == "LIST" ? <BsFillGrid3X2GapFill /> : <BsListUl />}
           </Buttons.SecondaryGreenButton>
         )}
       </Styled.LayoutButtonsWrap>

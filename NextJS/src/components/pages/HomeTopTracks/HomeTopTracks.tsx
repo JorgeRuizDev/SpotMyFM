@@ -16,7 +16,7 @@ export default function HomeTopTracks() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [type, setType] = useState<string>("Tracks");
-  console.log();
+  console.log(isLoading);
   return (
     <>
       <Head subtitle={`Top ${type}`} />
@@ -27,7 +27,6 @@ export default function HomeTopTracks() {
         setHeaderType={setType}
         setIsLoading={setIsLoading}
       />
-      <SkelletonList />
       {trackList !== undefined ? (
         <TrackSelectorView
           tracks={trackList || []}
