@@ -43,34 +43,11 @@ const Scrollable = tw.div`
 	overflow-y-auto
 
 `;
-interface IElementSelectWrapper {
-  isSelected?: boolean;
-  isNotSelected?: boolean;
-}
-const ElementSelectWrapper = styled.div<IElementSelectWrapper>(
-  ({ isSelected = false, isNotSelected = false }) => [
-    tw`
-		rounded-xl
 
-		// animation:
-		transition-all
-		duration-200
-		ease-in-out
-
-		height[min-content]
-		//min-height[min-content]
-	`,
-
-    isSelected && tw`ring-2 ring-green-400`,
-
-    isNotSelected && tw`opacity-50`,
-  ]
-);
 const Styled = {
   CardLayout,
   LayoutButtonsWrap,
   ButtonRound,
   Scrollable,
-  ElementSelectWrapper,
 };
 export default Styled;

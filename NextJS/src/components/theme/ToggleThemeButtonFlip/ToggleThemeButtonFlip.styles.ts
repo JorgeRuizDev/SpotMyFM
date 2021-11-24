@@ -29,7 +29,7 @@ const ButtonPos = styled.div<StyleProps>`
     drop-shadow-2xl
     z-50
   `}
-  display: ${props => (props.isLogged ? "none" : "")};
+  display: ${(props) => (props.isLogged ? "none" : "")};
 
   
 `;
@@ -41,12 +41,10 @@ const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [
     w-full
     h-full
     transform-style[preserve-3d]
-    transition-transform
-    duration-500
-    ease-in-out
+
     cursor-pointer
     rounded-full
-  `
+  `,
 ]);
 
 const Side = tw.div`

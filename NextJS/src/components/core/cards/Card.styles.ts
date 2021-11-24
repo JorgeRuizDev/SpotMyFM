@@ -27,8 +27,7 @@ const Layout = styled.article<ILayout>(({ compact }) => [
 		hover:bg-green-300
 		shadow-xl
 		
-		
-		transition-colors duration-200 ease-in-out
+
 	`,
 
   compact && tw`width[15rem]`,

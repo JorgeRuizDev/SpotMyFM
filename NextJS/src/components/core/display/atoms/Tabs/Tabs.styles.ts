@@ -20,10 +20,10 @@ const Tab = styled(motion.button)<ITab>(({ isActive }) => [
 		bg-lightCard-base
 		hover:bg-lightCard-hover
 
-		transition-colors duration-500 ease-in-out
+
 	`,
 
-  isActive && tw`border-b-4 pb-0`
+  isActive && tw`border-b-4 pb-0`,
 ]);
 
 interface IHide {

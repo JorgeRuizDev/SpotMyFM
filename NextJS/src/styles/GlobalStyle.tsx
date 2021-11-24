@@ -35,8 +35,6 @@ export const baseButton = `
   font-bold
   focus:outline-none
 
-  transition-colors duration-300 ease-in-out
-
   rounded-full
   hover:bg-darkCard-hover
   bg-darkCard-base
