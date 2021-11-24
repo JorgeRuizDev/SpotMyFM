@@ -1,7 +1,7 @@
 import Paginate from "components/core/display/atoms/Paginate";
 import useInfiniteScrollArray from "hooks/infiniteScroll/useInfiniteScrollArray";
 import usePaginatedArray from "hooks/paginatedArray/usePaginatedArray";
-import React, { ReactNode, createRef } from "react";
+import React, { ReactNode, createRef, useRef } from "react";
 import { isMobile } from "react-device-detect";
 import Styled from "./GenericCardView.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -38,6 +38,7 @@ interface IGenericCardViewProps<T> {
   isLoading?: boolean;
   setView?: (s: ViewTypeOption) => void;
   filterInputProps?: IFilterInputProps<T>;
+  scrollableTargetId?: string;
 }
 
 function GenericCardView<T>({
@@ -47,9 +48,11 @@ function GenericCardView<T>({
   setView,
   filterInputProps,
   isLoading = false,
+  scrollableTargetId,
 }: IGenericCardViewProps<T>): JSX.Element {
   // Paginate the current children
   const pageSize = isMobile ? 20 : 50;
+
   const { activePageItems, currentPage, setCurrentPage } = usePaginatedArray(
     children || [],
     pageSize,
@@ -67,9 +70,8 @@ function GenericCardView<T>({
     next,
     resetScrollOffset,
   } = useInfiniteScrollArray(activePageItems, 10, 10, true);
-
   return (
-    <>
+    <div id={"scrollSi"}>
       <div ref={layoutStartRef}></div>
       <SortRow />
 
@@ -81,6 +83,7 @@ function GenericCardView<T>({
         next={next}
         scrollThreshold={0.6}
         hasMore={hasMore}
+        scrollableTarget={scrollableTargetId}
         loader={
           view.type == "GRID" ? (
             <MultipleSkeletonCards />
@@ -92,7 +95,7 @@ function GenericCardView<T>({
         <ItemLayout />
       </InfiniteScroll>
       <PaginationBar />
-    </>
+    </div>
   );
 
   /**
@@ -116,7 +119,7 @@ function GenericCardView<T>({
   }
   function ItemLayout(): JSX.Element {
     return (
-      <Styled.CardLayout>
+      <Styled.CardLayout addSpace={view.type == "GRID"}>
         {view.type == "LIST" && view.ListHeader}
         {scrollItems.length > 0 ? (
           scrollItems

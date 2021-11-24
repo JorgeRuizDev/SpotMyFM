@@ -2,9 +2,9 @@ const env = {
   SPOTIFY_PUBLIC: process.env.NEXT_PUBLIC_SPOTIFY_ID || "",
   SPOTIFY_SECRET: process.env.SPOTIFY_SECRET || "",
 
-  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID || "",
-  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY || "",
-  AWS_REGION: process.env.AWS_REGION || "",
+  AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID_ || "",
+  AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY_ || "",
+  AWS_REGION: process.env.AWS_REGION_ || "",
 
   DYNAMOSE_USER_TABLE: process.env.DYNAMOOSE_USER_TABLE || "",
 

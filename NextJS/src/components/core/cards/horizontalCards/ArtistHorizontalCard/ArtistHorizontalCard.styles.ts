@@ -27,7 +27,7 @@ const HorizontalCard = tw.article`
 
 	shadow-xl
 
-`
+`;
 
 const Inline = tw.div`
 
@@ -38,7 +38,7 @@ const Inline = tw.div`
 	items-center
 
 	space-x-2
-`
+`;
 
 const ColumnItems = tw.section`
 	p-2
@@ -47,24 +47,22 @@ const ColumnItems = tw.section`
 
 
 	space-y-4
-`
-
-
+`;
 
 const GenrePill = tw.button`
 	bg-blue-400
 	hover:bg-blue-500
 
 	cursor-default
-`
+`;
 
 const GenrePillWrap = tw.section`
 	flex
 	flex-row
 	flex-wrap
-`
-
-
+  justify-center
+  sm:justify-start
+`;
 
 const Image = tw(motion.img)`
 	max-width[210px]
@@ -75,8 +73,15 @@ const Image = tw(motion.img)`
 	overflow-scroll
 
 	row-span-4
-`
+`;
 
-const Styled = {HorizontalCard, ColumnItems, Image, GenrePill, GenrePillWrap,  Inline};
+const Styled = {
+  HorizontalCard,
+  ColumnItems,
+  Image,
+  GenrePill,
+  GenrePillWrap,
+  Inline,
+};
 
 export default Styled;

@@ -16,7 +16,6 @@ export default function HomeTopTracks() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [type, setType] = useState<string>("Tracks");
-  console.log(isLoading);
   return (
     <>
       <Head subtitle={`Top ${type}`} />

@@ -20,7 +20,7 @@ const FullScreenBackground: ForwardRefComponent<
 
 	// Background:
 	backdrop-blur-2xl	
-	backdrop-filter
+
 
 
 	flex
@@ -58,10 +58,14 @@ const ModalBody = styled.div<IModalBody>(({ darkBackground }) => [
     md:(mt-20 mb-20)
     rounded-2xl
 
+    
+
     // Size:
 
-    max-height[95vh]
-    max-width[95vw]
+    md:(max-height[95vh])
+    md:(max-width[95vw])
+    max-h-full
+    max-w-full
 
     //Flex:
     flex
@@ -73,15 +77,7 @@ const ModalBody = styled.div<IModalBody>(({ darkBackground }) => [
 
   `,
 
-  darkBackground && tw`dark:bg-darkMaterialBG-base bg-lightMaterialBG-base`
-]);
-
-interface IChildWrap {
-  overflowScroll: boolean;
-}
-
-const ChildWrap = styled.div<IChildWrap>(({ overflowScroll }) => [
-  overflowScroll ? tw`overflow-y-auto` : tw`overflow-y-hidden`
+  darkBackground && tw`dark:bg-darkMaterialBG-base bg-lightMaterialBG-base`,
 ]);
 
 const Styled = { FullScreenBackground, ModalBody, TopRow };

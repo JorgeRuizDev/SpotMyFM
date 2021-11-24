@@ -23,7 +23,7 @@ const Wrapper = tw.div`
 	
 	flex-col
 
-	overflow-y-auto
+	
 	
 `;
 const ImgSize = "350px";

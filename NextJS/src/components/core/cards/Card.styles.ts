@@ -15,7 +15,7 @@ const Layout = styled.article<ILayout>(({ compact }) => [
 		min-width[14rem]
 		max-width[21rem]
 		p-3
-		mb-8
+		
 		dark:bg-darkCard-base
 		bg-white
 
@@ -26,7 +26,7 @@ const Layout = styled.article<ILayout>(({ compact }) => [
 		dark:hover:bg-green-900
 		hover:bg-green-300
 		shadow-xl
-		m-5
+		
 		
 		transition-colors duration-200 ease-in-out
 	`,

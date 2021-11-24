@@ -1,22 +1,5 @@
 import styled from "styled-components";
 import tw from "twin.macro";
-const CardLayout = tw.section`
-	flex
-	flex-row
-	flex-wrap
-	justify-around
-
-	items-start
-
-	// style:
-	bg-lightCard-hover
-	dark:bg-darkCard-hover
-	rounded
-	drop-shadow-2xl
-	
-	overflow-x-hidden
-	overflow-y-hidden
-`;
 
 const Center = tw.section`
 	flex
@@ -26,29 +9,6 @@ const Center = tw.section`
 	items-center
 	justify-center
 `;
-
-interface ISelectLayer {
-  isSelected: boolean;
-  isNotSelected: boolean;
-}
-
-const SelectLayer = styled.div<ISelectLayer>(p => [
-  tw`
-		rounded-2xl
-		cursor-pointer
-		
-		m-5
-
-		// animation:
-		transition-all
-		duration-200
-		ease-in-out
-	`,
-
-  p.isSelected && tw`ring-4 ring-green-400`,
-
-  p.isNotSelected && tw`opacity-50`
-]);
 
 const MenuWrap = tw.div`
 	m-3
@@ -65,6 +25,43 @@ const Scrollable = tw.div`
 	overflow-x-hidden
 `;
 
-const Styled = { CardLayout, SelectLayer, Center, MenuWrap, Scrollable };
+interface IElementSelectWrapper {
+  isSelected?: boolean;
+  isNotSelected?: boolean;
+}
+const ElementSelectWrapper = styled.div<IElementSelectWrapper>(
+  ({ isSelected = false, isNotSelected = false }) => [
+    tw`
+
+		// animation:
+		transition-all
+		duration-200
+		ease-in-out
+    rounded-b-xl
+		height[min-content]
+	`,
+
+    isSelected && tw`ring-2 ring-green-400`,
+
+    isNotSelected && tw`opacity-50`,
+  ]
+);
+
+const CardLayoutBg = tw.div`
+  dark:bg-darkMaterialBG-base
+  bg-lightMaterialBG-base
+  rounded
+  max-height[70vh]
+  overflow-y-auto
+  p-1
+`;
+
+const Styled = {
+  Center,
+  MenuWrap,
+  Scrollable,
+  ElementSelectWrapper,
+  CardLayoutBg,
+};
 
 export default Styled;

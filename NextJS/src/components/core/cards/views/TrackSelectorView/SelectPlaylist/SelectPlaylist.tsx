@@ -1,10 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Buttons from "styles/Buttons";
 import Styled from "./SelectPlaylist.styles";
 import { MdCancel, MdDeleteForever, MdPlaylistAdd } from "react-icons/md";
-
 import { toast } from "react-toastify";
-import InfiniteScroll from "react-infinite-scroll-component";
 import Modal from "components/core/display/molecules/Modal";
 import PlaylistCompleteDetails from "components/core/cards/detailedCards/PlaylistCompleteDetails";
 import GenericCardView from "components/core/cards/views/GenericCardView";
@@ -13,6 +11,7 @@ import { useClientsStore } from "store/useClients";
 import SimplePlaylistCard from "components/core/cards/simpleCards/SimplePlaylistCard";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import filterSpotifyPlaylist from "util/filters/filterSpotifyPlaylist";
+import { useCardSelector } from "hooks/cardSelector/useCardSelector";
 interface ISelectPlaylistProps {
   playlists?: SpotifyApi.PlaylistObjectSimplified[];
   trackUris: string[];
@@ -50,14 +49,24 @@ function SelectPlaylist({
     setFilteredArray: setFilteredPlaylists,
   };
 
+  const {
+    isSelectedElement,
+    removeAll,
+    selectedArray,
+    toggleSelectedElement,
+  } = useCardSelector<SpotifyApi.PlaylistObjectSimplified>(1, 1);
+
+  useEffect(() => {
+    setSelPlaylist(selectedArray[0]);
+  }, [selectedArray]);
+
   return (
     <div>
       <Styled.MenuWrap>
         <ButtonRow
           selPlaylist={selPlaylist}
-          setSelPlaylist={setSelPlaylist}
           trackUris={trackUris}
-          unselectAll={unselectAll}
+          unselectAll={removeAll}
         />
         <Styled.Center>
           <h5>
@@ -67,20 +76,32 @@ function SelectPlaylist({
           </h5>
         </Styled.Center>
       </Styled.MenuWrap>
+      <Styled.CardLayoutBg id="playlistScrollid">
+        <GenericCardView
+          filterInputProps={filterProps}
+          scrollableTargetId={"playlistScrollid"}
+        >
+          {filteredPlaylist
+            ?.filter((p) => p.owner.id === owner?.id)
+            .map((p, i) => (
+              <Styled.ElementSelectWrapper
+                key={i}
+                isSelected={isSelectedElement(p)}
+                isNotSelected={
+                  !isSelectedElement(p) && selectedArray.length >= 1
+                }
+                onClick={() => toggleSelectedElement(p)}
+              >
+                <SimplePlaylistCard
+                  compact
+                  playlist={p}
+                  onDetailsClick={() => setModalPlaylist(p)}
+                />
+              </Styled.ElementSelectWrapper>
+            ))}
+        </GenericCardView>
+      </Styled.CardLayoutBg>
 
-      <GenericCardView filterInputProps={filterProps}>
-        {filteredPlaylist
-          ?.filter((p) => p.owner.id === owner?.id)
-          .map((p, i) => (
-            <SimplePlaylistCard
-              key={i}
-              compact
-              playlist={p}
-              onDetailsClick={() => setModalPlaylist(p)}
-            />
-          ))}
-        <></>
-      </GenericCardView>
       <Modal
         isOpen={modalPlaylist !== undefined}
         onClose={() => setModalPlaylist(undefined)}
@@ -93,17 +114,11 @@ function SelectPlaylist({
 
 interface IButtonRow {
   selPlaylist?: SpotifyApi.PlaylistObjectSimplified;
-  setSelPlaylist: (p: SpotifyApi.PlaylistObjectSimplified | undefined) => void;
   trackUris: string[];
   unselectAll: () => void;
 }
 
-function ButtonRow({
-  selPlaylist,
-  setSelPlaylist,
-  trackUris,
-  unselectAll,
-}: IButtonRow) {
+function ButtonRow({ selPlaylist, trackUris, unselectAll }: IButtonRow) {
   const [showModal, setShowModal] = useState(false);
 
   const {
@@ -129,7 +144,7 @@ function ButtonRow({
       </Buttons.SecondaryGreenButton>
       <Buttons.SecondaryGreenButton
         disabled={selPlaylist === undefined}
-        onClick={() => setSelPlaylist(undefined)}
+        onClick={unselectAll}
       >
         <MdCancel />
         <span>Unselect</span>

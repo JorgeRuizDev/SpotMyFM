@@ -45,15 +45,16 @@ function SimplePlaylistCard({
             <li></li>
           </ul>
         </Styled.InfoLayout>
-
-        <Buttons.PrimaryGreenButton
-          onClick={(e) => {
-            e.stopPropagation();
-            onDetailsClick();
-          }}
-        >
-          Show Details
-        </Buttons.PrimaryGreenButton>
+        <Buttons.LayoutCenter>
+          <Buttons.PrimaryGreenButton
+            onClick={(e) => {
+              e.stopPropagation();
+              onDetailsClick();
+            }}
+          >
+            Show Details
+          </Buttons.PrimaryGreenButton>
+        </Buttons.LayoutCenter>
       </Styled.CardLayout>
     </>
   );
