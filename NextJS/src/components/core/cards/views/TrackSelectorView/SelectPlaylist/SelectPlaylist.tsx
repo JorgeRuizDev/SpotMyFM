@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Buttons from "styles/Buttons";
 import Styled from "./SelectPlaylist.styles";
 import { MdCancel, MdDeleteForever, MdPlaylistAdd } from "react-icons/md";
@@ -31,7 +31,9 @@ function SelectPlaylist({
 
   useClientsStore((s) => s.getUser().then((u) => setOwner(u)));
 
-  const [filteredPlaylist, setFilteredPlaylists] = useState(playlists);
+  const _playlists = useMemo(() => playlists || [], [playlists]);
+
+  const [filteredPlaylist, setFilteredPlaylists] = useState(_playlists);
   // Pagination:
 
   const [selPlaylist, setSelPlaylist] = useState<
@@ -43,7 +45,7 @@ function SelectPlaylist({
   >(undefined);
 
   const filterProps: IFilterInputProps<SpotifyApi.PlaylistObjectSimplified> = {
-    array: playlists || [],
+    array: _playlists,
     filterFunction: filterSpotifyPlaylist,
     setFilteredArray: setFilteredPlaylists,
   };

@@ -92,14 +92,6 @@ function TrackView({
             : { type: currentView, ListHeader: <ListTrackCardHeader /> }
         }
         isLoading={settings.isLoading}
-        cardSelector={{
-          maxSel: 1,
-          minSel: 0,
-          selectedRingStyles: {},
-          setSelected: (s) => {
-            console.log(s);
-          },
-        }}
       >
         {currentView === "GRID"
           ? filteredTracks.map((t, i) => (
