@@ -11,6 +11,8 @@ import GenericCardView from "components/core/cards/views/GenericCardView";
 import { usePlaylistManager } from "hooks/spotify/usePlaylistManger";
 import { useClientsStore } from "store/useClients";
 import SimplePlaylistCard from "components/core/cards/simpleCards/SimplePlaylistCard";
+import { IFilterInputProps } from "interfaces/IFilterInputProps";
+import filterSpotifyPlaylist from "util/filters/filterSpotifyPlaylist";
 interface ISelectPlaylistProps {
   playlists?: SpotifyApi.PlaylistObjectSimplified[];
   trackUris: string[];
@@ -30,7 +32,7 @@ function SelectPlaylist({
   useClientsStore((s) => s.getUser().then((u) => setOwner(u)));
 
   const [filteredPlaylist, setFilteredPlaylists] = useState(playlists);
-  // PaginatioN:
+  // Pagination:
 
   const [selPlaylist, setSelPlaylist] = useState<
     SpotifyApi.PlaylistObjectSimplified | undefined
@@ -39,6 +41,12 @@ function SelectPlaylist({
   const [modalPlaylist, setModalPlaylist] = useState<
     SpotifyApi.PlaylistObjectSimplified | undefined
   >(undefined);
+
+  const filterProps: IFilterInputProps<SpotifyApi.PlaylistObjectSimplified> = {
+    array: playlists || [],
+    filterFunction: filterSpotifyPlaylist,
+    setFilteredArray: setFilteredPlaylists,
+  };
 
   return (
     <div>
@@ -49,20 +57,16 @@ function SelectPlaylist({
           trackUris={trackUris}
           unselectAll={unselectAll}
         />
-        <Filter
-          playlists={playlists}
-          setFilteredPlaylists={setFilteredPlaylists}
-        />
         <Styled.Center>
           <h5>
-            {selPlaylist == undefined
+            {!selPlaylist
               ? "No playlist selected"
-              : `Selected ${selPlaylist?.name}`}
+              : `Selected ${selPlaylist.name}`}
           </h5>
         </Styled.Center>
       </Styled.MenuWrap>
 
-      <GenericCardView>
+      <GenericCardView filterInputProps={filterProps}>
         {filteredPlaylist
           ?.filter((p) => p.owner.id === owner?.id)
           .map((p, i) => (
@@ -82,45 +86,6 @@ function SelectPlaylist({
         <PlaylistCompleteDetails playlist={modalPlaylist} />
       </Modal>
     </div>
-  );
-}
-
-interface IFilter {
-  playlists?: SpotifyApi.PlaylistObjectSimplified[];
-  setFilteredPlaylists: (
-    p: SpotifyApi.PlaylistObjectSimplified[] | undefined
-  ) => void;
-}
-function Filter({ playlists, setFilteredPlaylists }: IFilter) {
-  const [value, setValue] = useState("");
-
-  const filter = useCallback(() => {
-    if (value.length > 1) {
-      setFilteredPlaylists(
-        playlists?.filter(
-          (p) =>
-            p.name.toUpperCase().includes(value) ||
-            p.owner?.display_name?.toUpperCase().includes(value) ||
-            (p.collaborative && "collaborative".includes(value)) ||
-            (p.public ? "public" : "private").includes(value)
-        )
-      );
-    } else {
-      setFilteredPlaylists(playlists);
-    }
-  }, [setFilteredPlaylists, playlists, value]);
-
-  // On tracks change: filter again
-  useEffect(filter, [playlists, filter, value]);
-
-  return (
-    <Styled.Center>
-      <input
-        type="text"
-        onChange={(e) => setValue(e.target.value.toUpperCase())}
-        placeholder={"Fortnite Workout"}
-      />
-    </Styled.Center>
   );
 }
 

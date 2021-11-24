@@ -12,13 +12,11 @@ export function useCardSelector<E>(
 ): {
   selectedArray: E[];
   toggleSelectedElement: (e: E) => void;
-  addSelectedElement: (e: E) => void;
-  removeSelectedElement: (e: E) => void;
   isSelectedElement: (e: E) => boolean;
   removeAll: () => void;
 } {
   const [selectedElements, setSelectedElements] = useState<Set<E>>(new Set());
-
+  const [selectedArray, setSelectedArray] = useState<E[]>([]);
   function toggleSelectedElement(e: E) {
     if (selectedElements.has(e)) {
       removeSelectedElement(e);
@@ -27,6 +25,7 @@ export function useCardSelector<E>(
         addSelectedElement(e);
       }
     }
+    setSelectedArray(Array.from(selectedElements.values()));
   }
   function addSelectedElement(e: E) {
     selectedElements.add(e);
@@ -46,12 +45,9 @@ export function useCardSelector<E>(
     setSelectedElements(new Set());
   }
 
-  const selectedArray = Array.from(selectedElements.values());
   return {
     selectedArray,
     toggleSelectedElement,
-    addSelectedElement,
-    removeSelectedElement,
     isSelectedElement,
     removeAll,
   };

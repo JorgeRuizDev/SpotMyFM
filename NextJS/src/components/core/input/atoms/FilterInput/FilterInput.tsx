@@ -38,7 +38,7 @@ function FilterInput<T>({
       <input
         type="text"
         onChange={handleInput}
-        placeholder={placeholder || "1969"}
+        placeholder={placeholder || "1970"}
       />
     </Styled.LayoutButtonsWrap>
   );
