@@ -33,6 +33,9 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
         selectManager={{
           isSelected: contains,
           toggleSelected: toggleFromPlaylist,
+          selectAll: addAll,
+          unselectAll: removeAll,
+          selectedCount: trackSet.size,
         }}
       />
     </>

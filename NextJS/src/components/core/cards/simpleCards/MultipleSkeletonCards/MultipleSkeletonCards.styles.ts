@@ -15,6 +15,9 @@ const CardLayout = tw.div`
   max-height[600px]
 
   md:max-height[1200px]
+
+  gap-x-5
+  gap-y-5
 `;
 
 const Styled = { CardLayout };

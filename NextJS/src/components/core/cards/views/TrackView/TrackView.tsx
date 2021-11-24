@@ -6,6 +6,11 @@ import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { selectManager, trackViewSettings } from "interfaces/Track";
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { BiAddToQueue } from "react-icons/bi";
+import { BsFillCursorFill } from "react-icons/bs";
+import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+import { MdRemove } from "react-icons/md";
+import Buttons from "styles/Buttons";
 import filterTrack from "util/filters/filterTrack";
 import {
   ListTrackCard,
@@ -47,7 +52,6 @@ function TrackView({
     setOptionState,
     isAscendentState,
     setIsAscendentState,
-    sortOptions,
   } = useTrackSorter(tracks, settings.defaultTrackSort);
 
   const sorting: IGenericCardViewSortProps = {
@@ -82,6 +86,7 @@ function TrackView({
 
   return (
     <>
+      <CardLayoutButtons />
       <GenericCardView
         filterInputProps={filter}
         sorting={sorting}
@@ -116,6 +121,39 @@ function TrackView({
       </GenericCardView>
     </>
   );
+
+  function CardLayoutButtons() {
+    return (
+      <Buttons.LayoutCenter>
+        {selectManager && (
+          <>
+            <Buttons.PrimaryGreenButton
+              onClick={() => selectManager?.selectAll(filteredTracks)}
+            >
+              <BiAddToQueue />
+              <span>Select All</span>
+            </Buttons.PrimaryGreenButton>
+            <Buttons.PrimaryGreenButton
+              onClick={() => selectManager?.unselectAll()}
+              disabled={selectManager.selectedCount == 0}
+            >
+              <MdRemove />
+              <span>Unselect All</span>
+            </Buttons.PrimaryGreenButton>
+          </>
+        )}
+
+        <Buttons.PrimaryGreenButton onClick={toggleHover}>
+          <BsFillCursorFill />
+          <span>{hover ? "Disable Hover" : "Enable Hover"}</span>
+        </Buttons.PrimaryGreenButton>
+
+        <Buttons.PrimaryGreenButton rounded onClick={toggleMute}>
+          {mute ? <FaVolumeMute /> : <FaVolumeUp />}
+        </Buttons.PrimaryGreenButton>
+      </Buttons.LayoutCenter>
+    );
+  }
 }
 
 export default TrackView;
