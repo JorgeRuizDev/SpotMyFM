@@ -22,7 +22,7 @@ const BaseInput = `
 
   // Text
   text-gray-600
-  text-lg
+  text-base
 
   // Active Ring:
   focus:(ring-green-400 ring-2 border-transparent)
@@ -197,7 +197,7 @@ const CustomGlobalStyle = createGlobalStyle`
   }
   p,b{
     ${tw`
-      text-lg
+      text-base
     `}
   }
   p{
