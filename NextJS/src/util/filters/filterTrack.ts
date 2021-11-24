@@ -11,6 +11,7 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
  * @returns true if the query is in any of the Track attributes
  */
 export default function filterTrack(track: Track, query: string): boolean {
+  query = query.toUpperCase();
   return (
     track.name.toUpperCase().includes(query) ||
     track.album?.name.toUpperCase().includes(query) ||
