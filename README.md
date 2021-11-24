@@ -7,5 +7,5 @@ Planning: [Table](https://jorgestar29.notion.site/jorgestar29/39629233e1824399b3
 [Global Project View](https://github.com/users/JorgeRuizDev/projects/1)
 
 ## Deployments
-#### [Develpment](dev.spotmyfm.jorgeruizdev.com)
-#### [Production](spotmyfm.jorgeruizdev.com)
+#### [Develpment](https://dev.spotmyfm.jorgeruizdev.com)
+#### [Production](https://spotmyfm.jorgeruizdev.com)
