@@ -93,7 +93,7 @@ function GetMyTopSelector({
       console.error(e);
       const code = api.parse(e);
       toast.error(
-        `[HomeTopTracks] Could not fetch your selection: ${code?.status} | ${code?.message}`
+        `[GetMyTopSelector] Could not fetch your selection: ${code?.status} | ${code?.message}`
       );
     }
   }, [

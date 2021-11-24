@@ -6,13 +6,13 @@ import SpotifyWebApi from "spotify-web-api-js";
 import { parse } from "date-fns";
 import { IRestClient, RestError } from "interfaces/RestClient";
 import SpotifyResponse from "./spotifyResponseCodes";
+import { parseAxiosError } from "util/axios/parseError";
 /**
  * Spotify Api Rest Client
  */
 export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   parse(e: any): RestError {
-    const res = SpotifyResponse.parse(e);
-    return { status: res.status, message: res.message };
+    return parseAxiosError(e);
   }
 
   /**
@@ -205,23 +205,6 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     }
 
     return tracks;
-  }
-
-  /**
-   * Parses an album release date response into a JS Date object
-   * @param date: Spotify Date String
-   * @param precision: Spotify Precision String
-   * @returns A Date
-   */
-  private parseReleaseDate(date: string, precision: string): Date {
-    switch (precision) {
-      case "year":
-        return parse(date, "yyyy", new Date());
-      case "day":
-        return parse(date, "yyyy-MM-dd", new Date());
-      default:
-        return new Date(-1);
-    }
   }
 }
 /**

@@ -35,7 +35,7 @@ export class LastfmClient implements IRestClient {
 
     try {
       const res = await axios.get(this.apiUrl, { params });
-      const tags = res.data?.toptags?.tag;
+      const tags = res.data?.toptags?.tag || [];
       const returnTags: LastfmTag[] = [];
 
       // Get up to 12 tags
