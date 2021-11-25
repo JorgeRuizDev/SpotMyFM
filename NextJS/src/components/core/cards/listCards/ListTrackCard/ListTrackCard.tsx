@@ -1,11 +1,13 @@
 import Modal from "components/core/display/molecules/Modal";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import prettyMilliseconds from "pretty-ms";
-import { useState } from "react";
+import React, { useState } from "react";
 import formatPopularity from "util/spotify/formatPopularity";
 import { PlaylistButton } from "../../buttons/CardButtons/CardButtons";
 import TrackCompleteDetails from "../../detailedCards/TrackCompleteDetails";
+import { AiOutlineClockCircle } from "react-icons/ai";
 import Styled from "./ListTrackCard.styles";
+import { IGenericCardViewSortProps } from "../../views/GenericCardView/GenericCardView";
 interface IListTrackCardProps {
   track: Track;
   pos?: number;
@@ -97,7 +99,13 @@ function ListTrackCard({
   );
 }
 
-function ListTrackCardHeader({ pos }: { pos?: boolean }): JSX.Element {
+function ListTrackCardHeader({
+  pos,
+  sorting,
+}: {
+  pos?: boolean;
+  sorting?: IGenericCardViewSortProps;
+}): JSX.Element {
   return (
     <Styled.Header>
       <Styled.LeftSide>
@@ -106,28 +114,32 @@ function ListTrackCardHeader({ pos }: { pos?: boolean }): JSX.Element {
         </Styled.FirstTwoCols>
 
         <Styled.E1>
-          <p>Name</p>
+          <Styled.GreenP>Name</Styled.GreenP>
         </Styled.E1>
 
         <Styled.E2>
-          <p>Album</p>
+          <Styled.GreenP>Album</Styled.GreenP>
         </Styled.E2>
 
         <Styled.E3>
-          <p>Release Date</p>
+          <Styled.GreenP>Release Date</Styled.GreenP>
         </Styled.E3>
 
         <Styled.E5>
-          <p>Genres</p>
+          <Styled.GreenP>Genres</Styled.GreenP>
         </Styled.E5>
 
         <Styled.E6>
-          <p>Popularity</p>
+          <Styled.GreenP>Popularity</Styled.GreenP>
         </Styled.E6>
       </Styled.LeftSide>
 
       <Styled.RightSide>
-        <Styled.RightSideSpacing />
+        <Styled.RightSideSpacing>
+          <Styled.GreenP>
+            <AiOutlineClockCircle />
+          </Styled.GreenP>
+        </Styled.RightSideSpacing>
       </Styled.RightSide>
     </Styled.Header>
   );

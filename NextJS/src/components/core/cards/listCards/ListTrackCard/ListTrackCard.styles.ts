@@ -18,6 +18,15 @@ const Header = tw(ListItem)`
   border-b-2
   border-lightCard-base
   dark:border-darkCard-base
+
+  cursor-default
+`;
+
+const GreenP = tw.p`
+  text-lg
+  text-darkGreen-base
+  dark:text-lightGreen-base
+  cursor-pointer
 `;
 
 const Cover = tw.img`
@@ -45,6 +54,8 @@ const Length = tw.div`
 `;
 
 const RightSideSpacing = tw.div`
+  flex
+  
   lg:min-width[150px]
 `;
 
@@ -70,6 +81,7 @@ const Styled = {
   Length,
   Header,
   RightSideSpacing,
+  GreenP,
   E1,
   E2,
   E3,

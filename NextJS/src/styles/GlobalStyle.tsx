@@ -134,9 +134,6 @@ const CustomGlobalStyle = createGlobalStyle`
       font-sans
       tracking-tight
       leading-normal
-      
-
-
     `}
   }
   span{
@@ -193,6 +190,11 @@ const CustomGlobalStyle = createGlobalStyle`
   h5{
     ${tw`
       text-2xl
+    `}
+  }
+  h6{
+    ${tw`
+      text-xl
     `}
   }
   p,b{

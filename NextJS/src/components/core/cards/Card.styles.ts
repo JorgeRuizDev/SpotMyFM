@@ -13,7 +13,7 @@ const Layout = styled.article<ILayout>(({ compact }) => [
 		space-y-1
 
 		min-width[14rem]
-		max-width[21rem]
+		max-width[20rem]
 		p-3
 		
 		dark:bg-darkCard-base
