@@ -125,13 +125,16 @@ export function useDataFacade() {
    * @returns Track[]
    */
   const getTracksByIds = useCallback(
-    async (spotifyIds: string[]) => {
+    async (spotifyIds: string[], markAsSaved: boolean = false) => {
       setNumberCaching((s) => s + 1);
       setTrackStatus("Getting Tracks");
       const missingIds = await cache.getMissingTracks(spotifyIds);
       const missingObjects = await spotifyApi.getFullTracks(missingIds);
       setTrackStatus("Parsing Tracks");
-      const parsedMissing = spotifyStatic.spotifyTracks2Tracks(missingObjects);
+      const parsedMissing = spotifyStatic.spotifyTracks2Tracks(
+        missingObjects,
+        markAsSaved
+      );
       setTrackStatus("Getting Albums");
       await getAlbumsById(parsedMissing.map((t) => t.spotifyAlbumId));
       setTrackStatus("Getting Artists");
@@ -151,12 +154,15 @@ export function useDataFacade() {
    * @returns Track[]
    */
   const getTracks = useCallback(
-    async (tracks: SpotifyApi.TrackObjectFull[]) => {
+    async (
+      tracks: SpotifyApi.TrackObjectFull[],
+      markAsSaved: boolean = false
+    ) => {
       setNumberCaching((s) => s + 1);
       setTrackStatus("Getting Tracks");
       const missingIds = await cache.getMissingTracks(tracks.map((t) => t.id));
       setTrackStatus("Parsing Tracks");
-      const parsed = spotifyStatic.spotifyTracks2Tracks(tracks);
+      const parsed = spotifyStatic.spotifyTracks2Tracks(tracks, markAsSaved);
       const missing = getMissingObject(parsed, missingIds);
       setTrackStatus("Getting Albums");
       await getAlbumsById(missing.map((t) => t.spotifyAlbumId));
