@@ -60,8 +60,7 @@ const scopes = [
   // User
   /*
   "user-read-email",
-
+  */
   // Subscription Details
   "user-read-private",
-  */
 ];

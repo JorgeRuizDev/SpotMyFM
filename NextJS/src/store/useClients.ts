@@ -8,7 +8,15 @@ interface IClientStore {
   cacheClient: CacheAdapter;
   spotifyApi: SpotifyClient;
   lastfmApi: LastfmClient;
-  getUser: () => Promise<SpotifyApi.CurrentUsersProfileResponse>;
+  getUser: (
+    isLogged?: boolean
+  ) => Promise<SpotifyApi.CurrentUsersProfileResponse | null>;
+  user: IStoreUser;
+}
+
+interface IStoreUser {
+  isPremium: boolean;
+  spotifyUser: SpotifyApi.CurrentUsersProfileResponse | null;
 }
 
 /**
@@ -19,13 +27,24 @@ export const useClientsStore = create<IClientStore>((set, get) => {
   const cacheClient = CacheDb;
   const spotifyApi = new SpotifyClient();
   const lastfmApi = new LastfmClient(env.LASTFM_KEY);
-  let _user: SpotifyApi.CurrentUsersProfileResponse;
-  const getUser = async () => {
-    if (!_user) {
-      _user = await spotifyApi.getMe();
+
+  const user: IStoreUser = { isPremium: false, spotifyUser: null };
+
+  const getUser = async (isLogged: boolean = false) => {
+    if (!isLogged) {
+      return null;
     }
 
-    return _user;
+    try {
+      const res = await spotifyApi.getMe();
+      set({
+        user: { isPremium: res.product == "premium", spotifyUser: res },
+      });
+      return res;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
   };
-  return { cacheClient, spotifyApi, lastfmApi, getUser };
+  return { cacheClient, spotifyApi, lastfmApi, getUser, user };
 });
