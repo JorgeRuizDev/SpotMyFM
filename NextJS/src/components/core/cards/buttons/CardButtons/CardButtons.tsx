@@ -22,7 +22,7 @@ interface ITrackArtist {
 }
 
 interface IAlbum {
-  album: Album;
+  album: Album | undefined;
 }
 
 interface ILastTag {
@@ -78,7 +78,7 @@ function PlayAlbum({ album }: IAlbum) {
 
   return (
     <>
-      {isPremium && (
+      {isPremium && album && (
         <Buttons.SecondaryGreenButton
           onClick={() => {
             playAlbum(album);
