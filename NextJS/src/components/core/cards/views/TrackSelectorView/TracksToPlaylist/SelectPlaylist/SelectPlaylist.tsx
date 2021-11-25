@@ -23,12 +23,7 @@ function SelectPlaylist({
   trackUris,
   unselectAll,
 }: ISelectPlaylistProps) {
-  const [
-    owner,
-    setOwner,
-  ] = useState<null | SpotifyApi.CurrentUsersProfileResponse>(null);
-
-  useClientsStore((s) => s.getUser().then((u) => setOwner(u)));
+  const owner = useClientsStore((s) => s.user.spotifyUser);
 
   const _playlists = useMemo(() => playlists || [], [playlists]);
 

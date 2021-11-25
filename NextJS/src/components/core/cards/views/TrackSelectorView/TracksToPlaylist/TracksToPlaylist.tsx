@@ -11,8 +11,8 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useClientsStore } from "store/useClients";
 import { useSessionStore } from "store/useSession";
-import CreatePlaylist from "../CreatePlaylist";
-import SelectPlaylist from "../SelectPlaylist";
+import CreatePlaylist from "./CreatePlaylist";
+import SelectPlaylist from "./SelectPlaylist";
 import Styled from "./TracksToPlaylist.styles";
 interface ITracksToPlaylistProps {
   tracks: string[];
@@ -23,11 +23,7 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
   const isAnimated = useSessionStore((s) => s.enableAnimations);
   const api = useClientsStore((s) => s.spotifyApi);
 
-  const [
-    user,
-    setUser,
-  ] = useState<SpotifyApi.CurrentUsersProfileResponse | null>(null);
-  const getUser = useClientsStore((s) => s.getUser().then((s) => setUser(s)));
+  const user = useClientsStore((s) => s.user);
 
   const [userPlaylists, setUserPlaylists] = useState<
     SpotifyApi.PlaylistObjectSimplified[]
@@ -36,7 +32,9 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
   // Get the Playlists
   useEffect(() => {
     if (user) {
-      api.getAllPlaylists(user.id).then((p) => setUserPlaylists(p));
+      api
+        .getAllPlaylists(user.spotifyUser?.id)
+        .then((p) => setUserPlaylists(p));
     }
   }, [api, user]);
 
