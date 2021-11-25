@@ -31,7 +31,8 @@ export const useClientsStore = create<IClientStore>((set, get) => {
   const user: IStoreUser = { isPremium: false, spotifyUser: null };
 
   const getUser = async (isLogged: boolean = false) => {
-    if (!isLogged) {
+    // Exit if the user is already fetched or the user is not logged in
+    if (!isLogged || get().user.spotifyUser) {
       return null;
     }
 

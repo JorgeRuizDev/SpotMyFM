@@ -1,12 +1,14 @@
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
+import useSpotifyPlayer from "hooks/spotify/useSpotifyPlayer";
 
 import React from "react";
 import { BiAddToQueue } from "react-icons/bi";
 import { FaLastfm, FaMinus, FaPlus, FaSpotify } from "react-icons/fa";
 import { MdAlbum, MdQueueMusic } from "react-icons/md";
 import { toast } from "react-toastify";
+import { useClientsStore } from "store/useClients";
 import Buttons from "styles/Buttons";
 import { BlockLike } from "typescript";
 import LikeIcon from "../LikeIcon";
@@ -20,64 +22,72 @@ interface ITrackArtist {
 }
 
 interface IAlbum {
-  album?: Album;
+  album: Album;
 }
 
 interface ILastTag {
   name: string;
   url: string;
 }
-interface IonClick {
-  onClick: () => void;
-}
 
 interface IUrl {
   url: string;
 }
 
-function SpotifyButton({ track, artist }: ITrackArtist) {
+function SpotifyButton({ track, artist }: ITrackArtist): JSX.Element {
+  const isPremium = useClientsStore((s) => s.user.isPremium);
+  const { playTrack } = useSpotifyPlayer();
   return (
     <>
-      <Buttons.PrimaryGreenButton
-        onClick={() => {
-          toast.info(`🎵 Now Playing "${track.name}" by "${artist?.name}".`);
-        }}
-      >
-        <FaSpotify />
-        <span>Play Now</span>
-      </Buttons.PrimaryGreenButton>
+      {isPremium && (
+        <Buttons.PrimaryGreenButton
+          onClick={() => {
+            playTrack(track);
+          }}
+        >
+          <FaSpotify />
+          <span>Play Now</span>
+        </Buttons.PrimaryGreenButton>
+      )}
     </>
   );
 }
 
-function EnqueueButton({ track, artist }: ITrackArtist) {
+function EnqueueButton({ track, artist }: ITrackArtist): JSX.Element {
+  const isPremium = useClientsStore((s) => s.user.isPremium);
+  const { enqueue } = useSpotifyPlayer();
   return (
     <>
-      <Buttons.SecondaryGreenButton
-        onClick={() => {
-          toast.info(
-            `"${track.name}" by "${artist?.name}" has been added to the queue`
-          );
-        }}
-      >
-        <MdQueueMusic />
-        <span>Add to Queue</span>
-      </Buttons.SecondaryGreenButton>
+      {isPremium && (
+        <Buttons.SecondaryGreenButton
+          onClick={() => {
+            enqueue(track);
+          }}
+        >
+          <MdQueueMusic />
+          <span>Add to Queue</span>
+        </Buttons.SecondaryGreenButton>
+      )}
     </>
   );
 }
 
 function PlayAlbum({ album }: IAlbum) {
+  const isPremium = useClientsStore((s) => s.user.isPremium);
+  const { playAlbum } = useSpotifyPlayer();
+
   return (
     <>
-      <Buttons.SecondaryGreenButton
-        onClick={() => {
-          toast.info(`🎵 Now Playing The Album "${album?.name}".`);
-        }}
-      >
-        <MdAlbum />
-        <span>Play Full Album</span>
-      </Buttons.SecondaryGreenButton>
+      {isPremium && (
+        <Buttons.SecondaryGreenButton
+          onClick={() => {
+            playAlbum(album);
+          }}
+        >
+          <MdAlbum />
+          <span>Play Full Album</span>
+        </Buttons.SecondaryGreenButton>
+      )}
     </>
   );
 }

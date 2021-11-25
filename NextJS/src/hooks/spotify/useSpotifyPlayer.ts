@@ -17,12 +17,17 @@ export default function useSpotifyPlayer() {
    * [Only Premium Users]
    * @param track Track object
    */
-  const playTrack = (track: Track) => {
+  const playTrack = async (track: Track) => {
     if (!isPremium) {
       return toastNoPremium();
     }
     try {
-      api.play({ uris: [track.spotifyUri] });
+      const album = await api.getAlbumTracks(track.album?.spotifyId || "");
+      await api.setShuffle(false);
+      await api.play({
+        uris: [track.spotifyUri, ...album.items.map((t) => t.uri)],
+        //context_uri: track.spotifyUri,
+      });
       toast.info(
         `🎵 Now Playing "${track.name}" by "${track.artists[0]?.name}".`
       );
@@ -37,12 +42,15 @@ export default function useSpotifyPlayer() {
    * [Only Premium Users]
    * @param album Album object
    */
-  const playAlbum = (album: Album) => {
+  const playAlbum = async (album: Album) => {
     if (!isPremium) {
       return toastNoPremium();
     }
     try {
-      api.play({ uris: [album.spotifyUri] });
+      await api.setShuffle(false);
+      api.play({
+        context_uri: album.spotifyUri,
+      });
       toast.info(
         `🎵 Now Playing "${album.name}" by "${album.artists[0]?.name}".`
       );
