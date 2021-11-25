@@ -27,6 +27,7 @@ export interface CacheAdapter {
 
   /**
    * Joins and persist the following elements
+   * Persist is True by default
    * @param {Track[]} tracks
    * @param {Album[]} albums
    * @param {Artist[]} artists
@@ -36,6 +37,7 @@ export interface CacheAdapter {
 
   /**
    * Joins and persists the following elements
+   * Persist is True by default
    * @param {Album[]} albums
    * @param {Artist[]} artists
    * @returns {Album[]} joined albums.
