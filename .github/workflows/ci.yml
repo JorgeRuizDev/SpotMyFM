@@ -7,6 +7,12 @@ on:
 
 jobs:
   Integration:
+    environment: Test
+    env:
+      NEXT_PUBLIC_SPOTIFY_ID: ${{NEXT_PUBLIC_SPOTIFY_ID:}}
+      SPOTIFY_SECRET: ${{secrets.SPOTIFY_SECRET}}
+      NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
+      TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,11 +32,7 @@ jobs:
       - run: npm install
 
       - name: Run Jest Tests
-        env:
-          NEXT_PUBLIC_SPOTIFY_ID: "TEST"
-          SPOTIFY_SECRET: ${{secrets.SPOTIFY_SECRET}}
-          NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
-          TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
+
         run: npm run jest
   Prettier:
     runs-on: ubuntu-latest
