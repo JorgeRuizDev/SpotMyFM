@@ -13,7 +13,8 @@ const env = {
 
 export const envtest = {
   SPOTIFY_REFRESH_TOKEN: process.env.TEST_SPOTIFY_REFRESH || "",
-  SPOTIFY_REFRESH_ENDPOINT: "http://localhost:3000/api/spotify/oauth2/refresh",
+  SPOTIFY_REFRESH_ENDPOINT:
+    "http://dev.spotmyfm.jorgeruizdev.com/api/spotify/oauth2/refresh",
 };
 
 export default env;

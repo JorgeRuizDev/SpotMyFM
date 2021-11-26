@@ -1,10 +1,9 @@
 import { renderHook } from "@testing-library/react-hooks";
-import { useClientsStore } from "store/useClients";
 import axios from "axios";
 import { envtest } from "env";
+import { useClientsStore } from "store/useClients";
 import { getOauth } from "util/spotify/oauthFrontend";
 import { useDataFacade } from "./useDataFacade";
-import { isAssetError } from "next/dist/client/route-loader";
 export default describe("data facade hook test", () => {
   const { result } = renderHook(() => useDataFacade());
   const { result: rClient } = renderHook(() => useClientsStore());
@@ -32,7 +31,10 @@ export default describe("data facade hook test", () => {
   test("getTracks()", async () => {
     try {
       expect((await cache.getAllTracks()).length).toBe(0);
-      const spotifyTracks = await spotifyApi.getMyTopTracks({ limit: 5 });
+      const spotifyTracks = await spotifyApi.getMyTopTracks({
+        limit: 5,
+        time_range: "long_term",
+      });
       const tracks = await result.current.getTracks(spotifyTracks.items);
       const cached = await cache.getAllTracks();
       expect(tracks.length).toBe(5);
@@ -51,7 +53,10 @@ export default describe("data facade hook test", () => {
   test("getTracks() - Test if fetches from cache", async () => {
     try {
       expect((await cache.getAllTracks()).length).toBe(0);
-      const tracks = await spotifyApi.getMyTopTracks({ limit: 5 });
+      const tracks = await spotifyApi.getMyTopTracks({
+        limit: 5,
+        time_range: "long_term",
+      });
       let start = performance.now();
       const cached = await result.current.getTracks(tracks.items);
       let end = performance.now();
@@ -95,7 +100,10 @@ export default describe("data facade hook test", () => {
   test("getArtists()", async () => {
     try {
       expect((await cache.getAllArtists()).length).toBe(0);
-      const artists = await spotifyApi.getMyTopArtists({ limit: 5 });
+      const artists = await spotifyApi.getMyTopArtists({
+        limit: 5,
+        time_range: "long_term",
+      });
       const cached = await result.current.getArtists(artists.items);
 
       expect(cached.length).toBe(5);
@@ -109,7 +117,10 @@ export default describe("data facade hook test", () => {
   test("getArtistsById()", async () => {
     try {
       expect((await cache.getAllArtists()).length).toBe(0);
-      const artists = await spotifyApi.getMyTopArtists({ limit: 5 });
+      const artists = await spotifyApi.getMyTopArtists({
+        limit: 5,
+        time_range: "long_term",
+      });
       const cached = await result.current.getArtistsById(
         artists.items.map((a) => a.id)
       );
@@ -125,7 +136,9 @@ export default describe("data facade hook test", () => {
   test("getAlbumsById()", async () => {
     try {
       expect((await cache.getAllAlbums()).length).toBe(0);
-      const spotifyAlbums = await spotifyApi.getMySavedAlbums({ limit: 5 });
+      const spotifyAlbums = await spotifyApi.getMySavedAlbums({
+        limit: 5,
+      });
       const albums = await result.current.getAlbumsById(
         spotifyAlbums.items.map((a) => a.album.id)
       );
