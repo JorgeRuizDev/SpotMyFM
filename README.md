@@ -1,6 +1,6 @@
 # SpotMyFM
 
-[![CodeQL](https://github.com/JorgeRuizDev/SpotMyFM/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JorgeRuizDev/SpotMyFM/actions/workflows/codeql-analysis.yml)
+[![CodeQL](https://github.com/JorgeRuizDev/SpotMyFM/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/JorgeRuizDev/SpotMyFM/actions/workflows/codeql-analysis.yml)![Vercel](http://therealsujitk-vercel-badge.vercel.app/?app=spot-my-fm)
 
 ## A Spotify Library Manager
 
