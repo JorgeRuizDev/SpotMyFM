@@ -54,7 +54,7 @@ module.exports = {
   },
   plugins: [
     require("@tailwindcss/forms"),
-    plugin(function({ addUtilities }) {
+    plugin(function ({ addUtilities }) {
       const newUtilities = {
         ".filter-none": {
           filter: "none",
