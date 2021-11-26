@@ -54,10 +54,7 @@ export async function joinAlbums(
   await Promise.all(
     albums.map(async (album) => {
       [album.artists] = await Promise.all([
-        db.artists
-          .where("spotifyId")
-          .anyOf(album.spotifyArtistsIds)
-          .toArray(),
+        db.artists.where("spotifyId").anyOf(album.spotifyArtistsIds).toArray(),
       ]);
     })
   );

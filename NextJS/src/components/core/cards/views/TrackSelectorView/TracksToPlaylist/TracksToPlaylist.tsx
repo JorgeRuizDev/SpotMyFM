@@ -25,9 +25,8 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
 
   const user = useClientsStore((s) => s.user);
 
-  const [userPlaylists, setUserPlaylists] = useState<
-    SpotifyApi.PlaylistObjectSimplified[]
-  >();
+  const [userPlaylists, setUserPlaylists] =
+    useState<SpotifyApi.PlaylistObjectSimplified[]>();
 
   // Get the Playlists
   useEffect(() => {

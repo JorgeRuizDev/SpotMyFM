@@ -21,13 +21,8 @@ interface ITrackSelectorViewProps {
 }
 
 function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
-  const {
-    trackSet,
-    toggleFromPlaylist,
-    contains,
-    addAll,
-    removeAll,
-  } = useTrackToPlaylistSelector();
+  const { trackSet, toggleFromPlaylist, contains, addAll, removeAll } =
+    useTrackToPlaylistSelector();
   const scrollRef = createRef<HTMLDivElement>();
   const toastId = useRef<React.ReactText>();
 

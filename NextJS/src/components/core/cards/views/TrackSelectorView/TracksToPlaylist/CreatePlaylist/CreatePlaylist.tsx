@@ -28,10 +28,8 @@ function CreatePlaylist({
   const [isCollaborative, setIsCollaborative] = useState(false);
   const [numberOfPlaylists, setNumberOfPlaylists] = useState(1);
   const spotifyApi = useClientsStore((s) => s.spotifyApi);
-  const {
-    addTracksToPlaylist,
-    createPlaylist: createPlaylistApi,
-  } = usePlaylistManager();
+  const { addTracksToPlaylist, createPlaylist: createPlaylistApi } =
+    usePlaylistManager();
   function savePlaylistName(e: React.ChangeEvent<HTMLInputElement>) {
     setPlaylistName(e?.target?.value);
   }

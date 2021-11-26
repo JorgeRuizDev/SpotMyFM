@@ -1,3 +1,3 @@
-import LikeIcon from './LikeIcon'
+import LikeIcon from "./LikeIcon";
 
 export default LikeIcon;

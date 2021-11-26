@@ -11,6 +11,6 @@ const SpotifyButton = tw(Buttons.SecondaryGreenButton)`
 	px-3
 `;
 
-const Styled = {LastFMButton, SpotifyButton};
+const Styled = { LastFMButton, SpotifyButton };
 
 export default Styled;

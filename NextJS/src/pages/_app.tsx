@@ -1,28 +1,26 @@
-
 import type { AppProps } from "next/app";
 
 import { Flip, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GlobalStyle from "styles/GlobalStyle";
 
-import "styles/custom.css"
-import "styles/tailwind.css"
+import "styles/custom.css";
+import "styles/tailwind.css";
 import ToggleThemeButtonFlip from "components/theme/ToggleThemeButtonFlip";
 import { useLoginStore } from "store/useLogin";
 import { useClientsStore } from "store/useClients";
 
-
 function MyApp({ Component, pageProps }: AppProps) {
-  const isLogged = useLoginStore().isLogged
-  useClientsStore().getUser(isLogged)
-  
+  const isLogged = useLoginStore().isLogged;
+  useClientsStore().getUser(isLogged);
+
   return (
     <>
       <div id="modal-core"></div>
-        <ToastConfig />
-        <ToggleThemeButtonFlip />
-        <GlobalStyle />
-        <Component {...pageProps} />
+      <ToastConfig />
+      <ToggleThemeButtonFlip />
+      <GlobalStyle />
+      <Component {...pageProps} />
     </>
   );
 }

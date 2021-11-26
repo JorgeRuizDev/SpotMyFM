@@ -6,7 +6,7 @@ interface ITitle {
   titleStyle?: "spotify";
 }
 
-const Title = styled.div<ITitle>(({titleStyle}) => [
+const Title = styled.div<ITitle>(({ titleStyle }) => [
   tw`
 	rounded-full
 
@@ -76,8 +76,7 @@ interface itemStyle {
   itemStyle?: "lastFM";
 }
 
-const Item = styled.a<itemStyle>(({itemStyle}) => [
-
+const Item = styled.a<itemStyle>(({ itemStyle }) => [
   tw`
 		text-gray-600
 		dark:text-white
@@ -102,16 +101,15 @@ const Item = styled.a<itemStyle>(({itemStyle}) => [
 		hover:no-underline
 		
 
-		`
-,
-	
-	itemStyle == "lastFM" ? tw`
+		`,
+  itemStyle == "lastFM"
+    ? tw`
 		bg-red-300
 		hover:(bg-red-400 )
 		dark:(hover:bg-red-400 bg-red-500 )
-	`: null
+	`
+    : null,
 ]);
-
 
 const Styled = {
   Title,

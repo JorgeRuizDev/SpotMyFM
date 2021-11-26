@@ -44,12 +44,8 @@ function SelectPlaylist({
     setFilteredArray: setFilteredPlaylists,
   };
 
-  const {
-    isSelectedElement,
-    removeAll,
-    selectedArray,
-    toggleSelectedElement,
-  } = useCardSelector<SpotifyApi.PlaylistObjectSimplified>(1, 1);
+  const { isSelectedElement, removeAll, selectedArray, toggleSelectedElement } =
+    useCardSelector<SpotifyApi.PlaylistObjectSimplified>(1, 1);
 
   useEffect(() => {
     setSelPlaylist(selectedArray[0]);
@@ -116,10 +112,8 @@ interface IButtonRow {
 function ButtonRow({ selPlaylist, trackUris, unselectAll }: IButtonRow) {
   const [showModal, setShowModal] = useState(false);
 
-  const {
-    addTracksToPlaylist,
-    replacePlaylistTracksWith,
-  } = usePlaylistManager();
+  const { addTracksToPlaylist, replacePlaylistTracksWith } =
+    usePlaylistManager();
 
   return (
     <Styled.Center>

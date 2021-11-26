@@ -21,7 +21,7 @@ const A = styled.a<IA>(({ fullWidth }) => [
     space-x-2
   `,
 
-  fullWidth && tw`w-full`
+  fullWidth && tw`w-full`,
 ]);
 
 interface ILinkProps {

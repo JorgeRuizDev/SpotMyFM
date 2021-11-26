@@ -11,7 +11,7 @@ function Switch({
   isChecked,
   onToggle: toggleAction,
   children,
-  disabled
+  disabled,
 }: ISwitchProps) {
   return (
     <Styled.Inline>

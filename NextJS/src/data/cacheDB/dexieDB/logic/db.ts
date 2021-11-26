@@ -29,10 +29,7 @@ export async function getMissingGeneric(
   spotifyIds: string[],
   table: Table<SpotifyBaseObject, number>
 ): Promise<string[]> {
-  const items = await table
-    .where("spotifyId")
-    .anyOf(spotifyIds)
-    .toArray();
+  const items = await table.where("spotifyId").anyOf(spotifyIds).toArray();
 
   const cached = new Set(items.map((i) => i.spotifyId));
 
@@ -51,10 +48,7 @@ export async function getGenericBySpotifyId<E extends SpotifyBaseObject>(
   spotifyIds: string[],
   table: Table<E, number>
 ): Promise<E[]> {
-  const items = await table
-    .where("spotifyId")
-    .anyOf(spotifyIds)
-    .toArray();
+  const items = await table.where("spotifyId").anyOf(spotifyIds).toArray();
 
   return _.sortBy(items, (t) => spotifyIds?.indexOf(t.spotifyId));
 }

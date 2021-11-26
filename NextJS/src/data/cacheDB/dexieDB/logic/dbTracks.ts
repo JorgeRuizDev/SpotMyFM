@@ -59,14 +59,8 @@ export async function joinTracks(tracks: Track[], persist = true) {
   await Promise.all(
     tracks.map(async (track) => {
       [track.album, track.artists] = await Promise.all([
-        db.albums
-          .where("spotifyId")
-          .equals(track.spotifyAlbumId)
-          .first(),
-        db.artists
-          .where("spotifyId")
-          .anyOf(track.spotifyArtistsIds)
-          .toArray(),
+        db.albums.where("spotifyId").equals(track.spotifyAlbumId).first(),
+        db.artists.where("spotifyId").anyOf(track.spotifyArtistsIds).toArray(),
       ]);
     })
   );

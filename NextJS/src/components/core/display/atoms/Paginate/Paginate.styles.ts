@@ -17,7 +17,7 @@ const Page = styled.button<IActiveButton>(({ isActive }) => [
 		disabled:(bg-gray-300 cursor-not-allowed shadow-none)
 	
 	`,
-  isActive && tw` hover:bg-lightGreen-hover	bg-lightGreen-base text-white`
+  isActive && tw` hover:bg-lightGreen-hover	bg-lightGreen-base text-white`,
 ]);
 
 const InlineCenter = tw.div`

@@ -17,7 +17,6 @@ const Flip = tw.div`
 `;
 
 const ButtonPos = styled.div<StyleProps>`
-  
   ${tw`
     fixed
     bottom-0 
@@ -30,8 +29,6 @@ const ButtonPos = styled.div<StyleProps>`
     z-50
   `}
   display: ${(props) => (props.isLogged ? "none" : "")};
-
-  
 `;
 
 const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [

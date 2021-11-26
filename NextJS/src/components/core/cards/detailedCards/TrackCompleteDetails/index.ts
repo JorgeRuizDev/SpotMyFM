@@ -1,3 +1,3 @@
-import TrackCompleteDetails from './TrackCompleteDetails'
+import TrackCompleteDetails from "./TrackCompleteDetails";
 
 export default TrackCompleteDetails;

@@ -72,7 +72,7 @@ interface ITrackIndex {
   index: any;
 }
 
-const StyledTrack = styled.div<ITrackIndex>(index => [
+const StyledTrack = styled.div<ITrackIndex>((index) => [
   tw`
 		h-2
 		top-0
@@ -86,13 +86,13 @@ const StyledTrack = styled.div<ITrackIndex>(index => [
 
   index.index === 0 && tw`bg-blue-500`,
   index.index === 1 && tw`bg-blue-400`,
-  index.index === 2 && tw`bg-red-400`
+  index.index === 2 && tw`bg-red-400`,
 ]);
 
-const StyledDoubleTrack = styled(StyledTrack)<ITrackIndex>(index => [
+const StyledDoubleTrack = styled(StyledTrack)<ITrackIndex>((index) => [
   index.index === 0 && tw`bg-blue-300`,
   index.index === 1 && tw`bg-blue-500`,
-  index.index === 2 && tw`bg-blue-300`
+  index.index === 2 && tw`bg-blue-300`,
 ]);
 
 const Styled = {
@@ -100,7 +100,7 @@ const Styled = {
   StyledTrack,
   StyledDoubleTrack,
   ValueBox,
-  ThumbBox
+  ThumbBox,
 };
 
 export default Styled;

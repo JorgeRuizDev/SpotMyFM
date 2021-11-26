@@ -8,12 +8,8 @@ interface IButton {
   rounded?: boolean;
 }
 
-const BasicButton: StyledComponent<
-  "button",
-  any,
-  IButton,
-  never
-> = styled.button<IButton>(({ rounded }) => [rounded && tw`px-3 py-3`]);
+const BasicButton: StyledComponent<"button", any, IButton, never> =
+  styled.button<IButton>(({ rounded }) => [rounded && tw`px-3 py-3`]);
 
 const PrimaryBlueButton: StyledComponent<"button", any, IButton, never> = tw(
   BasicButton
@@ -113,7 +109,7 @@ const CheckableGreenButton: StyledComponent<
   IButton & ICheckButton,
   never
 > = styled(SecondaryGreenButton)<ICheckButton>(({ isChecked }) => [
-  isChecked && tw`	bg-green-600	hover:bg-green-500 text-white hover:text-white`
+  isChecked && tw`	bg-green-600	hover:bg-green-500 text-white hover:text-white`,
 ]);
 
 const CloseButton: IconType = tw(IoMdClose)`
@@ -176,6 +172,6 @@ const Styled = {
   LoginButton,
 
   LayoutCenter,
-  LayoutLeft
+  LayoutLeft,
 };
 export default Styled;
