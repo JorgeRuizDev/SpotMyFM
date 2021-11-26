@@ -7,13 +7,14 @@ on:
 
 jobs:
   Integration:
+
+    runs-on: ubuntu-latest
     environment: Test
     env:
       NEXT_PUBLIC_SPOTIFY_ID: ${{NEXT_PUBLIC_SPOTIFY_ID:}}
       SPOTIFY_SECRET: ${{secrets.SPOTIFY_SECRET}}
       NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
       TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
-    runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./NextJS
