@@ -23,7 +23,6 @@ jobs:
       with:
         node-version: '16'
     - run: npm install
-    - run: npm test
         
     - name: Run Jest Tests
       run: npm test 
@@ -42,3 +41,5 @@ jobs:
       with:
         # This part is also where you can pass other options, for example:
         prettier_options: --write **/*.{js,md,ts,tsx}
+        plugins: prettier-plugin-organize-imports
+        
