@@ -23,7 +23,7 @@ jobs:
       with:
         node-version: '16'
       env:
-        NEXT_PUBLIC_SPOTIFY_ID: ${{secrets.NEXT_PUBLIC_SPOTIFY_ID}}
+        NEXT_PUBLIC_SPOTIFY_ID: "TEST"
         SPOTIFY_SECRET: ${{secrets.SPOTIFY_SECRET}}
         NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
         TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
@@ -32,7 +32,7 @@ jobs:
         
     - name: Run Jest Tests
       run: npm test 
-  prettier:
+  Prettier:
     runs-on: ubuntu-latest
 
     steps:
