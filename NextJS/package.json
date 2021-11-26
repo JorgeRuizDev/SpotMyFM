@@ -9,7 +9,8 @@
     "export": "next export",
     "lint": "next lint",
     "fix": "npx eslint ./ --fix",
-    "test": "jest --",
+    "test": "jest --silent",
+    "jest": "jest --silent",
     "format": "prettier --write src/**/*.{ts,tsx,js,jsx}"
   },
   "dependencies": {
