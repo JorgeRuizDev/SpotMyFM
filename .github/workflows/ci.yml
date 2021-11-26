@@ -6,7 +6,7 @@ on:
   push:
 
 jobs:
-  prettier:
+  Integration:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -19,14 +19,22 @@ jobs:
         # Make sure the actual branch is checked out when running on pull requests
         ref: ${{ github.head_ref }}  
     - name: Install
-      run: npm -i
-      
-    - name: Prettify code
-      uses: creyD/prettier_action@v4.0
-      with:
-        working-directory: ./NextJS
-        # This part is also where you can pass other options, for example:
-        prettier_options: --write **/*.{js,md}
+      run: npm install
         
     - name: Run Jest Tests
       run: npm test 
+  prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        # Make sure the actual branch is checked out when running on pull requests
+        ref: ${{ github.head_ref }}
+
+    - name: Prettify code
+      uses: creyD/prettier_action@v4.0
+      with:
+        # This part is also where you can pass other options, for example:
+        prettier_options: --write **/*.{js,md}
