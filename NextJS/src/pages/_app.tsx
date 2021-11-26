@@ -1,7 +1,7 @@
 
 import type { AppProps } from "next/app";
 
-import { ToastContainer } from "react-toastify";
+import { Flip, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import GlobalStyle from "styles/GlobalStyle";
 
@@ -36,6 +36,7 @@ function ToastConfig() {
       newestOnTop={true}
       closeOnClick
       rtl={false}
+      transition={Flip}
       pauseOnFocusLoss
       draggable
       pauseOnHover

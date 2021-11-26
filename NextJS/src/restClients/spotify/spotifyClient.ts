@@ -12,6 +12,11 @@ import { parseAxiosError } from "util/axios/parseError";
  */
 export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   parse(e: any): RestError {
+    if (!!e.status && !!e.response) {
+      console.log("Entra");
+      const msg = JSON.parse(e.response)?.error?.message || "";
+      return { status: parseInt(e.status), message: msg };
+    }
     return parseAxiosError(e);
   }
 
