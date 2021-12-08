@@ -13,7 +13,7 @@ describe("<Pill />", () => {
 
     const btn = component.getByText("Test");
 
-    fireEvent(btn, new MouseEvent("click"));
+    fireEvent.click(btn);
 
     expect(closeFn).toBeCalled();
   });
