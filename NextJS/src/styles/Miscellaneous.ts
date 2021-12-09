@@ -24,9 +24,11 @@ const Card = tw.div`
 	flex
 	flex-col
 	flex-nowrap
-
+  
 	p-4
 	space-y-2
+
+  rounded-md
 `;
 
 const Styled = { LoadingSpinner, FlexInline, Card };
