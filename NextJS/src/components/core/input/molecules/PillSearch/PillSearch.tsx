@@ -8,8 +8,13 @@ interface IPillSearchProps {
   type: "tag" | "genre" | "artist" | "MySpotifyFmTags";
   items: string[];
   title: ReactNode | ReactNode[];
-  setFilteredItems: (items: Set<string>, isAnd: boolean) => void;
+  setFilteredItems: (i: IPillFilter) => void;
   examplePill?: string;
+}
+
+export interface IPillFilter {
+  items: Set<string>;
+  isAnd: boolean;
 }
 
 /**
@@ -58,7 +63,7 @@ function PillSearch({
 
   // On item select: Return by reference the active pills
   useEffect(() => {
-    setFilteredItems(pills, includeAll);
+    setFilteredItems({ items: pills, isAnd: includeAll });
   }, [pills, includeAll, setFilteredItems]);
 
   // On input change: Filter the typed strings
