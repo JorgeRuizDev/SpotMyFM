@@ -1,11 +1,11 @@
 import { IPillFilter } from "components/core/input/molecules/PillSearch/PillSearch";
 
 export function filterByPill(
-  trackItems: string[] | undefined,
-  filter: IPillFilter
+  trackItems: string[],
+  filter: IPillFilter | undefined
 ) {
-  if (trackItems == undefined) {
-    return false;
+  if (filter == undefined) {
+    return true;
   }
 
   if (filter.isAnd) {

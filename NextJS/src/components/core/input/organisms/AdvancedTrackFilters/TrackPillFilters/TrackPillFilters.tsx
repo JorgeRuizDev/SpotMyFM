@@ -71,42 +71,30 @@ function TrackPillFilters({
    */
   const filter = useCallback(() => {
     const byLastTags = tracks.filter((t) =>
-      filteredLastTags === undefined
-        ? true
-        : filterByPill(t.album?.lastfmTagsNames || [], filteredLastTags)
+      filterByPill(t.album?.lastfmTagsNames || [], filteredLastTags)
     );
 
     const byArtistGenre = tracks.filter((t) =>
-      filteredArtistGenres === undefined
-        ? true
-        : filterByPill(
-            t.artists.flatMap((a) => a.spotifyGenres || []),
-            filteredArtistGenres
-          )
+      filterByPill(
+        t.artists.flatMap((a) => a.spotifyGenres || []),
+        filteredArtistGenres
+      )
     );
 
     const filtered = Array.from(new Set([...byArtistGenre, ...byLastTags]))
       // By Artist:
       .filter((t) =>
-        filteredArtists === undefined
-          ? true
-          : filterByPill(
-              t.artists.flatMap((a) => a.name),
-              filteredArtists
-            )
+        filterByPill(
+          t.artists.flatMap((a) => a.name),
+          filteredArtists
+        )
       )
       // By user's album tags:
       .filter((t) =>
-        filteredMyAlbumTags === undefined
-          ? true
-          : filterByPill(t.album?.albumTags || [], filteredMyAlbumTags)
+        filterByPill(t.album?.albumTags || [], filteredMyAlbumTags)
       )
       // By Track Genres
-      .filter((t) =>
-        filteredTrackGenres === undefined
-          ? true
-          : filterByPill(t.genres || [], filteredTrackGenres)
-      );
+      .filter((t) => filterByPill(t.genres || [], filteredTrackGenres));
 
     setFilteredTracks(filtered);
   }, [
