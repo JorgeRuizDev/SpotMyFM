@@ -172,7 +172,6 @@ function DateIntervalSelector({
               Full Interval
             </Buttons.PrimaryGreenButton>
           </Styled.Center>
-          ^
         </div>
       ) : null}
     </div>
