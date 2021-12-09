@@ -19,10 +19,10 @@ function SimpleSlider(p: ISimpleSliderProps) {
       renderTrack={Track}
       renderThumb={Thumb}
       key={0}
-      onChange={x => {
+      onChange={(x) => {
         if (p.onChange) p.onChange(x);
       }}
-      onAfterChange={x => {
+      onAfterChange={(x) => {
         if (p.onAfterChange) p.onAfterChange(x);
       }}
     />
