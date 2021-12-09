@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 const StyledThumb = tw.div`
 
-	margin-top[-0.8rem]	
-	h-8
+	margin-top[-0.55rem]	
+	h-6
 	line-height[25px]
-	w-8
+	w-6
 
 	rounded-full
 
@@ -21,7 +21,7 @@ const StyledThumb = tw.div`
 `;
 
 const ThumbBox = tw.div`
-	w-8
+	w-6
 	
 	outline-none
 	flex
@@ -59,22 +59,13 @@ const ValueBox = tw.div`
 	overflow-visible
 `;
 
-const StyledSlider = tw(ReactSlider)`
-	flex
-	items-start
-	
-	justify-start
-	w-full
-	h-2
-`;
-
 interface ITrackIndex {
   index: any;
 }
 
 const StyledTrack = styled.div<ITrackIndex>((index) => [
   tw`
-		h-2
+		h-1.5
 		top-0
 		left-0
 		right-0
