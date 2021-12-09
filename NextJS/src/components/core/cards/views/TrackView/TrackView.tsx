@@ -1,3 +1,5 @@
+import Modal from "components/core/display/molecules/Modal";
+import AdvancedSpotifyFilters from "components/core/input/organisms/AdvancedTrackFilters";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import useTrackSorter, {
   trackSortingOptions,
@@ -9,6 +11,7 @@ import { isMobile } from "react-device-detect";
 import { BiAddToQueue } from "react-icons/bi";
 import { BsFillCursorFill } from "react-icons/bs";
 import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+import { HiFilter } from "react-icons/hi";
 import { MdRemove } from "react-icons/md";
 import Buttons from "styles/Buttons";
 import filterTrack from "util/filters/filterTrack";
@@ -40,11 +43,14 @@ function TrackView({
 }: ITrackViewProps): JSX.Element {
   const [mute, setMute] = useState(false);
   const [hover, setHover] = useState(!isMobile);
+  const [advancedFilteredTracks, setAdvancedFilteredTracks] =
+    useState<Track[]>(tracks);
   const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
   const [currentView, setCurrentView] = useState<ViewTypeOption>(
     isMobile ? "LIST" : "GRID"
   );
 
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
   // Sort Item:
   const {
     sortedTracks,
@@ -52,7 +58,7 @@ function TrackView({
     setOptionState,
     isAscendentState,
     setIsAscendentState,
-  } = useTrackSorter(tracks, settings.defaultTrackSort);
+  } = useTrackSorter(advancedFilteredTracks, settings.defaultTrackSort);
 
   const sorting: IGenericCardViewSortProps = {
     options: trackSortingOptions,
@@ -64,6 +70,15 @@ function TrackView({
     },
   };
 
+  useEffect(() => {
+    if (!settings.isLoading && tracks.length > 0) {
+      setAdvancedFilteredTracks(tracks);
+    } else if (settings.isLoading) {
+      setAdvancedFilteredTracks([]);
+    }
+  }, [settings.isLoading, tracks]);
+
+  // Tracks to Show:
   useEffect(() => {
     setFilteredTracks(sortedTracks);
   }, [sortedTracks]);
@@ -86,6 +101,15 @@ function TrackView({
 
   return (
     <>
+      <Modal
+        isOpen={showAdvancedFilter}
+        onClose={() => setShowAdvancedFilter(false)}
+      >
+        <AdvancedSpotifyFilters
+          tracks={tracks}
+          setFilteredTracks={setAdvancedFilteredTracks}
+        />
+      </Modal>
       <CardLayoutButtons />
       <GenericCardView
         filterInputProps={filter}
@@ -142,7 +166,10 @@ function TrackView({
             </Buttons.PrimaryGreenButton>
           </>
         )}
-
+        <Buttons.PrimaryGreenButton onClick={() => setShowAdvancedFilter(true)}>
+          <HiFilter />
+          <span>Advanced Filter</span>
+        </Buttons.PrimaryGreenButton>
         <Buttons.PrimaryGreenButton onClick={toggleHover}>
           <BsFillCursorFill />
           <span>{hover ? "Disable Hover" : "Enable Hover"}</span>

@@ -63,9 +63,9 @@ function TrackPillFilters({
 
   // Get the artist genres:
   useEffect(() => {
-    setLastTags(artists.flatMap((a) => a.spotifyGenres || []));
+    setArtistGenres(artists.flatMap((a) => a.spotifyGenres || []));
   }, [artists]);
-
+  debugger;
   /**
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
    */
@@ -96,6 +96,7 @@ function TrackPillFilters({
       // By Track Genres
       .filter((t) => filterByPill(t.genres || [], filteredTrackGenres));
 
+    console.log(filtered);
     setFilteredTracks(filtered);
   }, [
     filteredArtistGenres,
@@ -112,55 +113,49 @@ function TrackPillFilters({
 
   return (
     <>
-      <Ms.Card>
-        <PillSearch
-          title={<h4>🏷 Filter by LastFM Tags:</h4>}
-          type={"tag"}
-          items={lastTags}
-          examplePill={"Example: Russian War Songs"}
-          setFilteredItems={setFilteredLastTags}
-        />
-      </Ms.Card>
-      <Ms.Card>
-        <PillSearch
-          title={<h4>🎸Filter by Artist Genres:</h4>}
-          type={"genre"}
-          examplePill={"Example: Minecraft Ambient"}
-          items={artistGenres}
-          setFilteredItems={setFilteredArtistGenres}
-        />
-        <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
-      </Ms.Card>
-      <Ms.Card>
-        <PillSearch
-          title={<h4>🎸Filter by Track Genres:</h4>}
-          type={"genre"}
-          examplePill={"Example: Ambient"}
-          items={trackGenres}
-          setFilteredItems={setFilteredTrackGenres}
-        />
-        <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
-      </Ms.Card>
-      <Ms.Card>
-        <PillSearch
-          title={<h4>💚 Filter by MySpotifyFM Album Tags:</h4>}
-          type={"MySpotifyFmTags"}
-          examplePill={"Example: To Listen"}
-          items={customTags}
-          setFilteredItems={setFilteredMyAlbumTags}
-        />
-      </Ms.Card>
-      <Ms.Card>
-        <PillSearch
-          title={<h4>👨‍🎤 Filter by Artist:</h4>}
-          type={"artist"}
-          examplePill={"Example: Bowie"}
-          items={useMemo(() => artists.map((a) => a.name), [artists])}
-          setFilteredItems={setFilteredArtists}
-        />
-      </Ms.Card>
+      <PillSearch
+        title={<h4>🏷 Filter by LastFM Tags:</h4>}
+        type={"tag"}
+        items={lastTags}
+        examplePill={"Example: Russian War Songs"}
+        setFilteredItems={setFilteredLastTags}
+      />
+
+      <PillSearch
+        title={<h4>💽Filter by Artist Genres:</h4>}
+        type={"genre"}
+        examplePill={"Example: Minecraft Ambient"}
+        items={artistGenres}
+        setFilteredItems={setFilteredArtistGenres}
+      />
+      <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
+
+      <PillSearch
+        title={<h4>🎸Filter by Track Genres:</h4>}
+        type={"genre"}
+        examplePill={"Example: Ambient"}
+        items={trackGenres}
+        setFilteredItems={setFilteredTrackGenres}
+      />
+      <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
+
+      <PillSearch
+        title={<h4>💚 Filter by MySpotifyFM Album Tags:</h4>}
+        type={"MySpotifyFmTags"}
+        examplePill={"Example: To Listen"}
+        items={customTags}
+        setFilteredItems={setFilteredMyAlbumTags}
+      />
+
+      <PillSearch
+        title={<h4>👨‍🎤 Filter by Artist:</h4>}
+        type={"artist"}
+        examplePill={"Example: Bowie"}
+        items={useMemo(() => artists.map((a) => a.name), [artists])}
+        setFilteredItems={setFilteredArtists}
+      />
     </>
   );
 }
 
-export default TrackPillFilters;
+export default React.memo(TrackPillFilters);

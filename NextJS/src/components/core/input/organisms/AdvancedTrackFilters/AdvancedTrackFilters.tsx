@@ -1,9 +1,10 @@
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
-import { useEffect, useState } from "react";
-import { IInterval } from "util/filters/intervalFilters";
+import React, { useEffect, useState } from "react";
 import Styled from "./AdvancedTrackFilters.styles";
+import TrackIntervalFilters from "./TrackIntervalFilters";
+import TrackPillFilters from "./TrackPillFilters";
 interface IAdvancedTrackFiltersProps {
   tracks: Track[];
   setFilteredTracks(tracks: Track[]): void;
@@ -17,29 +18,12 @@ function AdvancedTrackFilters({
   const [albums, setAlbums] = useState<Album[]>([]);
   const [artists, setArtists] = useState<Artist[]>([]);
 
+  const [abvIntervalAlbums, setAbvIntervalAlbums] = useState<Album[]>([]);
+
+  const [filteredPills, setFilteredPills] = useState<Track[]>([]);
+  const [filteredIntervals, setFilteredIntervals] = useState<Track[]>([]);
+
   // Interval / Sliders
-
-  // State that stores the
-  const [dateInterval, setDateInterval] = useState<IInterval<Date>>({
-    low: new Date(),
-    top: new Date(),
-  });
-
-  // State that stores the track duration interval
-  const [durationInterval, setDurationInterval] = useState<IInterval<number>>({
-    low: 0,
-    top: Number.MAX_SAFE_INTEGER,
-  });
-
-  // State that stores the Artist popularity interval [0 - 100]
-  const [artistPopularityInterval, setArtistPopularityInterval] = useState<
-    IInterval<number>
-  >({ low: 0, top: 100 });
-
-  // State that stores the album popularity interval [0 - 100]
-  const [albumPopularityInterval, setAlbumPopularityInterval] = useState<
-    IInterval<number>
-  >({ low: 0, top: 100 });
 
   // Get the current artists and albums + track tags
   useEffect(() => {
@@ -47,7 +31,33 @@ function AdvancedTrackFilters({
     setArtists(tracks.flatMap((t) => t.artists));
   }, [tracks]);
 
-  return <></>;
+  // Get the pill filtered result and set the tracks as the album filter
+  useEffect(() => {
+    setAbvIntervalAlbums(filteredPills.flatMap((t) => t.album || []));
+  }, [filteredPills]);
+
+  // Return the filtered interval as the filter results:
+  useEffect(() => {
+    setFilteredTracks(filteredIntervals);
+  }, [filteredIntervals, setFilteredTracks]);
+
+  return (
+    <Styled.Spacing>
+      <TrackPillFilters
+        albums={albums}
+        artists={artists}
+        tracks={tracks}
+        setFilteredTracks={setFilteredPills}
+      />
+
+      <TrackIntervalFilters
+        tracks={filteredPills}
+        albums={abvIntervalAlbums}
+        artists={artists}
+        setFilteredTracks={setFilteredIntervals}
+      />
+    </Styled.Spacing>
+  );
 }
 
 export default AdvancedTrackFilters;

@@ -95,40 +95,33 @@ function TrackIntervalFilters({
 
   return (
     <>
-      <Ms.Card>
-        <DateIntervalSelector
-          albums={albums}
-          setDateInterval={setReleaseInterval}
-        />
-      </Ms.Card>
+      <DateIntervalSelector
+        albums={albums}
+        setDateInterval={setReleaseInterval}
+      />
+      <TrackLengthIntervalSelector
+        tracks={tracks}
+        setInterval={setDurationInterval}
+      />
+      <p>
+        Note: Some albums (remastered / re-releases) do not have their original
+        Release Date.
+      </p>
 
-      <Ms.Card>
-        <TrackLengthIntervalSelector
-          tracks={tracks}
-          setInterval={setDurationInterval}
-        />
-        <p>
-          Note: Some albums (remastered / re-releases) do not have their
-          original Release Date.
-        </p>
-      </Ms.Card>
-      <Ms.Card>
-        <PopularitySelector
-          setPopularityInterval={setArtistPopularityInterval}
-          title={<h4>👨‍🎤🥇 Artist Popularity</h4>}
-        />
-      </Ms.Card>
-      <Ms.Card>
-        <PopularitySelector
-          setPopularityInterval={setAlbumPopularityInterval}
-          title={<h4>🎵🥇 Album Popularity</h4>}
-        />
-        <p>
-          Note: Spotify has duplicated albums with the exact same name and
-          tracks, but they are often "Hidden", so their popularity is usually
-          lower than their original counterpart.
-        </p>
-      </Ms.Card>
+      <PopularitySelector
+        setPopularityInterval={setArtistPopularityInterval}
+        title={<h4>👨‍🎤🥇 Artist Popularity</h4>}
+      />
+
+      <PopularitySelector
+        setPopularityInterval={setAlbumPopularityInterval}
+        title={<h4>🎵🥇 Album Popularity</h4>}
+      />
+      <p>
+        Note: Spotify has duplicated albums with the exact same name and tracks,
+        but they are often "Hidden", so their popularity is usually lower than
+        their original counterpart.
+      </p>
     </>
   );
 }
