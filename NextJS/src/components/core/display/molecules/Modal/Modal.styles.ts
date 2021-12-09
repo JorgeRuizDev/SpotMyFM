@@ -48,7 +48,7 @@ const TopRow = tw.div`
 `;
 
 interface IModalBody {
-  darkBackground?: boolean;
+  darkBackground?: string;
 }
 
 const ModalBody = styled.div<IModalBody>(({ darkBackground }) => [
@@ -77,7 +77,12 @@ const ModalBody = styled.div<IModalBody>(({ darkBackground }) => [
 
   `,
 
-  darkBackground && tw`dark:bg-darkMaterialBG-base bg-lightMaterialBG-base`,
+  darkBackground == "material" &&
+    tw`dark:bg-darkMaterialBG-base bg-lightMaterialBG-base`,
+  darkBackground == "card" && tw`dark:bg-darkCard-base bg-lightCard-base`,
+
+  darkBackground == "card-hover" &&
+    tw`dark:bg-darkCard-hover bg-lightCard-hover`,
 ]);
 
 const Styled = { FullScreenBackground, ModalBody, TopRow };

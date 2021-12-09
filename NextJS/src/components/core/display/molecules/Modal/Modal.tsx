@@ -14,7 +14,7 @@ interface IModalProps {
   lockBodyScroll?: boolean;
 
   // The modal BG is the same as the page body (instead of the card bg)
-  bodyBackgroundColor?: boolean;
+  bodyBackgroundColor?: "material" | "card" | "card-hover";
 
   // Hides the Modal instead of umonting it from the DOM, so the modal body keeps it's states
   doNotUmount?: boolean;
@@ -41,7 +41,7 @@ function Modal({
   isOpen,
   onClose,
   doNotUmount = false,
-  bodyBackgroundColor = false,
+  bodyBackgroundColor = "material",
   scrollOverflow = true,
   lockBodyScroll = true,
 }: IModalProps): JSX.Element {
