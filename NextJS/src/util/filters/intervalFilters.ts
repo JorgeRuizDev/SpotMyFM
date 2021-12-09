@@ -13,7 +13,7 @@ export interface IInterval<generic> {
  * @param interval Interval of numbers
  * @returns boolean
  */
-export function trackLengthInterval(
+export function trackLengthIntervalFilter(
   t: Track,
   interval: IInterval<number>
 ): boolean {
@@ -28,7 +28,7 @@ export function trackLengthInterval(
  * @param {IInterval<number>} interval
  * @returns boolean
  */
-export function spotifyPopularity(
+export function spotifyPopularityFilter(
   item: Track | Album | Artist,
   interval: IInterval<number>
 ): boolean {
@@ -42,7 +42,7 @@ export function spotifyPopularity(
  * @param {IInterval<Date>} interval
  * @returns boolean.
  */
-export function albumReleaseDate(
+export function albumReleaseDateFilter(
   album: Album,
   interval: IInterval<Date>
 ): boolean {
