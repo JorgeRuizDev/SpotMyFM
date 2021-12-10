@@ -13,6 +13,7 @@ import { BsFillCursorFill } from "react-icons/bs";
 import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
 import { HiFilter } from "react-icons/hi";
 import { MdRemove } from "react-icons/md";
+import { BiReset } from "react-icons/bi";
 import Buttons from "styles/Buttons";
 import filterTrack from "util/filters/filterTrack";
 import {
@@ -104,6 +105,7 @@ function TrackView({
       <Modal
         isOpen={showAdvancedFilter}
         onClose={() => setShowAdvancedFilter(false)}
+        doNotUmount={true}
       >
         <AdvancedSpotifyFilters
           tracks={tracks}
@@ -170,6 +172,16 @@ function TrackView({
           <HiFilter />
           <span>Advanced Filter</span>
         </Buttons.PrimaryGreenButton>
+
+        <Buttons.PrimaryGreenButton
+          rounded
+          onClick={() => setAdvancedFilteredTracks(tracks)}
+          aria-label={"Reset Advanced Filter"}
+          disabled={tracks.length == advancedFilteredTracks.length}
+        >
+          <BiReset />
+        </Buttons.PrimaryGreenButton>
+
         <Buttons.PrimaryGreenButton onClick={toggleHover}>
           <BsFillCursorFill />
           <span>{hover ? "Disable Hover" : "Enable Hover"}</span>
