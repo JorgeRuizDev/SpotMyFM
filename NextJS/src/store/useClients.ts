@@ -43,7 +43,6 @@ export const useClientsStore = create<IClientStore>((set, get) => {
       });
       return res;
     } catch (e) {
-      console.log(e);
       return null;
     }
   };
