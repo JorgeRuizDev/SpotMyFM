@@ -27,7 +27,7 @@ function TrackLengthIntervalSelector({
   // Get the shortest and longest duration in MS
   useEffect(() => {
     let min = 0;
-    let max = Number.MAX_SAFE_INTEGER;
+    let max = 0;
 
     for (const t of tracks) {
       const duration = t.spotifyDurationMS;
