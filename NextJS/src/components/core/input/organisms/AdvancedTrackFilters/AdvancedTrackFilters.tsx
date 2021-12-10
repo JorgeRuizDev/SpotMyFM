@@ -20,8 +20,8 @@ function AdvancedTrackFilters({
 
   const [abvIntervalAlbums, setAbvIntervalAlbums] = useState<Album[]>([]);
 
-  const [filteredPills, setFilteredPills] = useState<Track[]>([]);
-  const [filteredIntervals, setFilteredIntervals] = useState<Track[]>([]);
+  const [filteredPills, setFilteredPills] = useState<Track[]>(tracks);
+  const [filteredIntervals, setFilteredIntervals] = useState<Track[]>(tracks);
 
   // Interval / Sliders
 
@@ -39,8 +39,8 @@ function AdvancedTrackFilters({
   // Return the filtered interval as the filter results:
   useEffect(() => {
     setFilteredTracks(filteredIntervals);
-  }, [filteredIntervals, setFilteredTracks]);
-
+  }, [filteredIntervals, setFilteredTracks, albums]);
+  console.log(filteredPills);
   return (
     <Styled.Spacing>
       <TrackPillFilters

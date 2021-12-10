@@ -54,6 +54,10 @@ function TrackIntervalFilters({
   >({ low: 0, top: 100 });
 
   const filter = useCallback(() => {
+    if (tracks.length == 0) {
+      return;
+    }
+
     const filtered = tracks
       // Filter by Track Length
       .filter((t) => trackLengthIntervalFilter(t, durationInterval))
@@ -83,10 +87,10 @@ function TrackIntervalFilters({
   }, [
     albumPopularityInterval,
     artistPopularityInterval,
+    trackPopularityInterval,
     durationInterval,
     releaseInterval,
     setFilteredTracks,
-    trackPopularityInterval,
     tracks,
   ]);
 

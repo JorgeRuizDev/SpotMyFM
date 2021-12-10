@@ -34,7 +34,7 @@ function DateIntervalSelector({
   const [oldestDate, setOldestDate] = useState<Date | null>(null);
   const [dateStats, setDateStats] = useState<IDateStats | null>(null);
   const [newestDate, setNewestDate] = useState<Date | null>(null);
-  const [min, setMin] = useState(new Date());
+  const [min, setMin] = useState(new Date(-8640000000000000));
   const [max, setMax] = useState(new Date());
 
   // Return the current interval on every change
@@ -65,7 +65,7 @@ function DateIntervalSelector({
         (y?.spotifyReleaseDate?.getTime() || 0)
     );
 
-    const min = sorted?.[0]?.spotifyReleaseDate || new Date(0);
+    const min = sorted?.[0]?.spotifyReleaseDate || new Date(-8640000000000000);
     const max = sorted?.[sorted.length - 1]?.spotifyReleaseDate || new Date(0);
 
     setDateStats({

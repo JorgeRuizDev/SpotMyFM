@@ -20,12 +20,14 @@ function TrackLengthIntervalSelector({
   const [longest, setLongest] = useState<number>();
 
   const [lowInterval, setLowInterval] = useState<number>(0);
-  const [topInterval, setTopInterval] = useState<number>(100);
+  const [topInterval, setTopInterval] = useState<number>(
+    Number.MAX_SAFE_INTEGER
+  );
 
   // Get the shortest and longest duration in MS
   useEffect(() => {
-    let min = Number.MAX_SAFE_INTEGER;
-    let max = 0;
+    let min = 0;
+    let max = Number.MAX_SAFE_INTEGER;
 
     for (const t of tracks) {
       const duration = t.spotifyDurationMS;
@@ -53,7 +55,7 @@ function TrackLengthIntervalSelector({
 
   function resetSlider() {
     setLowInterval(shortest || 0);
-    setTopInterval(longest || 100);
+    setTopInterval(longest || Number.MAX_SAFE_INTEGER);
   }
 
   return (

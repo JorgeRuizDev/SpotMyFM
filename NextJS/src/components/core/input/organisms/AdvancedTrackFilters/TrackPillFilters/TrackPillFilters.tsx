@@ -53,19 +53,12 @@ function TrackPillFilters({
   // Get the tracks genres:
   useEffect(() => {
     setTrackGenres(tracks.flatMap((t) => t.genres || []));
-  }, [tracks]);
 
-  // Get the album tags (LastFM + Custom):
-  useEffect(() => {
     setLastTags(albums.flatMap((a) => a.lastfmTagsNames));
     setCustomTags(albums.flatMap((a) => a.albumTags));
-  }, [albums]);
-
-  // Get the artist genres:
-  useEffect(() => {
     setArtistGenres(artists.flatMap((a) => a.spotifyGenres || []));
-  }, [artists]);
-  debugger;
+  }, [albums, artists, tracks]);
+
   /**
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
    */
@@ -96,7 +89,6 @@ function TrackPillFilters({
       // By Track Genres
       .filter((t) => filterByPill(t.genres || [], filteredTrackGenres));
 
-    console.log(filtered);
     setFilteredTracks(filtered);
   }, [
     filteredArtistGenres,
