@@ -6,7 +6,7 @@ import useTrackSorter, {
 } from "hooks/sorters/useTrackSorter";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { selectManager, trackViewSettings } from "interfaces/Track";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { BiAddToQueue } from "react-icons/bi";
 import { BsFillCursorFill } from "react-icons/bs";
@@ -47,6 +47,8 @@ function TrackView({
   const [advancedFilteredTracks, setAdvancedFilteredTracks] =
     useState<Track[]>(tracks);
   const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
+  const [resetAdvFilter, setResetAdvFilter] = useState(false);
+
   const [currentView, setCurrentView] = useState<ViewTypeOption>(
     isMobile ? "LIST" : "GRID"
   );
@@ -105,7 +107,7 @@ function TrackView({
       <Modal
         isOpen={showAdvancedFilter}
         onClose={() => setShowAdvancedFilter(false)}
-        doNotUmount={true}
+        doNotUmount={!resetAdvFilter}
       >
         <AdvancedSpotifyFilters
           tracks={tracks}
@@ -168,14 +170,22 @@ function TrackView({
             </Buttons.PrimaryGreenButton>
           </>
         )}
-        <Buttons.PrimaryGreenButton onClick={() => setShowAdvancedFilter(true)}>
+        <Buttons.PrimaryGreenButton
+          onClick={() => {
+            setShowAdvancedFilter(true);
+            setResetAdvFilter(false);
+          }}
+        >
           <HiFilter />
           <span>Advanced Filter</span>
         </Buttons.PrimaryGreenButton>
 
         <Buttons.PrimaryGreenButton
           rounded
-          onClick={() => setAdvancedFilteredTracks(tracks)}
+          onClick={() => {
+            setAdvancedFilteredTracks(tracks);
+            setResetAdvFilter(true);
+          }}
           aria-label={"Reset Advanced Filter"}
           disabled={tracks.length == advancedFilteredTracks.length}
         >
