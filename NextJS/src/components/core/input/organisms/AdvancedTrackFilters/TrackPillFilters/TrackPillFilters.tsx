@@ -63,18 +63,16 @@ function TrackPillFilters({
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
    */
   const filter = useCallback(() => {
-    const byLastTags = tracks.filter((t) =>
-      filterByPill(t.album?.lastfmTagsNames || [], filteredLastTags)
-    );
-
-    const byArtistGenre = tracks.filter((t) =>
-      filterByPill(
-        t.artists.flatMap((a) => a.spotifyGenres || []),
-        filteredArtistGenres
+    const filtered = tracks
+      .filter((t) =>
+        filterByPill(t.album?.lastfmTagsNames || [], filteredLastTags)
       )
-    );
-
-    const filtered = Array.from(new Set([...byArtistGenre, ...byLastTags]))
+      .filter((t) =>
+        filterByPill(
+          t.artists.flatMap((a) => a.spotifyGenres || []),
+          filteredArtistGenres
+        )
+      )
       // By Artist:
       .filter((t) =>
         filterByPill(

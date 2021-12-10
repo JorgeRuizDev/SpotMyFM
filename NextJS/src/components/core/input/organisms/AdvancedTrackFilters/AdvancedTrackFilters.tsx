@@ -40,7 +40,7 @@ function AdvancedTrackFilters({
   useEffect(() => {
     setFilteredTracks(filteredIntervals);
   }, [filteredIntervals, setFilteredTracks, albums]);
-  console.log(filteredPills);
+
   return (
     <Styled.Spacing>
       <TrackPillFilters
