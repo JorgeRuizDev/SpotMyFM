@@ -17,8 +17,8 @@ const HorizontalCard = tw.article`
 	justify-center
 
 	// Colors
-	bg-gray-200
-	dark:bg-darkCard-hover
+	bg-lightCard-base
+	dark:bg-darkCard-base
 
 	// Shape:
 	m-4

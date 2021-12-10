@@ -14,8 +14,6 @@ const Wrapper = tw.div`
 
 	rounded-2xl
 
-	bg-lightCard-base
-	dark:bg-darkCard-base
 
 
 	flex
