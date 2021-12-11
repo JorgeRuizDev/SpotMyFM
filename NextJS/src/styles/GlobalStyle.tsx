@@ -39,15 +39,20 @@ export const baseButton = `
   hover:bg-darkCard-hover
   bg-darkCard-base
   text-white
+  text-base
+  truncate
   cursor-pointer
   
 
   m-1
   // Size
-  py-2
-  px-4
+  md:(py-2 px-4)
+  py-1 px-3
   width[fit-content]
-  min-height[2.625rem]
+  md:(min-height[40px] max-height[40px])
+  min-height[35px]
+  max-height[35px]
+
 
   flex
   flex-row

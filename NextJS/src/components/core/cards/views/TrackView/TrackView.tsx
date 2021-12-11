@@ -177,7 +177,7 @@ function TrackView({
           }}
         >
           <HiFilter />
-          <span>Advanced Filter</span>
+          <span>Filter</span>
         </Buttons.PrimaryGreenButton>
 
         <Buttons.PrimaryGreenButton

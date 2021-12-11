@@ -6,7 +6,7 @@ interface ITitle {
   titleStyle?: "spotify";
 }
 
-const Title = styled.div<ITitle>(({ titleStyle }) => [
+const Title = styled.button<ITitle>(({ titleStyle }) => [
   tw`
 	rounded-full
 

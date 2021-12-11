@@ -9,7 +9,10 @@ interface IButton {
 }
 
 const BasicButton: StyledComponent<"button", any, IButton, never> =
-  styled.button<IButton>(({ rounded }) => [rounded && tw`px-3 py-3`]);
+  styled.button<IButton>(({ rounded }) => [
+    rounded &&
+      tw`md:(width[40px] height[40px] p-0.5) width[35px] height[35px] p-1`,
+  ]);
 
 const PrimaryBlueButton: StyledComponent<"button", any, IButton, never> = tw(
   BasicButton
