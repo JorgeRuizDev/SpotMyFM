@@ -7,3 +7,9 @@ export default interface SpotifyBaseObject {
   type: string;
   markets?: string[];
 }
+
+export interface SpotifyImage {
+  url: string;
+  height?: number;
+  width?: number;
+}

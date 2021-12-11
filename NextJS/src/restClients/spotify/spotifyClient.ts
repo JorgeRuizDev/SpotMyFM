@@ -148,6 +148,7 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
         spotifyId: album.id,
         name: album.name,
         spotifyCoverUrl: album.images.map((x) => x.url),
+        spotifyCovers: album.images,
         spotifyUrl: album.external_urls.spotify,
         spotifyReleaseDate: parseReleaseDate(
           album.release_date,
@@ -186,6 +187,7 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
         spotifyGenres: artist.genres,
         spotifyPopularity: artist.popularity,
         spotifyImgs: artist.images.map((x) => x.url),
+        spotifyArtistImgs: artist.images,
         type: artist.type,
       });
     }
