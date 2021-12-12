@@ -20,6 +20,7 @@ const Layout = styled.article<ILayout>(({ compact }) => [
 		bg-white
 
 		text-black
+    rounded-md
 		rounded-b-2xl
 		filter
 		drop-shadow-sm	
@@ -41,6 +42,7 @@ const ButtonRow = tw.div`
 `;
 
 const Image = tw(motion.img)`
+  rounded
 	width[312px]
 	h-auto
 `;
