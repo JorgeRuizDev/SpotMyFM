@@ -1,5 +1,6 @@
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
+import SpotifyBaseObject from "data/cacheDB/dexieDB/models/SpotifyObject";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import useSpotifyPlayer from "hooks/spotify/useSpotifyPlayer";
 
@@ -8,13 +9,12 @@ import { BiAddToQueue } from "react-icons/bi";
 import { FaLastfm, FaMinus, FaPlus, FaSpotify } from "react-icons/fa";
 import { MdAlbum, MdQueueMusic } from "react-icons/md";
 import { toast } from "react-toastify";
+import { SpotifyClient } from "restClients/spotify/spotifyClient";
 import { useClientsStore } from "store/useClients";
 import Buttons from "styles/Buttons";
 import { BlockLike } from "typescript";
 import LikeIcon from "../LikeIcon";
 import Styled from "./CardButtons.styles";
-
-interface ICardButtonsProps {}
 
 interface ITrackArtist {
   track: Track;
@@ -32,6 +32,13 @@ interface ILastTag {
 
 interface IUrl {
   url: string;
+}
+
+interface ISave {
+  item: SpotifyBaseObject;
+  api: SpotifyClient;
+  isSaved: boolean;
+  setIsSaved: (is: boolean) => void;
 }
 
 function SpotifyButton({ track, artist }: ITrackArtist): JSX.Element {
@@ -53,7 +60,7 @@ function SpotifyButton({ track, artist }: ITrackArtist): JSX.Element {
   );
 }
 
-function EnqueueButton({ track, artist }: ITrackArtist): JSX.Element {
+function EnqueueButton({ track }: ITrackArtist): JSX.Element {
   const isPremium = useClientsStore((s) => s.user.isPremium);
   const { enqueue } = useSpotifyPlayer();
   return (
@@ -69,6 +76,52 @@ function EnqueueButton({ track, artist }: ITrackArtist): JSX.Element {
         </Buttons.SecondaryGreenButton>
       )}
     </>
+  );
+}
+
+function SaveAlbum({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
+  return (
+    <Buttons.SecondaryGreenButton
+      onClick={() => {
+        if (isSaved) {
+          api
+            .removeFromMySavedAlbums([item.spotifyId])
+            .then(() => setIsSaved(false))
+            .catch((e) => toast.error(api.parse(e)?.message));
+        } else {
+          api
+            .addToMySavedAlbums([item.spotifyId])
+            .then(() => setIsSaved(true))
+            .catch((e) => toast.error(api.parse(e)?.message));
+        }
+      }}
+    >
+      <LikeIcon isLiked={isSaved} />
+      <span>{isSaved ? "Remove Album" : "Save Album"}</span>
+    </Buttons.SecondaryGreenButton>
+  );
+}
+
+function SaveTrack({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
+  return (
+    <Buttons.SecondaryGreenButton
+      onClick={() => {
+        if (isSaved) {
+          api
+            .removeFromMySavedTracks([item.spotifyId])
+            .then(() => setIsSaved(false))
+            .catch((e) => toast.error(api.parse(e)?.message));
+        } else {
+          api
+            .addToMySavedTracks([item.spotifyId])
+            .then(() => setIsSaved(true))
+            .catch((e) => toast.error(api.parse(e)?.message));
+        }
+      }}
+    >
+      <LikeIcon isLiked={isSaved} />
+      <span>{isSaved ? "Remove Track" : "Save Track"}</span>
+    </Buttons.SecondaryGreenButton>
   );
 }
 
@@ -191,4 +244,6 @@ export {
   LikeButton,
   PlusButton,
   PlaylistButton,
+  SaveAlbum,
+  SaveTrack,
 };

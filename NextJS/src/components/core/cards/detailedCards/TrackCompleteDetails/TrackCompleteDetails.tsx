@@ -24,6 +24,8 @@ import {
   TagButton,
 } from "../../buttons/CardButtons";
 import formatPopularity from "util/spotify/formatPopularity";
+import { toast } from "react-toastify";
+import { SaveAlbum, SaveTrack } from "../../buttons/CardButtons/CardButtons";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
@@ -34,16 +36,12 @@ function TrackCompleteDetails({
   track,
   album,
   artists,
-}: ITrackCompleteDetailsProps) {
+}: ITrackCompleteDetailsProps): JSX.Element {
   const [lastFMDetails, setLastFMDetails] = useState<ILastFMAlbum | null>(null);
-  const { lastfmApi } = useClientsStore();
-  useEffect(() => {
-    lastfmApi
-      .getAlbumDetails(artists?.[0]?.name || "", album?.name || "")
-      .then((res) => {
-        setLastFMDetails(res[0]);
-      });
-  }, [artists, album, lastfmApi]);
+  const [isTrackLiked, setIsTrackLiked] = useState(false);
+  const [isAlbumLiked, setIsAlbumLiked] = useState(false);
+
+  const { lastfmApi, spotifyApi } = useClientsStore();
 
   const { play, pause, PreviewButton } = useTrackPreview(
     track?.spotifyPreviewURL || "",
@@ -57,6 +55,30 @@ function TrackCompleteDetails({
       pause();
     };
   }, [pause]);
+
+  // Get the LastFM items
+  useEffect(() => {
+    lastfmApi
+      .getAlbumDetails(artists?.[0]?.name || "", album?.name || "")
+      .then((res) => {
+        setLastFMDetails(res[0]);
+      });
+  }, [artists, album, lastfmApi]);
+
+  // Check if the album & tracks are liked or not
+  useEffect(() => {
+    album &&
+      spotifyApi
+        .containsMySavedAlbums([album.spotifyId])
+        .then((res) => setIsAlbumLiked(res?.[0]))
+        .catch((e) => toast.error(spotifyApi.parse(e)?.message));
+
+    track &&
+      spotifyApi
+        .containsMySavedTracks([track.spotifyId])
+        .then((res) => setIsTrackLiked(res?.[0]))
+        .catch((e) => toast.error(spotifyApi.parse(e)?.message));
+  }, [album, track, spotifyApi]);
 
   return (
     <div>
@@ -103,7 +125,7 @@ function TrackCompleteDetails({
     </div>
   );
 
-  function AlbumCollapsible() {
+  function AlbumCollapsible(): JSX.Element {
     return (
       <Styled.CenterElement>
         <Collapsible>
@@ -119,8 +141,8 @@ function TrackCompleteDetails({
     );
   }
 
-  function LastFMTags() {
-    return album?.lastfmTagsFull?.length || 0 > 0 ? (
+  function LastFMTags(): JSX.Element {
+    return (album?.lastfmTagsFull?.length || 0) > 0 ? (
       <>
         <hr />
         <h4>LastFM Tags:</h4>
@@ -130,15 +152,33 @@ function TrackCompleteDetails({
           ))}
         </Styled.TagsButtonRow>
       </>
-    ) : null;
+    ) : (
+      <></>
+    );
   }
 
-  function Buttons() {
+  function Buttons(): JSX.Element {
     return (
       <Styled.ButtonRow>
         {track && <PreviewButton />}
         {track && <SpotifyButton track={track} artist={artists?.[0]} />}
         {track && <EnqueueButton track={track} artist={artists?.[0]} />}
+        {track && (
+          <SaveTrack
+            item={track}
+            api={spotifyApi}
+            isSaved={isTrackLiked}
+            setIsSaved={setIsTrackLiked}
+          />
+        )}
+        {album && (
+          <SaveAlbum
+            item={album}
+            api={spotifyApi}
+            isSaved={isAlbumLiked}
+            setIsSaved={setIsAlbumLiked}
+          />
+        )}
         <PlayAlbum album={album} />
         <OpenSpotifyButton url={album?.spotifyUrl || ""} />
         <OpenLastFMButton url={lastFMDetails?.lastfmURL || ""} />
@@ -146,7 +186,7 @@ function TrackCompleteDetails({
     );
   }
 
-  function RightColumn() {
+  function RightColumn(): JSX.Element {
     return (
       <Styled.Column>
         {artists?.map((a) => (
@@ -160,12 +200,12 @@ function TrackCompleteDetails({
     );
   }
 
-  function CoverText() {
+  function CoverText(): JSX.Element {
     return (
       <ul>
         <li>
           <h5>
-            Released on{" "}
+            Released on
             <StyledText.pGreen>
               {album?.spotifyReleaseDate?.toLocaleDateString()}
             </StyledText.pGreen>
@@ -203,7 +243,6 @@ function TrackCompleteDetails({
           </h5>
         </li>
         <>
-          {" "}
           <li>
             <h5>
               <StyledText.pGreen>
@@ -219,7 +258,7 @@ function TrackCompleteDetails({
               </StyledText.pGreen>{" "}
               LastFM Plays
             </h5>
-          </li>{" "}
+          </li>
         </>
       </ul>
     );
