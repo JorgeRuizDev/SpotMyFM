@@ -1,6 +1,6 @@
 import tw from "twin.macro";
 
-const ListItem = tw.tr`
+const ListItem = tw.div`
   w-full
   flex
   flex-row
@@ -11,7 +11,7 @@ const ListItem = tw.tr`
   
 `;
 
-const LeftSide = tw.td`
+const LeftSide = tw.div`
   flex
   flex-row
   flex-nowrap
@@ -21,7 +21,7 @@ const LeftSide = tw.td`
   
 `;
 
-const RightSide = tw.td`
+const RightSide = tw.div`
   flex
   flex-row
   flex-nowrap
@@ -32,35 +32,35 @@ const RightSide = tw.td`
   min-width[80px]
 `;
 
-const E1 = tw.td`
+const E1 = tw.div`
   flex
   flex-1
 
 `;
 
-const E2 = tw.td`
+const E2 = tw.div`
   sm:(flex flex-1)
   hidden
   
 `;
 
-const E3 = tw.td`
+const E3 = tw.div`
   md:(flex flex-1)
   hidden
   
 `;
 
-const E4 = tw.td`
+const E4 = tw.div`
   lg:(flex flex-1)
   hidden
 `;
 
-const E5 = tw.td`
+const E5 = tw.div`
   xl:(flex flex-1)
   hidden
 `;
 
-const E6 = tw.td`
+const E6 = tw.div`
   2xl:(flex flex-1)
   hidden
 `;
