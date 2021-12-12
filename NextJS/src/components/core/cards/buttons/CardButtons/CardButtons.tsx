@@ -12,7 +12,6 @@ import { toast } from "react-toastify";
 import { SpotifyClient } from "restClients/spotify/spotifyClient";
 import { useClientsStore } from "store/useClients";
 import Buttons from "styles/Buttons";
-import { BlockLike } from "typescript";
 import LikeIcon from "../LikeIcon";
 import Styled from "./CardButtons.styles";
 
@@ -125,7 +124,7 @@ function SaveTrack({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
   );
 }
 
-function PlayAlbum({ album }: IAlbum) {
+function PlayAlbum({ album }: IAlbum): JSX.Element {
   const isPremium = useClientsStore((s) => s.user.isPremium);
   const { playAlbum } = useSpotifyPlayer();
 
@@ -145,7 +144,7 @@ function PlayAlbum({ album }: IAlbum) {
   );
 }
 
-function TagButton({ name, url }: ILastTag) {
+function TagButton({ name, url }: ILastTag): JSX.Element {
   return (
     <Buttons.PrimaryRedButton
       onClick={() => {
@@ -157,33 +156,35 @@ function TagButton({ name, url }: ILastTag) {
   );
 }
 
-function OpenLastFMButton({ url }: IUrl) {
+function OpenLastFMButton({ url }: IUrl): JSX.Element {
   return (
-    <Styled.LastFMButton
+    <Buttons.SecondaryRedButton
+      rounded
       aria-label={"Open LastFM"}
       onClick={() => {
         window.open(url, "_blank");
       }}
     >
       <FaLastfm />
-    </Styled.LastFMButton>
+    </Buttons.SecondaryRedButton>
   );
 }
 
-function OpenSpotifyButton({ url }: IUrl) {
+function OpenSpotifyButton({ url }: IUrl): JSX.Element {
   return (
-    <Styled.SpotifyButton
+    <Buttons.SecondaryGreenButton
+      rounded
       aria-label={"Open Spotify"}
       onClick={() => {
         window.open(url, "_blank");
       }}
     >
       <FaSpotify />
-    </Styled.SpotifyButton>
+    </Buttons.SecondaryGreenButton>
   );
 }
 
-function LikeButton({ isLiked }: { isLiked: boolean }) {
+function LikeButton({ isLiked }: { isLiked: boolean }): JSX.Element {
   return (
     <Buttons.SecondaryGreenButton rounded>
       <LikeIcon isLiked={isLiked} />
@@ -191,7 +192,7 @@ function LikeButton({ isLiked }: { isLiked: boolean }) {
   );
 }
 
-function PlusButton({ onClick }: { onClick: () => void }) {
+function PlusButton({ onClick }: { onClick: () => void }): JSX.Element {
   return (
     <Buttons.SecondaryGreenButton rounded onClick={onClick} aria-label={"More"}>
       <FaPlus />
@@ -210,7 +211,7 @@ function PlaylistButton({
   toggleFromPlaylist,
   track,
   showLabels = true,
-}: IPlaylistButton) {
+}: IPlaylistButton): JSX.Element | null {
   return (
     (toggleFromPlaylist !== undefined && (
       <>
