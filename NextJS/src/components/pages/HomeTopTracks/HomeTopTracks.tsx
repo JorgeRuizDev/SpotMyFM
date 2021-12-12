@@ -1,4 +1,3 @@
-import SkelletonList from "components/core/cards/listCards/SkeletonList";
 import ArtistView from "components/core/cards/views/ArtistView";
 import TrackSelectorView from "components/core/cards/views/TrackSelectorView";
 import GetMyTopSelector from "components/pages/HomeTopTracks/GetMyTopSelector";
@@ -6,7 +5,7 @@ import GetMyTopSelector from "components/pages/HomeTopTracks/GetMyTopSelector";
 import Head from "components/util/Head";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
-
+import Styled from "./HomeTopTracks.styles";
 import React, { useState } from "react";
 
 export default function HomeTopTracks() {
@@ -20,7 +19,7 @@ export default function HomeTopTracks() {
   return (
     <>
       <Head subtitle={`Top ${type}`} />
-      <h1>{`User's Top ${type}`}</h1>
+      <Styled.Title>{`User's Top ${type}`}</Styled.Title>
       <GetMyTopSelector
         setTracks={setTrackList}
         setArtists={setArtistList}

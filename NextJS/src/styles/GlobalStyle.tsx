@@ -174,27 +174,35 @@ const CustomGlobalStyle = createGlobalStyle`
   }
   h1{
     ${tw`
-      text-6xl
+      text-4xl
+      md:text-5xl
+      lg:text-6xl
     `}
   }
   h2{
     ${tw`
-      text-5xl
+      text-3xl
+      md:text-4xl
+      lg:text-5xl
     `}
   }
   h3{
     ${tw`
-      text-4xl
+      text-2xl
+      md:text-3xl
+      lg:text-4xl
     `}
   }
   h4{
     ${tw`
-      text-3xl
+      text-xl
+      lg:text-3xl
     `}
   }
   h5{
     ${tw`
-      text-2xl
+      text-xl
+      lg:text-2xl
     `}
   }
   h6{
