@@ -71,7 +71,9 @@ function ArtistView({
         isLoading={settings.isLoading}
       >
         {currentView === "GRID"
-          ? artists.map((a, i) => <SimpleArtistCard key={i} artist={a} />)
+          ? filteredArtists.map((a, i) => (
+              <SimpleArtistCard key={i} artist={a} />
+            ))
           : []}
       </GenericCardView>
     </>

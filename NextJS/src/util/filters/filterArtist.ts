@@ -4,7 +4,7 @@ export function filterArtist(artist: Artist, query: string): boolean {
   query = query.toUpperCase();
   return (
     artist.name.toUpperCase().includes(query) ||
-    !!artist.spotifyGenres?.find((g) => g.includes(query)) ||
+    !!artist.spotifyGenres?.find((g) => g.toUpperCase().includes(query)) ||
     false
   );
 }
