@@ -1,3 +1,11 @@
+[data-color-scheme="dark"] {
+  color-scheme: dark;
+}
+
+[data-color-scheme="light"] {
+  color-scheme: light;
+}
+
 .grecaptcha-badge {
   width: 70px !important;
   overflow: hidden !important;

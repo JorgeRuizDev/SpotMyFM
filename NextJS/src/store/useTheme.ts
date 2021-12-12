@@ -7,10 +7,21 @@ import { Theme } from "enums/Theme";
  * @returns Current / new theme
  */
 function setTheme(theme: Theme): Theme {
+  // Hides the scrollbar to change the theme:
   const root = window.document.documentElement;
+
+  document.documentElement.style.overflow = "hidden";
   root.classList.remove(theme === Theme.DARK ? Theme.LIGHT : Theme.DARK);
   root.classList.add(theme);
   localStorage.setItem("theme", theme);
+
+  document.documentElement.setAttribute(
+    "data-color-scheme",
+    theme === Theme.LIGHT ? "light" : "dark"
+  );
+
+  // Sets the scrollbar back with the new theme
+  document.documentElement.style.overflow = "";
   return theme;
 }
 

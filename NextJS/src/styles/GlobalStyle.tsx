@@ -247,31 +247,6 @@ const CustomGlobalStyle = createGlobalStyle`
   }
 
 
-  ::-webkit-scrollbar {
-    ${tw`
-      w-3.5
-      rounded-full
-      `}
-  }
-  
-  ::-webkit-scrollbar-track {
-    ${tw`
-      background[#323739]
-      bg-opacity-70
-    `}
-  }
-  ::-webkit-scrollbar-thumb {
-    ${tw`
-      hover:bg-gray-400
-      bg-gray-500
-    `}
-  }
-  ::-webkit-scrollbar-corner {
-    ${tw`
-    `}
-  }
-
-
   hr {
     ${tw`
       mt-2
