@@ -267,7 +267,8 @@ const CustomGlobalStyle = createGlobalStyle`
       bg-darkCard-base
       dark:bg-white
 
-      width[90%]
+      ml-0.5
+      mr-0.5
 
       `}
   }
