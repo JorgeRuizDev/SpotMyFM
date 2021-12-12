@@ -1,5 +1,5 @@
 import React from "react";
-import ListArtistCard from "./ListArtistCard";
+import { ListArtistCard, ListArtistCardHeader } from "./ListArtistCard";
 import { render } from "@testing-library/react";
 
 describe("<ListArtistCard />", () => {
@@ -15,5 +15,9 @@ describe("<ListArtistCard />", () => {
         }}
       />
     );
+  });
+
+  test("Renders the header", () => {
+    const component = render(<ListArtistCardHeader />);
   });
 });
