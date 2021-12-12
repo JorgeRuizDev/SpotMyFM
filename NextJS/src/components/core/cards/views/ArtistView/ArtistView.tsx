@@ -7,6 +7,10 @@ import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import React, { useState } from "react";
 import { isMobile } from "react-device-detect";
 import { filterArtist } from "util/filters/filterArtist";
+import {
+  ListArtistCard,
+  ListArtistCardHeader,
+} from "../../listCards/ListArtistCard";
 import SimpleArtistCard from "../../simpleCards/SimpleArtistCard";
 import GenericCardView, {
   IGenericCardViewSortProps,
@@ -66,7 +70,7 @@ function ArtistView({
         view={
           currentView === "GRID"
             ? { type: currentView }
-            : { type: currentView, ListHeader: <h1>Under Construction</h1> }
+            : { type: currentView, ListHeader: <ListArtistCardHeader /> }
         }
         isLoading={settings.isLoading}
       >
@@ -74,7 +78,9 @@ function ArtistView({
           ? filteredArtists.map((a, i) => (
               <SimpleArtistCard key={i} artist={a} />
             ))
-          : []}
+          : filteredArtists.map((a, i) => (
+              <ListArtistCard artist={a} pos={i + 1} key={i} />
+            ))}
       </GenericCardView>
     </>
   );
