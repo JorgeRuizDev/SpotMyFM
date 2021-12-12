@@ -33,6 +33,13 @@ interface ITrackViewProps {
   selectManager?: selectManager;
 }
 
+/**
+ * Renders multiple tracks as a grid or list.
+ * Playlist Button Controls
+ * Advanced Filter
+ * Preview on Toggle controls
+ * @returns
+ */
 function TrackView({
   tracks,
   settings = {
@@ -64,6 +71,7 @@ function TrackView({
   } = useTrackSorter(advancedFilteredTracks, settings.defaultTrackSort);
 
   const sorting: IGenericCardViewSortProps = {
+    sortTitle: "Sort Tracks",
     options: trackSortingOptions,
     isAscendant: isAscendentState,
     selected: optionState,
@@ -73,6 +81,7 @@ function TrackView({
     },
   };
 
+  // Set the Advanced Filtered Tracks
   useEffect(() => {
     if (!settings.isLoading && tracks.length > 0) {
       setAdvancedFilteredTracks(tracks);
@@ -205,4 +214,4 @@ function TrackView({
   }
 }
 
-export default TrackView;
+export default React.memo(TrackView);

@@ -1,4 +1,5 @@
 import SkelletonList from "components/core/cards/listCards/SkeletonList";
+import ArtistView from "components/core/cards/views/ArtistView";
 import TrackSelectorView from "components/core/cards/views/TrackSelectorView";
 import GetMyTopSelector from "components/pages/HomeTopTracks/GetMyTopSelector";
 
@@ -32,7 +33,10 @@ export default function HomeTopTracks() {
           settings={{ isLoading: isLoading }}
         />
       ) : (
-        ""
+        <ArtistView
+          artists={artistList || []}
+          settings={{ isLoading: isLoading }}
+        />
       )}
     </>
   );

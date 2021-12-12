@@ -13,6 +13,7 @@ import FilterInput from "components/core/input/atoms/FilterInput";
 import { BsFillGrid3X2GapFill, BsListUl } from "react-icons/bs";
 import MultipleSkeletonList from "../../listCards/MultipleSkeletonList";
 export interface IGenericCardViewSortProps {
+  sortTitle: string;
   options: Record<string, string>;
   isAscendant: boolean;
   selected: string;
@@ -151,7 +152,7 @@ function GenericCardView<T>({
                 };
               })}
             >
-              <span>Sort Tracks</span>
+              <span>{sorting.sortTitle}</span>
             </DropdownMenu>
             <Buttons.SecondaryGreenButton
               onClick={() => sorting.setIsAscendant(!sorting?.isAscendant)}
