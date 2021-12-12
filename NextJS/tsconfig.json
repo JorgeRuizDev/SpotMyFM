@@ -1,10 +1,16 @@
 {
   "compilerOptions": {
     "plugins": [
-      { "transform": "typescript-is/lib/transform-inline/transformer" }
+      {
+        "transform": "typescript-is/lib/transform-inline/transformer"
+      }
     ],
     "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -16,8 +22,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "baseUrl": "./src"
+    "baseUrl": "./src",
+    "incremental": true
   },
-  "include": ["next-env.d.ts", "src/**/*.ts", "src/**/*.tsx", "next.config.js"],
-  "exclude": ["node_modules", ".next", ".vscode", "public"]
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "next.config.js"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    ".vscode",
+    "public"
+  ]
 }
