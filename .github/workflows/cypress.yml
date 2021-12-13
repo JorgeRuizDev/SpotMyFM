@@ -25,5 +25,5 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           working-directory: ./NextJS
-          build: npm run build
-          start: npm start
+          #build: npm run build
+          #start: npm start
