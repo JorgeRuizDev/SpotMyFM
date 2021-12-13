@@ -11,7 +11,10 @@
     "fix": "npx eslint ./ --fix",
     "test": "jest --silent",
     "jest": "jest --silent",
-    "format": "prettier --write src/**/*.{ts,tsx,js,jsx}"
+    "format": "prettier --write src/**/*.{ts,tsx,js,jsx}",
+    "cypress:open" : "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:record": "cypress run --record --key"
   },
   "dependencies": {
     "@date-io/date-fns": "2.11.0",
