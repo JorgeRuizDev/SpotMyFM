@@ -204,7 +204,7 @@ function TermSelector({ term, type, handleTerm }: ITermSelector): JSX.Element {
             value={Term.Short}
             onChange={handleTerm}
           />
-          
+
           <p>Short Term (4 weeks)</p>
         </Styled.Inline>
 
