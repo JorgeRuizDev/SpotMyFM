@@ -21,10 +21,7 @@ jobs:
         uses: actions/checkout@v2
       # Install NPM dependencies, cache them correctly
       # and run all Cypress tests
-      
-      - name: Wait for vercel to deploy
-        run: sleep 75s
-        shell: bash
+    
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
