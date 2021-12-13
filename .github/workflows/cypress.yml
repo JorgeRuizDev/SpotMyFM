@@ -11,7 +11,8 @@ jobs:
       SPOTIFY_SECRET: ${{secrets.SPOTIFY_SECRET}}
       NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
       TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
-      TEST_BASE_URL: "http://localhost:3000"
+      TEST_SPOTIFY_REFRESH_E2E: ${{secrets.TEST_SPOTIFY_REFRESH}}
+      TEST_BASE_URL: "https://dev.spotmyfm.jorgeruizdev.com/"
     defaults:
       run:
         working-directory: ./NextJS
