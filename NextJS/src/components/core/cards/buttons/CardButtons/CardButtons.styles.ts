@@ -1,8 +1,6 @@
 import Buttons from "styles/Buttons";
 import tw from "twin.macro";
 
-
-
-const Styled = {  };
+const Styled = {};
 
 export default Styled;
