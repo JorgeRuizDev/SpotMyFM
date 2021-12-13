@@ -1,3 +1,4 @@
+import React from "react";
 import { ReactNode } from "react";
 import Styled from "./HorizontalCardCarousell.styles";
 interface IHorizontalCardCarousellProps {
@@ -7,13 +8,9 @@ interface IHorizontalCardCarousellProps {
 function HorizontalCardCarousell({ children }: IHorizontalCardCarousellProps) {
   return (
     <>
-      <Styled.Snap>
-        {children.map((c, i) => (
-          <>{c}</>
-        ))}
-      </Styled.Snap>
+      {children.length > 1 ? <Styled.Snap>{children}</Styled.Snap> : children}
     </>
   );
 }
 
-export default HorizontalCardCarousell;
+export default React.memo(HorizontalCardCarousell);

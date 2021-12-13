@@ -119,7 +119,10 @@ function TrackCompleteDetails({
               <Buttons />
               <LastFMTags />
             </Styled.Column>
-            <RightColumn />
+            <RightColumn
+              artists={artists || []}
+              lastFMDetails={lastFMDetails}
+            />
           </Styled.InfoGrid>
         </div>
       </Styled.Wrapper>
@@ -184,23 +187,6 @@ function TrackCompleteDetails({
         <OpenSpotifyButton url={album?.spotifyUrl || ""} />
         <OpenLastFMButton url={lastFMDetails?.lastfmURL || ""} />
       </Styled.ButtonRow>
-    );
-  }
-
-  function RightColumn(): JSX.Element {
-    return (
-      <Styled.Column>
-        <HorizontalCardCarousell>
-          {artists?.map((a) => (
-            <ArtistHorizontalCard artist={a} key={a.spotifyId} />
-          )) || []}
-        </HorizontalCardCarousell>
-
-        <Styled.DescriptionBox>
-          <p>{parse(lastFMDetails?.lastfmDescription || "")}</p>
-        </Styled.DescriptionBox>
-        {album?.lastfmTagsNames || 0 > 0 ? <Styled.BouncyArrow /> : null}
-      </Styled.Column>
     );
   }
 
@@ -269,4 +255,26 @@ function TrackCompleteDetails({
   }
 }
 
+function RightColumn({
+  artists,
+  lastFMDetails,
+}: {
+  artists: Artist[];
+  lastFMDetails: ILastFMAlbum | null;
+}): JSX.Element {
+  return (
+    <Styled.Column>
+      <HorizontalCardCarousell>
+        {artists.map((a) => (
+          <ArtistHorizontalCard artist={a} key={a.spotifyId} />
+        )) || []}
+      </HorizontalCardCarousell>
+
+      <Styled.DescriptionBox>
+        <p>{parse(lastFMDetails?.lastfmDescription || "")}</p>
+      </Styled.DescriptionBox>
+      <Styled.BouncyArrow />
+    </Styled.Column>
+  );
+}
 export default TrackCompleteDetails;

@@ -3,7 +3,7 @@ import tw from "twin.macro";
 
 const HorizontalCard = tw.article`
 	flex
-
+  scroll-snap-align[center]
 	// Wrap
 	2xl:(flex-nowrap justify-start)
 	xl:(flex-wrap justify-center)
@@ -11,9 +11,6 @@ const HorizontalCard = tw.article`
 	sm:(flex-wrap justify-center )
   justify-center
 	flex-wrap
-
-  
-
 
 	// Colors
 	bg-lightCard-base
@@ -64,8 +61,8 @@ const GenrePillWrap = tw.section`
 `;
 
 const Image = tw(motion.img)`
-	max-width[210px]
-
+	max-width[300px]
+  min-width[200px]
   self-start
 
 	rounded
