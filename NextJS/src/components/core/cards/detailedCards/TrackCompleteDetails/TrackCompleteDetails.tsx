@@ -26,6 +26,7 @@ import {
 import formatPopularity from "util/spotify/formatPopularity";
 import { toast } from "react-toastify";
 import { SaveAlbum, SaveTrack } from "../../buttons/CardButtons/CardButtons";
+import HorizontalCardCarousell from "../../horizontalCards/HorizontalCardCarousell";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
@@ -189,9 +190,12 @@ function TrackCompleteDetails({
   function RightColumn(): JSX.Element {
     return (
       <Styled.Column>
-        {artists?.map((a) => (
-          <ArtistHorizontalCard artist={a} key={a.spotifyId} />
-        ))}
+        <HorizontalCardCarousell>
+          {artists?.map((a) => (
+            <ArtistHorizontalCard artist={a} key={a.spotifyId} />
+          )) || []}
+        </HorizontalCardCarousell>
+
         <Styled.DescriptionBox>
           <p>{parse(lastFMDetails?.lastfmDescription || "")}</p>
         </Styled.DescriptionBox>
