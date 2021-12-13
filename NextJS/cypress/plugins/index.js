@@ -12,6 +12,9 @@
 // This function is called when a project is opened or re-opened (e.g. due to
 // the project's config changing)
 
+// Load the env variables:
+require("dotenv").config({ path: `.env.local` });
+
 /**
  * @type {Cypress.PluginConfig}
  */
@@ -19,4 +22,8 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+
+  config.env.spotify_refresh_token = process.env.TEST_SPOTIFY_REFRESH;
+  config.env.base_url = process.env.TEST_BASE_URL;
+  return config;
 };
