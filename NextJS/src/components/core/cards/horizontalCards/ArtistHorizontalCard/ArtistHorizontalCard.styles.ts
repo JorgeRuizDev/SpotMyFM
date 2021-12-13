@@ -5,24 +5,23 @@ const HorizontalCard = tw.article`
 	flex
 
 	// Wrap
-	2xl:flex-nowrap
-	xl:flex-wrap
-	md:flex-nowrap
-	sm:flex-wrap
+	2xl:(flex-nowrap justify-start)
+	xl:(flex-wrap justify-center)
+	md:(flex-nowrap justify-start)
+	sm:(flex-wrap justify-center )
+  justify-center
 	flex-wrap
 
-	
-	md:items-start
-	
-	justify-center
+  
+
 
 	// Colors
 	bg-lightCard-base
 	dark:bg-darkCard-base
 
 	// Shape:
-	m-4
-	min-width[fit-content]
+  
+	min-width[90%]
 	rounded-2xl
 
 	shadow-xl
@@ -66,13 +65,12 @@ const GenrePillWrap = tw.section`
 
 const Image = tw(motion.img)`
 	max-width[210px]
-	min-width[185px]
+
+  self-start
+
 	rounded
 	m-2
 	z-50
-	overflow-scroll
-
-	row-span-4
 `;
 
 const Styled = {
