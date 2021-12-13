@@ -8,6 +8,7 @@ module.exports = {
   ],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   moduleDirectories: ["node_modules", "src"],
+  modulePathIgnorePatterns: ["<rootDir>/cypress"],
   moduleNameMapper: {
     /* Handle CSS imports (with CSS modules)
     https://jestjs.io/docs/webpack#mocking-css-modules */
