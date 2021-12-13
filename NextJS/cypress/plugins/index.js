@@ -24,6 +24,8 @@ module.exports = (on, config) => {
   // `config` is the resolved Cypress config
 
   config.env.spotify_refresh_token = process.env.TEST_SPOTIFY_REFRESH;
+  config.env.spotify_refresh_token_e2e =
+    process.env.TEST_SPOTIFY_REFRESH_E2E;
   config.env.base_url = process.env.TEST_BASE_URL;
   return config;
 };

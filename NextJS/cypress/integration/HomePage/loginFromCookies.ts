@@ -1,12 +1,12 @@
-describe("My First Test", () => {
+describe("Auto Login Test", () => {
   beforeEach(() => {
-    cy.setCookie("SPOTIFY_REFRESH", Cypress.env("spotify_refresh_token"));
+    cy.setCookie("SPOTIFY_REFRESH", Cypress.env("spotify_refresh_token_e2e"));
     cy.visit(Cypress.env("base_url"));
   });
 
-  it("Does not do much!", () => {
+  it("It changes the current cards", () => {
     cy.contains("Long Term (Since the beginning)").click();
-    cy.contains("Add to Playlist");
-    expect(true).to.equal(true);
+    cy.contains("Add to Playlist", { timeout: 15000 });
   });
+  
 });
