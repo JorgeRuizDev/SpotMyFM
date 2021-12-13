@@ -25,7 +25,7 @@ const TwoColumns = tw.div`
 	mb-8
 `;
 
-const Inline = tw.section`
+const Inline = tw.label`
 	flex
 	flex-row
 	flex-nowrap

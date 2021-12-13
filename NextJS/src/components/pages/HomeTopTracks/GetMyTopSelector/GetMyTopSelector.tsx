@@ -145,7 +145,7 @@ interface ITypeSelector {
   handleType: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function TypeSelector({ type, handleType }: ITypeSelector) {
+function TypeSelector({ type, handleType }: ITypeSelector): JSX.Element {
   return (
     <Styled.Column>
       <Styled.JustifyStart>
@@ -181,7 +181,7 @@ interface ITermSelector {
   handleTerm: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function TermSelector({ term, type, handleTerm }: ITermSelector) {
+function TermSelector({ term, type, handleTerm }: ITermSelector): JSX.Element {
   return (
     <Styled.Column>
       <Styled.JustifyStart>
@@ -204,6 +204,7 @@ function TermSelector({ term, type, handleTerm }: ITermSelector) {
             value={Term.Short}
             onChange={handleTerm}
           />
+          
           <p>Short Term (4 weeks)</p>
         </Styled.Inline>
 
