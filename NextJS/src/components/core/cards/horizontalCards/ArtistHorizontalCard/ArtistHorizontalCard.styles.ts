@@ -8,8 +8,9 @@ const HorizontalCard = tw.article`
 	2xl:(flex-nowrap justify-start)
 	xl:(flex-wrap justify-center)
 	md:(flex-nowrap justify-start)
-	sm:(flex-wrap justify-center )
+	sm:(flex-wrap justify-center)
   justify-center
+  content-start
 	flex-wrap
 
 	// Colors

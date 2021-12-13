@@ -8,7 +8,7 @@ const Snap = tw.div`
   flex-row
 
   overflow-x-scroll
-
+  overflow-y-hidden
   gap-x-4
   p-2
 `;

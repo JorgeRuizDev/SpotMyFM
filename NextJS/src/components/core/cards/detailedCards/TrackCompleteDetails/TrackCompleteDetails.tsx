@@ -194,60 +194,60 @@ function TrackCompleteDetails({
     return (
       <ul>
         <li>
-          <h5>
+          <h6>
             Released on
             <StyledText.pGreen>
               {album?.spotifyReleaseDate?.toLocaleDateString()}
             </StyledText.pGreen>
-          </h5>
+          </h6>
         </li>
 
         <li>
           {track && (
-            <h5>
+            <h6>
               Track Length{" "}
               <StyledText.pGreen>
                 {prettyMilliseconds(track.spotifyDurationMS)}
               </StyledText.pGreen>
-            </h5>
+            </h6>
           )}
         </li>
         <li>
-          <h5>
+          <h6>
             Album Popularity:
             <br />
             <StyledText.pGreen>
               &nbsp;&nbsp;
               {formatPopularity(album?.spotifyPopularity || 0)}
             </StyledText.pGreen>
-          </h5>
+          </h6>
         </li>
         <li>
-          <h5>
+          <h6>
             Artist Popularity:
             <br />
             <StyledText.pGreen>
               &nbsp;&nbsp;
               {formatPopularity(artists?.[0]?.spotifyPopularity || 0)}
             </StyledText.pGreen>
-          </h5>
+          </h6>
         </li>
         <>
           <li>
-            <h5>
+            <h6>
               <StyledText.pGreen>
                 {lastFMDetails?.lastfmListenersCount}
               </StyledText.pGreen>{" "}
               LastFM Listeners
-            </h5>
+            </h6>
           </li>
           <li>
-            <h5>
+            <h6>
               <StyledText.pGreen>
                 {lastFMDetails?.lastfmPlayCount}
               </StyledText.pGreen>{" "}
               LastFM Plays
-            </h5>
+            </h6>
           </li>
         </>
       </ul>
