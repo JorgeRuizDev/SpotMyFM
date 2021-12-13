@@ -12,6 +12,9 @@ jobs:
       NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
       TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
       TEST_BASE_URL: "http://localhost:3000"
+    defaults:
+      run:
+        working-directory: ./NextJS
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -20,5 +23,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
+          
           build: npm run build
           start: npm start
