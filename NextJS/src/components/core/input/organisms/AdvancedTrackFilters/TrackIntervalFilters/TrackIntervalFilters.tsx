@@ -71,15 +71,15 @@ function TrackIntervalFilters({
       // Album Popularity
       .filter(
         (t) =>
-          (t.album &&
-            spotifyPopularityFilter(t.album, albumPopularityInterval)) ||
+          t.album ?
+            spotifyPopularityFilter(t.album, albumPopularityInterval) :
           true
       )
       // Artist Popularity
       .filter(
         (t) =>
-          (t.artists?.[0] &&
-            spotifyPopularityFilter(t.artists[0], artistPopularityInterval)) ||
+          t.artists?.[0] ?
+            spotifyPopularityFilter(t.artists[0], artistPopularityInterval) :
           true
       );
 
