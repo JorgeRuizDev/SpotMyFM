@@ -10,7 +10,9 @@ const Navbar = tw.nav`
 	hidden
 	
 	md:flex
-	fixed
+  sticky
+  top-0
+  left-0
 	z-50
 `;
 

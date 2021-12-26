@@ -18,6 +18,7 @@ function NavbarRightSide(): JSX.Element {
   return isLogged ? (
     <>
       <AnimatePresence>
+
         <Styled.p
           style={{ textTransform: "capitalize", userSelect: "none" }}
           onClick={toggleLogOut}
@@ -26,7 +27,11 @@ function NavbarRightSide(): JSX.Element {
         </Styled.p>
         <Styled.ProfilePic
           key={"A"}
-          src={user.spotifyUser?.images?.[1]?.url || "BlankAvatar.png"}
+          src={
+            user.spotifyUser?.images?.[1]?.url ||
+            user.spotifyUser?.images?.[0]?.url ||
+            "BlankAvatar.png"
+          }
           whileHover={{
             scale: 0.95,
             transition: { ease: "easeInOut", duration: 0.1 },
@@ -34,12 +39,14 @@ function NavbarRightSide(): JSX.Element {
           alt={"Profile Picture"}
           animate={showLogOut ? { rotate: 360 } : ""}
           transition={{ duration: 0.5 }}
+          onClick={toggleLogOut}
         ></Styled.ProfilePic>
 
         <Styled.LogOutDiv
           key={"B"}
           animate={showLogOut ? { width: 150 } : { width: 0 }}
           transition={{ style: "linear", duration: 0.4 }}
+          
         >
           <Styled.LogOutButton
             key={"C"}

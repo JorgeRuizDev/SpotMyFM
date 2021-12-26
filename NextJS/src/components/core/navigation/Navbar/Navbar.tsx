@@ -1,6 +1,4 @@
 import Link from "components/util/Link";
-import { useRouter } from "next/router";
-import React from "react";
 import { useLoginStore } from "store/useLogin";
 
 import Styled from "./Navbar.styles";
@@ -10,10 +8,6 @@ import NavbarRightSide from "./NavbarRightSide";
 
 function Navbar(): JSX.Element {
   const { isLogged } = useLoginStore();
-  const router = useRouter();
-  if (!isLogged) {
-    return <></>;
-  }
 
   return isLogged ? (
     <>
