@@ -30,10 +30,11 @@ const BaseInput = `
 
 `;
 export const baseButton = `
-  shadow-md
+  focus:outline-none
   outline-none
   font-bold
-  focus:outline-none
+  shadow-md
+  
 
   rounded-full
   hover:bg-darkCard-hover
@@ -225,8 +226,6 @@ const CustomGlobalStyle = createGlobalStyle`
   body {
     ${tw`
       bg-gradient-to-r
-      //dark:from-gray-800
-      //dark:to-gray-900
       dark:bg-darkMaterialBG-base
       bg-gray-200
       h-screen
