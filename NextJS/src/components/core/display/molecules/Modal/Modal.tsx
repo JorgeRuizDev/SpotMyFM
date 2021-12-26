@@ -5,6 +5,7 @@ import React, { createRef, useState } from "react";
 import { MouseEvent, useEffect } from "react";
 import Buttons from "styles/Buttons";
 import Styled from "./Modal.styles";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface IModalProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -22,6 +23,7 @@ interface IModalProps {
 
 const variants = {
   open: { opacity: 1 },
+
   closed: { opacity: 0 },
 };
 
@@ -46,7 +48,7 @@ function Modal({
   lockBodyScroll = true,
 }: IModalProps): JSX.Element {
   const [hasBeenOpened, setHasBeenOpened] = useState(false);
-
+  const [key, setKey] = useState(new Date().getMilliseconds());
   // Mark as opened on open:
   useEffect(() => {
     !hasBeenOpened && isOpen && setHasBeenOpened(true);
@@ -79,28 +81,36 @@ function Modal({
   }, [isOpen, lockBodyScroll]);
 
   const modalBody = (
-    <Styled.FullScreenBackground
-      onClick={onClose}
+    <motion.div
       variants={variants}
-      animate={isOpen ? "open" : "closed"}
       transition={{ duration: 0.3 }}
-      data-testid="modal-bg"
+      animate={isOpen ? "open" : "closed"}
+      key={key}
     >
-      <Styled.ModalBody
-        onClick={disableClick}
-        darkBackground={bodyBackgroundColor}
+      <Styled.FullScreenBackground
+        onClick={onClose}
+        initial={{ opacity: 0, y: "-100vh" }}
+        animate={{ opacity: 1, y: "0vh" }}
+        exit={{ opacity: 0, y: "100vh" }}
+        transition={{ duration: 0.3 }}
+        data-testid="modal-bg"
       >
-        <Styled.TopRow>
-          <Buttons.GreenCloseButton
-            onClick={onClose}
-            data-testid="modal-close-btn"
-          />
-        </Styled.TopRow>
-        <div style={{ overflow: scrollOverflow ? "auto" : "hidden" }}>
-          {children}
-        </div>
-      </Styled.ModalBody>
-    </Styled.FullScreenBackground>
+        <Styled.ModalBody
+          onClick={disableClick}
+          darkBackground={bodyBackgroundColor}
+        >
+          <Styled.TopRow>
+            <Buttons.GreenCloseButton
+              onClick={onClose}
+              data-testid="modal-close-btn"
+            />
+          </Styled.TopRow>
+          <div style={{ overflow: scrollOverflow ? "auto" : "hidden" }}>
+            {children}
+          </div>
+        </Styled.ModalBody>
+      </Styled.FullScreenBackground>
+    </motion.div>
   );
 
   const modalHideLogic = doNotUmount
@@ -117,7 +127,7 @@ function Modal({
     : // Mount / Umount conditionally.
       isOpen && <>{modalBody}</>;
   return ReactDOM.createPortal(
-    modalHideLogic,
+    <AnimatePresence exitBeforeEnter>{modalHideLogic}</AnimatePresence>,
     document.getElementById("modal-core") || document.createElement("div")
   );
 }
