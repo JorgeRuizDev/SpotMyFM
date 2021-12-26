@@ -7,6 +7,7 @@ import { parse } from "date-fns";
 import { IRestClient, RestError } from "interfaces/RestClient";
 import SpotifyResponse from "./spotifyResponseCodes";
 import { parseAxiosError } from "util/axios/parseError";
+import asyncPool from "tiny-async-pool";
 /**
  * Spotify Api Rest Client
  */
@@ -45,11 +46,14 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   async getFullAlbums(
     albumIds: string[]
   ): Promise<SpotifyApi.AlbumObjectFull[]> {
-    const albums = [];
-    for (const idChunk of _.chunk(albumIds, 20)) {
+    const albums: SpotifyApi.AlbumObjectFull[] = [];
+
+    const chunks = _.chunk(albumIds, 20);
+
+    await asyncPool(2, chunks, async (idChunk) => {
       const res = await this.getAlbums(idChunk);
       albums.push(...res.albums);
-    }
+    });
 
     return albums;
   }
@@ -62,11 +66,12 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   async getFullArtists(
     artistIds: string[]
   ): Promise<SpotifyApi.ArtistObjectFull[]> {
-    const artists = [];
-    for (const idChunk of _.chunk(artistIds, 50)) {
+    const artists: SpotifyApi.ArtistObjectFull[] = [];
+    const chunks = _.chunk(artistIds, 50)
+    await asyncPool(2,chunks, async idChunk => {
       const res = await this.getArtists(idChunk);
       artists.push(...res.artists);
-    }
+    })
 
     return artists;
   }

@@ -4,6 +4,7 @@ import _ from "lodash";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { toast } from "react-toastify";
 import { useCallback, useState } from "react";
+import asyncPool from "tiny-async-pool";
 
 export function useDataFacade() {
   const { cacheClient: cache, spotifyApi, lastfmApi } = useClientsStore();
@@ -55,7 +56,7 @@ export function useDataFacade() {
   const addTags = useCallback(
     async (albums: Album[]) => {
       const tagged: Album[] = [];
-      for (const album of albums) {
+      await asyncPool(4, albums, async (album) => {
         const [res, err] = await lastfmApi.getAlbumTags(
           album.artists[0]?.name,
           album.name
@@ -64,13 +65,12 @@ export function useDataFacade() {
         if (err || !res) {
           toast.error(`LASTFM TAG ${err?.status}: ${err?.message}`);
           tagged.push(album);
-          continue;
+        } else {
+          album.lastfmTagsFull = res;
+          album.lastfmTagsNames = res.map((t) => t.name);
+          tagged.push(album);
         }
-
-        album.lastfmTagsFull = res;
-        album.lastfmTagsNames = res.map((t) => t.name);
-        tagged.push(album);
-      }
+      });
 
       return tagged;
     },
@@ -87,6 +87,7 @@ export function useDataFacade() {
       setNumberCaching((s) => s + 1);
       const missingIds = await cache.getMissingAlbums(spotifyIds);
       const missingObjects = await spotifyApi.getFullAlbums(missingIds);
+      console.log(missingObjects)
       const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
