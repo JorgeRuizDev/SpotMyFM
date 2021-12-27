@@ -21,9 +21,9 @@ export const useSessionStore = create<IUseSessionStore>((set, get) => {
     }));
 
   const unsetAsLoading = () =>
-    set((s) => {
-      isLoading: s.isLoading - 1;
-    });
+    set((s) => ({
+      isLoading: s.isLoading - 1,
+    }));
 
   return { enableAnimations, isLoading, setAsLoading, unsetAsLoading };
 });
