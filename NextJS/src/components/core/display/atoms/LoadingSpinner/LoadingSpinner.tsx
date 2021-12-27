@@ -24,7 +24,7 @@ export function LoadingSpinner({
 }
 const StyledSpinner = styled.svg`
   animation: rotate 1s linear infinite;
-  margin: 40px;
+  margin: 10px;
   width: 50px;
   height: 50px;
 
