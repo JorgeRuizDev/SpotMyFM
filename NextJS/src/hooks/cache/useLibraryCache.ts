@@ -1,7 +1,9 @@
 import { addDays } from "date-fns";
+import { useCallback } from "react";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 type CacheStatusType =
+  | "INITIALIZING"
   | "CACHED"
   | "OUTDATED"
   | "UNDEFINED"
@@ -9,6 +11,7 @@ type CacheStatusType =
   | "INCONSISTENT";
 
 export const cacheStatusType: Record<CacheStatusType, number> = {
+  INITIALIZING: -1,
   UNDEFINED: 0,
   CACHED: 1, // The data is cached
   CACHING: 2,
@@ -36,7 +39,7 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
     (set, get) => {
       const initialStatusData: ILibraryCacheStorePersistent = {
         lastCache: undefined,
-        cacheStatus: cacheStatusType.UNDEFINED,
+        cacheStatus: cacheStatusType.INITIALIZING,
       };
 
       const _hasLoaded = false;
@@ -105,3 +108,12 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
     }
   )
 );
+
+function useLibraryCache() {
+  const cacheTrackLibrary = useCallback(() => {}, []);
+
+  const dropCache = useCallback(() => {}, []);
+
+  const deepRefreshTrackCache = useCallback(() => {}, []);
+
+}

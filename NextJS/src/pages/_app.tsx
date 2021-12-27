@@ -11,25 +11,26 @@ import { useClientsStore } from "store/useClients";
 import { useLibraryCacheStore } from "hooks/cache/useLibraryCache";
 import Navbar from "components/core/navigation/Navbar";
 import React from "react";
-import { AnimatePresence } from "framer-motion";
+import { useSessionStore } from "store/useSession";
+
 
 function MyApp({ Component, pageProps }: AppProps) {
   const isLogged = useLoginStore().isLogged;
   useClientsStore().getUser(isLogged);
   useLibraryCacheStore().initialize();
+  const {isLoading} = useSessionStore()
   return (
-    <>
+    <main>
       <div id="modal-core"></div>
 
       <Navbar />
-
       <ToastConfig />
       <ToggleThemeButtonFlip />
       <GlobalStyle />
       <div tw={"p-2 min-h-screen"}>
         <Component {...pageProps} />
       </div>
-    </>
+    </main>
   );
 }
 
