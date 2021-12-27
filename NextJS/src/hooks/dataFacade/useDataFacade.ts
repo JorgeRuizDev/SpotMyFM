@@ -3,7 +3,7 @@ import { SpotifyClient as spotifyStatic } from "restClients/spotify/spotifyClien
 import _ from "lodash";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { toast } from "react-toastify";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import asyncPool from "tiny-async-pool";
 import { useSessionStore } from "store/useSession";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
@@ -13,12 +13,8 @@ export type facadeStatus =
   | "fetchingMissTracks"
   | "gettingTracks"
   | "parsingTracks"
-  | "fetchingMissAlbums"
   | "gettingAlbums"
-  | "parsingAlbums"
-  | "fetchingMissArtists"
   | "gettingArtists"
-  | "parsingArtists"
   | "gettingAlbumTags"
   | "gettingLastTags";
 
@@ -28,6 +24,16 @@ export function useDataFacade() {
   const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
 
   const { setAsLoading, unsetAsLoading } = useSessionStore();
+
+  const [percentCount, setPercentCount] = useState(0);
+  const [percentCountTotal, setPercentCountTotal] = useState(1);
+
+  const incrementPercent = useCallback(() => setPercentCount((p) => p + 1), []);
+
+  const percent = useMemo(
+    () => Math.floor(percentCount / percentCountTotal * 100),
+    [percentCount, percentCountTotal]
+  );
 
   /**
    * Returns and caches a given array of artists.
@@ -75,13 +81,15 @@ export function useDataFacade() {
   const addTags = useCallback(
     async (albums: Album[]) => {
       const tagged: Album[] = [];
+      setPercentCount(0);
+      setPercentCountTotal(albums.length);
       setTrackStatus("gettingLastTags");
       await asyncPool(4, albums, async (album) => {
         const [res, err] = await lastfmApi.getAlbumTags(
           album.artists[0]?.name,
           album.name
         );
-
+        incrementPercent();
         if (err || !res) {
           toast.error(`LASTFM TAG ${err?.status}: ${err?.message}`);
           tagged.push(album);
@@ -94,7 +102,7 @@ export function useDataFacade() {
 
       return tagged;
     },
-    [lastfmApi]
+    [incrementPercent, lastfmApi]
   );
 
   /**
@@ -242,6 +250,7 @@ export function useDataFacade() {
 
   return {
     trackStatus,
+    percent,
     getTracks,
     getSavedTracks,
     getTracksByIds,

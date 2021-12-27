@@ -8,22 +8,22 @@ import "styles/tailwind.css";
 import ToggleThemeButtonFlip from "components/theme/ToggleThemeButtonFlip";
 import { useLoginStore } from "store/useLogin";
 import { useClientsStore } from "store/useClients";
-import { useLibraryCacheStore } from "hooks/cache/useLibraryCache";
+import { useLibraryCache, useLibraryCacheStore } from "hooks/cache/useLibraryCache";
 import Navbar from "components/core/navigation/Navbar";
 import React from "react";
-import { useSessionStore } from "store/useSession";
-
+import NotificationRenderer from "components/core/notification/NotificationRenderer";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const isLogged = useLoginStore().isLogged;
   useClientsStore().getUser(isLogged);
   useLibraryCacheStore().initialize();
-  const {isLoading} = useSessionStore()
+  useLibraryCache()
   return (
     <main>
       <div id="modal-core"></div>
 
       <Navbar />
+      <NotificationRenderer />
       <ToastConfig />
       <ToggleThemeButtonFlip />
       <GlobalStyle />
