@@ -14,17 +14,12 @@ interface INotificationProps {
   children?: ReactNode | ReactNode[];
 }
 
-const swipeVelocityThreshold = 15;
-const swipeOffsetThreshold = 150;
-const offsetThreshold = 350;
-
 function Notification(props: INotificationProps): JSX.Element {
   const { hideNotification } = useNotificationSystem();
 
   const hide = useCallback(() => {
     hideNotification(props.id);
   }, [hideNotification, props.id]);
-
 
   return (
     <>
