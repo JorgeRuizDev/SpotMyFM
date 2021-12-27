@@ -55,9 +55,10 @@ const useLoginStore = create<ILoginStore>((set, get) => {
     cookieManager.removeAll();
     window.localStorage.clear();
     CacheDb.resetDB();
-    set(() => {
-      isLogged: false;
-    });
+    set(() => ({
+      isLogged: false,
+    }));
+    // TODO: Clear Notifications 
     toast.info("User Logged Out");
   };
 
