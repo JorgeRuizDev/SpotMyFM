@@ -2,18 +2,22 @@ import { FaSpotify } from "react-icons/fa";
 import tw from "twin.macro";
 
 const Navbar = tw.nav`
-	w-full
-	h-14
-	bg-green-500
-	dark:bg-green-600
-	rounded-b-md
-	hidden
-	
-	md:flex
+
   sticky
   top-0
   left-0
-	z-50
+	z-40
+`;
+
+const NavWrapper = tw.div`
+  w-full
+  h-14
+  bg-green-500
+  dark:bg-green-600
+  rounded-b-md
+  hidden
+
+  md:flex
 `;
 
 const LogoTitle = tw.div`
@@ -76,12 +80,13 @@ const ProfilePic = tw.img`
 
 const Styled = {
   Navbar,
+  NavWrapper,
   LeftSide,
   RightSide,
   ProfilePic,
   p,
   LogoTitle,
   Logo,
-  Title
+  Title,
 };
 export default Styled;

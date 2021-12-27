@@ -3,13 +3,16 @@ import { SpotifyClient as spotifyStatic } from "restClients/spotify/spotifyClien
 import _ from "lodash";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { toast } from "react-toastify";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import asyncPool from "tiny-async-pool";
+import { useSessionStore } from "store/useSession";
 
 export function useDataFacade() {
   const { cacheClient: cache, spotifyApi, lastfmApi } = useClientsStore();
-  const [numberCaching, setNumberCaching] = useState(0);
+
   const [trackStatus, setTrackStatus] = useState("");
+
+  const { setAsLoading, unsetAsLoading } = useSessionStore();
 
   /**
    * Returns and caches a given array of artists.
@@ -18,17 +21,17 @@ export function useDataFacade() {
    */
   const getArtists = useCallback(
     async (artists: SpotifyApi.ArtistObjectFull[]) => {
-      setNumberCaching((s) => s + 1);
+      setAsLoading();
       const missingIds = await cache.getMissingArtists(
         artists.map((a) => a.id)
       );
       const parsedArtists = spotifyStatic.spotifyArtists2Artists(artists);
       const missing = getMissingObject(parsedArtists, missingIds);
       await cache.addArtists(missing);
-      setNumberCaching((s) => s - 1);
+      unsetAsLoading();
       return parsedArtists;
     },
-    [cache]
+    [cache, setAsLoading, unsetAsLoading]
   );
 
   /**
@@ -38,7 +41,7 @@ export function useDataFacade() {
    */
   const getArtistsById = useCallback(
     async (spotifyIds: string[]) => {
-      setNumberCaching((s) => s + 1);
+      setAsLoading();
       const missingArtists = await cache.getMissingArtists(spotifyIds);
       const missingArtistsObjects = await spotifyApi.getFullArtists(
         missingArtists
@@ -47,10 +50,11 @@ export function useDataFacade() {
         missingArtistsObjects
       );
       await cache.addArtists(parsedArtists);
-      setNumberCaching((s) => s - 1);
+      unsetAsLoading();
+
       return await cache.getArtistsBySpotifyId(spotifyIds);
     },
-    [cache, spotifyApi]
+    [cache, setAsLoading, spotifyApi, unsetAsLoading]
   );
 
   const addTags = useCallback(
@@ -84,19 +88,20 @@ export function useDataFacade() {
    */
   const getAlbumsById = useCallback(
     async (spotifyIds: string[]) => {
-      setNumberCaching((s) => s + 1);
+      setAsLoading();
       const missingIds = await cache.getMissingAlbums(spotifyIds);
       const missingObjects = await spotifyApi.getFullAlbums(missingIds);
-      console.log(missingObjects)
+      console.log(missingObjects);
       const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
       const tagged = await addTags(joined);
       await cache.addAlbums(tagged);
-      setNumberCaching((s) => s - 1);
+      unsetAsLoading();
+
       return await cache.getAlbumsBySpotifyId(spotifyIds);
     },
-    [addTags, cache, getArtistsById, spotifyApi]
+    [addTags, cache, getArtistsById, setAsLoading, spotifyApi, unsetAsLoading]
   );
 
   /**
@@ -106,7 +111,7 @@ export function useDataFacade() {
    */
   const getAlbums = useCallback(
     async (albums: SpotifyApi.AlbumObjectFull[]) => {
-      setNumberCaching((s) => s + 1);
+      setAsLoading();
       const missingIds = await cache.getMissingAlbums(albums.map((a) => a.id));
       const parsed = spotifyStatic.spotifyAlbums2Albums(albums);
       const missing = getMissingObject(parsed, missingIds);
@@ -114,10 +119,11 @@ export function useDataFacade() {
       const joined = await cache.joinAlbums(parsed, false);
       const tagged = await addTags(joined);
       await cache.addAlbums(tagged);
-      setNumberCaching((s) => s - 1);
+      unsetAsLoading();
+
       return tagged;
     },
-    [addTags, cache, getArtistsById]
+    [addTags, cache, getArtistsById, setAsLoading, unsetAsLoading]
   );
 
   /**
@@ -127,7 +133,7 @@ export function useDataFacade() {
    */
   const getTracksByIds = useCallback(
     async (spotifyIds: string[], markAsSaved: boolean = false) => {
-      setNumberCaching((s) => s + 1);
+      setAsLoading();
       setTrackStatus("Getting Tracks");
       const missingIds = await cache.getMissingTracks(spotifyIds);
       const missingObjects = await spotifyApi.getFullTracks(missingIds);
@@ -142,11 +148,18 @@ export function useDataFacade() {
       await getArtistsById(parsedMissing.flatMap((t) => t.spotifyArtistsIds));
       await cache.joinTracks(parsedMissing, true);
       setTrackStatus("");
-      setNumberCaching((s) => s - 1);
+      unsetAsLoading();
 
       return await cache.getTracksBySpotifyId(spotifyIds);
     },
-    [cache, getAlbumsById, getArtistsById, spotifyApi]
+    [
+      cache,
+      getAlbumsById,
+      getArtistsById,
+      setAsLoading,
+      spotifyApi,
+      unsetAsLoading,
+    ]
   );
 
   /**
@@ -159,7 +172,7 @@ export function useDataFacade() {
       tracks: SpotifyApi.TrackObjectFull[],
       markAsSaved: boolean = false
     ) => {
-      setNumberCaching((s) => s + 1);
+      setAsLoading();
       setTrackStatus("Getting Tracks");
       const missingIds = await cache.getMissingTracks(tracks.map((t) => t.id));
       setTrackStatus("Parsing Tracks");
@@ -170,11 +183,12 @@ export function useDataFacade() {
       setTrackStatus("Getting Artists");
       await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
       await cache.joinTracks(missing);
-      setNumberCaching((s) => s - 1);
+      unsetAsLoading();
+
       setTrackStatus("");
       return await cache.getTracksBySpotifyId(tracks.map((t) => t.id));
     },
-    [cache, getAlbumsById, getArtistsById]
+    [cache, getAlbumsById, getArtistsById, setAsLoading, unsetAsLoading]
   );
 
   return {
