@@ -192,7 +192,6 @@ export function useDataFacade() {
   );
 
   return {
-    numberCaching,
     trackStatus,
     getTracks,
     getTracksByIds,
