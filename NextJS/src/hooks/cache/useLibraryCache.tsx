@@ -1,6 +1,8 @@
 import { addDays } from "date-fns";
+import { useDataFacade } from "hooks/dataFacade/useDataFacade";
 import { useNotificationSystem } from "hooks/notification/useNotificationSystem";
 import { useCallback, useEffect } from "react";
+import { useClientsStore } from "store/useClients";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 type CacheStatusType =
@@ -8,6 +10,7 @@ type CacheStatusType =
   | "CACHED"
   | "OUTDATED"
   | "UNDEFINED"
+  | "NOTCACHEDONTASK"
   | "CACHING"
   | "INCONSISTENT";
 
@@ -18,6 +21,7 @@ export const cacheStatusType: Record<CacheStatusType, number> = {
   CACHING: 2,
   INCONSISTENT: 3,
   OUTDATED: 4,
+  NOTCACHEDONTASK: 5,
 };
 
 interface ILibraryCacheStorePersistent {
@@ -76,7 +80,7 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
         if (get()._hasLoaded) {
           return;
         }
-        
+
         // if the cache is older than expected:
         const lastCache = get().lastCache;
         if (lastCache !== undefined) {
@@ -88,8 +92,8 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
         if (get().cacheStatus === cacheStatusType.CACHING) {
           setInconsistent();
         }
-        if (get().cacheStatus === cacheStatusType.INITIALIZING){
-          setNotCached()
+        if (get().cacheStatus === cacheStatusType.INITIALIZING) {
+          setNotCached();
         }
         set(() => ({ _hasLoaded: true }));
       };
@@ -124,30 +128,53 @@ const cacheNotification: Record<CacheNotification, string> = {
 
 export function useLibraryCache() {
   const { pushNotification, hideNotification } = useNotificationSystem();
+  const {trackStatus, } = useDataFacade()
+  const api = useClientsStore().spotifyApi
+  const { cacheStatus, setCaching, setCached } = useLibraryCacheStore();
 
-  const { cacheStatus } = useLibraryCacheStore();
+  const cacheTrackLibrary = useCallback(async () => {
 
-  const cacheTrackLibrary = useCallback(() => {
     
-  }, []);
+    const tracks = await api.getMySavedTracksFull()
+    setCaching()
+
+
+  }, [api, setCaching]);
 
   const dropCache = useCallback(() => {}, []);
 
   const deepRefreshTrackCache = useCallback(() => {}, []);
 
+  const hideAllNotifications = useCallback(() => {
+    for (const id in cacheNotification) {
+      hideNotification(id);
+    }
+  }, [hideNotification]);
+
   // On Load: pop a notification
   useEffect(() => {
     switch (cacheStatus) {
       case cacheStatusType.OUTDATED:
-        pushNotification(cacheNotification.OUTDATED, "warning", <h1>Outdated</h1>);
+        pushNotification(
+          cacheNotification.OUTDATED,
+          "warning",
+          <h1>Outdated</h1>
+        );
         break;
       case cacheStatusType.INCONSISTENT:
-        pushNotification(cacheNotification.INCONSISTENT, "error", <h1>Inconsistent</h1>)
-        break
-      case cacheStatusType.UNDEFINED:
-        pushNotification(cacheNotification.NOCACHED, "info", <h1>Cash Me Outside</h1>)
+        pushNotification(
+          cacheNotification.INCONSISTENT,
+          "error",
+          <h1>Inconsistent</h1>
+        );
         break;
-      
+      case cacheStatusType.UNDEFINED:
+        pushNotification(
+          cacheNotification.NOCACHED,
+          "info",
+          <h1>Cash Me Outside</h1>
+        );
+        break;
     }
   }, [cacheStatus, pushNotification]);
 }
