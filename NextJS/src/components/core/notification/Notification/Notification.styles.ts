@@ -40,7 +40,12 @@ const ComponentWrapper = tw.div`
 	text-black
 `;
 
-const CloseButton = Buttons.CloseButton;
+const CloseButton = tw(Buttons.CloseButton)`
+  md:relative
+  absolute
+  top-2
+  right-2
+`;
 
 const Styled = { NotificationDiv, ComponentWrapper, CloseButton };
 export default Styled;
