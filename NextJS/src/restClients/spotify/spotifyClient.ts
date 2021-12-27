@@ -67,11 +67,11 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     artistIds: string[]
   ): Promise<SpotifyApi.ArtistObjectFull[]> {
     const artists: SpotifyApi.ArtistObjectFull[] = [];
-    const chunks = _.chunk(artistIds, 50)
-    await asyncPool(2,chunks, async idChunk => {
+    const chunks = _.chunk(artistIds, 50);
+    await asyncPool(2, chunks, async (idChunk) => {
       const res = await this.getArtists(idChunk);
       artists.push(...res.artists);
-    })
+    });
 
     return artists;
   }
@@ -141,6 +141,44 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   }
 
   /**
+   * Parses a list of spotify tracks into a local track
+   * @param tracks
+   * @returns tracks list
+   */
+  static spotifySavedTracks2Tracks(
+    tracks: SpotifyApi.SavedTrackObject[]
+  ): Track[] {
+    const parsedTracks: Track[] = [];
+
+    for (const savedTrack of tracks) {
+      const track = savedTrack.track;
+      parsedTracks.push({
+        spotifyId: track.id,
+        spotifyUri: track.uri,
+        spotifyAlbumId: track.album.id,
+        name: track.name,
+        spotifyArtistsIds: track.artists.map((x) => x.id),
+        spotifyDurationMS: track.duration_ms,
+        spotifyIsExplicit: track.explicit,
+        spotifyIsPlayable: track.is_playable || false,
+        spotifyPreviewURL: track.preview_url,
+        spotifyTrackAlbumPos: track.track_number,
+        spotifyDiscNumber: track.disc_number,
+        spotifyUrl: track.external_urls.spotify,
+        artists: [],
+        genreVersion: 0,
+        isSaved: true,
+        savedAt: new Date(savedTrack.added_at),
+        spotifyPopularity: track.popularity,
+        type: track.type,
+        markets: track.available_markets,
+      });
+    }
+
+    return parsedTracks;
+  }
+
+  /**
    * Parses a list of spotify albums into a local album
    * @param albums
    * @returns album list
@@ -200,14 +238,18 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     return parsedArtists;
   }
 
-  async getMySavedTracksFull(): Promise<SpotifyApi.TrackObjectFull[]> {
-    const tracks: SpotifyApi.TrackObjectFull[] = [];
+  /**
+   * Gets all the user library in one single array.
+   * @returns
+   */
+  async getMySavedTracksFull(): Promise<SpotifyApi.SavedTrackObject[]> {
+    const tracks: SpotifyApi.SavedTrackObject[] = [];
     const limit = 50;
     let offset = 0;
 
     while (true) {
       const res = await this.getMySavedTracks({ limit, offset });
-      tracks.push(...res.items.map((t) => t.track));
+      tracks.push(...res.items);
 
       if (res.total < offset) {
         break;

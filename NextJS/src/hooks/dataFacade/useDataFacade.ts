@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useCallback, useEffect, useState } from "react";
 import asyncPool from "tiny-async-pool";
 import { useSessionStore } from "store/useSession";
+import { Track } from "data/cacheDB/dexieDB/models/Track";
 
 export type facadeStatus =
   | "default"
@@ -74,7 +75,7 @@ export function useDataFacade() {
   const addTags = useCallback(
     async (albums: Album[]) => {
       const tagged: Album[] = [];
-      setTrackStatus("gettingLastTags")
+      setTrackStatus("gettingLastTags");
       await asyncPool(4, albums, async (album) => {
         const [res, err] = await lastfmApi.getAlbumTags(
           album.artists[0]?.name,
@@ -177,6 +178,26 @@ export function useDataFacade() {
     ]
   );
 
+  const _getTracks = useCallback(
+    async (parsed: Track[]) => {
+      setTrackStatus("fetchingMissTracks");
+      const missingIds = await cache.getMissingTracks(
+        parsed.map((t) => t.spotifyId)
+      );
+
+      const missing = getMissingObject(parsed, missingIds);
+      setTrackStatus("gettingAlbums");
+      await getAlbumsById(missing.map((t) => t.spotifyAlbumId));
+      setTrackStatus("gettingArtists");
+      await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
+      await cache.joinTracks(missing);
+
+      setTrackStatus("default");
+      return await cache.getTracksBySpotifyId(parsed.map((t) => t.spotifyId));
+    },
+    [cache, getAlbumsById, getArtistsById]
+  );
+
   /**
    * Retrieves from the local cache or fetches a list of tracks
    * @param tracks: An array of spotify tracks
@@ -188,27 +209,41 @@ export function useDataFacade() {
       markAsSaved: boolean = false
     ) => {
       setAsLoading();
-      setTrackStatus("fetchingMissTracks");
-      const missingIds = await cache.getMissingTracks(tracks.map((t) => t.id));
+
       setTrackStatus("parsingTracks");
       const parsed = spotifyStatic.spotifyTracks2Tracks(tracks, markAsSaved);
-      const missing = getMissingObject(parsed, missingIds);
-      setTrackStatus("gettingAlbums");
-      await getAlbumsById(missing.map((t) => t.spotifyAlbumId));
-      setTrackStatus("gettingArtists");
-      await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
-      await cache.joinTracks(missing);
+      const cached = await _getTracks(parsed);
       unsetAsLoading();
 
       setTrackStatus("default");
-      return await cache.getTracksBySpotifyId(tracks.map((t) => t.id));
+      return cached;
     },
-    [cache, getAlbumsById, getArtistsById, setAsLoading, unsetAsLoading]
+    [_getTracks, setAsLoading, unsetAsLoading]
+  );
+
+  /**
+   * Retrieves from the local cache or fetches a list of tracks
+   * @param tracks: An array of spotify tracks
+   * @returns Track[]
+   */
+  const getSavedTracks = useCallback(
+    async (savedTracks: SpotifyApi.SavedTrackObject[]) => {
+      setAsLoading();
+
+      const parsed = spotifyStatic.spotifySavedTracks2Tracks(savedTracks);
+      const cached = await _getTracks(parsed);
+      unsetAsLoading();
+
+      setTrackStatus("default");
+      return cached;
+    },
+    [_getTracks, setAsLoading, unsetAsLoading]
   );
 
   return {
     trackStatus,
     getTracks,
+    getSavedTracks,
     getTracksByIds,
     getAlbums,
     getAlbumsById,

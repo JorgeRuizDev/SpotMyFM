@@ -77,6 +77,28 @@ export default describe("data facade hook test", () => {
     }
   });
 
+  test("getSavedTracks() - Tests if it caches saved tracks object", async () => {
+    try {
+      expect((await cache.getAllTracks()).length).toBe(0);
+      const spotifyTracks = await spotifyApi.getMySavedTracks({
+        limit: 5,
+        time_range: "long_term",
+      });
+      const tracks = await result.current.getSavedTracks(spotifyTracks.items);
+      const cached = await cache.getAllTracks();
+      expect(tracks.length).toBe(5);
+      expect(cached.length).toBe(5);
+      expect(tracks[0].album).not.toBe(null);
+      expect(tracks[0].artists.length).toBeGreaterThan(0);
+      expect(cached[0].album?.name).not.toBe(null);
+
+      expect(cached[0].artists.length).toBeGreaterThan(0);
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  });
+
   test("getTracksById()", async () => {
     try {
       expect((await cache.getAllTracks()).length).toBe(0);

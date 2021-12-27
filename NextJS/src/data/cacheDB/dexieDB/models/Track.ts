@@ -32,5 +32,7 @@ export interface Track extends SpotifyBaseObject {
 
   genres?: string[];
 
+  savedAt?: Date;
+
   genreVersion: number;
 }
