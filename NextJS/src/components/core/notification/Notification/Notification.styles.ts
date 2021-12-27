@@ -25,6 +25,8 @@ const NotificationDiv = styled(motion.div)<INotificationDiv>(
 	justify-end
 	rounded-xl
 	drop-shadow-md
+  cursor[grab]
+  
 	`,
 
     notificationSeverity === "warning" && tw`bg-yellow-400`,

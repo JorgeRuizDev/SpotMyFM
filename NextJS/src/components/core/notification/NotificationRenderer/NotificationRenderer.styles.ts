@@ -1,5 +1,11 @@
 import tw from "twin.macro";
 
-const Styled = {};
+const Wrapper = tw.div`
+
+  overflow-x-hidden
+
+`
+
+const Styled = {Wrapper};
 
 export default Styled;
