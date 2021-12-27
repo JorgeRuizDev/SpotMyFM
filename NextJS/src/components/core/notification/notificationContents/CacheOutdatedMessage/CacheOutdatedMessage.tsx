@@ -10,8 +10,6 @@ function CacheOutdatedMessage({
   lastCacheUpdate,
 }: ICacheOutdatedMessageProps) {
 
-  console.log(typeof lastCacheUpdate)
-
   const update = useMemo(
     () => lastCacheUpdate?.toLocaleDateString(),
     [lastCacheUpdate]
