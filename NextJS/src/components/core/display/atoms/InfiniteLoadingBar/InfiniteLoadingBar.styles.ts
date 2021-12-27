@@ -8,11 +8,11 @@ const Bar = tw.div`
   bg-blue-500
 
   rounded-full
-  z-50
 `;
 
 const InvisibleBar = tw.div`
   h-2
+  mb-2
   w-full
 `;
 
