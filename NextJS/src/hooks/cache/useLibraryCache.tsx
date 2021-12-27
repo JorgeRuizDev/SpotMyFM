@@ -1,5 +1,6 @@
 import { addDays } from "date-fns";
-import { useCallback } from "react";
+import { useNotificationSystem } from "hooks/notification/useNotificationSystem";
+import { useCallback, useEffect } from "react";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 type CacheStatusType =
@@ -75,7 +76,7 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
         if (get()._hasLoaded) {
           return;
         }
-
+        
         // if the cache is older than expected:
         const lastCache = get().lastCache;
         if (lastCache !== undefined) {
@@ -86,6 +87,9 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
         // If on load the flag is caching -> the cache stopped in the middle of an operation
         if (get().cacheStatus === cacheStatusType.CACHING) {
           setInconsistent();
+        }
+        if (get().cacheStatus === cacheStatusType.INITIALIZING){
+          setNotCached()
         }
         set(() => ({ _hasLoaded: true }));
       };
@@ -109,11 +113,41 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
   )
 );
 
-function useLibraryCache() {
-  const cacheTrackLibrary = useCallback(() => {}, []);
+type CacheNotification = "OUTDATED" | "NOCACHED" | "INCONSISTENT" | "CACHING";
+
+const cacheNotification: Record<CacheNotification, string> = {
+  INCONSISTENT: "INCONSISTENT",
+  OUTDATED: "OUTDATED",
+  CACHING: "CACHING",
+  NOCACHED: "NOCACHED",
+};
+
+export function useLibraryCache() {
+  const { pushNotification, hideNotification } = useNotificationSystem();
+
+  const { cacheStatus } = useLibraryCacheStore();
+
+  const cacheTrackLibrary = useCallback(() => {
+    
+  }, []);
 
   const dropCache = useCallback(() => {}, []);
 
   const deepRefreshTrackCache = useCallback(() => {}, []);
 
+  // On Load: pop a notification
+  useEffect(() => {
+    switch (cacheStatus) {
+      case cacheStatusType.OUTDATED:
+        pushNotification(cacheNotification.OUTDATED, "warning", <h1>Outdated</h1>);
+        break;
+      case cacheStatusType.INCONSISTENT:
+        pushNotification(cacheNotification.INCONSISTENT, "error", <h1>Inconsistent</h1>)
+        break
+      case cacheStatusType.UNDEFINED:
+        pushNotification(cacheNotification.NOCACHED, "info", <h1>Cash Me Outside</h1>)
+        break;
+      
+    }
+  }, [cacheStatus, pushNotification]);
 }

@@ -7,10 +7,24 @@ import { useCallback, useEffect, useState } from "react";
 import asyncPool from "tiny-async-pool";
 import { useSessionStore } from "store/useSession";
 
+export type facadeStatus =
+  | "default"
+  | "fetchingMissTracks"
+  | "gettingTracks"
+  | "parsingTracks"
+  | "fetchingMissAlbums"
+  | "gettingAlbums"
+  | "parsingAlbums"
+  | "fetchingMissArtists"
+  | "gettingArtists"
+  | "parsingArtists"
+  | "gettingAlbumTags"
+  | "gettingLastTags";
+
 export function useDataFacade() {
   const { cacheClient: cache, spotifyApi, lastfmApi } = useClientsStore();
 
-  const [trackStatus, setTrackStatus] = useState("");
+  const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
 
   const { setAsLoading, unsetAsLoading } = useSessionStore();
 
@@ -60,6 +74,7 @@ export function useDataFacade() {
   const addTags = useCallback(
     async (albums: Album[]) => {
       const tagged: Album[] = [];
+      setTrackStatus("gettingLastTags")
       await asyncPool(4, albums, async (album) => {
         const [res, err] = await lastfmApi.getAlbumTags(
           album.artists[0]?.name,
@@ -134,20 +149,20 @@ export function useDataFacade() {
   const getTracksByIds = useCallback(
     async (spotifyIds: string[], markAsSaved: boolean = false) => {
       setAsLoading();
-      setTrackStatus("Getting Tracks");
+      setTrackStatus("fetchingMissTracks");
       const missingIds = await cache.getMissingTracks(spotifyIds);
       const missingObjects = await spotifyApi.getFullTracks(missingIds);
-      setTrackStatus("Parsing Tracks");
+      setTrackStatus("parsingTracks");
       const parsedMissing = spotifyStatic.spotifyTracks2Tracks(
         missingObjects,
         markAsSaved
       );
-      setTrackStatus("Getting Albums");
+      setTrackStatus("gettingAlbums");
       await getAlbumsById(parsedMissing.map((t) => t.spotifyAlbumId));
-      setTrackStatus("Getting Artists");
+      setTrackStatus("gettingAlbums");
       await getArtistsById(parsedMissing.flatMap((t) => t.spotifyArtistsIds));
       await cache.joinTracks(parsedMissing, true);
-      setTrackStatus("");
+      setTrackStatus("default");
       unsetAsLoading();
 
       return await cache.getTracksBySpotifyId(spotifyIds);
@@ -173,19 +188,19 @@ export function useDataFacade() {
       markAsSaved: boolean = false
     ) => {
       setAsLoading();
-      setTrackStatus("Getting Tracks");
+      setTrackStatus("fetchingMissTracks");
       const missingIds = await cache.getMissingTracks(tracks.map((t) => t.id));
-      setTrackStatus("Parsing Tracks");
+      setTrackStatus("parsingTracks");
       const parsed = spotifyStatic.spotifyTracks2Tracks(tracks, markAsSaved);
       const missing = getMissingObject(parsed, missingIds);
-      setTrackStatus("Getting Albums");
+      setTrackStatus("gettingAlbums");
       await getAlbumsById(missing.map((t) => t.spotifyAlbumId));
-      setTrackStatus("Getting Artists");
+      setTrackStatus("gettingArtists");
       await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
       await cache.joinTracks(missing);
       unsetAsLoading();
 
-      setTrackStatus("");
+      setTrackStatus("default");
       return await cache.getTracksBySpotifyId(tracks.map((t) => t.id));
     },
     [cache, getAlbumsById, getArtistsById, setAsLoading, unsetAsLoading]
