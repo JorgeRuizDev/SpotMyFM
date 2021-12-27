@@ -1,8 +1,14 @@
+import ProgressBar from "components/core/display/atoms/ProgressBar";
+import AskForLibraryCache from "components/core/notification/notificationContents/AskForLibraryCache";
+import CacheOutdatedMessage from "components/core/notification/notificationContents/CacheOutdatedMessage";
+import CachingInProgress from "components/core/notification/notificationContents/CachingInProgress";
+import InconsistentCacheMessage from "components/core/notification/notificationContents/InconsistentCacheMessage";
 import { addDays } from "date-fns";
 import { useDataFacade } from "hooks/dataFacade/useDataFacade";
 import { useNotificationSystem } from "hooks/notification/useNotificationSystem";
 import { useCallback, useEffect } from "react";
 import { useClientsStore } from "store/useClients";
+import { useLoginStore } from "store/useLogin";
 import create from "zustand";
 import { persist } from "zustand/middleware";
 type CacheStatusType =
@@ -25,12 +31,13 @@ export const cacheStatusType: Record<CacheStatusType, number> = {
 };
 
 interface ILibraryCacheStorePersistent {
-  lastCache: Date | undefined;
+  _lastCache: Date | undefined;
   cacheStatus: number;
 }
 
 interface ILibraryCacheStore extends ILibraryCacheStorePersistent {
   setCaching(): void;
+  getLastCacheDate(): Date;
   setCached(): void;
   setNotCached(): void;
   setOutdated(): void;
@@ -43,11 +50,13 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
   persist(
     (set, get) => {
       const initialStatusData: ILibraryCacheStorePersistent = {
-        lastCache: undefined,
+        _lastCache: undefined,
         cacheStatus: cacheStatusType.INITIALIZING,
       };
 
       const _hasLoaded = false;
+
+      const getLastCacheDate = () => new Date(get()._lastCache || new Date());
 
       const setCaching = () =>
         set(() => ({
@@ -57,13 +66,13 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
       const setCached = () =>
         set(() => ({
           cacheStatus: cacheStatusType.CACHED,
-          lastCache: new Date(),
+          _lastCache: new Date(),
         }));
 
       const setNotCached = () =>
         set(() => ({
           cacheStatus: cacheStatusType.UNDEFINED,
-          lastCache: undefined,
+          _lastCache: undefined,
         }));
 
       const setOutdated = () =>
@@ -82,9 +91,9 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
         }
 
         // if the cache is older than expected:
-        const lastCache = get().lastCache;
+        const lastCache = getLastCacheDate();
         if (lastCache !== undefined) {
-          if (addDays(lastCache, 5).getTime() > new Date().getTime()) {
+          if ((addDays(lastCache, 5).getTime() < new Date().getTime())) {
             setOutdated();
           }
         }
@@ -100,6 +109,7 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
 
       return {
         ...initialStatusData,
+        getLastCacheDate,
         setCached,
         setCaching,
         setInconsistent,
@@ -112,7 +122,7 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
 
     {
       name: "cache_status",
-      whitelist: ["cacheStatus", "lastCache"],
+      whitelist: ["cacheStatus", "_lastCache"],
     }
   )
 );
@@ -127,54 +137,107 @@ const cacheNotification: Record<CacheNotification, string> = {
 };
 
 export function useLibraryCache() {
-  const { pushNotification, hideNotification } = useNotificationSystem();
-  const {trackStatus, } = useDataFacade()
-  const api = useClientsStore().spotifyApi
-  const { cacheStatus, setCaching, setCached } = useLibraryCacheStore();
+  const isLogged = useLoginStore((s) => s.isLogged);
+
+  // Notification Operations
+  const { pushNotification, hideNotification, refreshNotification } =
+    useNotificationSystem();
+
+  const api = useClientsStore().spotifyApi;
+  const { trackStatus, getSavedTracks, percent } = useDataFacade();
+
+  // Store elements + operations
+  const { cacheStatus, getLastCacheDate, setCaching, setCached } =
+    useLibraryCacheStore();
 
   const cacheTrackLibrary = useCallback(async () => {
-
-    
-    const tracks = await api.getMySavedTracksFull()
-    setCaching()
-
-
-  }, [api, setCaching]);
+    pushNotification(
+      cacheNotification.CACHING,
+      "info",
+      <CachingInProgress progress={0} status={"loading"} />
+    );
+    const tracks = await api.getMySavedTracksFull();
+    setCaching();
+    await getSavedTracks(tracks);
+    setCached();
+    hideNotification(cacheNotification.CACHING);
+  }, [
+    pushNotification,
+    api,
+    setCaching,
+    getSavedTracks,
+    setCached,
+    hideNotification,
+  ]);
 
   const dropCache = useCallback(() => {}, []);
 
   const deepRefreshTrackCache = useCallback(() => {}, []);
 
-  const hideAllNotifications = useCallback(() => {
-    for (const id in cacheNotification) {
-      hideNotification(id);
+  useEffect(() => {
+    if (cacheStatus === cacheStatusType.CACHING) {
+      refreshNotification(
+        cacheNotification.CACHING,
+        <CachingInProgress progress={percent} status={trackStatus} />
+      );
     }
-  }, [hideNotification]);
+  }, [cacheStatus, percent, refreshNotification, trackStatus]);
 
   // On Load: pop a notification
   useEffect(() => {
+    // Do not prompt anything if the user is not logged in
+    if (!isLogged) {
+      return;
+    }
+
     switch (cacheStatus) {
       case cacheStatusType.OUTDATED:
         pushNotification(
           cacheNotification.OUTDATED,
           "warning",
-          <h1>Outdated</h1>
+          <CacheOutdatedMessage
+            onClick={() => {
+              hideNotification(cacheNotification.OUTDATED);
+              cacheTrackLibrary();
+            }}
+            lastCacheUpdate={getLastCacheDate()}
+          />
         );
         break;
       case cacheStatusType.INCONSISTENT:
         pushNotification(
           cacheNotification.INCONSISTENT,
           "error",
-          <h1>Inconsistent</h1>
+          <InconsistentCacheMessage
+            onClick={() => {
+              hideNotification(cacheNotification.INCONSISTENT);
+              deepRefreshTrackCache();
+            }}
+          />
         );
         break;
       case cacheStatusType.UNDEFINED:
         pushNotification(
           cacheNotification.NOCACHED,
           "info",
-          <h1>Cash Me Outside</h1>
+          <AskForLibraryCache
+            onClick={() => {
+              hideNotification(cacheNotification.NOCACHED);
+              cacheTrackLibrary();
+            }}
+          />
         );
         break;
     }
-  }, [cacheStatus, pushNotification]);
+  }, [
+    cacheStatus,
+    cacheTrackLibrary,
+    deepRefreshTrackCache,
+    getLastCacheDate,
+    hideNotification,
+    isLogged,
+    pushNotification,
+  ]);
+
+  return { cacheTrackLibrary, dropCache, deepRefreshTrackCache };
 }
