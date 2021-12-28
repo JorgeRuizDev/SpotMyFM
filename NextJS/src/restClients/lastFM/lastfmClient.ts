@@ -15,7 +15,6 @@ export class LastfmClient implements IRestClient {
     if (!apiKey || apiKey.length == 0) {
       throw "Empty Api Key";
     }
-
     this.key = apiKey;
   }
 
@@ -50,6 +49,8 @@ export class LastfmClient implements IRestClient {
       headers: { Authorization: `Bearer ${token}` },
     });
 
+    console.log(res);
+
     if (res.status != 200 || !res.data || res.data.length == 0) {
       return [
         null,
@@ -57,24 +58,18 @@ export class LastfmClient implements IRestClient {
       ];
     }
 
-    let taggedCount = 0;
-
     for (const tag_res of res.data) {
       const tag: ITagResponse = tag_res;
       const album = albumMap.get(tag.album_id);
 
       if (album && tag.tags) {
+        console.log(album.name);
         album.lastfmTagsFull = tag.tags;
         album.lastfmTagsNames = tag.tags.map((t) => t.name);
-        taggedCount++;
       }
     }
 
-    if (taggedCount < res.data.length) {
-      toast.warn(`${taggedCount} albums tagged out of ${res.data.length}`);
-    }
-
-    return [albums, null];
+    return [Array.from(albumMap.values()), null];
   }
 
   /**
