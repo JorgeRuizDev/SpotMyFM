@@ -3,6 +3,7 @@ import AskForLibraryCache from "components/core/notification/notificationContent
 import CacheOutdatedMessage from "components/core/notification/notificationContents/CacheOutdatedMessage";
 import CachingInProgress from "components/core/notification/notificationContents/CachingInProgress";
 import InconsistentCacheMessage from "components/core/notification/notificationContents/InconsistentCacheMessage";
+import { CacheDb } from "data/cacheDB/CacheDB";
 import { addDays } from "date-fns";
 import { useDataFacade } from "hooks/dataFacade/useDataFacade";
 import { useNotificationSystem } from "hooks/notification/useNotificationSystem";
@@ -41,11 +42,16 @@ interface ILibraryCacheStore extends ILibraryCacheStorePersistent {
   setCached(): void;
   setNotCached(): void;
   setOutdated(): void;
+  setNotCachedDontAsk(): void;
   setInconsistent(): void;
   initialize(): void;
   _hasLoaded: boolean;
 }
 
+/**
+ * Cache Status State.
+ * Controls the current state of the library
+ */
 export const useLibraryCacheStore = create<ILibraryCacheStore>(
   persist(
     (set, get) => {
@@ -85,6 +91,9 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
           cacheStatus: cacheStatusType.INCONSISTENT,
         }));
 
+      const setNotCachedDontAsk = () =>
+        set(() => ({ cacheStatus: cacheStatusType.NOTCACHEDONTASK }));
+
       const initialize = () => {
         if (get()._hasLoaded) {
           return;
@@ -93,7 +102,7 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
         // if the cache is older than expected:
         const lastCache = getLastCacheDate();
         if (lastCache !== undefined) {
-          if ((addDays(lastCache, 5).getTime() < new Date().getTime())) {
+          if (addDays(lastCache, 5).getTime() < new Date().getTime()) {
             setOutdated();
           }
         }
@@ -115,6 +124,7 @@ export const useLibraryCacheStore = create<ILibraryCacheStore>(
         setInconsistent,
         setOutdated,
         setNotCached,
+        setNotCachedDontAsk,
         initialize,
         _hasLoaded,
       };
@@ -136,6 +146,10 @@ const cacheNotification: Record<CacheNotification, string> = {
   NOCACHED: "NOCACHED",
 };
 
+/**
+ * Hook that allows to cache the user Library.
+ * @returns
+ */
 export function useLibraryCache() {
   const isLogged = useLoginStore((s) => s.isLogged);
 
@@ -147,9 +161,30 @@ export function useLibraryCache() {
   const { trackStatus, getSavedTracks, percent } = useDataFacade();
 
   // Store elements + operations
-  const { cacheStatus, getLastCacheDate, setCaching, setCached } =
-    useLibraryCacheStore();
+  const {
+    cacheStatus,
+    getLastCacheDate,
+    setCaching,
+    setCached,
+    setNotCachedDontAsk,
+  } = useLibraryCacheStore();
 
+  const hideAllNotifications = useCallback(() => {
+    for (const id in cacheNotification) {
+      hideNotification(id);
+    }
+  }, [hideNotification]);
+
+  // On Log Out: Hide All the notifications 
+  useEffect(() => {
+    if (!isLogged) {
+      hideAllNotifications();
+    }
+  }, [hideAllNotifications, isLogged]);
+
+  /**
+   * Cache the full user library
+   */
   const cacheTrackLibrary = useCallback(async () => {
     pushNotification(
       cacheNotification.CACHING,
@@ -170,10 +205,17 @@ export function useLibraryCache() {
     hideNotification,
   ]);
 
-  const dropCache = useCallback(() => {}, []);
+  const dropCache = useCallback(async () => {
+    await CacheDb.resetDB();
+    setNotCachedDontAsk();
+  }, [setNotCachedDontAsk]);
 
-  const deepRefreshTrackCache = useCallback(() => {}, []);
+  const deepRefreshTrackCache = useCallback(async () => {
+    await dropCache();
+    await cacheTrackLibrary();
+  }, [cacheTrackLibrary, dropCache]);
 
+  // If the cache starts caching: refresh the notification with the current status.
   useEffect(() => {
     if (cacheStatus === cacheStatusType.CACHING) {
       refreshNotification(
@@ -239,5 +281,5 @@ export function useLibraryCache() {
     pushNotification,
   ]);
 
-  return { cacheTrackLibrary, dropCache, deepRefreshTrackCache };
+  return { cacheTrackLibrary, dropCache, deepRefreshTrackCache, cacheStatus };
 }
