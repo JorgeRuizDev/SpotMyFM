@@ -49,8 +49,6 @@ export class LastfmClient implements IRestClient {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-    console.log(res);
-
     if (res.status != 200 || !res.data || res.data.length == 0) {
       return [
         null,
@@ -63,7 +61,6 @@ export class LastfmClient implements IRestClient {
       const album = albumMap.get(tag.album_id);
 
       if (album && tag.tags) {
-        console.log(album.name);
         album.lastfmTagsFull = tag.tags;
         album.lastfmTagsNames = tag.tags.map((t) => t.name);
       }

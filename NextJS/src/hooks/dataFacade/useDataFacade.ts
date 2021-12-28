@@ -93,7 +93,7 @@ export function useDataFacade() {
           albums,
           cookieManager.loadJWT() || ""
         );
-
+        incrementPercent()
         if (err || !res) {
           toast.error(err?.status);
         } else {
@@ -102,7 +102,7 @@ export function useDataFacade() {
       }
       return tagged;
     },
-    [lastfmApi]
+    [incrementPercent, lastfmApi]
   );
 
   /**
@@ -139,12 +139,12 @@ export function useDataFacade() {
       const parsed = spotifyStatic.spotifyAlbums2Albums(albums);
       const missing = getMissingObject(parsed, missingIds);
       await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
-      const joined = await cache.joinAlbums(parsed, false);
+      const joined = await cache.joinAlbums(missing, false);
       const tagged = await addTags(joined);
       await cache.addAlbums(tagged);
       unsetAsLoading();
 
-      return tagged;
+      return cache.getAlbumsBySpotifyId(parsed.map((p) => p.spotifyId));
     },
     [addTags, cache, getArtistsById, setAsLoading, unsetAsLoading]
   );
