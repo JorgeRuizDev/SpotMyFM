@@ -18,7 +18,7 @@ servers:
   - url: /api
 paths:
   /lastFM/getBulkAlbumTags:
-    get:
+    post:
       summary: Gets album tags of given album names and artists
       description: The endpoint only alllows a maximum of 50 pairs artist-album per request.
       requestBody:

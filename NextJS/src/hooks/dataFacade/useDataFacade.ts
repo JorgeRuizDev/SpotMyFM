@@ -2,11 +2,13 @@ import { useClientsStore } from "store/useClients";
 import { SpotifyClient as spotifyStatic } from "restClients/spotify/spotifyClient";
 import _ from "lodash";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
-import { toast } from "react-toastify";
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import asyncPool from "tiny-async-pool";
 import { useSessionStore } from "store/useSession";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
+import cookieManager from "util/cookies/loginCookieManager";
+import { toast } from "react-toastify";
 
 export type facadeStatus =
   | "default"
@@ -31,7 +33,7 @@ export function useDataFacade() {
   const incrementPercent = useCallback(() => setPercentCount((p) => p + 1), []);
 
   const percent = useMemo(
-    () => Math.floor(percentCount / percentCountTotal * 100),
+    () => Math.floor((percentCount / percentCountTotal) * 100),
     [percentCount, percentCountTotal]
   );
 
@@ -80,29 +82,27 @@ export function useDataFacade() {
 
   const addTags = useCallback(
     async (albums: Album[]) => {
+      const chunks = _.chunk(albums, 50);
       const tagged: Album[] = [];
       setPercentCount(0);
-      setPercentCountTotal(albums.length);
+      setPercentCountTotal(chunks.length);
       setTrackStatus("gettingLastTags");
-      await asyncPool(4, albums, async (album) => {
-        const [res, err] = await lastfmApi.getAlbumTags(
-          album.artists[0]?.name,
-          album.name
-        );
-        incrementPercent();
-        if (err || !res) {
-          toast.error(`LASTFM TAG ${err?.status}: ${err?.message}`);
-          tagged.push(album);
-        } else {
-          album.lastfmTagsFull = res;
-          album.lastfmTagsNames = res.map((t) => t.name);
-          tagged.push(album);
-        }
-      });
 
+      for (albums of chunks) {
+        const [res, err] = await lastfmApi.getBulkAlbumTags(
+          albums,
+          cookieManager.loadJWT() || ""
+        );
+
+        if (err || !res) {
+          toast.error(err?.status);
+        } else {
+          tagged.push(...res);
+        }
+      }
       return tagged;
     },
-    [incrementPercent, lastfmApi]
+    [lastfmApi]
   );
 
   /**

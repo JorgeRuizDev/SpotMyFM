@@ -74,7 +74,7 @@ function removeAll() {
   Cookies.remove(cfg.cookie_jwt);
 }
 
-const functions = {
+const cookieManager = {
   saveJWT,
   loadJWT,
   saveAuthToken,
@@ -84,4 +84,4 @@ const functions = {
   removeAll,
 };
 
-export default functions;
+export default cookieManager;

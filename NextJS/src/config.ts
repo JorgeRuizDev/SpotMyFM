@@ -7,6 +7,7 @@ const config = {
   // Static NextAPI endpoints
   api_spotify_auth: "api/spotify/oauth2/auth",
   api_spotify_refresh: "api/spotify/oauth2/refresh",
+  last_bulk_tags: "api/lastFM/getBulkAlbumTags"
 };
 
 export default config;
