@@ -1,6 +1,6 @@
 import axios from "axios";
 import {
-  AuthTokenResponse,
+  AuthTokenJWTResponse,
   RefreshTokenResponse,
 } from "interfaces/oauth2Responses";
 import { toast } from "react-toastify";
@@ -64,7 +64,7 @@ class Oauth2Frontend {
   */
   public async getAuthToken(
     apiEndpoint: string
-  ): Promise<[AuthTokenResponse | null, any]> {
+  ): Promise<[AuthTokenJWTResponse | null, any]> {
     const [responseCode, err] = this.getGrantCode();
 
     if (err) {
@@ -85,6 +85,7 @@ class Oauth2Frontend {
           expires_in: parseInt(data.expires_in) || 0,
           refresh_token: data.refresh_token,
           token_type: data.token_type,
+          token: data.token,
           scope: data.scope,
         },
         null,
