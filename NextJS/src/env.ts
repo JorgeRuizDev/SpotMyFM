@@ -2,6 +2,8 @@ const env = {
   SPOTIFY_PUBLIC: process.env.NEXT_PUBLIC_SPOTIFY_ID || "",
   SPOTIFY_SECRET: process.env.SPOTIFY_SECRET || "",
 
+  JWT_SIGN_KEY: process.env.JWT_SIGN_KEY || "",
+
   AWS_ACCESS_KEY_ID: process.env.AWS_ACCESS_KEY_ID_ || "",
   AWS_SECRET_ACCESS_KEY: process.env.AWS_SECRET_ACCESS_KEY_ || "",
   AWS_REGION: process.env.AWS_REGION_ || "",
