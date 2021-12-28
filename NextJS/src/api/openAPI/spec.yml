@@ -46,6 +46,8 @@ paths:
 
       tags:
         - lastFM
+      security:
+        - jwt: []
 
 components:
   schemas:
@@ -96,3 +98,9 @@ components:
                 type: string
               url:
                 type: string
+
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
