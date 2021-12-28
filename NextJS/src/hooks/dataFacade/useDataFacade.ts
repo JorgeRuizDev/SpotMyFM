@@ -115,7 +115,6 @@ export function useDataFacade() {
       setAsLoading();
       const missingIds = await cache.getMissingAlbums(spotifyIds);
       const missingObjects = await spotifyApi.getFullAlbums(missingIds);
-      console.log(missingObjects);
       const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
