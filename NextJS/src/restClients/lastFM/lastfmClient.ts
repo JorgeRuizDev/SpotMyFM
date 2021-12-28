@@ -34,49 +34,44 @@ export class LastfmClient implements IRestClient {
 
     // Put the albums into a map indexed by {name:artist}
     for (const album of albums) {
-      albumMap.set(`${album.name}:${album.artists[0].name}`, album);
+      albumMap.set(album.spotifyId, album);
     }
 
     const requestBody = {
       albums: albums.map((a) => ({
         album_name: a.name,
         artist_name: a.artists[0].name,
+        album_id: a.spotifyId,
       })),
     };
 
     // POST the Albums
-    const res = await axios.post(
-      cfg.last_bulk_tags,
-      requestBody,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+    const res = await axios.post(cfg.last_bulk_tags, requestBody, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
 
-    if (res.status != 200 || !res.data || res.data.length == 0 ) {
+    if (res.status != 200 || !res.data || res.data.length == 0) {
       return [
         null,
         { status: res.status, message: res.data?.error || res.data },
       ];
     }
 
-    let taggedCount = 0
+    let taggedCount = 0;
 
     for (const tag_res of res.data) {
       const tag: ITagResponse = tag_res;
-      const album = albumMap.get(`${tag.album_name}:${tag.artist_name}`);
-
-      
+      const album = albumMap.get(tag.album_id);
 
       if (album && tag.tags) {
         album.lastfmTagsFull = tag.tags;
         album.lastfmTagsNames = tag.tags.map((t) => t.name);
-        taggedCount++
+        taggedCount++;
       }
     }
 
-    if (taggedCount < res.data.length){
-      toast.warn(`${taggedCount} albums tagged out of ${res.data.length}`)
+    if (taggedCount < res.data.length) {
+      toast.warn(`${taggedCount} albums tagged out of ${res.data.length}`);
     }
 
     return [albums, null];

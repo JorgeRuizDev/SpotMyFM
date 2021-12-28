@@ -11,9 +11,13 @@ import JWT from "util/JWT/JWT";
 interface ITagPetition {
   album_name: string;
   artist_name: string;
+  album_id: string;
 }
 
-export interface ITagResponse extends ITagPetition {
+const MAX_ALBUMS_PER_REQ = 50;
+
+export interface ITagResponse {
+  album_id: string;
   tags: { name: string; url: string }[];
 }
 
@@ -33,22 +37,27 @@ const auth = async (
     res.status(403).json({ error: jwtErr });
     return;
   }
+
+  // Get the body from the petition
   const body: { albums: ITagPetition[] } = req.body || { albums: [] };
 
+  // Check that the body has an albums attribute
   if (!body.albums) {
     return res
       .status(400)
       .json({ error: "There is no albums attribute in the request body" });
   }
 
+  // Initialize the lastFM API
   const api = new LastfmClient(env.LASTFM_KEY);
 
-  console.log(body);
-
-  if (body.albums.length > 50) {
+  // Check that the ammount of albums does not exceed the limmit
+  if (body.albums.length > MAX_ALBUMS_PER_REQ) {
     res
       .status(400)
-      .json({ error: "The number of albums exceeds the limit (50)" });
+      .json({
+        error: `The number of albums exceeds the limit (${MAX_ALBUMS_PER_REQ})`,
+      });
   }
 
   const tagged: ITagResponse[] = [];
@@ -60,7 +69,7 @@ const auth = async (
     );
 
     if (res) {
-      tagged.push({ ...album, tags: res });
+      tagged.push({ tags: res, album_id: album.album_id });
     }
   });
 

@@ -49,6 +49,7 @@ paths:
       security:
         - jwt: []
 
+
 components:
   schemas:
     Error:
@@ -71,6 +72,8 @@ components:
                 type: string
               artist_name:
                 type: string
+              album_id:
+                type: string
 
     LastFMTagResponse:
       type: object
@@ -85,9 +88,7 @@ components:
     LastFMTag:
       type: object
       properties:
-        album_name:
-          type: string
-        artist_name:
+        album_id:
           type: string
         tags:
           type: array
