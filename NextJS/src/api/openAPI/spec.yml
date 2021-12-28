@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: SpotMyFM Api Specification
+  description: The SpotMyFM OpenAPI Swagger Specification
+  version: 0.1.9
+tags:
+  - name: lastFM
+    description: LastFM Related Operations
+  - name: spotify
+    description: Spotify Related Operations
+  - name: auth
+    description: Authentication related Operations
+  - name: data
+    description: Database Related Operations
+  - name: predictor 
+    description: Machine Learning Model related Operations
+servers:
+  - url: /api
+paths:
+  /database/user/isAdmin:
+    post:
+      summary: Checks if a user is adm
+      description: Optional extended description in CommonMark or HTML.
+      responses:
+        '200':    # status code
+          description: A JSON array of user names
+          content:
+            application/json:
+              schema: 
+                type: array
+                items: 
+                  type: string
+  
