@@ -27,6 +27,7 @@ export default function Callback() {
     if (canLog) {
       cookieManager.saveAuthToken(res.access_token, res.expires_in);
       cookieManager.saveRefreshToken(res.refresh_token);
+      cookieManager.saveJWT(res.token);
       router.current.push("/");
     } else {
       toast.error("Couldn't Log In");

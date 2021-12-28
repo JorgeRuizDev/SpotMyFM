@@ -1,15 +1,16 @@
-import axios from "axios";
-import b64 from "base-64";
+import { backendDB } from "data/backendDB/BackendDB";
 import env from "env";
 import ApiError from "interfaces/apiError";
-import { AuthTokenResponse } from "interfaces/oauth2Responses";
+import {
+  AuthTokenJWTResponse,
+} from "interfaces/oauth2Responses";
 import type { NextApiRequest, NextApiResponse } from "next";
-import qs from "query-string";
+import JWT from "util/JWT/JWT";
 import Oauth2Backend from "util/Oauth2/Oauth2Backend";
 
 const auth = async (
   req: NextApiRequest,
-  res: NextApiResponse<AuthTokenResponse | ApiError>
+  res: NextApiResponse<AuthTokenJWTResponse | ApiError>
 ) => {
   const { redirectUri, responseCode } = req.body;
 
@@ -26,7 +27,14 @@ const auth = async (
   if (err || !token) {
     res.status(400).json(err);
   } else {
-    res.status(200).json(token);
+    // Return the JWT Token
+    const [jwt, jwtErr] = await JWT.addTokenToAuthResponse(token, backendDB);
+
+    if (jwt == null || jwtErr) {
+      res.status(400).json(jwtErr);
+    } else {
+      res.status(200).json(jwt);
+    }
   }
 };
 

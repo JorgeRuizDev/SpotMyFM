@@ -1,9 +1,9 @@
 import axios from "axios";
 import {
   AuthTokenJWTResponse,
-  RefreshTokenResponse,
+  RefreshTokenJWTResponse,
 } from "interfaces/oauth2Responses";
-import { toast } from "react-toastify";
+
 
 class Oauth2Frontend {
   private endpoint: string;
@@ -60,7 +60,7 @@ class Oauth2Frontend {
   * Gets the Auth Token and refresh token from the current URL
 
   * @param {string} apiEndpoint Safe api endpoint where to execute 
-  * @returns {Promise<AuthTokenResponse | undefined>}
+  * @returns {Promise<AuthTokenJWTResponse | undefined>}
   */
   public async getAuthToken(
     apiEndpoint: string
@@ -104,7 +104,7 @@ class Oauth2Frontend {
   async refreshAuthToken(
     apiEndpoint: string,
     refreshToken: string
-  ): Promise<[RefreshTokenResponse | null, any]> {
+  ): Promise<[RefreshTokenJWTResponse | null, any]> {
     try {
       const response = await axios.post(apiEndpoint, { refreshToken });
       const data = response.data;
@@ -117,6 +117,7 @@ class Oauth2Frontend {
         {
           access_token: data.access_token,
           expires_in: data.expires_in,
+          token: data.token,
         },
         null,
       ];
