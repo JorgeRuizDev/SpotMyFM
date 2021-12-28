@@ -6,7 +6,15 @@ export interface AuthTokenResponse {
   scope?: string;
 }
 
+export interface AuthTokenJWTResponse extends AuthTokenResponse {
+  token: string;
+}
+
 export interface RefreshTokenResponse {
   access_token: string;
   expires_in: number;
+}
+
+export interface RefreshTokenJWTResponse extends RefreshTokenResponse {
+  token: string;
 }
