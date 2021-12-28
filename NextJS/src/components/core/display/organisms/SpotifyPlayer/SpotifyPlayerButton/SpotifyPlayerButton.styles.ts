@@ -18,9 +18,9 @@ const Subtitle = tw.span`
 `;
 
 const TextColWrap = tw.div`
-  max-width["100%"]
   flex
   flex-col
+  overflow-x-hidden
 
 `;
 

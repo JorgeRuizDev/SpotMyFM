@@ -16,8 +16,6 @@ function SpotifyPlayerButton({ playing }: ISpotifyPlayerButtonProps) {
   const [titleOverflows, setTitleOverflows] = useState(true);
   const [artistsOverflows, setArtistsOverflows] = useState(true);
 
-  console.log(artistsOverflows);
-
   // Set the parent width
   useEffect(() => {
     setParentW(parentRef.current?.offsetWidth || 0);
@@ -36,8 +34,6 @@ function SpotifyPlayerButton({ playing }: ISpotifyPlayerButtonProps) {
   useEffect(() => {
     const w = titleRef.current?.offsetWidth || 0;
 
-    console.log(parentW);
-    console.log(w);
     if (parentW <= w) {
       setTitleOverflows(true);
     } else {
@@ -70,11 +66,10 @@ function SpotifyPlayerButton({ playing }: ISpotifyPlayerButtonProps) {
   );
 
   return (
-    <Styled.PlayerWrap ref={parentRef} style={{ backgroundColor: "red" }}>
+    <Styled.PlayerWrap ref={parentRef}>
       {playing && (
         <img
-          height={"60px"}
-          width={"60px"}
+          style={{maxHeight: "50px"}}
           alt={playing.name}
           src={
             playing.album?.spotifyCoverUrl[
