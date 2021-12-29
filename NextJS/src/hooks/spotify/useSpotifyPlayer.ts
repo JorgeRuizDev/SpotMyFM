@@ -40,14 +40,14 @@ const useSpotifyPlayerStore = create<ISpotifyPlayerStore>((set, get) => {
   };
 
   const setPaused = () => {
-    set(() => ({ isPlaying: true }));
+    set(() => ({ isPlaying: false }));
   };
   const setIsPlaying = (isPlaying: boolean) => {
-    set(() => ({ isPlaying: !isPlaying }));
+    set(() => ({ isPlaying: isPlaying }));
   };
 
   const setResumed = () => {
-    set(() => ({ isPlaying: false }));
+    set(() => ({ isPlaying: true }));
   };
 
   return {
@@ -74,7 +74,7 @@ const useSpotifyPlayer = createStore(() => {
   const {
     nowPlaying,
     setPlayingTrack,
-    setPlayer,
+    setPlayer: _setPlayer,
     isPlaying,
     setIsPlaying,
     abvPlayers,
@@ -82,31 +82,46 @@ const useSpotifyPlayer = createStore(() => {
     setAbvPlayers,
   } = useSpotifyPlayerStore();
 
+  /**
+   * Refreshes the current playing status (Track + Player)
+   */
   const refreshPlaying = useCallback(async (): Promise<void> => {
-    console.log("entra");
-
     const res = await api.getMyCurrentPlayingTrack();
-    setPlayer(res.device);
+    res.device && _setPlayer(res.device);
     setIsPlaying(res.is_playing);
 
     const t = await getTracksByIds([res.item?.id || ""]);
 
-    console.log("Updates");
     setPlayingTrack(t[0]);
-  }, [api, getTracksByIds, setIsPlaying, setPlayer, setPlayingTrack]);
+  }, [_setPlayer, api, getTracksByIds, setIsPlaying, setPlayingTrack]);
 
-  useEffect(() => {
-    console.log("fn cambia");
+  const setPlayer = useCallback(
+    async (dev: SpotifyApi.UserDevice) => {
+      const res = await api.transferMyPlayback([dev.id || ""], { play: true });
+      _setPlayer(dev);
+      setIsPlaying(true);
+    },
+    [_setPlayer, api, setIsPlaying]
+  );
+
+  /**
+   * Calls refreshPlaying with a small delay so the api endpoint has updated its data.
+   */
+  const refreshWithDelay = useCallback(async () => {
+    setTimeout(() => {
+      refreshPlaying();
+    }, 200);
   }, [refreshPlaying]);
 
-  useEffect(() => {
-    console.log("hook in");
-  }, []);
-
+  /**
+   * Refreshed the current active player list
+   */
   const refreshPlayers = useCallback(async (): Promise<void> => {
     const res = await api.getMyDevices();
+    const active = res.devices.find((d) => d.is_active);
+    active && _setPlayer(active);
     setAbvPlayers(res.devices);
-  }, [api, setAbvPlayers]);
+  }, [_setPlayer, api, setAbvPlayers]);
 
   /**
    * Plays a given track
@@ -128,15 +143,13 @@ const useSpotifyPlayer = createStore(() => {
         toast.info(
           `🎵 Now Playing "${track.name}" by "${track.artists[0]?.name}".`
         );
-        await setTimeout(() => {
-          refreshPlaying();
-        }, 300);
+        await refreshWithDelay();
       } catch (e) {
         const parsed = api.parse(e);
         toastError(parsed);
       }
     },
-    [api, isPremium, refreshPlaying]
+    [api, isPremium, refreshWithDelay]
   );
 
   /**
@@ -158,13 +171,13 @@ const useSpotifyPlayer = createStore(() => {
         toast.info(
           `🎵 Now Playing "${album.name}" by "${album.artists[0]?.name}".`
         );
+        await refreshWithDelay();
       } catch (e) {
         const parsed = api.parse(e);
         toastError(parsed);
       }
-      refreshPlaying();
     },
-    [api, isPremium, refreshPlaying]
+    [api, isPremium, refreshWithDelay]
   );
 
   /**
@@ -176,11 +189,12 @@ const useSpotifyPlayer = createStore(() => {
     try {
       await api.pause();
       setIsPlaying(false);
+      await refreshWithDelay();
     } catch (e) {
       const parsed = api.parse(e);
       toastError(parsed);
     }
-  }, [api, setIsPlaying]);
+  }, [api, refreshWithDelay, setIsPlaying]);
 
   /**
    * Resumes the playback
@@ -191,11 +205,12 @@ const useSpotifyPlayer = createStore(() => {
     try {
       await api.play();
       setIsPlaying(true);
+      await refreshWithDelay();
     } catch (e) {
       const parsed = api.parse(e);
       toastError(parsed);
     }
-  }, [api, setIsPlaying]);
+  }, [api, refreshWithDelay, setIsPlaying]);
 
   /**
    * Skips to the next track
@@ -205,12 +220,13 @@ const useSpotifyPlayer = createStore(() => {
   const next = useCallback(async (): Promise<void> => {
     try {
       await api.skipToNext();
+      await refreshWithDelay();
     } catch (e) {
       const parsed = api.parse(e);
       toastError(parsed);
     }
     refreshPlaying();
-  }, [api, refreshPlaying]);
+  }, [api, refreshPlaying, refreshWithDelay]);
 
   /**
    * Skips to the previous track
@@ -220,12 +236,13 @@ const useSpotifyPlayer = createStore(() => {
   const previous = useCallback(async (): Promise<void> => {
     try {
       await api.skipToPrevious();
+      await refreshWithDelay();
     } catch (e) {
       const parsed = api.parse(e);
       toastError(parsed);
     }
     refreshPlaying();
-  }, [api, refreshPlaying]);
+  }, [api, refreshPlaying, refreshWithDelay]);
 
   /**
    * Adds a new track to the playback queue
@@ -256,6 +273,7 @@ const useSpotifyPlayer = createStore(() => {
     playAlbum,
     playTrack,
     next,
+    setPlayer,
     previous,
     nowPlaying,
     isPlaying,
