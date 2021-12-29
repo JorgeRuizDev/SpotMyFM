@@ -4,6 +4,7 @@ import { useDataFacade } from "hooks/dataFacade/useDataFacade";
 import { RestError } from "interfaces/RestClient";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useIdle } from "react-use";
 import { useClientsStore } from "store/useClients";
 import create from "zustand";
 
@@ -79,25 +80,49 @@ export default function useSpotifyPlayer() {
     setAbvPlayers,
   } = useSpotifyPlayerStore();
 
-
+  const isIdle = useIdle(10e3);
 
   const refreshPlaying = useCallback(async (): Promise<void> => {
     const res = await api.getMyCurrentPlayingTrack();
     setPlayer(res.device);
     setIsPlaying(res.is_playing);
-    if (res.item) {
+
+    // if the track has changed: Update it
+    if (res.item && res.item.id !== nowPlaying?.spotifyId) {
       setPlayingTrack((await getTracksByIds([res.item?.id || ""]))[0]);
-    } else {
     }
-  }, [api, getTracksByIds, setIsPlaying, setPlayer, setPlayingTrack]);
+  }, [
+    api,
+    getTracksByIds,
+    nowPlaying?.spotifyId,
+    setIsPlaying,
+    setPlayer,
+    setPlayingTrack,
+  ]);
 
   const refreshPlayers = useCallback(async (): Promise<void> => {
     const res = await api.getMyDevices();
     setAbvPlayers(res.devices);
   }, [api, setAbvPlayers]);
 
+
+
+  // Refresh the playing status every 5 seconds
+  useEffect(() => {
+    refreshPlaying();
+    const interval = setInterval(() => {
+      !isIdle && refreshPlaying();
+
+    }, 5000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [isIdle, refreshPlaying]);
+
   // On Load: Get the initial information
-  useEffect(() => {refreshPlayers(); refreshPlaying()}, [refreshPlayers, refreshPlaying])
+  useEffect(() => {
+    refreshPlayers();
+  }, [refreshPlayers]);
 
   /**
    * Plays a given track
