@@ -5,6 +5,7 @@ import { RestError } from "interfaces/RestClient";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useIdle } from "react-use";
+import { createStore } from "reusable";
 import { useClientsStore } from "store/useClients";
 import create from "zustand";
 
@@ -64,13 +65,9 @@ const useSpotifyPlayerStore = create<ISpotifyPlayerStore>((set, get) => {
  * A helper hook that manages the spotify api player controls.
  * @returns
  */
-export default function useSpotifyPlayer() {
+const useSpotifyPlayer = createStore(() => {
   const isPremium = useClientsStore((s) => s.user.isPremium);
   const api = useClientsStore((s) => s.spotifyApi);
-
-  useEffect(() => {
-    console.log("MOunts");
-  });
 
   const { getTracksByIds } = useDataFacade();
 
@@ -85,61 +82,31 @@ export default function useSpotifyPlayer() {
     setAbvPlayers,
   } = useSpotifyPlayerStore();
 
-  //const isIdle = useIdle(10e3);
+  const refreshPlaying = useCallback(async (): Promise<void> => {
+    console.log("entra");
 
-  /**
-   const refreshPlaying = useCallback(async (): Promise<void> => {
     const res = await api.getMyCurrentPlayingTrack();
     setPlayer(res.device);
     setIsPlaying(res.is_playing);
 
-    // if the track has changed: Update it
-    if (res.item && res.item.id !== nowPlaying?.spotifyId) {
-      console.log("Re-renders")
-      setPlayingTrack((await getTracksByIds([res.item?.id || ""]))[0]);
-    }
-  }, [
-    api,
-    getTracksByIds,
-    nowPlaying?.spotifyId,
-    setIsPlaying,
-    setPlayer,
-    setPlayingTrack,
-  ]);
+    const t = await getTracksByIds([res.item?.id || ""]);
 
+    console.log("Updates");
+    setPlayingTrack(t[0]);
+  }, [api, getTracksByIds, setIsPlaying, setPlayer, setPlayingTrack]);
 
+  useEffect(() => {
+    console.log("fn cambia");
+  }, [refreshPlaying]);
 
-   */
-  const refreshPlaying = useCallback(async (): Promise<void> => {}, []);
+  useEffect(() => {
+    console.log("hook in");
+  }, []);
+
   const refreshPlayers = useCallback(async (): Promise<void> => {
     const res = await api.getMyDevices();
     setAbvPlayers(res.devices);
   }, [api, setAbvPlayers]);
-
-  // Refresh the playing status every 5 seconds
-  /* 
-  useEffect(() => {
-    refreshPlaying();
-    const autoRefresh = async () => {
-      const interval = setInterval(() => {
-        !isIdle && refreshPlaying();
-  
-      }, 5000);
-      return () => {
-        clearInterval(interval);
-      };
-    }
-
-    autoRefresh()
-
-
-  }, [isIdle, refreshPlaying]);
-*/
-  // On Load: Get the initial information
-  //useEffect(() => {
-  //  refreshPlayers();
-  //  refreshPlaying();
-  //}, [refreshPlayers, refreshPlaying]);
 
   /**
    * Plays a given track
@@ -161,12 +128,13 @@ export default function useSpotifyPlayer() {
         toast.info(
           `🎵 Now Playing "${track.name}" by "${track.artists[0]?.name}".`
         );
+        await setTimeout(() => {
+          refreshPlaying();
+        }, 300);
       } catch (e) {
         const parsed = api.parse(e);
         toastError(parsed);
       }
-
-      await refreshPlaying();
     },
     [api, isPremium, refreshPlaying]
   );
@@ -296,7 +264,9 @@ export default function useSpotifyPlayer() {
     abvPlayers,
     refreshPlayers,
   };
-}
+});
+
+export default useSpotifyPlayer;
 
 function toastNoPremium(): void {
   toast.info("This action is locked behind Spotify Premium");

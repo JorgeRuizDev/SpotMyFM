@@ -18,7 +18,7 @@ function SpotifyPlayerButton({ playing }: ISpotifyPlayerButtonProps) {
 
   // Set the parent width
   useEffect(() => {
-    setParentW(parentRef.current?.offsetWidth || 0);
+    setParentW((parentRef.current?.offsetWidth || 0) - 60);
   }, [parentRef]);
 
   useEffect(() => {
@@ -69,7 +69,7 @@ function SpotifyPlayerButton({ playing }: ISpotifyPlayerButtonProps) {
     <Styled.PlayerWrap ref={parentRef}>
       {playing && (
         <img
-          style={{maxHeight: "50px"}}
+          style={{ maxHeight: "50px" }}
           alt={playing.name}
           src={
             playing.album?.spotifyCoverUrl[
@@ -78,7 +78,7 @@ function SpotifyPlayerButton({ playing }: ISpotifyPlayerButtonProps) {
           }
         />
       )}
-      <Styled.TextColWrap >
+      <Styled.TextColWrap>
         <Styled.PlayingStatusWrap>
           <Styled.Marquee1 ref={titleRef} animateMarq={titleOverflows}>
             {title}
