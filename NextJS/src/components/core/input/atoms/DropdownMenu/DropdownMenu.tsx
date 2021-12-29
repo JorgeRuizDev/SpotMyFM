@@ -15,6 +15,14 @@ interface IDropdownMenuProps {
   itemStyle?: "lastFM";
 }
 
+/**
+ * DropDown API
+ * Children: Current Dropdown API
+ * items: Items to Render
+ *    - component: Component to Render
+ *    - href: If link, converts the item into an <a/> tag
+ *    - onClick: on item select
+ */
 function DropdownMenu({
   children,
   items,
