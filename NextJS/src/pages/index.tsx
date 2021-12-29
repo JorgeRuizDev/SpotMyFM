@@ -14,7 +14,10 @@ import { useLoginStore } from "store/useLogin";
 import Buttons from "styles/Buttons";
 import { getOauth } from "util/spotify/oauthFrontend";
 import HomeTopTracks from "components/pages/HomeTopTracks";
-import { useLibraryCache, useLibraryCacheStore } from "hooks/cache/useLibraryCache";
+import {
+  useLibraryCache,
+  useLibraryCacheStore,
+} from "hooks/cache/useLibraryCache";
 
 export default function Home(): JSX.Element {
   const { isLogged } = useLoginStore();
@@ -23,13 +26,17 @@ export default function Home(): JSX.Element {
   return (
     <>
       {!isLogged ? (
-        <Buttons.PrimaryGreenButton
-          onClick={() => {
-            getOauth().promptCredentials();
-          }}
-        >
-          Log In
-        </Buttons.PrimaryGreenButton>
+        isLogged === undefined ? (
+          <></>
+        ) : (
+          <Buttons.PrimaryGreenButton
+            onClick={() => {
+              getOauth().promptCredentials();
+            }}
+          >
+            Log In
+          </Buttons.PrimaryGreenButton>
+        )
       ) : (
         <HomeTopTracks />
       )}
