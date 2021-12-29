@@ -67,6 +67,11 @@ const useSpotifyPlayerStore = create<ISpotifyPlayerStore>((set, get) => {
 export default function useSpotifyPlayer() {
   const isPremium = useClientsStore((s) => s.user.isPremium);
   const api = useClientsStore((s) => s.spotifyApi);
+
+  useEffect(() => {
+    console.log("MOunts");
+  });
+
   const { getTracksByIds } = useDataFacade();
 
   const {
@@ -80,15 +85,17 @@ export default function useSpotifyPlayer() {
     setAbvPlayers,
   } = useSpotifyPlayerStore();
 
-  const isIdle = useIdle(10e3);
+  //const isIdle = useIdle(10e3);
 
-  const refreshPlaying = useCallback(async (): Promise<void> => {
+  /**
+   const refreshPlaying = useCallback(async (): Promise<void> => {
     const res = await api.getMyCurrentPlayingTrack();
     setPlayer(res.device);
     setIsPlaying(res.is_playing);
 
     // if the track has changed: Update it
     if (res.item && res.item.id !== nowPlaying?.spotifyId) {
+      console.log("Re-renders")
       setPlayingTrack((await getTracksByIds([res.item?.id || ""]))[0]);
     }
   }, [
@@ -100,29 +107,39 @@ export default function useSpotifyPlayer() {
     setPlayingTrack,
   ]);
 
+
+
+   */
+  const refreshPlaying = useCallback(async (): Promise<void> => {}, []);
   const refreshPlayers = useCallback(async (): Promise<void> => {
     const res = await api.getMyDevices();
     setAbvPlayers(res.devices);
   }, [api, setAbvPlayers]);
 
-
-
   // Refresh the playing status every 5 seconds
+  /* 
   useEffect(() => {
     refreshPlaying();
-    const interval = setInterval(() => {
-      !isIdle && refreshPlaying();
+    const autoRefresh = async () => {
+      const interval = setInterval(() => {
+        !isIdle && refreshPlaying();
+  
+      }, 5000);
+      return () => {
+        clearInterval(interval);
+      };
+    }
 
-    }, 5000);
-    return () => {
-      clearInterval(interval);
-    };
+    autoRefresh()
+
+
   }, [isIdle, refreshPlaying]);
-
+*/
   // On Load: Get the initial information
-  useEffect(() => {
-    refreshPlayers();
-  }, [refreshPlayers]);
+  //useEffect(() => {
+  //  refreshPlayers();
+  //  refreshPlaying();
+  //}, [refreshPlayers, refreshPlaying]);
 
   /**
    * Plays a given track

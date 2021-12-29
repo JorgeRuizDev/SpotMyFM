@@ -4,6 +4,7 @@ import tw from "twin.macro";
 const PlayerWrap = tw.div`
   w-full
   flex
+  items-center
   space-x-3
   flex-row
   flex-nowrap

@@ -9,30 +9,28 @@ import Transition from "../../molecules/Transition";
 import Styled from "./SpotifyPlayer.styles";
 import SpotifyPlayerButton from "./SpotifyPlayerButton";
 interface ISpotifyPlayerProps {}
+import { usePopper } from "react-popper";
 
 function SpotifyPlayer(props: ISpotifyPlayerProps): JSX.Element {
-  const api = useClientsStore((s) => s.spotifyApi);
-  const [isOpen, setIsOpen] = useState(true);
   const { nowPlaying, refreshPlaying } = useSpotifyPlayer();
 
+  let [referenceElement, setReferenceElement] =
+    useState<HTMLDivElement | null>();
+  let [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
+  let { styles, attributes } = usePopper(referenceElement, popperElement);
+
   return (
-    <Popover
-      tw="relative"
-      onMouseEnter={() => setIsOpen(true)}
-      style={{ width: "300px" }}
-      as="div"
-    >
-      <div>
-        <Popover.Button as="div">
-          <SpotifyPlayerButton playing={nowPlaying} />
-        </Popover.Button>
+    <Popover tw="relative" as="div" style={{ position: "relative" }}>
+      <Popover.Button as="div" ref={setReferenceElement}>
+        <SpotifyPlayerButton playing={nowPlaying} />
+      </Popover.Button>
+      <div ref={setPopperElement} style={{...styles.popper, position: "absolute", zIndex: 41, top: 0, left: 0}} {...attributes.popper}>
         <Transition>
-          <Popover.Panel tw="absolute z-10">
+          <Popover.Panel as="div">
             {nowPlaying && <SimpleTrackCard track={nowPlaying} />}
           </Popover.Panel>
         </Transition>
       </div>
-      <button onClick={refreshPlaying}>Refresh</button>
     </Popover>
   );
 }

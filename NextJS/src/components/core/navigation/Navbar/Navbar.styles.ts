@@ -18,6 +18,9 @@ const NavWrapper = tw.div`
   hidden
 
   md:flex
+  flex-row
+  justify-between
+  items-center
 `;
 
 const LogoTitle = tw.div`
@@ -50,7 +53,7 @@ const LeftSide = tw.div`
 	items-center
 	flex
 	justify-start
-	w-7/12
+
 	h-full
 	
 `;
@@ -59,9 +62,15 @@ const RightSide = tw.div`
 	items-center
 	flex
 	justify-end
-	w-5/12
+
 	h-full
 `;
+
+const PlayerWrap = tw.div`
+  w-[30%]
+  max-w-[300px]
+  
+`
 
 const p = tw.p`
 	dark:text-white
@@ -82,6 +91,7 @@ const Styled = {
   Navbar,
   NavWrapper,
   LeftSide,
+  PlayerWrap,
   RightSide,
   ProfilePic,
   p,

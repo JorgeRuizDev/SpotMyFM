@@ -1,4 +1,5 @@
 import InfiniteLoadingBar from "components/core/display/atoms/InfiniteLoadingBar";
+import SpotifyPlayer from "components/core/display/organisms/SpotifyPlayer";
 import Link from "components/util/Link";
 import { useLoginStore } from "store/useLogin";
 import { useSessionStore } from "store/useSession";
@@ -10,7 +11,7 @@ import NavbarRightSide from "./NavbarRightSide";
 
 function Navbar(): JSX.Element {
   const { isLogged } = useLoginStore();
-  const {isLoading} = useSessionStore()
+  const { isLoading } = useSessionStore();
   return isLogged ? (
     <Styled.Navbar>
       <Styled.NavWrapper>
@@ -24,7 +25,9 @@ function Navbar(): JSX.Element {
 
           <NavbarLeftItems />
         </Styled.LeftSide>
-
+        <Styled.PlayerWrap>
+          <SpotifyPlayer />
+        </Styled.PlayerWrap>
         <Styled.RightSide>
           <NavbarRightSide />
         </Styled.RightSide>
