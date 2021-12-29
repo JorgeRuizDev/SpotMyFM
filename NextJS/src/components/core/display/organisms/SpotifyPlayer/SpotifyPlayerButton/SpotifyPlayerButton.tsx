@@ -5,7 +5,9 @@ interface ISpotifyPlayerButtonProps {
   playing?: Track;
 }
 
-function SpotifyPlayerButton({ playing }: ISpotifyPlayerButtonProps) {
+function SpotifyPlayerButton({
+  playing,
+}: ISpotifyPlayerButtonProps): JSX.Element {
   const parentRef = createRef<HTMLDivElement>();
   const titleRef = createRef<HTMLDivElement>();
   const artistRef = createRef<HTMLDivElement>();
@@ -68,7 +70,7 @@ function SpotifyPlayerButton({ playing }: ISpotifyPlayerButtonProps) {
   return (
     <Styled.PlayerWrap ref={parentRef}>
       {playing && (
-        <img
+        <Styled.TrackImg
           style={{ maxHeight: "50px" }}
           alt={playing.name}
           src={

@@ -12,16 +12,26 @@ const PlayerWrap = tw.div`
 
 const Title = tw.span`
   text-xl
+  text-textColor-darkTheme
+  dark:text-textColor-darkTheme
 `;
 
 const Subtitle = tw.span`
   text-lg
+  text-textColor-darkTheme
+  dark:text-textColor-darkTheme
 `;
 
 const TextColWrap = tw.div`
   flex
   flex-col
   overflow-x-hidden
+
+`;
+
+const TrackImg = tw.img`
+  max-height[50px]
+  rounded-md
 
 `;
 
@@ -73,6 +83,7 @@ const Styled = {
   Marquee2,
   Title,
   Subtitle,
+  TrackImg,
 };
 
 export default Styled;
