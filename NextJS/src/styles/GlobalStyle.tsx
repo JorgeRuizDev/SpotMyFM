@@ -134,8 +134,8 @@ const CustomGlobalStyle = createGlobalStyle`
 
   p, h1, h2, h3, h4, h5, h6, li, a, tr{
     ${tw`
-      text-gray-600
-      dark:text-white
+      text-textColor-lightTheme
+      dark:text-textColor-darkTheme
       font-medium
       font-sans
       tracking-tight
@@ -156,8 +156,8 @@ const CustomGlobalStyle = createGlobalStyle`
 
   b{
     ${tw`
-      text-gray-700
-      dark:text-white
+      text-textColor-lightTheme
+      dark:text-textColor-darkTheme
       text-base
       font-sans
       font-bold

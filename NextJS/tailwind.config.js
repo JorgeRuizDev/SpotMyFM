@@ -36,6 +36,12 @@ module.exports = {
       },
 
       colors: {
+
+        textColor: {
+          darkTheme: "#FFFFFF",
+          lightTheme: coolGray[600],
+        },
+
         lightCard: {
           base: white,
           hover: coolGray[100],
