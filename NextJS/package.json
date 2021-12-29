@@ -51,6 +51,7 @@
     "react-toastify": "8.0.2",
     "react-use": "^17.3.1",
     "recharts": "2.1.2",
+    "reusable": "^1.0.1",
     "spotify-web-api-js": "1.5.1",
     "spotify-web-api-node": "5.0.2",
     "styled-components": "5.3.1",

@@ -14,10 +14,12 @@ import { useLoginStore } from "store/useLogin";
 import Buttons from "styles/Buttons";
 import { getOauth } from "util/spotify/oauthFrontend";
 import HomeTopTracks from "components/pages/HomeTopTracks";
+import { useLibraryCache, useLibraryCacheStore } from "hooks/cache/useLibraryCache";
 
 export default function Home(): JSX.Element {
   const { isLogged } = useLoginStore();
-
+  useLibraryCacheStore().initialize();
+  useLibraryCache();
   return (
     <>
       {!isLogged ? (

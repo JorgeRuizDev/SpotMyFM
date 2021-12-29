@@ -9,6 +9,7 @@ import { useSessionStore } from "store/useSession";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import cookieManager from "util/cookies/loginCookieManager";
 import { toast } from "react-toastify";
+import { createStore } from "reusable";
 
 export type facadeStatus =
   | "default"
@@ -20,7 +21,7 @@ export type facadeStatus =
   | "gettingAlbumTags"
   | "gettingLastTags";
 
-export function useDataFacade() {
+export const useDataFacade = createStore(() => {
   const { cacheClient: cache, spotifyApi, lastfmApi } = useClientsStore();
 
   const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
@@ -93,7 +94,7 @@ export function useDataFacade() {
           albums,
           cookieManager.loadJWT() || ""
         );
-        incrementPercent()
+        incrementPercent();
         if (err || !res) {
           toast.error(err?.status);
         } else {
@@ -258,7 +259,7 @@ export function useDataFacade() {
     getArtists,
     getArtistsById,
   };
-}
+});
 
 /**
  * Given a collection of spotify api items, returns the ones that are in the missing ids.
