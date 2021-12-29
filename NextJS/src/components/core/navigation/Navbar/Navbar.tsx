@@ -19,7 +19,7 @@ function Navbar(): JSX.Element {
           <Link href={"/"} style={{ width: "min-content" }}>
             <Styled.LogoTitle>
               <Styled.Logo />
-              <Styled.Title>MySpotifyFM</Styled.Title>
+              <Styled.Title>SpotMyFM</Styled.Title>
             </Styled.LogoTitle>
           </Link>
 

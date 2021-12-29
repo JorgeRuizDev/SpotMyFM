@@ -45,6 +45,8 @@ const Logo = tw(FaSpotify)`
 const Title = tw.h3`
 	text-white
 	dark:text-white
+  hidden
+  lg:block
 	ml-1
 	mr-4
 `;
