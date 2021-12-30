@@ -6,7 +6,6 @@ describe("Auto Login Test", () => {
 
   it("It changes the current cards", () => {
     cy.contains("Long Term (Since the beginning)").click();
-    cy.contains("Add to Playlist", { timeout: 15000 });
+    cy.contains("Add to Playlist", { timeout: 20000 });
   });
-  
 });
