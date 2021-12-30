@@ -31,6 +31,7 @@ function useTrackPreview(
 
   function play() {
     if (!isMuted) {
+      tp.current.volume = 0.4;
       tp.current.play().catch((e) => e);
       setIsPlaying(true);
     }
@@ -38,6 +39,7 @@ function useTrackPreview(
 
   const pause = useCallback(() => {
     tp.current.pause();
+    tp.current.currentTime = 0;
     setIsPlaying(false);
   }, [tp]);
 
