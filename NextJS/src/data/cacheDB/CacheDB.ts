@@ -61,6 +61,11 @@ export interface CacheAdapter {
   getAllArtists(): Promise<Artist[]>;
 
   /**
+   * Gets the tracks that include a saved date.
+   */
+  getSavedTracks(): Promise<Track[]>;
+
+  /**
    * Retrieves every single track cached by an array of spotifyIds.
    * If the element is missing the position will contain a null.
    * @param spotifyIds
