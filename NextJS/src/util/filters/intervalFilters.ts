@@ -17,8 +17,9 @@ export function trackLengthIntervalFilter(
   t: Track,
   interval: IInterval<number>
 ): boolean {
-  const length = t.spotifyDurationMS;
-  return interval.low <= length && interval.top >= length;
+  const length = t.spotifyDurationMS ;
+
+  return (interval.low - 1000) <= length && (interval.top + 1000) >= length;
 }
 
 /**
