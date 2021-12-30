@@ -30,6 +30,8 @@ function PlaylistCompleteDetails({ playlist }: IPlaylistCompleteDetailsProps) {
         <Styled.Img
           src={playlist?.images?.[0].url}
           alt={playlist?.name + " cover"}
+          height={"320px"}
+          width={"320px"}
         />
         <Styled.JustifyLeft>
           <h3>{playlist?.name}</h3>

@@ -2,6 +2,7 @@ import Modal from "components/core/display/molecules/Modal";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
+import { motion } from "framer-motion";
 import useTrackPreview from "hooks/useTrackPreview/useTrackPreview";
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
@@ -51,14 +52,12 @@ function SimpleTrackCard({
     };
   }, [pause]);
 
+  const img = album?.spotifyCovers?.[1] || album?.spotifyCovers?.[0];
+
   return (
     <>
       <Styled.CardLayout>
-        <Styled.AlbumCover
-          src={album?.spotifyCoverUrl?.[1] || album?.spotifyCoverUrl?.[0]}
-          alt={"Cover"}
-          width={"280px"}
-          height={"280px"}
+        <motion.div
           onMouseEnter={
             isPlayable && playOnHover && !isMobile ? play : () => {}
           }
@@ -72,7 +71,17 @@ function SimpleTrackCard({
             }) ||
             {}
           }
-        />
+        >
+          <Styled.AlbumCover
+            alt={track.name}
+            src={img?.url || ""}
+            width={"320px"}
+            height={"320px"}
+            quality={100}
+            placeholder={"empty"}
+          />
+        </motion.div>
+
         <Styled.CardContent>
           <Styled.ButtonRow>
             <PreviewButton />

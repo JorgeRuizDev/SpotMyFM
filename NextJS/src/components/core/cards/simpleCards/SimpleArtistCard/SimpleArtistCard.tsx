@@ -10,7 +10,12 @@ function SimpleArtistCard({ artist }: ISimpleArtistCardProps): JSX.Element {
 
   return (
     <Styled.Layout>
-      <Styled.Image src={artist.spotifyImgs?.[0]} alt={artist.name} />
+      <Styled.Image
+        src={artist.spotifyImgs?.[0] || ""}
+        alt={artist.name}
+        height={"320px"}
+        width={"320px"}
+      />
       <Styled.Content>
         <h4>{artist.name}</h4>
         <p>Popularity: {formatPopularity(pop)}</p>

@@ -27,6 +27,7 @@ import formatPopularity from "util/spotify/formatPopularity";
 import { toast } from "react-toastify";
 import { SaveAlbum, SaveTrack } from "../../buttons/CardButtons/CardButtons";
 import HorizontalCardCarousell from "../../horizontalCards/HorizontalCardCarousell";
+import { motion } from "framer-motion";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
@@ -102,16 +103,22 @@ function TrackCompleteDetails({
           <Styled.InfoGrid>
             <Styled.Column>
               <Styled.AlbumColumn>
-                <Styled.Image
-                  src={album?.spotifyCoverUrl[0]}
-                  alt={album?.name}
+                <motion.div
                   onMouseEnter={play}
                   onMouseLeave={pause}
                   whileHover={{
                     scale: 1.1,
                     transition: { ease: "easeInOut", duration: 0.3 },
                   }}
-                />
+                >
+                  <Styled.Image
+                    src={album?.spotifyCoverUrl[0] || ""}
+                    alt={album?.name}
+                    height={"320px"}
+                    width={"320px"}
+                  />
+                </motion.div>
+
                 <AlbumCollapsible />
                 <hr />
                 <CoverText />

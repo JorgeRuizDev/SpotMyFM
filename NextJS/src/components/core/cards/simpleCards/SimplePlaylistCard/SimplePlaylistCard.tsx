@@ -13,21 +13,20 @@ function SimplePlaylistCard({
   onDetailsClick,
   compact = false,
 }: ISmallPlaylistCardProps) {
-  const [showDetails, setShowDetails] = useState(false);
-
   return (
     <>
-      <Styled.CardLayout compact>
+      <Styled.CardLayout compact={compact}>
         <Styled.Image
           src={playlist.images[1]?.url || playlist.images[0]?.url}
           alt={playlist.name + " cover"}
+          height={"320px"}
+          width={"320px"}
         />
         <Styled.Content>
           <Styled.InfoLayout>
             <h5>{playlist.name}</h5>
             <ul>
               <li>
-                {" "}
                 <p>
                   {playlist.tracks.total}
                   {" tracks"}
