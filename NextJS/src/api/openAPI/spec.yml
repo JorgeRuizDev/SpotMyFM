@@ -25,7 +25,7 @@ paths:
       summary: Gets album tags of given album names and artists
       description: The endpoint only alllows a maximum of 50 pairs artist-album per request.
       requestBody:
-        description: A bunch of albums and artists
+        description: A bunch of albums and artists. Each album has a Name, Artist name and ID, the ID is the response identifier, it must be unique
         required: true
         content:
           application/json:
@@ -46,12 +46,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-
+        "403":
+          description: "Not Authorized"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
       tags:
         - lastFM
       security:
         - jwt: []
-
 
 components:
   schemas:
