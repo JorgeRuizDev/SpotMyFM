@@ -73,39 +73,41 @@ function SimpleTrackCard({
             {}
           }
         />
-        <Styled.ButtonRow>
-          <PreviewButton />
-          <SpotifyButton track={track} artist={artists[0]} />
-          <PlaylistButton
-            inPlaylist={inPlaylist}
-            toggleFromPlaylist={toggleFromPlaylist}
-            track={track}
-          />
-          <EnqueueButton track={track} artist={artists[0]} />
-          <PlusButton onClick={() => setShowDetails(true)} />
-        </Styled.ButtonRow>
+        <Styled.CardContent>
+          <Styled.ButtonRow>
+            <PreviewButton />
+            <SpotifyButton track={track} artist={artists[0]} />
+            <PlaylistButton
+              inPlaylist={inPlaylist}
+              toggleFromPlaylist={toggleFromPlaylist}
+              track={track}
+            />
+            <EnqueueButton track={track} artist={artists[0]} />
+            <PlusButton onClick={() => setShowDetails(true)} />
+          </Styled.ButtonRow>
 
-        <a href={track.spotifyUrl}>
-          <h4>{track.name}</h4>
-        </a>
-        <hr />
-        <a href={album?.spotifyUrl}>
-          <p>
-            {album?.name}{" "}
-            {album?.spotifyReleaseDate &&
-              ` (${album?.spotifyReleaseDate.toLocaleDateString()})`}
-          </p>
-        </a>
-        <ul>
-          {artists.map((x, i) => (
-            <li key={i}>
-              <a href={x.spotifyUrl}>
-                <p>{x.name}</p>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <h1>{track.spotifyPreviewURL === undefined ? "SI" : ""}</h1>
+          <a href={track.spotifyUrl}>
+            <h4>{track.name}</h4>
+          </a>
+          <hr />
+          <a href={album?.spotifyUrl}>
+            <p>
+              {album?.name}{" "}
+              {album?.spotifyReleaseDate &&
+                ` (${album?.spotifyReleaseDate.toLocaleDateString()})`}
+            </p>
+          </a>
+          <ul>
+            {artists.map((x, i) => (
+              <li key={i}>
+                <a href={x.spotifyUrl}>
+                  <p>{x.name}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <h1>{track.spotifyPreviewURL === undefined ? "SI" : ""}</h1>
+        </Styled.CardContent>
       </Styled.CardLayout>
       <Modal isOpen={showDetails} onClose={() => setShowDetails(false)}>
         <>

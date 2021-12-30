@@ -5,15 +5,17 @@ interface ISimpleArtistCardProps {
   artist: Artist;
 }
 
-function SimpleArtistCard({ artist }: ISimpleArtistCardProps) {
+function SimpleArtistCard({ artist }: ISimpleArtistCardProps): JSX.Element {
   const pop = artist.spotifyPopularity || 0;
 
   return (
     <Styled.Layout>
       <Styled.Image src={artist.spotifyImgs?.[0]} alt={artist.name} />
-      <h4>{artist.name}</h4>
-      <p>Popularity: {formatPopularity(pop)}</p>
-      <ArtistGenres />
+      <Styled.Content>
+        <h4>{artist.name}</h4>
+        <p>Popularity: {formatPopularity(pop)}</p>
+        <ArtistGenres />
+      </Styled.Content>
     </Styled.Layout>
   );
 

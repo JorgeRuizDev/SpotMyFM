@@ -14,7 +14,7 @@ const Layout = styled.article<ILayout>(({ compact }) => [
 
 		min-width[14rem]
 		max-width[20rem]
-		p-3
+		
 		
 		dark:bg-darkCard-base
 		bg-white
@@ -28,11 +28,16 @@ const Layout = styled.article<ILayout>(({ compact }) => [
 		hover:bg-green-300
 		shadow-xl
 		
+    
 
 	`,
 
   compact && tw`width[15rem]`,
 ]);
+
+const Content = tw.div`
+  p-2
+`;
 
 const ButtonRow = tw.div`
 	flex
@@ -43,10 +48,10 @@ const ButtonRow = tw.div`
 
 const Image = tw(motion.img)`
   rounded
-	width[312px]
+	width[20rem]
 	h-auto
 `;
 
-const Styled = { Layout, ButtonRow, Image };
+const Styled = { Layout, ButtonRow, Image, Content };
 
 export default Styled;

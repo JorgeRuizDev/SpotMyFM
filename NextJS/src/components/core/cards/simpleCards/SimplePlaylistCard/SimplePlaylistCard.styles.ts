@@ -8,10 +8,12 @@ const AlbumCover = tw(CardStyles.Image)``;
 
 const Image = tw(CardStyles.Image)``;
 
+const Content = tw(CardStyles.Content)``
+
 const InfoLayout = tw.section`
 	w-full
 `;
 
-const Styled = { CardLayout, AlbumCover, Image, InfoLayout };
+const Styled = { CardLayout, AlbumCover, Image, InfoLayout, Content };
 
 export default Styled;
