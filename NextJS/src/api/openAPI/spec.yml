@@ -15,9 +15,9 @@ tags:
   - name: predictor
     description: Machine Learning Model related Operations
 servers:
-  - url: https://dev.spotmyfm.jorgeruizdev.com
+  - url: https://dev.spotmyfm.jorgeruizdev.com/api
     description: "Development Server"
-  - url: https://spotmyfm.jorgeruizdev.com
+  - url: https://spotmyfm.jorgeruizdev.com/api
     description: "Production Server"
 paths:
   /lastFM/getBulkAlbumTags:
