@@ -6,7 +6,9 @@ import Head from "components/util/Head";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import Styled from "./HomeTopTracks.styles";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSessionStore } from "store/useSession";
+import { ActivePage } from "enums/ActivePage";
 
 export default function HomeTopTracks() {
   const [trackList, setTrackList] = useState<Track[] | undefined>([]);
@@ -16,6 +18,13 @@ export default function HomeTopTracks() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [type, setType] = useState<string>("Tracks");
+
+  const setActivePage = useSessionStore().setActivePage;
+
+  useEffect(() => {
+    setActivePage(ActivePage.LIBRARY_MGR);
+  }, [setActivePage]);
+
   return (
     <>
       <Head subtitle={`Top ${type}`} />
