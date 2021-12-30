@@ -31,13 +31,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ToastConfig />
         <ToggleThemeButtonFlip />
         <GlobalStyle />
-        <div tw={"p-2 min-h-screen"}>
+        <div style={{minHeight: "100%", padding: "7px"}}>
           <Component {...pageProps} />
         </div>
       </main>
     </ReusableProvider>
   );
 }
+
+
 
 function ToastConfig() {
   return (

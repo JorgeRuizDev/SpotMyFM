@@ -5,9 +5,12 @@ const pBlack = tw.p`
 	dark:text-black
 `;
 
+
 const Inline = tw.article`
 	flex
 	flex-row
+  items-center
+  
 	flex-wrap
 	space-x-2
 `;
@@ -17,6 +20,8 @@ const pGreen = tw.span`
 	dark:text-lightGreen-base
 `;
 
-const Styled = { pBlack, pGreen, Inline };
+const green = pGreen;
+
+const Styled = { pBlack, pGreen, Inline, green };
 
 export default Styled;
