@@ -42,6 +42,17 @@ interface IGenericCardViewProps<T> {
   scrollableTargetId?: string;
 }
 
+/**
+ * Function that renders tracks with lazy-loading + includes an input filter + sorting selector
+ *
+ * children: Cards to render
+ * sorting: An object with the sorting options
+ * view: The Current view (GRID or LIST)
+ * filterInputProps: An object with the filter input props
+ * isLoading: Boolean flag that shows track skeletons
+ * @returns
+ */
+
 function GenericCardView<T>({
   children,
   sorting,
