@@ -45,7 +45,7 @@ const ButtonRow = tw.div`
 	items-center
 `;
 
-const Image = tw(NextImage)`
+const Image = tw.img`
   rounded
   rounded-b-none
 	width[320px]
