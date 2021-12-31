@@ -1,7 +1,8 @@
 import Styled from "./SimplePlaylistCard.styles";
 import Buttons from "styles/Buttons";
 import { useState } from "react";
-
+import Text from "styles/Text";
+import { MdGroup, MdLock, MdPublic } from "react-icons/md";
 interface ISmallPlaylistCardProps {
   playlist: SpotifyApi.PlaylistObjectSimplified;
   onDetailsClick: () => void;
@@ -12,7 +13,7 @@ function SimplePlaylistCard({
   playlist,
   onDetailsClick,
   compact = false,
-}: ISmallPlaylistCardProps) {
+}: ISmallPlaylistCardProps): JSX.Element {
   return (
     <>
       <Styled.CardLayout compact={compact}>
@@ -34,11 +35,23 @@ function SimplePlaylistCard({
               </li>
               <li>
                 <p>
-                  {playlist.collaborative
-                    ? "Collaborative"
-                    : playlist.public
-                    ? "Public"
-                    : "Private"}
+                  <Text.Inline>
+                    {playlist.collaborative ? (
+                      <>
+                        <span>Collaborative</span> <MdGroup />
+                      </>
+                    ) : playlist.public ? (
+                      <>
+                        <span>Public</span>
+                        <MdPublic />
+                      </>
+                    ) : (
+                      <>
+                        <span>Private</span>
+                        <MdLock />
+                      </>
+                    )}
+                  </Text.Inline>
                 </p>
                 <p>By {playlist.owner.display_name}</p>
               </li>
