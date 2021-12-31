@@ -90,7 +90,6 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
       try {
         const res = await this.getUserPlaylists(userId, { offset, limit });
         playlists.push(...res.items);
-        console.log(res)
         if (offset > res.total) {
           break;
         }

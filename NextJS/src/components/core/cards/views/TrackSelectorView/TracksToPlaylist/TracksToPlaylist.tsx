@@ -32,7 +32,7 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
   useEffect(() => {
     if (user) {
       api
-        .getAllPlaylists(user.spotifyUser?.id)
+        .getAllPlaylists(user.spotifyUser?.id || "")
         .then((p) => setUserPlaylists(p));
     }
   }, [api, user]);
