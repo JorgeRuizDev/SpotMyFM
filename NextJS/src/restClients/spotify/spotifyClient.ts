@@ -84,13 +84,13 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   async getAllPlaylists(userId?: string) {
     const playlists = [];
     let offset = 0;
-    let limit = 50;
+    let limit = 20;
 
     while (true) {
       try {
         const res = await this.getUserPlaylists(userId, { offset, limit });
         playlists.push(...res.items);
-
+        console.log(res)
         if (offset > res.total) {
           break;
         }
@@ -99,7 +99,6 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
         throw e;
       }
     }
-
     return playlists;
   }
 
