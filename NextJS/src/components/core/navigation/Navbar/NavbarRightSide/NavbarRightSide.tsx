@@ -14,7 +14,7 @@ function NavbarRightSide(): JSX.Element {
   function toggleLogOut() {
     setShowLogOut(!showLogOut);
   }
-
+  
   return isLogged ? (
     <>
       <Styled.IconWrap>
@@ -28,10 +28,11 @@ function NavbarRightSide(): JSX.Element {
         <Styled.p
           style={{ textTransform: "capitalize", userSelect: "none" }}
           onClick={toggleLogOut}
+          key={1}
         >
           Welcome {user.spotifyUser?.display_name || "Stranger"}! {""}
         </Styled.p>
-        <Styled.Relative>
+        <Styled.Relative key={2}>
           <Styled.ProfilePic
             key={"A"}
             src={
@@ -52,7 +53,7 @@ function NavbarRightSide(): JSX.Element {
         </Styled.Relative>
 
         <Styled.LogOutDiv
-          key={"B"}
+          key={"3"}
           animate={showLogOut ? { width: 150 } : { width: 0 }}
           transition={{ style: "linear", duration: 0.4 }}
         >
