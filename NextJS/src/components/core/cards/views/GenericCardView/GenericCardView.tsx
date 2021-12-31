@@ -1,7 +1,7 @@
 import Paginate from "components/core/display/atoms/Paginate";
 import useInfiniteScrollArray from "hooks/infiniteScroll/useInfiniteScrollArray";
 import usePaginatedArray from "hooks/paginatedArray/usePaginatedArray";
-import React, { ReactNode, createRef, useRef } from "react";
+import React, { ReactNode, createRef, useMemo } from "react";
 import { isMobile } from "react-device-detect";
 import Styled from "./GenericCardView.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -12,6 +12,7 @@ import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import FilterInput from "components/core/input/atoms/FilterInput";
 import { BsFillGrid3X2GapFill, BsListUl } from "react-icons/bs";
 import MultipleSkeletonList from "../../listCards/MultipleSkeletonList";
+import { FaSortAmountDownAlt, FaSortAmountUpAlt } from "react-icons/fa";
 export interface IGenericCardViewSortProps {
   sortTitle: string;
   options: Record<string, string>;
@@ -149,30 +150,64 @@ function GenericCardView<T>({
   }
 
   function SortRow(): JSX.Element {
-    return (
-      <Styled.LayoutButtonsWrap>
-        {sorting && (
-          <>
-            <DropdownMenu
-              items={Object.entries(sorting.options).map((o) => {
+    const sortOptions = useMemo(
+      () =>
+        sorting
+          ? [
+              {
+                component: (
+                  <>
+                    {!sorting.isAscendant ? (
+                      <FaSortAmountUpAlt />
+                    ) : (
+                      <FaSortAmountDownAlt />
+                    )}
+                    <span>
+                      Set {sorting.isAscendant ? "Descending" : "Ascending"}
+                    </span>
+                  </>
+                ),
+                onClick: () => sorting.setIsAscendant(!sorting.isAscendant),
+              },
+              {
+                component: "",
+              },
+              ...Object.entries(sorting.options).map((o) => {
                 return {
-                  component: o[1],
+                  component: (
+                    <span
+                      style={{
+                        textDecoration:
+                          sorting.selected === o[1] ? "underline" : "none",
+                      }}
+                    >
+                      {o[1]}
+                    </span>
+                  ),
                   onClick: () => {
                     sorting.setSorting(o[1]);
                   },
                 };
-              })}
-            >
-              <span>{sorting.sortTitle}</span>
+              }),
+            ]
+          : [],
+      []
+    );
+
+    return (
+      <Styled.LayoutButtonsWrap>
+        {sorting && (
+          <>
+            <DropdownMenu items={sortOptions}>
+              <>
+                {sorting.isAscendant ? (
+                  <FaSortAmountUpAlt />
+                ) : (
+                  <FaSortAmountDownAlt />
+                )}
+                <span>Sorting by {sorting.selected}</span>
+              </>
             </DropdownMenu>
-            <Buttons.SecondaryGreenButton
-              onClick={() => sorting.setIsAscendant(!sorting?.isAscendant)}
-            >
-              <span>
-                {sorting?.selected}{" "}
-                {sorting?.isAscendant ? "Ascending" : "Descending"}
-              </span>
-            </Buttons.SecondaryGreenButton>
           </>
         )}
 
