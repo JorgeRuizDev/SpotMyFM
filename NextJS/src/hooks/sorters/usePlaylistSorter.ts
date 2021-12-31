@@ -17,14 +17,12 @@ export const playlistSortingOptions: Record<PlaylistSortingOptions, string> = {
   PLAYLIST_OWNER_NAME: "Playlist Owner Name",
   PLAYLIST_TRACK_COUNT: "Playlist Track Count",
 };
-
+const so = playlistSortingOptions;
 export default function useAlbumSorter(
   playlists: SpotifyApi.PlaylistObjectSimplified[],
   option = playlistSortingOptions.DEFAULT,
   isAscendent = false
 ) {
-  const so = playlistSortingOptions;
-
   const [defaultPlaylists, setDefaultPlaylists] = useState([...playlists]);
   const [sortedPlaylists, setSortedPlaylists] = useState(playlists);
   const [optionState, setOptionState] = useState(option);
@@ -43,6 +41,9 @@ export default function useAlbumSorter(
   const sort = useCallback(() => {
     let t = playlists;
     switch (optionState) {
+      case so.DEFAULT:
+        t = [...defaultPlaylists];
+        break;
       case so.PLAYLIST_NAME:
         t = playlists.sort(sortByName);
         break;
@@ -52,12 +53,13 @@ export default function useAlbumSorter(
       case so.PLAYLIST_TRACK_COUNT:
         t = playlists.sort(sortByPlaylistTrackCount);
         break;
-      case so.DEFAULT:
+      default:
         t = [...defaultPlaylists];
+        break;
     }
 
     setSortedPlaylists(isAscendentState ? [...t.reverse()] : [...t]);
-  }, [so, playlists, optionState, isAscendentState, defaultPlaylists]);
+  }, [playlists, optionState, isAscendentState, defaultPlaylists]);
 
   // On option change: Sort the albums
   useEffect(sort, [sort, optionState, isAscendentState]);
