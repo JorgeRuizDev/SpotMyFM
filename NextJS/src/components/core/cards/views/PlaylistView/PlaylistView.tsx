@@ -45,9 +45,7 @@ function PlaylistView({
     setSorting: setOptionState,
     sortTitle: "Sort Playlists",
   };
-  useEffect(() => {
-    console.log("cambia");
-  }, [sortedPlaylists]);
+
 
   const [modalPlaylist, setModalPlaylist] =
     useState<SpotifyApi.PlaylistObjectSimplified>();

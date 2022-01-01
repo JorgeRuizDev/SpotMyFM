@@ -83,8 +83,7 @@ function GenericCardView<T>({
     next,
     resetScrollOffset,
   } = useInfiniteScrollArray(activePageItems, 10, 10, true);
-  
-  console.log(scrollableTargetId)
+
   return (
     <div id={"scrollSi"}>
       <div ref={layoutStartRef}></div>
