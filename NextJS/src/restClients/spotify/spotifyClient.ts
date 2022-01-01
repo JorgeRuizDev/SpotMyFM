@@ -103,6 +103,11 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     return playlists;
   }
 
+  /**
+   * Fetches all the tracks inside a playlist.
+   * @param playlistId
+   * @returns
+   */
   async getAllPlaylistTracks(playlistId: string) {
     const tracks: SpotifyApi.TrackObjectFull[] = [];
 
@@ -112,11 +117,6 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     while (true) {
       const res = await this.getPlaylistTracks(playlistId, { limit, offset });
 
-      for (const t of res.items) {
-        if (t.track.type === "episode") {
-          console.log(t);
-        }
-      }
       tracks.push(
         //@ts-ignore
         ...res.items
@@ -124,8 +124,7 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
           // Add only the TRACKS
           .filter((t) => t.type === "track")
       );
-
-      if (res.total > offset) {
+      if (res.total < offset) {
         break;
       }
       offset += limit;
