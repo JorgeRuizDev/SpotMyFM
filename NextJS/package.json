@@ -11,6 +11,7 @@
     "fix": "npx eslint ./ --fix",
     "test": "jest --silent",
     "jest": "jest --silent",
+    "analyze": "cross-env ANALYZE=true next build",
     "format": "prettier --write src/**/*.{ts,tsx,js,jsx}",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
@@ -63,6 +64,7 @@
     "zustand": "3.6.5"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^12.0.7",
     "@testing-library/jest-dom": "5.15.0",
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
@@ -80,6 +82,7 @@
     "babel-jest": "27.3.1",
     "babel-plugin-macros": "3.1.0",
     "babel-plugin-styled-components": "1.13.2",
+    "cross-env": "^7.0.3",
     "cypress": "^9.1.1",
     "eslint": "7.32.0",
     "eslint-config-next": "12.0.7",
