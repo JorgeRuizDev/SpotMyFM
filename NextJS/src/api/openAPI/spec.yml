@@ -20,6 +20,78 @@ servers:
   - url: https://spotmyfm.jorgeruizdev.com/api
     description: "Production Server"
 paths:
+  /data/tagAlbums:
+    get:
+      summary: Gets the tagged albums and their tags from the user
+      description: |
+        Gets the tagged albums and their tags from the user.
+        The user is identified with the JWT Token
+
+      responses:
+        "200":
+          description: The album tag were retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlbumTagsRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Not Authorized (Bad Token)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - lastFM
+      security:
+        - jwt: []
+
+    post:
+      summary: Updates the album tags
+      description: |
+        Updates the album tags
+        The user is identified with the JWT Token
+        There is a limit of 50 album tags per request
+      requestBody:
+        description: A bunch of albums and artists. Each album has a Name, Artist name and ID, the ID is the response identifier, it must be unique
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LastFMTagReq"
+
+      responses:
+        "200":
+          description: The album tags were retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlbumTagsRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Not Authorized (Bad Token)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - lastFM
+      security:
+        - jwt: []
+
+
   /lastFM/getBulkAlbumTags:
     post:
       summary: Gets album tags of given album names and artists
@@ -81,7 +153,7 @@ paths:
 
       responses:
         "200":
-          description: A successful operation.
+          description: The Auth and JWT Token have been generated
           content:
             application/json:
               schema:
@@ -119,7 +191,7 @@ paths:
 
       responses:
         "200":
-          description: A successful operation.
+          description: The Auth and JWT Token have been generated
           content:
             application/json:
               schema:
@@ -141,6 +213,50 @@ components:
         error:
           type: string
 
+    PutAlbumTagsReq:
+      type: object
+      required:
+        - tags
+      properties:
+        tags:
+          type: array
+          maxItems: 50
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Spotify Album ID
+              tags:
+                description: New Album Tags
+                type: array
+                items:
+                  type: string
+
+    AlbumTagsRes:
+      type: object
+      required:
+        - tags
+      properties:
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Spotify Album ID
+              tags:
+                description: A list of strings that represent the current album tag
+                type: array
+                items:
+                  type: string
+              tagged_at:
+                type: string
+                description: ISO String with the date the first tag was added
+              updated_at:
+                type: string
+                description: ISO String with the date the albums was modified
 
     SpotifyRefreshReq:
       type: object
