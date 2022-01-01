@@ -7,7 +7,10 @@ const config = {
   // Static NextAPI endpoints
   api_spotify_auth: "api/spotify/oauth2/auth",
   api_spotify_refresh: "api/spotify/oauth2/refresh",
-  last_bulk_tags: "api/lastFM/getBulkAlbumTags"
+  last_bulk_tags: "api/lastFM/getBulkAlbumTags",
+
+  //
+  playlist_track_view_max_track_count: 200,
 };
 
 export default config;
