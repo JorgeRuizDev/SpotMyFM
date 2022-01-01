@@ -57,7 +57,7 @@ function TrackView({
   const [resetAdvFilter, setResetAdvFilter] = useState(false);
 
   const [currentView, setCurrentView] = useState<ViewTypeOption>(
-    isMobile ? "LIST" : "GRID"
+    settings.defaultView ? settings.defaultView : isMobile ? "LIST" : "GRID"
   );
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
@@ -134,6 +134,7 @@ function TrackView({
             : { type: currentView, ListHeader: <ListTrackCardHeader /> }
         }
         isLoading={settings.isLoading}
+        scrollableTargetId={settings.scrollableTargetId}
       >
         {currentView === "GRID"
           ? filteredTracks.map((t, i) => (

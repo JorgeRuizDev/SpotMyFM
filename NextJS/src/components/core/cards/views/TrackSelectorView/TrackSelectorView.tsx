@@ -1,7 +1,7 @@
 import { Track } from "data/cacheDB/dexieDB/models/Track";
-import { motion } from "framer-motion";
 import useTrackToPlaylistSelector from "hooks/tracksToPlaylist/useTrackToPlaylistSelector";
 import { trackViewSettings } from "interfaces/Track";
+import dynamic from "next/dynamic";
 import React, {
   createRef,
   useCallback,
@@ -11,8 +11,7 @@ import React, {
 } from "react";
 import { useInView } from "react-hook-inview";
 import { toast } from "react-toastify";
-import Buttons from "styles/Buttons";
-import TrackView from "../TrackView";
+const DynamicTrackView = dynamic(() => import("../TrackView"));
 import Styled from "./TrackSelectorView.styles";
 import TracksToPlaylist from "./TracksToPlaylist";
 interface ITrackSelectorViewProps {
@@ -87,7 +86,7 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
           </>
         ) : null}
 
-        <TrackView
+        <DynamicTrackView
           tracks={tracks}
           settings={settings}
           selectManager={{

@@ -64,7 +64,7 @@ function GenericCardView<T>({
   scrollableTargetId,
 }: IGenericCardViewProps<T>): JSX.Element {
   // Paginate the current children
-  const pageSize = isMobile ? 20 : 50;
+  const pageSize = isMobile ? 20 : 35;
 
   const { activePageItems, currentPage, setCurrentPage } = usePaginatedArray(
     children || [],
@@ -83,6 +83,8 @@ function GenericCardView<T>({
     next,
     resetScrollOffset,
   } = useInfiniteScrollArray(activePageItems, 10, 10, true);
+  
+  console.log(scrollableTargetId)
   return (
     <div id={"scrollSi"}>
       <div ref={layoutStartRef}></div>

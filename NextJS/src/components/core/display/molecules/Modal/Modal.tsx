@@ -13,7 +13,7 @@ interface IModalProps {
   onClose: () => void;
   scrollOverflow?: boolean;
   lockBodyScroll?: boolean;
-
+  setModalBodyId?: (id: string) => void;
   // The modal BG is the same as the page body (instead of the card bg)
   bodyBackgroundColor?: "material" | "card" | "card-hover";
 
@@ -48,9 +48,15 @@ function Modal({
   bodyBackgroundColor = "material",
   scrollOverflow = true,
   lockBodyScroll = true,
+  setModalBodyId,
 }: IModalProps): JSX.Element {
   const [hasBeenOpened, setHasBeenOpened] = useState(false);
-  const [key, setKey] = useState(new Date().getMilliseconds());
+  const [key, setKey] = useState(new Date().getTime());
+
+  useEffect(() => {
+    setModalBodyId && setModalBodyId(key.toString());
+  }, [key, setModalBodyId]);
+
   // Mark as opened on open:
   useEffect(() => {
     !hasBeenOpened && isOpen && setHasBeenOpened(true);
@@ -107,7 +113,10 @@ function Modal({
               data-testid="modal-close-btn"
             />
           </Styled.TopRow>
-          <div style={{ overflow: scrollOverflow ? "auto" : "hidden" }}>
+          <div
+            style={{ overflow: scrollOverflow ? "auto" : "hidden" }}
+            id={key.toString()}
+          >
             {children}
           </div>
         </Styled.ModalBody>

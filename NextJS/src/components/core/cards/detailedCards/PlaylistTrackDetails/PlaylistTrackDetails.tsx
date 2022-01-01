@@ -19,6 +19,8 @@ function PlaylistTrackDetails({
   playlist,
   setPlaylist,
 }: IPlaylistTrackDetailsProps): JSX.Element {
+  const [divId, setDivId] = useState("");
+
   const api = useClientsStore((s) => s.spotifyApi);
   const { getTracks } = useDataFacade();
   const [isLoading, setIsLoading] = useState(true);
@@ -58,23 +60,28 @@ function PlaylistTrackDetails({
 
   return (
     <>
-      {playlist ? (
+      
         <Modal
           isOpen={playlist !== undefined}
           onClose={() => {
             setPlaylist(undefined);
           }}
+          setModalBodyId={setDivId}
         >
           {showDetailed ? (
             <TrackSelectorView
               tracks={tracks}
-              settings={{ isLoading: isLoading }}
+              settings={{
+                isLoading: isLoading,
+                scrollableTargetId: divId,
+                defaultView: "LIST",
+              }}
             />
           ) : (
             <PlaylistCompleteDetails playlist={playlist} />
           )}
         </Modal>
-      ) : null}
+      )
     </>
   );
 }
