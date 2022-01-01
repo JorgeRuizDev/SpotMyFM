@@ -12,7 +12,7 @@ tags:
     description: Authentication related Operations
   - name: data
     description: Database Related Operations
-  - name: predictor
+  - name: classifier
     description: Machine Learning Model related Operations
 servers:
   - url: https://dev.spotmyfm.jorgeruizdev.com/api
@@ -57,6 +57,82 @@ paths:
       security:
         - jwt: []
 
+  /spotify/oauth2/auth:
+    post:
+      summary: Obtains the Spotify Auth Code used in OAUTH2
+      description: |
+        This endpoint retrieves the authorization code from Spotify Api that is used in every single Spotify Endpoint.
+
+        It also serves as the main auth pipeline of SpotMyFM as it generates the JWS token used along all the endpoints.
+
+        Requirements:
+          - Response Code
+          - Authorized Url Callback
+
+      requestBody:
+        description: |
+          - Response Code
+          - Authorized Url Callback
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SpotifyAuthReq"
+
+      responses:
+        "200":
+          description: A successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpotifyAuthRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - auth
+
+  /spotify/oauth2/refresh:
+    post:
+      summary: Obtains the Spotify Auth Code used in OAUTH2 given a Valid Refresh Token
+      description: |
+        This endpoint refreshes the authorization code from Spotify Api that is used in every single Spotify Endpoint.
+
+        It also serves as the main refresh token pipeline of SpotMyFM as it generates the JWS token used along all the endpoints.
+
+        Requirements:
+          - Refresh Token (obtained from /spotify/oauth2/auth)
+
+      requestBody:
+        description: |
+          - Response Code
+          - Authorized Url Callback
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SpotifyRefreshReq"
+
+      responses:
+        "200":
+          description: A successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpotifyAuthRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - auth
 components:
   schemas:
     Error:
@@ -65,6 +141,54 @@ components:
         error:
           type: string
 
+
+    SpotifyRefreshReq:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: OAUTH2 Refresh Token obtained from /spotify/oauth2/auth
+
+    SpotifyAuthReq:
+      type: object
+      required:
+        - redirectUri
+        - responseCode
+      properties:
+        redirectUri:
+          type: string
+          description: Redirect Uri (Same as Response Code)
+        responseCode:
+          type: string
+          description: Response Code from the Spotify Server
+
+    SpotifyAuthRes:
+      type: object
+      required:
+        - access_token
+        - token_type
+        - expires_in
+        - Token
+        - refresh_token
+      properties:
+        access_token:
+          type: string
+          description: Valid Spotify Token
+        expires_in:
+          type: number
+          description: Token TTL (in seconds)
+        token:
+          type: string
+          description: Signed JWT used in every endpoint as Auth.
+        refresh_token:
+          type: string
+          description: Token used in the /spotify/refresh endpoint
+        token_type:
+          type: string
+          description: Http token Type (Possibly "Bearer")
+
     LastFMTagReq:
       type: object
       required:
@@ -72,14 +196,18 @@ components:
       properties:
         albums:
           type: array
+          maxItems: 50
           items:
             type: object
             properties:
               album_name:
+                description: Album Name (Sgt. Pepper)
                 type: string
               artist_name:
+                description: Artist Name (The Beatles)
                 type: string
               album_id:
+                description: An ID used in the response object to identify the tags.
                 type: string
 
     LastFMTagResponse:
