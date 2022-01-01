@@ -1,15 +1,11 @@
 import Modal from "components/core/display/molecules/Modal";
-import { Album } from "data/cacheDB/dexieDB/models/Album";
-import { Artist } from "data/cacheDB/dexieDB/models/Artist";
+
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { motion } from "framer-motion";
 import useTrackPreview from "hooks/useTrackPreview/useTrackPreview";
 import React, { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
-import { BiAddToQueue } from "react-icons/bi";
-import { FaMinus, FaPlus } from "react-icons/fa";
 
-import Buttons from "styles/Buttons";
 import { EnqueueButton, SpotifyButton } from "../../buttons/CardButtons";
 import {
   PlaylistButton,
@@ -77,8 +73,6 @@ function SimpleTrackCard({
             src={img?.url || ""}
             width={"320px"}
             height={"320px"}
-            quality={100}
-            placeholder={"empty"}
           />
         </motion.div>
 

@@ -27,6 +27,8 @@ const variants = {
   closed: { opacity: 0 },
 };
 
+const isBrowser = typeof window !== "undefined";
+
 /**
  *
  * Small Modal that shows a component in the middle of the screen.
@@ -126,9 +128,13 @@ function Modal({
       )
     : // Mount / Umount conditionally.
       isOpen && <>{modalBody}</>;
-  return ReactDOM.createPortal(
-    <AnimatePresence exitBeforeEnter>{modalHideLogic}</AnimatePresence>,
-    document.getElementById("modal-core") || document.createElement("div")
+  return isBrowser ? (
+    ReactDOM.createPortal(
+      <AnimatePresence exitBeforeEnter>{modalHideLogic}</AnimatePresence>,
+      document.getElementById("modal-core") || document.createElement("div")
+    )
+  ) : (
+    <></>
   );
 }
 
