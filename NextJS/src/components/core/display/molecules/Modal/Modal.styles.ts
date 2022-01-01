@@ -28,7 +28,7 @@ const FullScreenBackground: ForwardRefComponent<
 	justify-center
 
 	// Overflow:
-	overflow-hidden
+	overflow-auto
   
   background[rgba(0,0,0, 0.5)]
 	
@@ -44,7 +44,6 @@ const TopRow = tw.div`
 
 	// Full Width
 	w-full
-
 `;
 
 interface IModalBody {
@@ -53,17 +52,15 @@ interface IModalBody {
 
 const ModalBody = styled.div<IModalBody>(({ darkBackground }) => [
   tw`
-    md:(m-2 p-2)
-    pt-0
-    md:(mt-20 mb-20)
-    rounded-2xl
+    p-2
+    md:rounded-2xl
 
     
 
     // Size:
 
-    md:(max-height[95vh])
-    md:(max-width[95vw])
+    md:(max-height[95%])
+    md:(max-width[95%])
     max-h-full
     max-w-full
 
