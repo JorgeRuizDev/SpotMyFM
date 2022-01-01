@@ -3,6 +3,7 @@ import Buttons from "styles/Buttons";
 import { useState } from "react";
 import Text from "styles/Text";
 import { MdGroup, MdLock, MdPublic } from "react-icons/md";
+import PlaylistPublicFormat from "components/core/display/atoms/PlaylistPublicFormat";
 interface ISmallPlaylistCardProps {
   playlist: SpotifyApi.PlaylistObjectSimplified;
   onDetailsClick: () => void;
@@ -35,27 +36,10 @@ function SimplePlaylistCard({
               </li>
               <li>
                 <p>
-                  <Text.Inline>
-                    {playlist.collaborative ? (
-                      <>
-                        <span>Collaborative</span> <MdGroup />
-                      </>
-                    ) : playlist.public ? (
-                      <>
-                        <span>Public</span>
-                        <MdPublic />
-                      </>
-                    ) : (
-                      <>
-                        <span>Private</span>
-                        <MdLock />
-                      </>
-                    )}
-                  </Text.Inline>
+                  <PlaylistPublicFormat playlist={playlist} />
                 </p>
                 <p>By {playlist.owner.display_name}</p>
               </li>
-              <li></li>
             </ul>
           </Styled.InfoLayout>
           <Buttons.LayoutCenter>

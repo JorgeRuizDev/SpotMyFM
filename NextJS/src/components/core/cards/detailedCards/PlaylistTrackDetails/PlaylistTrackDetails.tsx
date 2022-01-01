@@ -11,6 +11,7 @@ import TrackSelectorView from "../../views/TrackSelectorView";
 import PlaylistCompleteDetails from "../PlaylistCompleteDetails";
 import ViewHeading from "components/core/display/atoms/ViewHeading";
 import parse from "html-react-parser";
+import PlaylistPublicFormat from "components/core/display/atoms/PlaylistPublicFormat";
 
 interface IPlaylistTrackDetailsProps {
   playlist?: SpotifyApi.PlaylistObjectSimplified;
@@ -89,21 +90,26 @@ function PlaylistTrackDetails({
               >
                 <h2>{playlist.name}</h2>
                 {playlistOwner && (
-                  <Text.Inline>
-                    <h4>
-                      By <a href={playlist.owner.href}></a>
-                      {playlist.owner.display_name}{" "}
-                    </h4>
-                    <Styled.ProfilePic
-                      src={
-                        playlistOwner.images?.[1]?.url ||
-                        playlistOwner.images?.[0]?.url ||
-                        ""
-                      }
-                      alt={playlistOwner.display_name}
-                    />
-                  </Text.Inline>
+                  <a href={playlist.owner.href}>
+                    <Text.Inline>
+                      <h4>
+                        By
+                        {playlist.owner.display_name}{" "}
+                      </h4>
+                      <Styled.ProfilePic
+                        src={
+                          playlistOwner.images?.[1]?.url ||
+                          playlistOwner.images?.[0]?.url ||
+                          ""
+                        }
+                        alt={playlistOwner.display_name}
+                      />
+                    </Text.Inline>
+                  </a>
                 )}
+                <h5>
+                  <PlaylistPublicFormat playlist={playlist} />
+                </h5>
                 <h5>
                   <Text.green>{playlist.tracks.total} Tracks</Text.green>
                 </h5>

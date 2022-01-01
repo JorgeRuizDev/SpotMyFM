@@ -2,8 +2,10 @@ import tw from "twin.macro";
 
 const ProfilePic = tw.img`
   height[40px]
+  width[40px]
 
   rounded-full
+  object-fit[cover]
 `
 
 const Wrap = tw.div`
