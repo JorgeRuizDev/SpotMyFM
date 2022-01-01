@@ -7,6 +7,7 @@ import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { IPlaylistViewSettings } from "interfaces/Playlist";
 import { useEffect, useState } from "react";
 import filterSpotifyPlaylist from "util/filters/filterSpotifyPlaylist";
+import PlaylistTrackDetails from "../../detailedCards/PlaylistTrackDetails";
 import SimplePlaylistCard from "../../simpleCards/SimplePlaylistCard";
 import GenericCardView from "../GenericCardView";
 import { IGenericCardViewSortProps } from "../GenericCardView/GenericCardView";
@@ -48,7 +49,8 @@ function PlaylistView({
     console.log("cambia");
   }, [sortedPlaylists]);
 
-  const [modalPlaylist, setModalPlaylist] = useState();
+  const [modalPlaylist, setModalPlaylist] =
+    useState<SpotifyApi.PlaylistObjectSimplified>();
   const [modalTracks, setModalTracks] = useState<Track[]>([]);
   const [isModalLoading, setIsModalLoading] = useState(false);
 
@@ -68,9 +70,21 @@ function PlaylistView({
         sorting={sorting}
       >
         {filtered.map((p, i) => (
-          <SimplePlaylistCard playlist={p} key={i} onDetailsClick={() => {}} />
+          <SimplePlaylistCard
+            playlist={p}
+            key={i}
+            onDetailsClick={() => {
+              setModalPlaylist(p);
+            }}
+          />
         ))}
       </GenericCardView>
+      {
+        <PlaylistTrackDetails
+          playlist={modalPlaylist}
+          setPlaylist={setModalPlaylist}
+        />
+      }
     </>
   );
 }
