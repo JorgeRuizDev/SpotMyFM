@@ -81,10 +81,12 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
    * @param userId optional: The user we want to retrieve the playlists from
    * @returns
    */
-  async getAllPlaylists(userId: string) {
+  async getAllPlaylists(
+    userId: string
+  ): Promise<SpotifyApi.PlaylistObjectSimplified[]> {
     const playlists = [];
     let offset = 0;
-    let limit = 20;
+    let limit = 50;
 
     while (true) {
       try {
@@ -99,6 +101,37 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
       }
     }
     return playlists;
+  }
+
+  async getAllPlaylistTracks(playlistId: string) {
+    const tracks: SpotifyApi.TrackObjectFull[] = [];
+
+    const limit = 50;
+    var offset = 0;
+
+    while (true) {
+      const res = await this.getPlaylistTracks(playlistId, { limit, offset });
+
+      for (const t of res.items) {
+        if (t.track.type === "episode") {
+          console.log(t);
+        }
+      }
+      tracks.push(
+        //@ts-ignore
+        ...res.items
+          .map((i) => i.track)
+          // Add only the TRACKS
+          .filter((t) => t.type === "track")
+      );
+
+      if (res.total > offset) {
+        break;
+      }
+      offset += limit;
+    }
+
+    return tracks;
   }
 
   /**
