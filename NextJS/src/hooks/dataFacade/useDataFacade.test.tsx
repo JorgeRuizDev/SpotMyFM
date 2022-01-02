@@ -1,11 +1,17 @@
 import { renderHook } from "@testing-library/react-hooks";
 import axios from "axios";
 import { envtest } from "env";
+import { ReactNode } from "react";
+import { ReusableProvider } from "reusable";
 import { useClientsStore } from "store/useClients";
 import { getOauth } from "util/spotify/oauthFrontend";
 import { useDataFacade } from "./useDataFacade";
 export default describe("data facade hook test", () => {
-  const { result } = renderHook(() => useDataFacade());
+  const wrapper = ({ children }: { children: ReactNode | ReactNode[] }) => (
+    <ReusableProvider>{children}</ReusableProvider>
+  );
+
+  const { result } = renderHook(() => useDataFacade(), { wrapper });
   const { result: rClient } = renderHook(() => useClientsStore());
   const spotifyApi = rClient.current.spotifyApi;
   const cache = rClient.current.cacheClient;

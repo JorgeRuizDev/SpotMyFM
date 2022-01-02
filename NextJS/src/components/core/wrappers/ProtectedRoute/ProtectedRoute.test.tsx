@@ -4,13 +4,22 @@ import { render } from "@testing-library/react";
 import { act, renderHook } from "@testing-library/react-hooks";
 import { useLoginStore } from "store/useLogin";
 import router from "next/router";
+import { ReusableProvider } from "reusable";
 describe("<ProtectedRoute />", () => {
   test("Renders the component", () => {
-    const component = render(<ProtectedRoute />);
+    const component = render(
+      <ReusableProvider>
+        <ProtectedRoute />
+      </ReusableProvider>
+    );
   });
 
   test("No requirements", () => {
-    const component = render(<ProtectedRoute>OK</ProtectedRoute>);
+    const component = render(
+      <ReusableProvider>
+        <ProtectedRoute>OK</ProtectedRoute>
+      </ReusableProvider>
+    );
     expect(component.getByText("OK"));
   });
 
@@ -21,7 +30,9 @@ describe("<ProtectedRoute />", () => {
     const { result } = renderHook(() => useLoginStore());
 
     const component = render(
-      <ProtectedRoute onlyLogged={true}>OK</ProtectedRoute>
+      <ReusableProvider>
+        <ProtectedRoute onlyLogged={true}>OK</ProtectedRoute>
+      </ReusableProvider>
     );
 
     act(() => {
