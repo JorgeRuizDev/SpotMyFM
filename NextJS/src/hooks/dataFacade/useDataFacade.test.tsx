@@ -8,12 +8,11 @@ import { useDataFacade } from "./useDataFacade";
 import { envtest } from "env";
 import { useLoginStore } from "store/useLogin";
 
-
 export default describe("data facade hook test", () => {
   test("Mock Test", () => {
-    expect(1).toBe(1)
-  })
-}
+    expect(1).toBe(1);
+  });
+});
 
 /* 
 

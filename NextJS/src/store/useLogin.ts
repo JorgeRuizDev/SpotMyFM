@@ -40,7 +40,7 @@ const useLoginStore = create<ILoginStore>((set, get) => {
       }));
       return false;
     }
-
+    
     spotifyApi.setAccessToken(token);
     set(() => ({
       isLogged: true,
@@ -51,7 +51,7 @@ const useLoginStore = create<ILoginStore>((set, get) => {
     return true;
   };
 
-  const jwt = cookieManager.loadJWT() || "";
+  const jwt = "";
 
   const setJwt = (jwt: string) => set(() => ({ jwt: jwt }));
 
