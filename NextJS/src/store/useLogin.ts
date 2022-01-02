@@ -40,7 +40,7 @@ const useLoginStore = create<ILoginStore>((set, get) => {
       }));
       return false;
     }
-    
+
     spotifyApi.setAccessToken(token);
     set(() => ({
       isLogged: true,
