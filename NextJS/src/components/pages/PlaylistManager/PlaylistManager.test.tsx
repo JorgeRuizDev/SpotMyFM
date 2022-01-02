@@ -5,6 +5,10 @@ import { ReusableProvider } from "reusable";
 
 describe("<PlaylistManager />", () => {
   test("Renders the component", () => {
-    const component = render(<ReusableProvider><PlaylistManager /></ReusableProvider>);
+    const component = render(
+      <ReusableProvider>
+        <PlaylistManager />
+      </ReusableProvider>
+    );
   });
 });

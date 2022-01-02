@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useSessionStore } from "store/useSession";
 
 export default function PlaylistManager() {
-  
   const setActivePage = useSessionStore().setActivePage;
   useEffect(() => setActivePage(ActivePage.PLAYLIST_MGR), [setActivePage]);
 

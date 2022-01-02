@@ -36,7 +36,6 @@ module.exports = {
       },
 
       colors: {
-
         textColor: {
           darkTheme: "#FFFFFF",
           lightTheme: coolGray[600],

@@ -175,7 +175,7 @@ export function useLibraryCache() {
     }
   }, [hideNotification]);
 
-  // On Log Out: Hide All the notifications 
+  // On Log Out: Hide All the notifications
   useEffect(() => {
     if (!isLogged) {
       hideAllNotifications();

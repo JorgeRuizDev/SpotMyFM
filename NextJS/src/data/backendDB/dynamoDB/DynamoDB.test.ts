@@ -37,7 +37,7 @@ export default describe("Tests the database", () => {
     for (const t of tagged1 || []) {
       if (t.id == "ABC") abc = t;
     }
-    
+
     expect(abc.id).toBe("ABC");
     expect(abc.tags.length).toBe(3);
 
@@ -53,8 +53,6 @@ export default describe("Tests the database", () => {
 
     // Get the album tags
     const [tagged2, err4] = await backendDB.getAllAlbumTags(testUserId);
-
-    
 
     expect(err4).toBe(null);
     expect(tagged2).not.toBe(null);

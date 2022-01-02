@@ -72,7 +72,7 @@ const PlayerWrap = tw.div`
   w-[30%]
   max-w-[300px]
   
-`
+`;
 
 const p = tw.p`
 	dark:text-white

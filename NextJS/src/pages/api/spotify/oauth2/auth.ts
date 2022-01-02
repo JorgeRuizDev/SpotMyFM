@@ -1,9 +1,7 @@
 import { backendDB } from "data/backendDB/BackendDB";
 import env from "env";
 import ApiError from "interfaces/apiError";
-import {
-  AuthTokenJWTResponse,
-} from "interfaces/oauth2Responses";
+import { AuthTokenJWTResponse } from "interfaces/oauth2Responses";
 import type { NextApiRequest, NextApiResponse } from "next";
 import JWT from "util/JWT/JWT";
 import Oauth2Backend from "util/Oauth2/Oauth2Backend";

@@ -48,7 +48,7 @@ export async function getAllTracks(): Promise<Track[]> {
 
 /**
  * Returns the tracks that contain a saved date
- * @returns 
+ * @returns
  */
 export async function getSavedTracks(): Promise<Track[]> {
   return await db.tracks.where("savedAt").belowOrEqual(new Date()).toArray();

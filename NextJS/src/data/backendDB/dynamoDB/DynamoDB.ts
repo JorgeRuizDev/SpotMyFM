@@ -101,9 +101,9 @@ export class DynamoDB implements IBackendDB {
       const [res, err] = await this.getFullUser(userId);
 
       if (!res) {
-        return [[],null];
-      }else if (err){
-        return [null, err]
+        return [[], null];
+      } else if (err) {
+        return [null, err];
       }
 
       const usr = res.original() || {};

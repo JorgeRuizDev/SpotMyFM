@@ -58,7 +58,7 @@ const useLoginStore = create<ILoginStore>((set, get) => {
     set(() => ({
       isLogged: false,
     }));
-    // TODO: Clear Notifications 
+    // TODO: Clear Notifications
     toast.info("User Logged Out");
   };
 

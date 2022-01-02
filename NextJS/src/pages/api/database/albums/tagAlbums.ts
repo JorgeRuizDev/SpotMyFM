@@ -33,13 +33,17 @@ const tagAlbums = async (
 
   switch (req.method) {
     case "POST":
-      const { albums } = req.body
-      if (!albums || !albums.length){
-        return res.status(400).json({error: "No albums attribute in the request body"})
+      const { albums } = req.body;
+      if (!albums || !albums.length) {
+        return res
+          .status(400)
+          .json({ error: "No albums attribute in the request body" });
       }
 
-      if (albums.length > 50){
-        return res.status(400).json({error: "Tags Exceed the maximin number (50)"})
+      if (albums.length > 50) {
+        return res
+          .status(400)
+          .json({ error: "Tags Exceed the maximin number (50)" });
       }
 
       const [putRes, putErr] = await backendDB.putAlbumTags(userId, albums);

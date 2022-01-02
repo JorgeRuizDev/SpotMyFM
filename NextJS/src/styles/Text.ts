@@ -5,7 +5,6 @@ const pBlack = tw.p`
 	dark:text-black
 `;
 
-
 const Inline = tw.article`
 	flex
 	flex-row

@@ -27,15 +27,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ToastConfig />
         <ToggleThemeButtonFlip />
         <GlobalStyle />
-        <div style={{minHeight: "100%", padding: "7px"}}>
+        <div style={{ minHeight: "100%", padding: "7px" }}>
           <Component {...pageProps} />
         </div>
       </main>
     </ReusableProvider>
   );
 }
-
-
 
 function ToastConfig() {
   return (

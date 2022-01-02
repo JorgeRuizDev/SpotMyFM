@@ -21,7 +21,7 @@ const Transition = styled(_Transition)`
   &.leaveTo {
     ${tw`opacity-0 translate-y-1`}
   }
-`
-const Styled = {Transition};
+`;
+const Styled = { Transition };
 
 export default Styled;

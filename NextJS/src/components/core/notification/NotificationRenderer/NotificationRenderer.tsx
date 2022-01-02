@@ -4,7 +4,6 @@ import React from "react";
 import Notification from "./../Notification";
 import Styled from "./NotificationRenderer.styles";
 
-
 /**
  * Specific component that displays the individual notifications in chronological order.
  *
@@ -18,8 +17,7 @@ function NotificationRenderer(): JSX.Element {
 
   return (
     <Styled.Wrapper>
-
-      <AnimatePresence >
+      <AnimatePresence>
         {Array.from(notifications.values())
           .sort((a, b) => {
             return a.datetime.getTime() - b.datetime.getTime();

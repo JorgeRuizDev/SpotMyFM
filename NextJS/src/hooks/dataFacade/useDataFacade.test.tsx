@@ -35,7 +35,6 @@ export default describe("data facade hook test", () => {
   });
 
   test("getTracks()", async () => {
-    
     try {
       expect((await cache.getAllTracks()).length).toBe(0);
       const spotifyTracks = await spotifyApi.getMyTopTracks({

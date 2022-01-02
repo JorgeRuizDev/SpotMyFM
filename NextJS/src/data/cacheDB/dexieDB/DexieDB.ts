@@ -33,7 +33,7 @@ export class DexieDB implements CacheAdapter {
   public getAllArtists(): Promise<Artist[]> {
     return artist.getAllArtists();
   }
-  public getSavedTracks():Promise<Track[]> {
+  public getSavedTracks(): Promise<Track[]> {
     return track.getSavedTracks();
   }
   public getTracksBySpotifyId(spotifyIds: string[]): Promise<Track[]> {
