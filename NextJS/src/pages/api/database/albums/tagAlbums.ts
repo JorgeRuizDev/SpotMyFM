@@ -14,9 +14,13 @@ interface ITagAlbumsResponse {
   albums: ITaggedAlbum[];
 }
 
+interface IPutResponse {
+  tags: ITaggedAlbum[];
+}
+
 const tagAlbums = async (
   req: NextApiRequest,
-  res: NextApiResponse<ApiError | ITagAlbumsResponse | { ok: "ok" }>
+  res: NextApiResponse<ApiError | ITagAlbumsResponse | IPutResponse>
 ) => {
   // Verify the Header Token
   const [jwt, jwtErr] = jwtFromHeader(req.headers);
@@ -29,13 +33,21 @@ const tagAlbums = async (
 
   switch (req.method) {
     case "POST":
-      const { tags } = req.body;
-      const [putRes, putErr] = await backendDB.putAlbumTags(userId, tags);
+      const { albums } = req.body
+      if (!albums || !albums.length){
+        return res.status(400).json({error: "No albums attribute in the request body"})
+      }
+
+      if (albums.length > 50){
+        return res.status(400).json({error: "Tags Exceed the maximin number (50)"})
+      }
+
+      const [putRes, putErr] = await backendDB.putAlbumTags(userId, albums);
 
       if (putErr || !putRes) {
         return res.status(400).json({ error: putErr });
       }
-      return res.status(200).json({ ok: "ok" });
+      return res.status(200).json({ tags: albums });
 
     case "GET":
       const [dbRes, dbErr] = await backendDB.getAllAlbumTags(userId);
