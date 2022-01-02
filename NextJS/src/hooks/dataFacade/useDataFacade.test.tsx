@@ -8,6 +8,13 @@ import { useDataFacade } from "./useDataFacade";
 import { envtest } from "env";
 import { useLoginStore } from "store/useLogin";
 
+
+export default describe("data facade hook test", () => {
+  test("Mock Test", () => {
+    expect(1).toBe(1)
+  })
+}
+
 /* 
 
 This test is unestable due to the use of states instead of prop-drilling
