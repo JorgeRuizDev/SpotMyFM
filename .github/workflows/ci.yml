@@ -14,6 +14,12 @@ jobs:
       SPOTIFY_SECRET: ${{secrets.SPOTIFY_SECRET}}
       NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
       TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
+      
+      # AWS
+      DYNAMOOSE_USER_TABLE: ${{secrets.DYNAMOOSE_USER_TABLE}}
+      AWS_REGION_: ${{secrets.AWS_REGION_}}
+      AWS_SECRET_ACCESS_KEY_: ${{secrets.AWS_SECRET_ACCESS_KEY_}}
+      AWS_ACCESS_KEY_ID_: ${{secrets.AWS_ACCESS_KEY_ID_}}
       TEST_BASE_URL: "http://localhost:3000"
     defaults:
       run:
