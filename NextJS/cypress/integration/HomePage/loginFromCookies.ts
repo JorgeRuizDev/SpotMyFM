@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe("Auto Login Test", () => {
   beforeEach(() => {
     cy.setCookie("SPOTIFY_REFRESH", Cypress.env("spotify_refresh_token_e2e"));
