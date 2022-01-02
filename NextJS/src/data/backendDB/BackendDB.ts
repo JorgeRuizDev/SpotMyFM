@@ -24,10 +24,13 @@ export interface IBackendDB {
 
   /**
    * Add / updates a list of album tags to a user.
-   * @param userId 
-   * @param tags 
+   * @param userId
+   * @param tags
    */
-  putAlbumTags(userId: string, tags: ITaggedAlbum[]): Promise<["ok" | null, any]>;
+  putAlbumTags(
+    userId: string,
+    tags: ITaggedAlbum[]
+  ): Promise<["ok" | null, any]>;
 }
 
 export const backendDB: IBackendDB = new DynamoDB();

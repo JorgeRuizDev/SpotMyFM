@@ -96,8 +96,6 @@ const useSpotifyPlayer = createStore(() => {
 
     const t = await getTracksByIds([res.item?.id || ""]);
 
-
-
     setPlayingTrack(t[0]);
   }, [_setPlayer, api, getTracksByIds, setIsPlaying, setPlayingTrack]);
 

@@ -14,7 +14,7 @@ function NavbarRightSide(): JSX.Element {
   function toggleLogOut() {
     setShowLogOut(!showLogOut);
   }
-  
+
   return isLogged ? (
     <>
       <Styled.IconWrap>

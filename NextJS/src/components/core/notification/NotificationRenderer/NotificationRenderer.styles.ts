@@ -4,8 +4,8 @@ const Wrapper = tw.div`
 
   overflow-x-hidden
 
-`
+`;
 
-const Styled = {Wrapper};
+const Styled = { Wrapper };
 
 export default Styled;

@@ -30,6 +30,6 @@ const Styled = {
   p,
   b,
   Flex,
-  CacheButton
+  CacheButton,
 };
 export default Styled;

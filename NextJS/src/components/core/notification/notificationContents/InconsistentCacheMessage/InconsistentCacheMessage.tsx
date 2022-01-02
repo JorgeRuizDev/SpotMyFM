@@ -7,13 +7,12 @@ function InconsistentCacheMessage({ onClick }: IInconsistentCacheMessageProps) {
   return (
     <Styled.NotificationWrapper>
       <div>
-        <Styled.b>
-          The Cache seems to be inconsistent!
-        </Styled.b>
+        <Styled.b>The Cache seems to be inconsistent!</Styled.b>
 
         <br />
         <Styled.p>
-          There was an error while caching your library ¿Did you close the page before the the caching process was completed?
+          There was an error while caching your library ¿Did you close the page
+          before the the caching process was completed?
         </Styled.p>
       </div>
 

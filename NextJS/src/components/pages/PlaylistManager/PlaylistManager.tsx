@@ -27,8 +27,6 @@ function PlaylistManager(props: IPlaylistManagerProps): JSX.Element {
     SpotifyApi.PlaylistObjectSimplified[]
   >([]);
 
-
-
   // Load the Playlists
   useEffect(() => {
     const fn = async () => {

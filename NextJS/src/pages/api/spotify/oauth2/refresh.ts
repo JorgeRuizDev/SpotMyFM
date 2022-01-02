@@ -35,7 +35,10 @@ const refresh = async (
     refresh_token: refreshToken,
   };
 
-  const [authJwtToken, jwtErr] = await JWT.addTokenToAuthResponse(authToken, backendDB);
+  const [authJwtToken, jwtErr] = await JWT.addTokenToAuthResponse(
+    authToken,
+    backendDB
+  );
 
   if (jwtErr || !authJwtToken) {
     res.status(400).json(jwtErr);

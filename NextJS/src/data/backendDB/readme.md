@@ -2,4 +2,4 @@
 
 This folder contains the database schema and client to consume the DB.
 
-For the REST Client visit ```src/restClients/backendDB```
+For the REST Client visit `src/restClients/backendDB`

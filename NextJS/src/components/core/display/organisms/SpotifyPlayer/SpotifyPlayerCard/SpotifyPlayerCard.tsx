@@ -28,9 +28,9 @@ interface ISpotifyPlayerCardProps {
 }
 
 /**
- * Spotify Player Card: Requires the same parameters as the player hook 
- * @param param0 
- * @returns 
+ * Spotify Player Card: Requires the same parameters as the player hook
+ * @param param0
+ * @returns
  */
 function SpotifyPlayerCard({
   track,

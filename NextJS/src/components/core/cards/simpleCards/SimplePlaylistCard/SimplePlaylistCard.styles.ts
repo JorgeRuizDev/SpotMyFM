@@ -8,7 +8,7 @@ const AlbumCover = tw(CardStyles.Image)``;
 
 const Image = tw(CardStyles.Image)``;
 
-const Content = tw(CardStyles.Content)``
+const Content = tw(CardStyles.Content)``;
 
 const InfoLayout = tw.section`
 	w-full

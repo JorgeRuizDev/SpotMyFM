@@ -36,8 +36,7 @@ function ProtectedRoute({
       toast.info("You don't have enough privileges to do this action");
       router.push("/");
     }
-  },[isAdmin, onlyAdmin]);
-
+  }, [isAdmin, onlyAdmin]);
 
   // Messages
   if (onlyLogged) {
@@ -74,8 +73,6 @@ function ProtectedRoute({
       );
     }
   }
-
-
 
   if (onlyAdmin) {
     if (isAdmin == false) {

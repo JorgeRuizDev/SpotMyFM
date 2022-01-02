@@ -31,7 +31,7 @@ const NotificationDiv = styled(motion.div)<INotificationDiv>(
 
     notificationSeverity === "warning" && tw`bg-yellow-400`,
     notificationSeverity === "error" && tw`bg-red-400`,
-    notificationSeverity === "info" && tw`bg-blue-300`
+    notificationSeverity === "info" && tw`bg-blue-300`,
   ]
 );
 

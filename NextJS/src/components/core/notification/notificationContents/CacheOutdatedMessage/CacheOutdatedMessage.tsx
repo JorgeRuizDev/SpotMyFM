@@ -9,7 +9,6 @@ function CacheOutdatedMessage({
   onClick,
   lastCacheUpdate,
 }: ICacheOutdatedMessageProps) {
-
   const update = useMemo(
     () => lastCacheUpdate?.toLocaleDateString(),
     [lastCacheUpdate]

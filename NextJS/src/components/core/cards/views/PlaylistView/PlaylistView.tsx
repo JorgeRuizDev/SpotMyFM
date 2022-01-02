@@ -46,7 +46,6 @@ function PlaylistView({
     sortTitle: "Sort Playlists",
   };
 
-
   const [modalPlaylist, setModalPlaylist] =
     useState<SpotifyApi.PlaylistObjectSimplified>();
   const [modalTracks, setModalTracks] = useState<Track[]>([]);

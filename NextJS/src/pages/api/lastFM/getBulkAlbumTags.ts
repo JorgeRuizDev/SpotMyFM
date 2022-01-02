@@ -53,11 +53,9 @@ const auth = async (
 
   // Check that the ammount of albums does not exceed the limmit
   if (body.albums.length > MAX_ALBUMS_PER_REQ) {
-    res
-      .status(400)
-      .json({
-        error: `The number of albums exceeds the limit (${MAX_ALBUMS_PER_REQ})`,
-      });
+    res.status(400).json({
+      error: `The number of albums exceeds the limit (${MAX_ALBUMS_PER_REQ})`,
+    });
   }
 
   const tagged: ITagResponse[] = [];

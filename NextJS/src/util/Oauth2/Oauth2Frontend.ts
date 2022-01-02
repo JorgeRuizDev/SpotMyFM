@@ -4,7 +4,6 @@ import {
   RefreshTokenJWTResponse,
 } from "interfaces/oauth2Responses";
 
-
 class Oauth2Frontend {
   private endpoint: string;
   private publicToken: string;
