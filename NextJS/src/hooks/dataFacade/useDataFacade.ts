@@ -26,7 +26,7 @@ export const useDataFacade = createStore(() => {
   const { cacheClient: cache, spotifyApi, lastfmApi } = useClientsStore();
   const JWT = useLoginStore((s) => s.jwt);
 
-  useEffect(() => console.log(JWT), [JWT])
+  useEffect(() => console.log(JWT), [JWT]);
 
   const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
 
