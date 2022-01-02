@@ -37,7 +37,7 @@ export default describe("Tests the database", () => {
     for (const t of tagged1 || []) {
       if (t.id == "ABC") abc = t;
     }
-    console.log(abc);
+    
     expect(abc.id).toBe("ABC");
     expect(abc.tags.length).toBe(3);
 
