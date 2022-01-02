@@ -74,7 +74,7 @@ export class DynamoDB implements IBackendDB {
    */
   async isUserAdmin(userId: string): Promise<boolean> {
     try {
-      const res = await User.query(cfg.dynamo.PK).eq(userId).exec();
+      const res = await User.query(cfg.dynamo.PK).eq(userId).attributes(["isAdmin"]).exec();
 
       if (res.count != 1) {
         return false;
