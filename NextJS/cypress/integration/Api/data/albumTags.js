@@ -1,12 +1,11 @@
 /// <reference types="cypress" />
 
 describe("Tag api endpoints", () => {
-  let jwt = "";
+
   let headers = "";
   before(() => {
     cy.getJWT();
     const t = Cypress.env("JWT");
-    jwt = t;
     headers = { Authorization: "Bearer " + t };
   });
 
