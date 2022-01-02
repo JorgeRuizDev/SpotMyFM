@@ -11,6 +11,14 @@ const config = {
 
   //
   playlist_track_view_max_track_count: 200,
+
+
+  dynamo: {
+    album_prefix: "ALBM",
+    PK: "PK"
+  }
+
+  
 };
 
 export default config;
