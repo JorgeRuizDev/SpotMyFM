@@ -20,7 +20,7 @@ servers:
   - url: https://spotmyfm.jorgeruizdev.com/api
     description: "Production Server"
 paths:
-  /data/tagAlbums:
+  /database/albums/tagAlbums:
     get:
       summary: Gets the tagged albums and their tags from the user
       description: |
@@ -29,7 +29,7 @@ paths:
 
       responses:
         "200":
-          description: The album tag were retrieved.
+          description: The album tags were retrieved.
           content:
             application/json:
               schema:
@@ -48,7 +48,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       tags:
-        - lastFM
+        - data
       security:
         - jwt: []
 
@@ -87,7 +87,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       tags:
-        - lastFM
+        - data
       security:
         - jwt: []
 
@@ -251,12 +251,6 @@ components:
                 type: array
                 items:
                   type: string
-              tagged_at:
-                type: string
-                description: ISO String with the date the first tag was added
-              updated_at:
-                type: string
-                description: ISO String with the date the albums was modified
 
     SpotifyRefreshReq:
       type: object
