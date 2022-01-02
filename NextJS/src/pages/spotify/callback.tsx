@@ -22,7 +22,7 @@ export default function Callback() {
       return;
     }
 
-    const canLog = await logIn(res.access_token);
+    const canLog = await logIn(res.access_token, res.token);
 
     if (canLog) {
       cookieManager.saveAuthToken(res.access_token, res.expires_in);

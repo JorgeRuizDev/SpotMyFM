@@ -10,6 +10,7 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import cookieManager from "util/cookies/loginCookieManager";
 import { toast } from "react-toastify";
 import { createStore } from "reusable";
+import { useLoginStore } from "store/useLogin";
 
 export type facadeStatus =
   | "default"
@@ -23,6 +24,9 @@ export type facadeStatus =
 
 export const useDataFacade = createStore(() => {
   const { cacheClient: cache, spotifyApi, lastfmApi } = useClientsStore();
+  const JWT = useLoginStore((s) => s.jwt);
+
+  useEffect(() => console.log(JWT), [JWT])
 
   const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
 
@@ -90,10 +94,7 @@ export const useDataFacade = createStore(() => {
       setTrackStatus("gettingLastTags");
 
       for (albums of chunks) {
-        const [res, err] = await lastfmApi.getBulkAlbumTags(
-          albums,
-          cookieManager.loadJWT() || ""
-        );
+        const [res, err] = await lastfmApi.getBulkAlbumTags(albums, JWT);
         incrementPercent();
         if (err || !res) {
           toast.error(err?.status);
@@ -103,7 +104,7 @@ export const useDataFacade = createStore(() => {
       }
       return tagged;
     },
-    [incrementPercent, lastfmApi]
+    [JWT, incrementPercent, lastfmApi]
   );
 
   /**
