@@ -25,7 +25,7 @@ export class DynamoDB implements IBackendDB {
   /**
    * Creates a new user and persists it
    * @param userId: User id / Document id
-   * @param attr Extra attributes to add to the document 
+   * @param attr Extra attributes to add to the document
    * @returns [user if success], [null otherwise]
    */
   async _createUser(userId: string, attr?: { [k: string]: any }) {
@@ -74,7 +74,10 @@ export class DynamoDB implements IBackendDB {
    */
   async isUserAdmin(userId: string): Promise<boolean> {
     try {
-      const res = await User.query(cfg.dynamo.PK).eq(userId).attributes(["isAdmin"]).exec();
+      const res = await User.query(cfg.dynamo.PK)
+        .eq(userId)
+        .attributes(["isAdmin"])
+        .exec();
 
       if (res.count != 1) {
         return false;
@@ -97,8 +100,10 @@ export class DynamoDB implements IBackendDB {
     try {
       const [res, err] = await this.getFullUser(userId);
 
-      if (!res || err) {
-        return [null, err];
+      if (!res) {
+        return [[],null];
+      }else if (err){
+        return [null, err]
       }
 
       const usr = res.original() || {};
