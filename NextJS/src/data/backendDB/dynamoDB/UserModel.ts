@@ -4,7 +4,7 @@ import env from "env";
 
 import { UserSchema } from "data/backendDB/dynamoDB/UserSchema";
 
-class UserModel extends Document {
+export class UserModel extends Document {
   PK: string = "";
   spotifyId = "";
   lastLogin: Date = new Date();

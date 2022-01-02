@@ -13,5 +13,6 @@ export const UserSchema = new dynamoose.Schema(
   {
     saveUnknown: true,
     timestamps: true,
+    
   }
 );

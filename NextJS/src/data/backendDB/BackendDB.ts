@@ -1,3 +1,4 @@
+import { ITaggedAlbum } from "pages/api/database/albums/tagAlbums";
 import { DynamoDB } from "./dynamoDB/DynamoDB";
 
 export interface IBackendDB {
@@ -14,6 +15,19 @@ export interface IBackendDB {
    * @returns {boolean} if the update has been successful.
    */
   isUserAdmin(userId: string): Promise<boolean>;
+
+  /**
+   * Gets all the user album tags
+   * @param userId
+   */
+  getAllAlbumTags(userId: string): Promise<[ITaggedAlbum[] | null, any]>;
+
+  /**
+   * Add / updates a list of album tags to a user.
+   * @param userId 
+   * @param tags 
+   */
+  putAlbumTags(userId: string, tags: ITaggedAlbum[]): Promise<["ok" | null, any]>;
 }
 
 export const backendDB: IBackendDB = new DynamoDB();
