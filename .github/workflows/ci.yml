@@ -20,7 +20,7 @@ jobs:
       AWS_REGION_: ${{secrets.AWS_REGION_}}
       AWS_SECRET_ACCESS_KEY_: ${{secrets.AWS_SECRET_ACCESS_KEY_}}
       AWS_ACCESS_KEY_ID_: ${{secrets.AWS_ACCESS_KEY_ID_}}
-      TEST_BASE_URL: "http://localhost:3000"
+      TEST_BASE_URL: "https://dev.spotmyfm.jorgeruizdev.com/"
     defaults:
       run:
         working-directory: ./NextJS
