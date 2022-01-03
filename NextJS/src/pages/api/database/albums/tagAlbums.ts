@@ -59,7 +59,7 @@ const tagAlbums = async (
       if (dbErr || !dbRes) {
         return res.status(400).json({ error: dbErr });
       }
-      return res.status(200).json({ albums: dbRes });
+      return res.status(200).json({ tags: dbRes });
 
     default:
       return res

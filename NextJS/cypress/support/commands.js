@@ -50,7 +50,7 @@ function getJWT() {
 function getJWT() {
   const refreshToken = Cypress.env("spotify_refresh_token_e2e");
 
-  cy.request("POST", Cypress.env("base_url") + "api/spotify/oauth2/refresh", {
+  return cy.request("POST", Cypress.env("base_url") + "api/spotify/oauth2/refresh", {
     refreshToken,
   }).then((response) => {
     const token = response.body.token;
