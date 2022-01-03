@@ -35,7 +35,6 @@ export class DynamoDB implements IBackendDB {
       await usr.save();
       return usr;
     } catch (err) {
-      console.error(err);
       return null;
     }
   }
@@ -85,7 +84,6 @@ export class DynamoDB implements IBackendDB {
 
       return res[0].isAdmin;
     } catch (e) {
-      console.error(e);
       return false;
     }
   }

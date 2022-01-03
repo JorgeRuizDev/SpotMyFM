@@ -90,7 +90,6 @@ function GetMyTopSelector({
       }
       setIsLoading(false);
     } catch (e) {
-      console.error(e);
       const code = api.parse(e);
       toast.error(
         `[GetMyTopSelector] Could not fetch your selection: ${code?.status} | ${code?.message}`
