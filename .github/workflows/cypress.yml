@@ -12,6 +12,7 @@ jobs:
       NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
       TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
       TEST_SPOTIFY_REFRESH_E2E: ${{secrets.TEST_SPOTIFY_REFRESH}}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD }}
       TEST_BASE_URL: "https://dev.spotmyfm.jorgeruizdev.com/"
     defaults:
       run:
@@ -26,5 +27,6 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           working-directory: ./NextJS
+          record: true
           #build: npm run build
           #start: npm start
