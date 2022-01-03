@@ -1,7 +1,6 @@
 /// <reference types="cypress" />
 
 describe("Tag api endpoints", () => {
-
   let headers = "";
   before(() => {
     cy.getJWT();
