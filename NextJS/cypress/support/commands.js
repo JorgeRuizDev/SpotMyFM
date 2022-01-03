@@ -50,15 +50,17 @@ function getJWT() {
 function getJWT() {
   const refreshToken = Cypress.env("spotify_refresh_token_e2e");
 
-  return cy.request("POST", Cypress.env("base_url") + "api/spotify/oauth2/refresh", {
-    refreshToken,
-  }).then((response) => {
-    const token = response.body.token;
-    expect(token).to.be.a("string");
-    expect(token.length).to.be.greaterThan(10);
-    Cypress.env("JWT", token);
-    cy.log(token);
-    cy.setLocalStorage("JWT", token);
-  });
+  return cy
+    .request("POST", Cypress.env("base_url") + "api/spotify/oauth2/refresh", {
+      refreshToken,
+    })
+    .then((response) => {
+      const token = response.body.token;
+      expect(token).to.be.a("string");
+      expect(token.length).to.be.greaterThan(10);
+      Cypress.env("JWT", token);
+      cy.log(token);
+      cy.setLocalStorage("JWT", token);
+    });
 }
 Cypress.Commands.add("getJWT", getJWT);
