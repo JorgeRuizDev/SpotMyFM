@@ -105,11 +105,11 @@ describe("Tag api endpoints", () => {
           headers: headers,
         }).should((response) => {
           expect(response.status).to.eq(200);
-          const tags = response.body.tags
-          expect(response.body.tags).to.be.a("array")
-          expect(tags.length).to.be.greaterThan(0)
-          expect(tags[0].id).to.exist
-          expect(tags[0].tags).to.exist
+          const tags = response.body.tags;
+          expect(response.body.tags).to.be.a("array");
+          expect(tags.length).to.be.greaterThan(0);
+          expect(tags[0].id).to.exist;
+          expect(tags[0].tags).to.exist;
         });
       });
     });
