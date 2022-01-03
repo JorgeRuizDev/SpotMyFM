@@ -8,9 +8,9 @@ import cfg from "config";
 /**
  * Reads the Auth Token from the Cookies and validates it.
  * If there is a Refresh Token, the function will try to refresh the auth token with the refresh token
- * @returns A valid auth token or null and jwt token
+ * @returns A valid auth token or null
  */
-export default async function getAuthToken(): Promise<[string, string] | null> {
+export default async function getAuthToken(): Promise<string | null> {
   let authToken = LoginCookieManager.loadAuthToken();
   let jwt = LoginCookieManager.loadJWT();
   const refreshToken = LoginCookieManager.loadRefreshToken();
@@ -52,7 +52,7 @@ export default async function getAuthToken(): Promise<[string, string] | null> {
       }
 
       // Auth Token is valid:
-      return [authToken, jwt];
+      return authToken;
     } catch (e) {
       // If the token is not valid:
       CookieManager.removeAll();

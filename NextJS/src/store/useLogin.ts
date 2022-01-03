@@ -8,10 +8,8 @@ import { SpotifyClient } from "restClients/spotify/spotifyClient";
 interface ILoginStore {
   isLogged: boolean | undefined;
   spotifyApi: SpotifyClient;
-  jwt: string;
-  setJwt: (jwt: string) => void;
   logOut: () => void;
-  logIn: (token: string, jwt: string) => Promise<boolean>;
+  logIn: (token: string) => Promise<boolean>;
 }
 
 /**
@@ -33,7 +31,7 @@ const useLoginStore = create<ILoginStore>((set, get) => {
    * @param token Spotify Auth Token
    * @returns true if the login is successful
    */
-  const logIn = async (token: string, jwt: string) => {
+  const logIn = async (token: string) => {
     if (!token || token.length == 0) {
       set(() => ({
         isLogged: false,
@@ -45,15 +43,10 @@ const useLoginStore = create<ILoginStore>((set, get) => {
     set(() => ({
       isLogged: true,
       spotifyApi,
-      jwt: jwt,
     }));
 
     return true;
   };
-
-  const jwt = "";
-
-  const setJwt = (jwt: string) => set(() => ({ jwt: jwt }));
 
   /**
    * Log out function, clears the current data
@@ -65,7 +58,7 @@ const useLoginStore = create<ILoginStore>((set, get) => {
     set(() => ({
       isLogged: false,
     }));
-    setJwt("");
+    // TODO: Clear Notifications 
     toast.info("User Logged Out");
   };
 
@@ -75,17 +68,13 @@ const useLoginStore = create<ILoginStore>((set, get) => {
    */
   function onMount() {
     if (isLogged === undefined) {
-      getAuthToken().then((t) => {
-        if (t) {
-          logIn(t[0], t[1]);
-        }
-      });
+      getAuthToken().then((t) => logIn(t || ""));
     }
   }
 
   onMount();
 
-  return { isLogged, logIn, logOut, spotifyApi, jwt, setJwt };
+  return { isLogged, logIn, logOut, spotifyApi };
 });
 
 export { useLoginStore };
