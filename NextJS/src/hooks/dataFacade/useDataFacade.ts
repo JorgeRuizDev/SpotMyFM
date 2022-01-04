@@ -25,7 +25,7 @@ export const useDataFacade = createStore(() => {
   const cache = useClientsStore((s) => s.cacheClient);
   const spotifyApi = useClientsStore((s) => s.spotifyApi);
   const lastfmApi = useClientsStore((s) => s.lastfmApi);
-  const databaseApi = useClientsStore(s => s.backendDbApi)
+  const databaseApi = useClientsStore((s) => s.backendDbApi);
   const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
 
   const { setAsLoading, unsetAsLoading } = useSessionStore();
