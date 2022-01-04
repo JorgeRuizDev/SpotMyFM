@@ -11,7 +11,11 @@ export interface Album extends SpotifyBaseObject {
 
   spotifyArtistsIds: string[];
 
+  // Current album album tags
   albumTags: string[];
+
+  // All the album tags among all the albums
+  allAlbumTags?: string[];
 
   artists: Artist[];
 
@@ -21,7 +25,7 @@ export interface Album extends SpotifyBaseObject {
 
   spotifyGenres: string[];
 
-  saveDate?: Date;
+  savedAt?: Date;
 
   // LastFM:
   lastfmTagsFull?: LastfmTag[];

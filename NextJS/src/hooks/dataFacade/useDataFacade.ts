@@ -94,6 +94,8 @@ export const useDataFacade = createStore(() => {
         cookieManager.loadJWT() || ""
       );
 
+      const allAlbumTags = [];
+
       if (err || !tags) {
         toast.error("Couldn't add your tags to your albums: " + err?.message);
         return albums;
@@ -101,8 +103,9 @@ export const useDataFacade = createStore(() => {
 
       for (const album of albums) {
         const albumTags = tags.get(album.spotifyId);
-
         if (albumTags) {
+          allAlbumTags.push(...albumTags);
+          album.allAlbumTags = allAlbumTags;
           album.albumTags = albumTags;
         }
       }
@@ -232,10 +235,10 @@ export const useDataFacade = createStore(() => {
 
       for (const album of saved) {
         const date = new Date(savedDates.get(album.spotifyId)?.added_at || 0);
-        album.saveDate = date;
+        album.savedAt = date;
       }
 
-      return saved
+      return saved;
     },
     [_getAlbums, cache, setAsLoading, unsetAsLoading]
   );
