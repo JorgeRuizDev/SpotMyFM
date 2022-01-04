@@ -2,6 +2,7 @@ import axios from "axios";
 import { IRestClient, RestError } from "interfaces/RestClient";
 import { parseAxiosError } from "util/axios/parseError";
 import cfg from "config";
+
 export class BackendDBClient implements IRestClient {
   _getHeaders(jwt: string) {
     const jwtStatus = this._checkJWT(jwt);
@@ -66,9 +67,9 @@ export class BackendDBClient implements IRestClient {
     albums: { id: string; tags: string[] }[]
   ): Promise<[Map<string, string[]> | null, RestError | null]> {
     try {
-      const res = axios.post(
+      const res = await axios.post(
         cfg.api_endpoints.database.post_album_tags,
-        albums,
+        { albums: albums },
         { headers: this._getHeaders(jwt) }
       );
 
