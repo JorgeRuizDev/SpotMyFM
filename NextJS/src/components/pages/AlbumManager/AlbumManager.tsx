@@ -7,6 +7,7 @@ import cookieManager from "util/cookies/loginCookieManager";
 import Styled from "./AlbumManager.styles";
 import Ms from "styles/Miscellaneous";
 import Switch from "components/core/input/atoms/Switch";
+import AlbumView from "components/core/cards/views/AlbumView";
 
 interface IAlbumManagerProps {}
 
@@ -14,6 +15,8 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
   const { spotifyApi, backendDbApi, cacheClient } = useClientsStore();
   const { getAlbums, getSavedAlbums, getAlbumsById } = useDataFacade();
   const [displayAlbums, setDisplayAlbums] = useState<Album[]>([]);
+
+  const [isLoading, setIsLoading] = useState(true)
 
   const [showSaved, setShowSaved] = useState(true);
   const [showTagged, setShowTagged] = useState(true);
@@ -34,6 +37,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
     }
 
     const fn = async () => {
+      setIsLoading(true)
       const savedAlbumsRes = await spotifyApi.getAllMySavedAlbums();
       const saved = await getSavedAlbums(savedAlbumsRes);
 
@@ -53,6 +57,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
 
       const cached = await cacheClient.getAllAlbums();
       setCachedAlbums(cached);
+      setIsLoading(false)
     };
     fn();
   }, [backendDbApi, cacheClient, getAlbums, getAlbumsById, getSavedAlbums, spotifyApi]);
@@ -85,7 +90,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
 
   return (
     <Styled.Wrap>
-      <Styled.Title>Playlist Manager</Styled.Title>
+      <Styled.Title>Album Manager</Styled.Title>
       <Styled.Center>
         <Styled.CardWrap>
           <Ms.Card>
@@ -117,6 +122,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
           </Ms.Card>
         </Styled.CardWrap>
       </Styled.Center>
+      <AlbumView albums={displayAlbums} settings={{isLoading: isLoading}}/>
     </Styled.Wrap>
   );
 }

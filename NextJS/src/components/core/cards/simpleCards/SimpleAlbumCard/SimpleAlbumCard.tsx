@@ -27,7 +27,6 @@ function SimpleAlbumCard({
   const [showDetails, setShowDetails] = useState(false);
   const [showTagManager, setShowTagManager] = useState(false);
 
-
   return (
     <>
       <Styled.Layout compact={compact}>
@@ -78,7 +77,6 @@ function SimpleAlbumCard({
         ></SaveAlbum>
 
         <Buttons.SecondaryGreenButton
-          rounded
           onClick={() => {
             setShowTagManager(true);
           }}
