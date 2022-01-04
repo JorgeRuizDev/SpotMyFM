@@ -3,9 +3,8 @@ import { getOauth } from "util/spotify/oauthFrontend";
 import { BackendDBClient } from "./backendDBclient";
 import env, { envtest } from "env";
 
-
 export default describe("BackendDB Rest Client Tests", () => {
-  let jwt = ""
+  let jwt = "";
   const db = new BackendDBClient();
   axios.defaults.adapter = require("axios/lib/adapters/http");
   axios.defaults.baseURL = envtest.TEST_BASE_URL;
@@ -16,9 +15,9 @@ export default describe("BackendDB Rest Client Tests", () => {
       envtest.SPOTIFY_REFRESH_TOKEN
     );
 
-    expect(err).toBe(null) ;
+    expect(err).toBe(null);
 
-    jwt = res?.token|| ""
+    jwt = res?.token || "";
   });
 
   test("GetAlbumTags bad token", async () => {
@@ -40,7 +39,7 @@ export default describe("BackendDB Rest Client Tests", () => {
     const [res, err] = await db.updateAlbumTags(jwt, [
       { id: "ABC", tags: ["A", "B", "C", "D"] },
     ]);
-    
+
     expect(res).not.toBeNull();
     expect(err).toBeNull();
     expect(res?.size).toBeGreaterThan(0);

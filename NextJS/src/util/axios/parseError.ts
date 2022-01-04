@@ -17,9 +17,8 @@ export function parseAxiosError(e: any): RestError {
       return { status: e.status, message: e?.response || e?.responseText };
     } else {
       return { status: 0, message: e };
-    }  
-  }catch(e){
-    return {status: 0, message: "There was an error while parsing the error"}
+    }
+  } catch (e) {
+    return { status: 0, message: "There was an error while parsing the error" };
   }
-
 }
