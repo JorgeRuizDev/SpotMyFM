@@ -235,7 +235,7 @@ export const useDataFacade = createStore(() => {
         album.saveDate = date;
       }
 
-      return saved
+      return saved;
     },
     [_getAlbums, cache, setAsLoading, unsetAsLoading]
   );
