@@ -21,6 +21,8 @@ export interface Album extends SpotifyBaseObject {
 
   spotifyGenres: string[];
 
+  saveDate?: Date;
+
   // LastFM:
   lastfmTagsFull?: LastfmTag[];
 
