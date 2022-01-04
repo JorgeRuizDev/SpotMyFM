@@ -59,6 +59,30 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   }
 
   /**
+   * Retrieves the current user saved albums
+   */
+  async getAllMySavedAlbums(): Promise<SpotifyApi.AlbumObjectFull[]> {
+    const limit = 50;
+    let offset = 0;
+
+    const savedAlbums = [];
+    console.log("Entra")
+    while (true) {
+      const albums = await this.getMySavedAlbums({ limit, offset });
+
+      savedAlbums.push(...albums.items.map((a) => a.album));
+
+      if (offset > albums.total) {
+        break;
+      }
+
+      offset += limit;
+    }
+
+    return savedAlbums;
+  }
+
+  /**
    * Fetches the complete object from a list of ids.
    * @param artistIds
    * @returns

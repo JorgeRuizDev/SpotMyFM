@@ -25,7 +25,7 @@ export const useDataFacade = createStore(() => {
   const cache = useClientsStore((s) => s.cacheClient);
   const spotifyApi = useClientsStore((s) => s.spotifyApi);
   const lastfmApi = useClientsStore((s) => s.lastfmApi);
-  const databaseApi = useClientsStore(s => s.backendDbApi)
+  const databaseApi = useClientsStore((s) => s.backendDbApi);
   const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
 
   const { setAsLoading, unsetAsLoading } = useSessionStore();
@@ -83,6 +83,38 @@ export const useDataFacade = createStore(() => {
     [cache, setAsLoading, spotifyApi, unsetAsLoading]
   );
 
+  /**
+   * Adds all the saved album tags to all the user albums.
+   * @param albums
+   * @returns
+   */
+  const addAlbumTags = useCallback(
+    async (albums: Album[]): Promise<Album[]> => {
+      const [tags, err] = await databaseApi.getAllAlbumTags(
+        cookieManager.loadJWT() || ""
+      );
+
+      if (err || !tags) {
+        toast.error("Couldn't add your tags to your albums: " + err?.message);
+        return albums;
+      }
+
+      for (const album of albums) {
+        const albumTags = tags.get(album.spotifyId);
+
+        if (albumTags) {
+          album.albumTags = albumTags;
+        }
+      }
+
+      return albums;
+    },
+    [databaseApi]
+  );
+
+  /**
+   * Fills the album object with LastFM Tags
+   */
   const addLastTags = useCallback(
     async (albums: Album[]) => {
       const chunks = _.chunk(albums, 50);
@@ -117,24 +149,18 @@ export const useDataFacade = createStore(() => {
     async (spotifyIds: string[]) => {
       setAsLoading();
       const missingIds = await cache.getMissingAlbums(spotifyIds);
-      const missingObjects = await spotifyApi.getFullAlbums(missingIds);
+      const missingObjects = await (await spotifyApi.getFullAlbums(missingIds)).filter(n => n);
       const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
-      const tagged = await addLastTags(joined);
+      const lastTagged = await addLastTags(joined);
+      const tagged = await addAlbumTags(lastTagged);
       await cache.addAlbums(tagged);
       unsetAsLoading();
 
       return await cache.getAlbumsBySpotifyId(spotifyIds);
     },
-    [
-      addLastTags,
-      cache,
-      getArtistsById,
-      setAsLoading,
-      spotifyApi,
-      unsetAsLoading,
-    ]
+    [addAlbumTags, addLastTags, cache, getArtistsById, setAsLoading, spotifyApi, unsetAsLoading]
   );
 
   /**
@@ -150,13 +176,21 @@ export const useDataFacade = createStore(() => {
       const missing = getMissingObject(parsed, missingIds);
       await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(missing, false);
-      const tagged = await addLastTags(joined);
+      const lastTagged = await addLastTags(joined);
+      const tagged = await addAlbumTags(lastTagged);
       await cache.addAlbums(tagged);
       unsetAsLoading();
 
       return cache.getAlbumsBySpotifyId(parsed.map((p) => p.spotifyId));
     },
-    [addLastTags, cache, getArtistsById, setAsLoading, unsetAsLoading]
+    [
+      addAlbumTags,
+      addLastTags,
+      cache,
+      getArtistsById,
+      setAsLoading,
+      unsetAsLoading,
+    ]
   );
 
   /**
