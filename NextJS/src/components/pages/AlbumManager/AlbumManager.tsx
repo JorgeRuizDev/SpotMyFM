@@ -12,7 +12,7 @@ interface IAlbumManagerProps {}
 
 function AlbumManager(props: IAlbumManagerProps): JSX.Element {
   const { spotifyApi, backendDbApi, cacheClient } = useClientsStore();
-  const { getAlbums, getAlbumsById } = useDataFacade();
+  const { getAlbums, getSavedAlbums, getAlbumsById } = useDataFacade();
   const [displayAlbums, setDisplayAlbums] = useState<Album[]>([]);
 
   const [showSaved, setShowSaved] = useState(true);
@@ -35,7 +35,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
 
     const fn = async () => {
       const savedAlbumsRes = await spotifyApi.getAllMySavedAlbums();
-      const saved = await getAlbums(savedAlbumsRes);
+      const saved = await getSavedAlbums(savedAlbumsRes);
 
       const [taggedMap, tagErr] = await await backendDbApi.getAllAlbumTags(
         jwt || ""
@@ -55,7 +55,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
       setCachedAlbums(cached);
     };
     fn();
-  }, [backendDbApi, cacheClient, getAlbums, getAlbumsById, spotifyApi]);
+  }, [backendDbApi, cacheClient, getAlbums, getAlbumsById, getSavedAlbums, spotifyApi]);
 
   // Fill the Display Albums state with the user configuration
   useEffect(() => {
@@ -66,7 +66,6 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
     }
 
     if (showSaved) {
-      console.log(savedAlbums);
       savedAlbums.forEach((a) => set.add(a));
     }
 

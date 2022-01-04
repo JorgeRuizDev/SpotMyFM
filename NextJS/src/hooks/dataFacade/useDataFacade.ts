@@ -140,6 +140,23 @@ export const useDataFacade = createStore(() => {
     [incrementPercent, lastfmApi]
   );
 
+  const _getAlbums = useCallback(
+    async (parsed: Album[]) => {
+      const missingIds = await cache.getMissingAlbums(
+        parsed.map((a) => a.spotifyId)
+      );
+      const missing = getMissingObject(parsed, missingIds);
+      await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
+      const joined = await cache.joinAlbums(missing, false);
+      const lastTagged = await addLastTags(joined);
+      const tagged = await addAlbumTags(lastTagged);
+      await cache.addAlbums(tagged);
+
+      return tagged;
+    },
+    [addAlbumTags, addLastTags, cache, getArtistsById]
+  );
+
   /**
    * Retrieves from the local cache or fetches a list of albums
    * @param spotifyIds: An array of spotify albums ids
@@ -149,7 +166,9 @@ export const useDataFacade = createStore(() => {
     async (spotifyIds: string[]) => {
       setAsLoading();
       const missingIds = await cache.getMissingAlbums(spotifyIds);
-      const missingObjects = await (await spotifyApi.getFullAlbums(missingIds)).filter(n => n);
+      const missingObjects = await (
+        await spotifyApi.getFullAlbums(missingIds)
+      ).filter((n) => n);
       const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
@@ -160,7 +179,15 @@ export const useDataFacade = createStore(() => {
 
       return await cache.getAlbumsBySpotifyId(spotifyIds);
     },
-    [addAlbumTags, addLastTags, cache, getArtistsById, setAsLoading, spotifyApi, unsetAsLoading]
+    [
+      addAlbumTags,
+      addLastTags,
+      cache,
+      getArtistsById,
+      setAsLoading,
+      spotifyApi,
+      unsetAsLoading,
+    ]
   );
 
   /**
@@ -171,26 +198,46 @@ export const useDataFacade = createStore(() => {
   const getAlbums = useCallback(
     async (albums: SpotifyApi.AlbumObjectFull[]) => {
       setAsLoading();
-      const missingIds = await cache.getMissingAlbums(albums.map((a) => a.id));
       const parsed = spotifyStatic.spotifyAlbums2Albums(albums);
-      const missing = getMissingObject(parsed, missingIds);
-      await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
-      const joined = await cache.joinAlbums(missing, false);
-      const lastTagged = await addLastTags(joined);
-      const tagged = await addAlbumTags(lastTagged);
-      await cache.addAlbums(tagged);
+      await _getAlbums(parsed);
       unsetAsLoading();
 
-      return cache.getAlbumsBySpotifyId(parsed.map((p) => p.spotifyId));
+      return await cache.getAlbumsBySpotifyId(parsed.map((p) => p.spotifyId));
     },
-    [
-      addAlbumTags,
-      addLastTags,
-      cache,
-      getArtistsById,
-      setAsLoading,
-      unsetAsLoading,
-    ]
+    [_getAlbums, cache, setAsLoading, unsetAsLoading]
+  );
+
+  /**
+   * Retrieves from the local cache or fetches a list of saved albums
+   * @param albums: An array of spotify albums
+   * @returns Album[]
+   */
+  const getSavedAlbums = useCallback(
+    async (albums: SpotifyApi.SavedAlbumObject[]) => {
+      setAsLoading();
+      const parsed = spotifyStatic.spotifyAlbums2Albums(
+        albums.map((a) => a.album)
+      );
+      await _getAlbums(parsed);
+      unsetAsLoading();
+
+      const saved = await cache.getAlbumsBySpotifyId(
+        parsed.map((p) => p.spotifyId)
+      );
+
+      const savedDates = new Map<string, SpotifyApi.SavedAlbumObject>();
+      for (const album of albums) {
+        savedDates.set(album.album.id, album);
+      }
+
+      for (const album of saved) {
+        const date = new Date(savedDates.get(album.spotifyId)?.added_at || 0);
+        album.saveDate = date;
+      }
+
+      return saved
+    },
+    [_getAlbums, cache, setAsLoading, unsetAsLoading]
   );
 
   /**
@@ -298,6 +345,7 @@ export const useDataFacade = createStore(() => {
     getSavedTracks,
     getTracksByIds,
     getAlbums,
+    getSavedAlbums,
     getAlbumsById,
     getArtists,
     getArtistsById,
