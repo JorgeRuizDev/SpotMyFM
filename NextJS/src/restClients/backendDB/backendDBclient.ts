@@ -60,9 +60,9 @@ export class BackendDBClient implements IRestClient {
   }
 
   /**
-   * Bulk Updates multiple album tags given an array of album ids and tags 
-   * @param albums 
-   * @returns 
+   * Bulk Updates multiple album tags given an array of album ids and tags
+   * @param albums
+   * @returns
    */
   async updateAlbumTags(
     albums: { id: string; tags: string[] }[]
