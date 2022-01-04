@@ -3,16 +3,13 @@ import { IRestClient, RestError } from "interfaces/RestClient";
 import { parseAxiosError } from "util/axios/parseError";
 import cfg from "config";
 export class BackendDBClient implements IRestClient {
-  jwt: string;
-  headers: {};
-  constructor(jwt: string) {
+  _getHeaders(jwt: string) {
     const jwtStatus = this._checkJWT(jwt);
     if (jwtStatus) {
       throw "Empty of Null JWT";
     }
 
-    this.jwt = jwt;
-    this.headers = { Authorization: "Bearer " + this.jwt };
+    return { Authorization: "Bearer " + jwt };
   }
 
   _buildTagMap(res: any): Map<string, string[]> | null {
@@ -34,12 +31,12 @@ export class BackendDBClient implements IRestClient {
    * @param jwt: Signed Json Token
    * @returns A map that identifies the tags
    */
-  async getAllAlbumTags(): Promise<
-    [Map<string, string[]> | null, null | RestError]
-  > {
+  async getAllAlbumTags(
+    jwt: string
+  ): Promise<[Map<string, string[]> | null, null | RestError]> {
     try {
       const res = await axios.get(cfg.api_endpoints.database.get_album_tags, {
-        headers: this.headers,
+        headers: this._getHeaders(jwt),
       });
 
       const tags = this._buildTagMap(res);
@@ -60,18 +57,19 @@ export class BackendDBClient implements IRestClient {
   }
 
   /**
-   * Bulk Updates multiple album tags given an array of album ids and tags 
-   * @param albums 
-   * @returns 
+   * Bulk Updates multiple album tags given an array of album ids and tags
+   * @param albums
+   * @returns
    */
   async updateAlbumTags(
+    jwt: string,
     albums: { id: string; tags: string[] }[]
   ): Promise<[Map<string, string[]> | null, RestError | null]> {
     try {
       const res = axios.post(
         cfg.api_endpoints.database.post_album_tags,
         albums,
-        { headers: this.headers }
+        { headers: this._getHeaders(jwt) }
       );
 
       const tags = this._buildTagMap(res);
