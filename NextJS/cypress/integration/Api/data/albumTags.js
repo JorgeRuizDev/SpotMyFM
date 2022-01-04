@@ -7,8 +7,6 @@ describe("Tag api endpoints", () => {
       const t = Cypress.env("JWT");
       headers = { Authorization: "Bearer " + t };
     });
-
-
   });
 
   context("Alive Endpoint", () => {
