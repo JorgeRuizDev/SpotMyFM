@@ -16,7 +16,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
   const { getAlbums, getSavedAlbums, getAlbumsById } = useDataFacade();
   const [displayAlbums, setDisplayAlbums] = useState<Album[]>([]);
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   const [showSaved, setShowSaved] = useState(true);
   const [showTagged, setShowTagged] = useState(true);
@@ -37,7 +37,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
     }
 
     const fn = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       const savedAlbumsRes = await spotifyApi.getAllMySavedAlbums();
       const saved = await getSavedAlbums(savedAlbumsRes);
 
@@ -57,7 +57,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
 
       const cached = await cacheClient.getAllAlbums();
       setCachedAlbums(cached);
-      setIsLoading(false)
+      setIsLoading(false);
     };
     fn();
   }, [
@@ -129,7 +129,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
           </Ms.Card>
         </Styled.CardWrap>
       </Styled.Center>
-      <AlbumView albums={displayAlbums} settings={{isLoading: isLoading}}/>
+      <AlbumView albums={displayAlbums} settings={{ isLoading: isLoading }} />
     </Styled.Wrap>
   );
 }
