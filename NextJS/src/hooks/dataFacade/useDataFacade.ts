@@ -149,7 +149,9 @@ export const useDataFacade = createStore(() => {
     async (spotifyIds: string[]) => {
       setAsLoading();
       const missingIds = await cache.getMissingAlbums(spotifyIds);
-      const missingObjects = await (await spotifyApi.getFullAlbums(missingIds)).filter(n => n);
+      const missingObjects = await (
+        await spotifyApi.getFullAlbums(missingIds)
+      ).filter((n) => n);
       const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
@@ -160,7 +162,15 @@ export const useDataFacade = createStore(() => {
 
       return await cache.getAlbumsBySpotifyId(spotifyIds);
     },
-    [addAlbumTags, addLastTags, cache, getArtistsById, setAsLoading, spotifyApi, unsetAsLoading]
+    [
+      addAlbumTags,
+      addLastTags,
+      cache,
+      getArtistsById,
+      setAsLoading,
+      spotifyApi,
+      unsetAsLoading,
+    ]
   );
 
   /**

@@ -66,7 +66,7 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     let offset = 0;
 
     const savedAlbums = [];
-    console.log("Entra")
+    console.log("Entra");
     while (true) {
       const albums = await this.getMySavedAlbums({ limit, offset });
 
