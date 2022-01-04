@@ -20,6 +20,7 @@ export default describe("CacheDB Test", () => {
         spotifyUri: "",
         spotifyUrl: "",
         type: "",
+        spotifyCovers: [],
       },
       {
         albumTags: [],
@@ -34,6 +35,7 @@ export default describe("CacheDB Test", () => {
         spotifyUri: "",
         spotifyUrl: "",
         type: "",
+        spotifyCovers: [],
       },
     ]);
 

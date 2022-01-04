@@ -22,8 +22,10 @@ export type facadeStatus =
   | "gettingLastTags";
 
 export const useDataFacade = createStore(() => {
-  const { cacheClient: cache, spotifyApi, lastfmApi } = useClientsStore();
-
+  const cache = useClientsStore((s) => s.cacheClient);
+  const spotifyApi = useClientsStore((s) => s.spotifyApi);
+  const lastfmApi = useClientsStore((s) => s.lastfmApi);
+  const databaseApi = useClientsStore(s => s.backendDbApi)
   const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
 
   const { setAsLoading, unsetAsLoading } = useSessionStore();
@@ -81,7 +83,7 @@ export const useDataFacade = createStore(() => {
     [cache, setAsLoading, spotifyApi, unsetAsLoading]
   );
 
-  const addTags = useCallback(
+  const addLastTags = useCallback(
     async (albums: Album[]) => {
       const chunks = _.chunk(albums, 50);
       const tagged: Album[] = [];
@@ -119,13 +121,20 @@ export const useDataFacade = createStore(() => {
       const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
-      const tagged = await addTags(joined);
+      const tagged = await addLastTags(joined);
       await cache.addAlbums(tagged);
       unsetAsLoading();
 
       return await cache.getAlbumsBySpotifyId(spotifyIds);
     },
-    [addTags, cache, getArtistsById, setAsLoading, spotifyApi, unsetAsLoading]
+    [
+      addLastTags,
+      cache,
+      getArtistsById,
+      setAsLoading,
+      spotifyApi,
+      unsetAsLoading,
+    ]
   );
 
   /**
@@ -141,13 +150,13 @@ export const useDataFacade = createStore(() => {
       const missing = getMissingObject(parsed, missingIds);
       await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(missing, false);
-      const tagged = await addTags(joined);
+      const tagged = await addLastTags(joined);
       await cache.addAlbums(tagged);
       unsetAsLoading();
 
       return cache.getAlbumsBySpotifyId(parsed.map((p) => p.spotifyId));
     },
-    [addTags, cache, getArtistsById, setAsLoading, unsetAsLoading]
+    [addLastTags, cache, getArtistsById, setAsLoading, unsetAsLoading]
   );
 
   /**
