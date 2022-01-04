@@ -59,7 +59,6 @@ function getJWT() {
       expect(token).to.be.a("string");
       expect(token.length).to.be.greaterThan(10);
       Cypress.env("JWT", token);
-      cy.log(token);
       cy.setLocalStorage("JWT", token);
     });
 }

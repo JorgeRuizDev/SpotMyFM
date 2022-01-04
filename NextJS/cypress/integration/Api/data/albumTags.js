@@ -8,8 +8,7 @@ describe("Tag api endpoints", () => {
       headers = { Authorization: "Bearer " + t };
     });
 
-    cy.log("Headers:");
-    cy.log(headers);
+
   });
 
   context("Alive Endpoint", () => {
