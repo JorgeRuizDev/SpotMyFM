@@ -60,7 +60,14 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
       setIsLoading(false)
     };
     fn();
-  }, [backendDbApi, cacheClient, getAlbums, getAlbumsById, getSavedAlbums, spotifyApi]);
+  }, [
+    backendDbApi,
+    cacheClient,
+    getAlbums,
+    getAlbumsById,
+    getSavedAlbums,
+    spotifyApi,
+  ]);
 
   // Fill the Display Albums state with the user configuration
   useEffect(() => {
