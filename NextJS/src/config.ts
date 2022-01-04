@@ -9,6 +9,13 @@ const config = {
   api_spotify_refresh: "api/spotify/oauth2/refresh",
   last_bulk_tags: "api/lastFM/getBulkAlbumTags",
 
+  api_endpoints: {
+    database: {
+      get_album_tags: "/api/database/albums/tagAlbums",
+      post_album_tags: "api/database/albums/tagAlbums",
+    },
+  },
+
   //
   playlist_track_view_max_track_count: 200,
 

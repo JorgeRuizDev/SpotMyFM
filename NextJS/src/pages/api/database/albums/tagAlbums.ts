@@ -1,9 +1,7 @@
 import jwtFromHeader from "backendLogic/httpHeader/jwtFromHeader";
 import { backendDB } from "data/backendDB/BackendDB";
-import { DynamoDB } from "data/backendDB/dynamoDB/DynamoDB";
 import ApiError from "interfaces/apiError";
 import { NextApiRequest, NextApiResponse } from "next";
-import { BackendDB } from "restClients/backendDB/backendDB";
 
 export interface ITaggedAlbum {
   id: string;
