@@ -60,7 +60,7 @@ const auth = async (
 
   const tagged: ITagResponse[] = [];
 
-  await asyncPool(3, body.albums, async (album) => {
+  await asyncPool(4, body.albums, async (album) => {
     const [res, err] = await api.getAlbumTags(
       album.artist_name,
       album.album_name
