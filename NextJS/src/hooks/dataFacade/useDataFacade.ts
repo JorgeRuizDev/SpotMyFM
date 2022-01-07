@@ -152,10 +152,9 @@ export const useDataFacade = createStore(() => {
       await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(missing, false);
       const lastTagged = await addLastTags(joined);
-      const tagged = await addAlbumTags(lastTagged);
-      await cache.addAlbums(tagged);
+      await cache.addAlbums(lastTagged);
 
-      return tagged;
+      return await addAlbumTags(lastTagged);
     },
     [addAlbumTags, addLastTags, cache, getArtistsById]
   );
@@ -176,11 +175,13 @@ export const useDataFacade = createStore(() => {
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
       const lastTagged = await addLastTags(joined);
-      const tagged = await addAlbumTags(lastTagged);
-      await cache.addAlbums(tagged);
+      
+      // Save the new albums
+      await cache.addAlbums(lastTagged);
+      
+      const cached = await cache.getAlbumsBySpotifyId(spotifyIds);
       unsetAsLoading();
-
-      return await cache.getAlbumsBySpotifyId(spotifyIds);
+      return await addAlbumTags(cached);
     },
     [
       addAlbumTags,
