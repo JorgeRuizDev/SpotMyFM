@@ -10,6 +10,7 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import cookieManager from "util/cookies/loginCookieManager";
 import { toast } from "react-toastify";
 import { createStore } from "reusable";
+import tagAlbums from "pages/api/database/albums/tagAlbums";
 
 export type facadeStatus =
   | "default"
@@ -152,11 +153,10 @@ export const useDataFacade = createStore(() => {
       await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(missing, false);
       const lastTagged = await addLastTags(joined);
-      await cache.addAlbums(lastTagged);
+      return await cache.addAlbums(lastTagged);
 
-      return await addAlbumTags(lastTagged);
     },
-    [addAlbumTags, addLastTags, cache, getArtistsById]
+    [addLastTags, cache, getArtistsById]
   );
 
   /**
@@ -206,9 +206,10 @@ export const useDataFacade = createStore(() => {
       await _getAlbums(parsed);
       unsetAsLoading();
 
-      return await cache.getAlbumsBySpotifyId(parsed.map((p) => p.spotifyId));
+      const cached =  await cache.getAlbumsBySpotifyId(parsed.map((p) => p.spotifyId));
+      return await addAlbumTags(cached)
     },
-    [_getAlbums, cache, setAsLoading, unsetAsLoading]
+    [_getAlbums, addAlbumTags, cache, setAsLoading, unsetAsLoading]
   );
 
   /**
@@ -228,7 +229,7 @@ export const useDataFacade = createStore(() => {
       const saved = await cache.getAlbumsBySpotifyId(
         parsed.map((p) => p.spotifyId)
       );
-
+      
       const savedDates = new Map<string, SpotifyApi.SavedAlbumObject>();
       for (const album of albums) {
         savedDates.set(album.album.id, album);
@@ -239,9 +240,11 @@ export const useDataFacade = createStore(() => {
         album.savedAt = date;
       }
 
-      return saved;
+      const tagged = await addAlbumTags(saved)
+
+      return tagged;
     },
-    [_getAlbums, cache, setAsLoading, unsetAsLoading]
+    [_getAlbums, addAlbumTags, cache, setAsLoading, unsetAsLoading]
   );
 
   /**

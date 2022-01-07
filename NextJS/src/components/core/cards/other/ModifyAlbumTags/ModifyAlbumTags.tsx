@@ -26,9 +26,11 @@ function ModifyAlbumTags({
   );
 
   const updateAlbumTags = useCallback(async () => {
+    const tags = Array.from(albumTags.values());
+
     const [res, err] = await backendDbApi.updateAlbumTags(
       cookieManager.loadJWT() || "",
-      [{ id: album.spotifyId, tags: Array.from(albumTags.values()) }]
+      [{ id: album.spotifyId, tags: tags }]
     );
 
     if (!res || err) {
@@ -36,10 +38,11 @@ function ModifyAlbumTags({
         "There was an error while updating your tags: " + err?.message
       );
     } else {
+      album.albumTags = tags;
       toast.success("Tags successfully updated!");
     }
     closeModal();
-  }, [album.spotifyId, albumTags, backendDbApi, closeModal]);
+  }, [album, albumTags, backendDbApi, closeModal]);
 
   return (
     <Styled.Card>
