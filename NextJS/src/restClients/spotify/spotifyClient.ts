@@ -66,7 +66,6 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     let offset = 0;
 
     const savedAlbums = [];
-    console.log("Entra");
     while (true) {
       const albums = await this.getMySavedAlbums({ limit, offset });
 
@@ -80,6 +79,33 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     }
 
     return savedAlbums;
+  }
+
+  /**
+   * Retrieves an array with all the tracks of a given album
+   * @param albumId
+   * @returns SpotifyApi.TrackObjectSimplified[]
+   */
+  async getAllAlbumTracks(
+    albumId: string
+  ): Promise<SpotifyApi.TrackObjectSimplified[]> {
+    const limit = 50;
+    let offset = 0;
+
+    const tracks: SpotifyApi.TrackObjectSimplified[] = [];
+    while (true) {
+      const res = await this.getAlbumTracks(albumId, { limit, offset });
+
+      tracks.push(...res.items);
+
+      if (offset > limit) {
+        break;
+      }
+
+      offset += limit;
+    }
+
+    return tracks;
   }
 
   /**
