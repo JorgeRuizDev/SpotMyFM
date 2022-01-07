@@ -1,6 +1,6 @@
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { useDataFacade } from "hooks/dataFacade/useDataFacade";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useClientsStore } from "store/useClients";
 import cookieManager from "util/cookies/loginCookieManager";
@@ -16,7 +16,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
   const { getAlbums, getSavedAlbums, getAlbumsById } = useDataFacade();
   const [displayAlbums, setDisplayAlbums] = useState<Album[]>([]);
 
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
 
   const [showSaved, setShowSaved] = useState(true);
   const [showTagged, setShowTagged] = useState(true);
@@ -37,7 +37,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
     }
 
     const fn = async () => {
-      setIsLoading(true)
+      setIsLoading(true);
       const savedAlbumsRes = await spotifyApi.getAllMySavedAlbums();
       const saved = await getSavedAlbums(savedAlbumsRes);
 
@@ -57,7 +57,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
 
       const cached = await cacheClient.getAllAlbums();
       setCachedAlbums(cached);
-      setIsLoading(false)
+      setIsLoading(false);
     };
     fn();
   }, [
@@ -71,21 +71,20 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
 
   // Fill the Display Albums state with the user configuration
   useEffect(() => {
-    const set = new Set<Album>();
+    const map = new Map<string, Album>();
+    if (showTagged) {
+      taggedAlbums.forEach((a) => map.set(a.spotifyId, a));
+    }
 
     if (showCached) {
-      cachedAlbums.forEach((a) => set.add(a));
+      cachedAlbums.forEach((a) => map.set(a.spotifyId, a));
     }
 
     if (showSaved) {
-      savedAlbums.forEach((a) => set.add(a));
+      savedAlbums.forEach((a) => map.set(a.spotifyId, a));
     }
 
-    if (showTagged) {
-      taggedAlbums.forEach((a) => set.add(a));
-    }
-
-    setDisplayAlbums(Array.from(set.values()));
+    setDisplayAlbums(Array.from(map.values()));
   }, [
     showCached,
     showSaved,
@@ -129,7 +128,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
           </Ms.Card>
         </Styled.CardWrap>
       </Styled.Center>
-      <AlbumView albums={displayAlbums} settings={{isLoading: isLoading}}/>
+      <AlbumView albums={displayAlbums} settings={{ isLoading: isLoading }} />
     </Styled.Wrap>
   );
 }
