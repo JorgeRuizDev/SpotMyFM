@@ -2,28 +2,14 @@ import { FaArrowDown } from "react-icons/fa";
 import tw from "twin.macro";
 import StyledCards from "../../Card.styles";
 const Wrapper = tw.div`
-	
-	lg:max-height[80vh]
-	lg:max-width[80vw]
-	max-height[90vh]
-	max-width[90vw]
-	
 	h-auto
-
-	p-4
-
 	rounded-2xl
-
-
-
 	flex
 	md:(flex-row )
-	
 	flex-col
-
-	
-	
 `;
+
+
 const ImgSize = "350px";
 
 const BouncyArrow = tw(FaArrowDown)`
