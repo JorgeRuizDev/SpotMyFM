@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { isMobile } from "react-device-detect";
 import { FaPause, FaPlay } from "react-icons/fa";
 import Buttons from "styles/Buttons";
@@ -23,25 +29,30 @@ function useTrackPreview(
 ) {
   const tp = useRef(new Audio(previewURL));
 
-  const isPlayable = previewURL !== null && previewURL.length !== 0;
+  const isPlayable = useMemo(
+    () => previewURL !== null && previewURL.length !== 0,
+    [previewURL]
+  );
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Do not preload the song until it is required
-  tp.current.preload = "none";
+  useEffect(() => {
+    tp.current.preload = "none";
+  }, []);
 
-  function play() {
+  const play = useCallback(() => {
     if (!isMuted) {
       tp.current.volume = 0.4;
       tp.current.play().catch((e) => e);
       setIsPlaying(true);
     }
-  }
+  }, [isMuted]);
 
   const pause = useCallback(() => {
     tp.current.pause();
     tp.current.currentTime = 0;
     setIsPlaying(false);
-  }, [tp]);
+  }, []);
 
   function toggleAudio() {
     isPlaying ? pause() : play();
