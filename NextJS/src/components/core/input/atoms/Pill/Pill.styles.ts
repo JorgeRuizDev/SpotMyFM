@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import tw from "twin.macro";
-
+import Buttons from "styles/buttons"
 interface IPill {
   typeColor: string;
 }
 
-const Pill = styled.button<IPill>(({ typeColor }) => [
+const Pill = styled(Buttons.BasicButton)<IPill>(({ typeColor }) => [
   typeColor === "tag" &&
     tw`
 		bg-red-500

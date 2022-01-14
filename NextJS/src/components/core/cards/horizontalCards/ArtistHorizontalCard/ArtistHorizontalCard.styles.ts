@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import Buttons from "styles/Buttons";
 import tw from "twin.macro";
 
 const HorizontalCard = tw.article`
@@ -46,7 +47,7 @@ const ColumnItems = tw.section`
 	space-y-4
 `;
 
-const GenrePill = tw.button`
+const GenrePill = tw(Buttons.BasicButton)`
 	bg-blue-400
 	hover:bg-blue-500
 
