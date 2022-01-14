@@ -154,7 +154,6 @@ export const useDataFacade = createStore(() => {
       const joined = await cache.joinAlbums(missing, false);
       const lastTagged = await addLastTags(joined);
       return await cache.addAlbums(lastTagged);
-
     },
     [addLastTags, cache, getArtistsById]
   );
@@ -175,10 +174,10 @@ export const useDataFacade = createStore(() => {
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
       const lastTagged = await addLastTags(joined);
-      
+
       // Save the new albums
       await cache.addAlbums(lastTagged);
-      
+
       const cached = await cache.getAlbumsBySpotifyId(spotifyIds);
       unsetAsLoading();
       return await addAlbumTags(cached);
@@ -206,8 +205,10 @@ export const useDataFacade = createStore(() => {
       await _getAlbums(parsed);
       unsetAsLoading();
 
-      const cached =  await cache.getAlbumsBySpotifyId(parsed.map((p) => p.spotifyId));
-      return await addAlbumTags(cached)
+      const cached = await cache.getAlbumsBySpotifyId(
+        parsed.map((p) => p.spotifyId)
+      );
+      return await addAlbumTags(cached);
     },
     [_getAlbums, addAlbumTags, cache, setAsLoading, unsetAsLoading]
   );
@@ -229,7 +230,7 @@ export const useDataFacade = createStore(() => {
       const saved = await cache.getAlbumsBySpotifyId(
         parsed.map((p) => p.spotifyId)
       );
-      
+
       const savedDates = new Map<string, SpotifyApi.SavedAlbumObject>();
       for (const album of albums) {
         savedDates.set(album.album.id, album);
@@ -240,7 +241,7 @@ export const useDataFacade = createStore(() => {
         album.savedAt = date;
       }
 
-      const tagged = await addAlbumTags(saved)
+      const tagged = await addAlbumTags(saved);
 
       return tagged;
     },

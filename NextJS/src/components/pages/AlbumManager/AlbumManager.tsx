@@ -1,6 +1,6 @@
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { useDataFacade } from "hooks/dataFacade/useDataFacade";
-import {  useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useClientsStore } from "store/useClients";
 import cookieManager from "util/cookies/loginCookieManager";
