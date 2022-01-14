@@ -19,8 +19,8 @@ interface IPaginateProps {
 /**
  * Pagination Bar
  * Given a number of elements, and the number of elements per page, calls the function setCurrentPage and onChange on every click.
- * @param props 
- * @returns 
+ * @param props
+ * @returns
  */
 
 function Paginate(props: IPaginateProps): JSX.Element {

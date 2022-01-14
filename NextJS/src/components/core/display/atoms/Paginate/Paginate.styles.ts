@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Buttons from "styles/Buttons"
+import Buttons from "styles/Buttons";
 import tw from "twin.macro";
 
 interface IActiveButton {
