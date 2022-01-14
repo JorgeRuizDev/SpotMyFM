@@ -192,6 +192,8 @@ const LayoutLeft = tw.div`
 `;
 
 const Styled = {
+  BasicButton,
+
   PrimaryBlueButton,
   SecondaryBlueButton,
   PrimaryGreenButton,

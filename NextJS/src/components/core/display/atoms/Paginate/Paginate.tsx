@@ -14,9 +14,14 @@ interface IPaginateProps {
   itemsPerPage: number;
   setCurrentPage: (page: number) => void;
   onChange: () => void;
-
-  goBackToTop?: boolean;
 }
+
+/**
+ * Pagination Bar
+ * Given a number of elements, and the number of elements per page, calls the function setCurrentPage and onChange on every click.
+ * @param props 
+ * @returns 
+ */
 
 function Paginate(props: IPaginateProps): JSX.Element {
   const totalPages = Math.ceil(props.total / props.itemsPerPage);
@@ -66,7 +71,7 @@ function Paginate(props: IPaginateProps): JSX.Element {
         }
 
         {/* Pages:  */}
-        {pages.map((p) => p)}
+        {pages}
 
         <Styled.Page
           isActive={false}
