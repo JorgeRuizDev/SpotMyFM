@@ -17,7 +17,7 @@ const HoriCenter = tw.div`
   w-full
   items-center
   justify-center
-`
+`;
 
 const IconWrap = tw.span`
   text-textColor-lightTheme
