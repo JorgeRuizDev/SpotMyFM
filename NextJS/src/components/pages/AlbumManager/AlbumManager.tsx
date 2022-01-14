@@ -81,6 +81,17 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
     }
 
     if (showSaved) {
+      for (const a of savedAlbums) {
+        const current = map.get(a.spotifyId);
+
+        if (current) {
+          // update the object with the save date
+          current.savedAt = a.savedAt;
+          map.set(current.spotifyId, current);
+        } else {
+          map.set(a.spotifyId, a);
+        }
+      }
       savedAlbums.forEach((a) => map.set(a.spotifyId, a));
     }
 
