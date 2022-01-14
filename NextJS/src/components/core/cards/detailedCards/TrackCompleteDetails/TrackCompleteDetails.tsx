@@ -11,7 +11,7 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { useClientsStore } from "store/useClients";
-import { ILastFMAlbum } from "interfaces/lastFM";
+import { ILastFMAlbum, LastFMDetails } from "interfaces/lastFM";
 import useTrackPreview from "hooks/useTrackPreview/useTrackPreview";
 import ArtistHorizontalCard from "../../horizontalCards/ArtistHorizontalCard";
 import Collapsible from "components/core/display/atoms/Collapsible";
@@ -28,6 +28,7 @@ import { toast } from "react-toastify";
 import { SaveAlbum, SaveTrack } from "../../buttons/CardButtons/CardButtons";
 import HorizontalCardCarousell from "../../horizontalCards/HorizontalCardCarousell";
 import { motion } from "framer-motion";
+import AlbumTracksView from "../../views/AlbumTracksView";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
@@ -42,7 +43,7 @@ function TrackCompleteDetails({
   const [lastFMDetails, setLastFMDetails] = useState<ILastFMAlbum | null>(null);
   const [isTrackLiked, setIsTrackLiked] = useState(false);
   const [isAlbumLiked, setIsAlbumLiked] = useState(false);
-
+  const [showAlbumTracks, setShowAlbumTracks] = useState(false);
   const { lastfmApi, spotifyApi } = useClientsStore();
 
   const { play, pause, PreviewButton } = useTrackPreview(
@@ -119,9 +120,14 @@ function TrackCompleteDetails({
                   />
                 </motion.div>
 
-                <AlbumCollapsible />
+                <AlbumCollapsible album={album} />
                 <hr />
-                <CoverText />
+                <CoverText
+                  album={album}
+                  track={track}
+                  artists={artists}
+                  lastFMDetails={lastFMDetails}
+                />
               </Styled.AlbumColumn>
               <Buttons />
               <LastFMTags />
@@ -133,24 +139,17 @@ function TrackCompleteDetails({
           </Styled.InfoGrid>
         </div>
       </Styled.Wrapper>
+
+      {album &&
+        (showAlbumTracks ? (
+          <AlbumTracksView album={album} />
+        ) : (
+          <button onClick={() => setShowAlbumTracks(true)}>
+            Show Album Tracks
+          </button>
+        ))}
     </div>
   );
-
-  function AlbumCollapsible(): JSX.Element {
-    return (
-      <Styled.CenterElement>
-        <Collapsible>
-          <iframe
-            src={`https://open.spotify.com/embed/album/${album?.spotifyId}`}
-            width="100%"
-            height="380"
-            frameBorder="0"
-            allow="encrypted-media"
-          ></iframe>
-        </Collapsible>
-      </Styled.CenterElement>
-    );
-  }
 
   function LastFMTags(): JSX.Element {
     return (album?.lastfmTagsFull?.length || 0) > 0 ? (
@@ -196,70 +195,6 @@ function TrackCompleteDetails({
       </Styled.ButtonRow>
     );
   }
-
-  function CoverText(): JSX.Element {
-    return (
-      <ul>
-        <li>
-          <h6>
-            Released on
-            <StyledText.pGreen>
-              {album?.spotifyReleaseDate?.toLocaleDateString()}
-            </StyledText.pGreen>
-          </h6>
-        </li>
-
-        <li>
-          {track && (
-            <h6>
-              Track Length{" "}
-              <StyledText.pGreen>
-                {prettyMilliseconds(track.spotifyDurationMS)}
-              </StyledText.pGreen>
-            </h6>
-          )}
-        </li>
-        <li>
-          <h6>
-            Album Popularity:
-            <br />
-            <StyledText.pGreen>
-              &nbsp;&nbsp;
-              {formatPopularity(album?.spotifyPopularity || 0)}
-            </StyledText.pGreen>
-          </h6>
-        </li>
-        <li>
-          <h6>
-            Artist Popularity:
-            <br />
-            <StyledText.pGreen>
-              &nbsp;&nbsp;
-              {formatPopularity(artists?.[0]?.spotifyPopularity || 0)}
-            </StyledText.pGreen>
-          </h6>
-        </li>
-        <>
-          <li>
-            <h6>
-              <StyledText.pGreen>
-                {lastFMDetails?.lastfmListenersCount}
-              </StyledText.pGreen>{" "}
-              LastFM Listeners
-            </h6>
-          </li>
-          <li>
-            <h6>
-              <StyledText.pGreen>
-                {lastFMDetails?.lastfmPlayCount}
-              </StyledText.pGreen>{" "}
-              LastFM Plays
-            </h6>
-          </li>
-        </>
-      </ul>
-    );
-  }
 }
 
 function RightColumn({
@@ -284,4 +219,94 @@ function RightColumn({
     </Styled.Column>
   );
 }
-export default TrackCompleteDetails;
+
+function CoverText({
+  album,
+  track,
+  artists,
+  lastFMDetails,
+}: {
+  album?: Album;
+  track?: Track;
+  artists?: Artist[];
+  lastFMDetails: ILastFMAlbum | null;
+}): JSX.Element {
+  return (
+    <ul>
+      <li>
+        <h6>
+          Released on
+          <StyledText.pGreen>
+            {album?.spotifyReleaseDate?.toLocaleDateString()}
+          </StyledText.pGreen>
+        </h6>
+      </li>
+
+      <li>
+        {track && (
+          <h6>
+            Track Length{" "}
+            <StyledText.pGreen>
+              {prettyMilliseconds(track.spotifyDurationMS)}
+            </StyledText.pGreen>
+          </h6>
+        )}
+      </li>
+      <li>
+        <h6>
+          Album Popularity:
+          <br />
+          <StyledText.pGreen>
+            &nbsp;&nbsp;
+            {formatPopularity(album?.spotifyPopularity || 0)}
+          </StyledText.pGreen>
+        </h6>
+      </li>
+      <li>
+        <h6>
+          Artist Popularity:
+          <br />
+          <StyledText.pGreen>
+            &nbsp;&nbsp;
+            {formatPopularity(artists?.[0]?.spotifyPopularity || 0)}
+          </StyledText.pGreen>
+        </h6>
+      </li>
+      <>
+        <li>
+          <h6>
+            <StyledText.pGreen>
+              {lastFMDetails?.lastfmListenersCount}
+            </StyledText.pGreen>{" "}
+            LastFM Listeners
+          </h6>
+        </li>
+        <li>
+          <h6>
+            <StyledText.pGreen>
+              {lastFMDetails?.lastfmPlayCount}
+            </StyledText.pGreen>{" "}
+            LastFM Plays
+          </h6>
+        </li>
+      </>
+    </ul>
+  );
+}
+
+function AlbumCollapsible({ album }: { album?: Album }): JSX.Element {
+  return (
+    <Styled.CenterElement>
+      <Collapsible>
+        <iframe
+          src={`https://open.spotify.com/embed/album/${album?.spotifyId}`}
+          width="100%"
+          height="380"
+          frameBorder="0"
+          allow="encrypted-media"
+        ></iframe>
+      </Collapsible>
+    </Styled.CenterElement>
+  );
+}
+export default React.memo(TrackCompleteDetails);
