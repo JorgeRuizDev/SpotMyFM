@@ -13,6 +13,7 @@ const BasicButton: StyledComponent<"button", any, IButton, never> =
   styled.button<IButton>(({ rounded, defaultStyle = true }) => [
     defaultStyle &&
       tw`
+      shadow-md
       rounded-full
       hover:bg-darkCard-hover
       bg-darkCard-base

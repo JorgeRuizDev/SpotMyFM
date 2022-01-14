@@ -32,8 +32,8 @@ const BaseInput = `
 export const baseButton = `
   focus:outline-none
   outline-none
-  font-bold
-  shadow-md
+  font-semibold
+  
   
 
   
