@@ -9,7 +9,6 @@ const Wrapper = tw.div`
 	flex-col
 `;
 
-
 const ImgSize = "350px";
 
 const BouncyArrow = tw(FaArrowDown)`
