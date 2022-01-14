@@ -36,31 +36,7 @@ export const baseButton = `
   shadow-md
   
 
-  rounded-full
-  hover:bg-darkCard-hover
-  bg-darkCard-base
-  text-white
-  text-base
-  truncate
-  cursor-pointer
   
-
-  m-1
-  // Size
-  md:(py-2 px-4)
-  py-1 px-3
-  width[fit-content]
-  md:(min-height[40px] max-height[40px])
-  min-height[35px]
-  max-height[35px]
-
-
-  flex
-  flex-row
-  justify-center
-  content-center
-  items-center
-  space-x-2
   disabled:(shadow-none opacity-30)
 
 `;
