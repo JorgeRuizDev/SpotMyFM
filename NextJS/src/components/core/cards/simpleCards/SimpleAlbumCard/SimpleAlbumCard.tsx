@@ -34,25 +34,27 @@ function SimpleAlbumCard({
           src={album.spotifyCoverUrl[1] || album.spotifyCoverUrl[0]}
           alt={album.name}
         />
-        <ButtonRow />
-        <a href={album.spotifyUrl}>
-          <h4>{album.name}</h4>
-        </a>
-        {album.spotifyReleaseDate && (
-          <p>Released on {album.spotifyReleaseDate?.toLocaleDateString()}</p>
-        )}
-        <hr />
-        <p>Popularity: {formatPopularity(pop)}</p>
-        <ul>
-          {album.artists?.map((x, i) => (
-            <li key={i}>
-              <a href={x.spotifyUrl}>
-                <p>{x.name}</p>
-              </a>
-            </li>
-          ))}
-        </ul>
-        <TagLayout />
+        <Styled.CardContent>
+          <ButtonRow />
+          <a href={album.spotifyUrl}>
+            <h4>{album.name}</h4>
+          </a>
+          {album.spotifyReleaseDate && (
+            <p>Released on {album.spotifyReleaseDate?.toLocaleDateString()}</p>
+          )}
+          <hr />
+          <p>Popularity: {formatPopularity(pop)}</p>
+          <ul>
+            {album.artists?.map((x, i) => (
+              <li key={i}>
+                <a href={x.spotifyUrl}>
+                  <p>{x.name}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <TagLayout />
+        </Styled.CardContent>
       </Styled.Layout>
       <Modals
         album={album}
@@ -65,14 +67,18 @@ function SimpleAlbumCard({
   );
 
   function ButtonRow(): JSX.Element {
+    // re-render button row
+    const [_, set_] = useState([]);
+
     return (
       <Buttons.LayoutLeft>
         <SaveAlbum
           api={api}
           isSaved={!!album.savedAt}
           item={album}
-          setIsSaved={() => {
-            album.savedAt = album.savedAt ? undefined : new Date();
+          setIsSaved={(isSaved) => {
+            album.savedAt = isSaved ? new Date() : undefined;
+            set_([]);
           }}
         ></SaveAlbum>
 
