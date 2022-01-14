@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import tw from "twin.macro";
-import Buttons from "styles/Buttons"
+import Buttons from "styles/Buttons";
 interface IPill {
   typeColor: string;
 }
