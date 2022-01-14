@@ -7,7 +7,6 @@ interface IA {
   fullWidth?: boolean;
 }
 
-
 interface ILinkProps {
   children?: ReactNode | ReactNode[];
   href?: string;
@@ -17,10 +16,10 @@ interface ILinkProps {
 
 /**
  * Dynamic Link Component
- * 
+ *
  * Behaves as an HREF if the href attribute is active
- * @param param0 
- * @returns 
+ * @param param0
+ * @returns
  */
 function Link({ href, children, style }: ILinkProps) {
   return href ? (
