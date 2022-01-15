@@ -16,8 +16,9 @@ const Flip = tw.div`
   perspective[900px]
 `;
 
-const ButtonPos = styled.div<StyleProps>`
-  ${tw`
+const ButtonPos = styled.div<StyleProps>(({ isLogged }) => [
+  tw`
+
     fixed
     bottom-0 
     right-0 
@@ -26,13 +27,12 @@ const ButtonPos = styled.div<StyleProps>`
     md:flex
     filter
     drop-shadow-2xl
-    z-50
-  `}
-  display: ${(props) => (props.isLogged ? "none" : "")};
-`;
+    z-50`,
+
+  isLogged && tw`hidden md:flex`,
+]);
 
 const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [
-  flipped && tw`transform[rotateY(180deg)]`,
   tw`
     relative
     w-full
@@ -44,6 +44,7 @@ const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [
     cursor-pointer
     rounded-full
   `,
+  flipped && tw`transform[rotateY(180deg)]`,
 ]);
 
 const Side = tw.div`
@@ -63,7 +64,6 @@ const Front = tw(Side)`
 `;
 
 const Back = tw(Side)`
-
   bg-gray-200
   hover:bg-gray-300
   transform[rotateY(180deg)]
