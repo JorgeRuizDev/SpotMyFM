@@ -240,7 +240,7 @@ const CustomGlobalStyle = createGlobalStyle`
       rounded-full
       
       bg-darkCard-base
-      dark:bg-white
+      dark:bg-gray-400
 
       ml-0.5
       mr-0.5
