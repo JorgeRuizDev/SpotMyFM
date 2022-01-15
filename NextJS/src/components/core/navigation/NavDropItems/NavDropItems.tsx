@@ -5,10 +5,20 @@ import Buttons from "styles/Buttons";
 import ThemeStyles from "components/theme/ToggleThemeButtonFlip/ToggleThemeButtonFlip.styles";
 import { useThemeStore } from "store/useTheme";
 import { Theme } from "enums/Theme";
+import { useClientsStore } from "store/useClients";
+import SpotifyPlayer from "components/core/display/organisms/SpotifyPlayer";
+import { useMemo } from "react";
+import { useLoginStore } from "store/useLogin";
 interface INavDropItemsProps {}
 
 function NavDropItems(props: INavDropItemsProps): JSX.Element {
   const { currentTheme, toggleTheme } = useThemeStore();
+  const { user } = useClientsStore();
+  const {logOut} = useLoginStore()
+  const avatar = useMemo(
+    () => user.spotifyUser?.images?.[0].url,
+    [user.spotifyUser?.images]
+  );
 
   return (
     <Styled.Col>
@@ -25,10 +35,19 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
           </Styled.IconWrap>
         </Link>
       </Styled.SpaceRow>
-
-      <Buttons.PrimaryBlueButton style={{ width: "90%" }}>
-        Log Out
-      </Buttons.PrimaryBlueButton>
+      <Styled.PlayerWrap>
+        <SpotifyPlayer />
+      </Styled.PlayerWrap>
+      <hr />
+      <Styled.Center>
+        <h4>{user.spotifyUser?.display_name || "Stranger"}</h4>
+        {avatar && <Styled.Avatar src={avatar} alt="User Avatar" />}
+      </Styled.Center>
+      <Styled.Center>
+        <Buttons.PrimaryBlueButton style={{ width: "70%" }} onClick={logOut}>
+          Log Out
+        </Buttons.PrimaryBlueButton>
+      </Styled.Center>
 
       <Styled.RowItem>
         <FaCog /> <span>Settings</span>

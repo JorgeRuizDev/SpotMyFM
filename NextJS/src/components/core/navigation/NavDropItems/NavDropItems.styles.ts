@@ -1,5 +1,22 @@
 import tw from "twin.macro";
 
+const Avatar = tw.img`
+  rounded-full
+  object-fit["cover"]
+  h-10
+`;
+
+const PlayerWrap = tw.section`
+  bg-darkCard-base
+  dark:bg-darkCard-base
+
+  rounded-md
+  m-3
+  p-2
+
+  shadow-2xl
+`
+
 const Col = tw.div`
   flex
   w-full
@@ -13,11 +30,14 @@ const Col = tw.div`
   dark:text-textColor-darkTheme
 `;
 
-const HoriCenter = tw.div`
+const Center = tw.div`
   w-full
+  space-x-4
+
+  flex
   items-center
   justify-center
-`
+`;
 
 const IconWrap = tw.span`
   text-textColor-lightTheme
@@ -29,7 +49,7 @@ const SpaceRow = tw.section`
   flex
   flex-row
   items-center
-  justify-around
+
 `;
 
 const RowItem = tw.button`
@@ -41,6 +61,6 @@ const RowItem = tw.button`
   hover:opacity-80
 
 `;
-const Styled = { Col, SpaceRow, RowItem, IconWrap, HoriCenter };
+const Styled = { Col, SpaceRow, RowItem, IconWrap, Center, Avatar, PlayerWrap };
 
 export default Styled;
