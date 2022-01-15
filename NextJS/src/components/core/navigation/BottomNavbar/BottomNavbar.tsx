@@ -7,6 +7,7 @@ import { BsVinyl, BsVinylFill } from "react-icons/bs";
 import { RiPlayListFill, RiPlayListLine } from "react-icons/ri";
 import { BiMenuAltRight } from "react-icons/bi";
 import { AnimateSharedLayout } from "framer-motion";
+import { HiMenuAlt3 } from "react-icons/hi";
 interface IBottomNavbarProps {
   isLogged?: boolean;
 }
@@ -53,7 +54,7 @@ function BottomNavbar({ isLogged }: IBottomNavbarProps): JSX.Element {
           </Styled.IconWrap>
 
           <Styled.IconWrap isActive={false}>
-            <BiMenuAltRight style={{ height: "100%", width: "100%" }} />
+            <HiMenuAlt3 style={{ height: "100%", width: "100%" }} />
           </Styled.IconWrap>
         </Styled.FixPos>
       </AnimateSharedLayout>
