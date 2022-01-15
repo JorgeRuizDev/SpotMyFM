@@ -12,6 +12,7 @@ import Navbar from "components/core/navigation/Navbar";
 
 import NotificationRenderer from "components/core/notification/NotificationRenderer";
 import { ReusableProvider } from "reusable";
+import BottomNavbar from "components/core/navigation/BottomNavbar";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const isLogged = useLoginStore().isLogged;
@@ -25,11 +26,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Navbar />
         <NotificationRenderer />
         <ToastConfig />
-        <ToggleThemeButtonFlip />
+        <ToggleThemeButtonFlip isLogged={isLogged}/>
         <GlobalStyle />
         <div style={{ minHeight: "100%", padding: "7px" }}>
           <Component {...pageProps} />
         </div>
+        <BottomNavbar isLogged={isLogged}/>
       </main>
     </ReusableProvider>
   );
