@@ -15,7 +15,7 @@ const PlayerWrap = tw.section`
   p-2
 
   shadow-md
-`
+`;
 
 const Col = tw.div`
   flex

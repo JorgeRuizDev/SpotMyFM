@@ -10,12 +10,12 @@ function ToggleThemeButtonFlip({
 }): JSX.Element {
   const { currentTheme, toggleTheme } = useThemeStore();
 
-  const [isDarkTheme, setIsDarkTheme] = useState(false)
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
 
-  // Cool Initial Effect 
+  // Cool Initial Effect
   useEffect(() => {
-    setIsDarkTheme(currentTheme === Theme.DARK)
-  }, [currentTheme])
+    setIsDarkTheme(currentTheme === Theme.DARK);
+  }, [currentTheme]);
 
   return (
     <Styled.ButtonPos isLogged={isLogged}>

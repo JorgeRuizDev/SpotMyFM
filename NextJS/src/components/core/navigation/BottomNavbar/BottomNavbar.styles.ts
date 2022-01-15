@@ -44,7 +44,7 @@ const IconWrap = styled.span(({ isActive }: { isActive?: boolean }) => [
   `,
 
   isActive &&
-  `
+    `
     {color: rgba(110, 231, 183)}
     .dark & {color: rgba(110, 231, 183)}
   `,
