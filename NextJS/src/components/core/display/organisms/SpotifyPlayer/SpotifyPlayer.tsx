@@ -39,10 +39,10 @@ function SpotifyPlayer(props: ISpotifyPlayerProps): JSX.Element {
     refreshPlayers();
   }, [refreshPlaying, refreshPlayers]);
 
-  let [referenceElement, setReferenceElement] =
+  const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>();
-  let [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
-  let { styles, attributes } = usePopper(referenceElement, popperElement, {
+  const [popperElement, setPopperElement] = useState<HTMLDivElement | null>();
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
     placement: "bottom-start",
   });
 
