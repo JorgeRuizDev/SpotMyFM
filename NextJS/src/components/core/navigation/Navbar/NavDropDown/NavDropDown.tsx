@@ -22,7 +22,7 @@ function NavDropDown(props: INavDropDownProps): JSX.Element {
           mainAxis: false, // true by default
           altAxis: true,
           padding: 10,
-          rootBoundary: 'document'
+          rootBoundary: "document",
         },
       },
     ],
