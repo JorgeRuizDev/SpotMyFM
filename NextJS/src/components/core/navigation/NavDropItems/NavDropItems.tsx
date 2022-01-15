@@ -14,7 +14,7 @@ interface INavDropItemsProps {}
 function NavDropItems(props: INavDropItemsProps): JSX.Element {
   const { currentTheme, toggleTheme } = useThemeStore();
   const { user } = useClientsStore();
-  const {logOut} = useLoginStore()
+  const { logOut } = useLoginStore();
   const avatar = useMemo(
     () => user.spotifyUser?.images?.[0].url,
     [user.spotifyUser?.images]
