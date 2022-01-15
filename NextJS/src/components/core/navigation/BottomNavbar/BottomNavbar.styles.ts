@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import tw from "twin.macro";
 
 const Display = tw.nav`
@@ -36,17 +36,12 @@ const IconWrap = styled.span(({ isActive }: { isActive?: boolean }) => [
   tw`
     w-8
     h-8
-  `,
 
-  `
-    {color: rgba(229, 231, 235)}
-    .dark & {color: rgba(229, 231, 235)}
-  `,
+    transition-colors
+    ease-in-out
+    duration-150
 
-  isActive &&
-  `
-    {color: rgba(110, 231, 183)}
-    .dark & {color: rgba(110, 231, 183)}
+    fill-current
   `,
 ]);
 
