@@ -16,23 +16,23 @@ const Flip = tw.div`
   perspective[900px]
 `;
 
-const ButtonPos = styled.div<StyleProps>(({ isLogged }) => [
-  tw`
+const ButtonPos = tw.div`
+  fixed
+  bottom-0 
+  right-0 
 
-    fixed
-    bottom-0 
-    right-0 
-    md:p-8 
-    p-4
-    filter
-    drop-shadow-2xl
-    z-50`,
+  md:m-8 
+  m-4
 
-  isLogged ? tw`hidden md:flex` : tw`flex`,
-]);
+  filter
+  drop-shadow-2xl
 
-const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [
-  tw`
+  z-50
+`;
+
+const InnerFlip = styled.div(
+  ({ flipped, isLogged }: { flipped: boolean; isLogged?: boolean }) => [
+    tw`
     relative
     w-full
     h-full
@@ -43,8 +43,11 @@ const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [
     cursor-pointer
     rounded-full
   `,
-  flipped && tw`transform[rotateY(180deg)]`,
-]);
+    flipped && tw`transform[rotateY(180deg)]`,
+
+    isLogged ? tw`hidden md:block` : tw`block`,
+  ]
+);
 
 const Side = tw.div`
   absolute
@@ -80,5 +83,13 @@ const Sun = tw(HiSun)`
 	text-yellow-500
 `;
 
-const Styled = { Flip, InnerFlip, Front, Back, Moon, Sun, ButtonPos };
+const Styled = {
+  Flip,
+  InnerFlip,
+  Front,
+  Back,
+  Moon,
+  Sun,
+  ButtonPos,
+};
 export default Styled;
