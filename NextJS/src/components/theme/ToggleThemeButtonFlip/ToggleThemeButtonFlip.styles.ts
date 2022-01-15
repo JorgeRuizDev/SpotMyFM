@@ -24,7 +24,7 @@ const ButtonPos = styled.div<StyleProps>(({ isLogged }) => [
     right-0 
     md:p-8 
     p-4
-    md:flex
+    flex
     filter
     drop-shadow-2xl
     z-50`,
