@@ -24,12 +24,11 @@ const ButtonPos = styled.div<StyleProps>(({ isLogged }) => [
     right-0 
     md:p-8 
     p-4
-    flex
     filter
     drop-shadow-2xl
     z-50`,
 
-  isLogged && tw`hidden md:flex`,
+  isLogged ? tw`hidden md:flex` : tw`flex`,
 ]);
 
 const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [
