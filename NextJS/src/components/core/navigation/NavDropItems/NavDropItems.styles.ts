@@ -14,7 +14,7 @@ const PlayerWrap = tw.section`
   m-3
   p-2
 
-  shadow-2xl
+  shadow-md
 `
 
 const Col = tw.div`
