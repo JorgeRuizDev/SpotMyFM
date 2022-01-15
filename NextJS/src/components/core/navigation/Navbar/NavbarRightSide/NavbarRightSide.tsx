@@ -3,6 +3,7 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useClientsStore } from "store/useClients";
 import { useLoginStore } from "store/useLogin";
+import NavDropDown from "../NavDropDown";
 import Styled from "./NavbarRightSide.styles";
 
 function NavbarRightSide(): JSX.Element {
@@ -17,21 +18,9 @@ function NavbarRightSide(): JSX.Element {
 
   return isLogged ? (
     <>
-      <Styled.IconWrap>
-        <Styled.Globe />
-        <Styled.Github />
-        <Styled.Help />
-        <Styled.Settings />
-      </Styled.IconWrap>
-
       <AnimatePresence>
-        <Styled.p
-          style={{ textTransform: "capitalize", userSelect: "none" }}
-          onClick={toggleLogOut}
-          key={1}
-        >
-          Welcome {user.spotifyUser?.display_name || "Stranger"}! {""}
-        </Styled.p>
+        <NavDropDown />
+
         <Styled.Relative key={2}>
           <Styled.ProfilePic
             key={"A"}
@@ -49,7 +38,6 @@ function NavbarRightSide(): JSX.Element {
             transition={{ duration: 0.5 }}
             onClick={toggleLogOut}
           />
-          <Styled.Arrow />
         </Styled.Relative>
 
         <Styled.LogOutDiv
