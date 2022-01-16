@@ -68,7 +68,7 @@ function NavDropDown({ username }: INavDropDownProps): JSX.Element {
 function Button({ username }: { username: string }) {
   return (
     <Styled.Row>
-      <Styled.Arrow/>
+      <Styled.Arrow />
       <Styled.BtnLayout>
         <Styled.Message>Welcome Back</Styled.Message>
         <Styled.Username>{username}</Styled.Username>

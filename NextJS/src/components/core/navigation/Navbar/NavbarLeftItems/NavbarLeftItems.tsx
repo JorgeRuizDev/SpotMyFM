@@ -10,8 +10,7 @@ import NavItem from "../NavItem";
 import Styled from "./NavbarLeftItems.styles";
 
 function NavbarLeftItems(): JSX.Element {
-
-  console.log("Re-render")
+  console.log("Re-render");
 
   const { activePage } = useSessionStore();
 
