@@ -5,36 +5,57 @@ const Inline = tw.div`
   flex
   flex-row
   items-center
-  justify-center
+  justify-start
   space-x-3
 
 `;
 
-const Wrap = styled.div(() => [
+const Wrap = styled.div(({ isActive }: { isActive?: boolean }) => [
+  
+  isActive && tw`
+    bg-green-400
+  `,
+  
   tw`
     flex
     items-center
     justify-start
-    
-    bg-green-300
 
+    // Shape
+    h-12
+    width[min-content]
     rounded-full
     p-2
-
-    max-width[200px]
-    h-12
+    pl-4
+    pr-4
+    text-xl
+    
+    // Color Animation
+    transition-colors
+    duration-200
 
     cursor-pointer
+
+    text-white
+    dark:text-white
     `,
 
   css`
     a > {
       width: fit-content;
-      height: fit-content;
+      height: min-content
+      display: flex
+      flex
     }
+
   `,
 ]);
 
-const Styled = { Inline, Wrap };
+const Label = tw.span`
+  whitespace-nowrap
+
+`
+
+const Styled = { Inline, Wrap, Label };
 
 export default Styled;

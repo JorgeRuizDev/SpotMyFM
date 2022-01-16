@@ -62,7 +62,7 @@ const PlayerWrap = tw.div`
   max-w-[250px]
   mr-8
   hidden
-  lg:block
+  xl:block
 `;
 
 const Styled = {

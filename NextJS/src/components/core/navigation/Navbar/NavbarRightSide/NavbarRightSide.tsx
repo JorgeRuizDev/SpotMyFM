@@ -20,7 +20,7 @@ function NavbarRightSide(): JSX.Element {
   return isLogged ? (
     <>
       <AnimatePresence>
-        <Styled.PlayerWrap>
+        <Styled.PlayerWrap key={10}>
           <SpotifyPlayer />
         </Styled.PlayerWrap>
 

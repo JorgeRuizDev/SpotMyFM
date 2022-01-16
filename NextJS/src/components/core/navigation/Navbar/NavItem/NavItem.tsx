@@ -1,10 +1,10 @@
 import Link from "components/util/Link";
 import { motion } from "framer-motion";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import Styled from "./NavItem.styles";
 interface INavItemProps {
   item: ReactNode | ReactNode[];
-  label: ReactNode | ReactNode[];
+  label: string;
   isActive: boolean;
   onClick?: () => void;
   href?: string;
@@ -12,16 +12,15 @@ interface INavItemProps {
 
 const ItemVariant = {
   active: {
-    width: "100%",
     transition: {
-      type: "tween",
+      type: "normal",
       duration: 0.4,
     },
   },
   inactive: {
     width: "10%",
     transition: {
-      type: "tween",
+      type: "normal",
       duration: 0.4,
     },
   },
@@ -33,16 +32,16 @@ const ItemLabelVariant = {
     x: 0,
     display: "block",
     transition: {
-      type: "tween",
+      type: "normal",
       duration: 0.3,
-      delay: 0.3,
+      delay: 0.2,
     },
   },
   inactive: {
     opacity: 0,
     x: -30,
     transition: {
-      type: "tween",
+      type: "normal",
       duration: 0.3,
       delay: 0.1,
     },
@@ -60,8 +59,15 @@ function NavItem({
   const [key, _] = useState(new Date().toDateString());
 
   return (
-    <Styled.Wrap onClick={onClick}>
-      <Link href={href}>
+    <Link
+      href={href}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Styled.Wrap onClick={onClick} isActive={isActive}>
         <motion.div
           key={key}
           variants={ItemVariant}
@@ -74,12 +80,12 @@ function NavItem({
               variants={ItemLabelVariant}
               animate={isActive ? "active" : "inactive"}
             >
-              {label}
+              <Styled.Label>{label}</Styled.Label>
             </motion.span>
           </Styled.Inline>
         </motion.div>
-      </Link>
-    </Styled.Wrap>
+      </Styled.Wrap>
+    </Link>
   );
 }
 
