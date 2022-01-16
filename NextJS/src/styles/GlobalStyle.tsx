@@ -33,8 +33,6 @@ export const baseButton = `
   focus:outline-none
   outline-none
   font-semibold
-  
-  
 
   
   disabled:(shadow-none opacity-30)
@@ -101,9 +99,7 @@ const CustomGlobalStyle = createGlobalStyle`
 
   button {
     ${tw`
-
-    
-    ${baseButton}
+      ${baseButton}
     `}
   }
 * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
