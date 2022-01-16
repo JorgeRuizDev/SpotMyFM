@@ -26,12 +26,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Navbar />
         <NotificationRenderer />
         <ToastConfig />
-        <ToggleThemeButtonFlip isLogged={isLogged}/>
+        <ToggleThemeButtonFlip isLogged={isLogged} />
         <GlobalStyle />
         <div style={{ minHeight: "100%", padding: "7px" }}>
           <Component {...pageProps} />
         </div>
-        <BottomNavbar isLogged={isLogged}/>
+        <BottomNavbar isLogged={isLogged} />
       </main>
     </ReusableProvider>
   );
