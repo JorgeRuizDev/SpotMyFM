@@ -23,18 +23,21 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
   return (
     <Styled.Col>
       <Styled.SpaceRow>
-        <Link href="https://github.com/JorgeRuizDev/SpotMyFM">
-          <Styled.IconWrap>
-            <FaGithub />
-          </Styled.IconWrap>
-        </Link>
-
-        <Link href="https://github.com/JorgeRuizDev/SpotMyFM">
-          <Styled.IconWrap>
-            <FaQuestionCircle />
-          </Styled.IconWrap>
-        </Link>
+        <Styled.LinkWrap>
+          <Link href="https://github.com/JorgeRuizDev/SpotMyFM">
+            <Styled.IconWrap>
+              <FaGithub style={{ height: "40px", width: "40px" }} />
+            </Styled.IconWrap>
+          </Link>
+        </Styled.LinkWrap>
+        <Styled.LinkWrap>
+          <Link href="https://github.com/JorgeRuizDev/SpotMyFM">
+            <FaQuestionCircle style={{ height: "40px", width: "40px" }} />
+            <Styled.IconWrap></Styled.IconWrap>
+          </Link>
+        </Styled.LinkWrap>
       </Styled.SpaceRow>
+
       <Styled.PlayerWrap>
         <SpotifyPlayer />
       </Styled.PlayerWrap>
@@ -42,11 +45,6 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
       <Styled.Center>
         <h4>{user.spotifyUser?.display_name || "Stranger"}</h4>
         {avatar && <Styled.Avatar src={avatar} alt="User Avatar" />}
-      </Styled.Center>
-      <Styled.Center>
-        <Buttons.PrimaryBlueButton style={{ width: "70%" }} onClick={logOut}>
-          Log Out
-        </Buttons.PrimaryBlueButton>
       </Styled.Center>
 
       <Styled.RowItem>
@@ -66,6 +64,11 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
       <Styled.RowItem>
         <FaCog /> <span>Change Language</span>
       </Styled.RowItem>
+      <Styled.Center>
+        <Buttons.PrimaryBlueButton style={{ width: "70%" }} onClick={logOut}>
+          Log Out
+        </Buttons.PrimaryBlueButton>
+      </Styled.Center>
     </Styled.Col>
   );
 }

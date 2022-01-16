@@ -1,3 +1,4 @@
+import styled, { css } from "styled-components";
 import tw from "twin.macro";
 
 const Avatar = tw.img`
@@ -15,7 +16,27 @@ const PlayerWrap = tw.section`
   p-2
 
   shadow-md
-`
+`;
+
+const LinkWrap = styled.div(() => [
+  css`
+    a > {
+      height: fit-content;
+      width: fit-content;
+    }
+  `,
+]);
+
+const IconWrap = styled.span(() => [
+  css`
+    svg > {
+      ${tw`
+        h-32
+        w-32
+      `}
+    }
+  `,
+]);
 
 const Col = tw.div`
   flex
@@ -39,16 +60,12 @@ const Center = tw.div`
   justify-center
 `;
 
-const IconWrap = tw.span`
-  text-textColor-lightTheme
-  dark:text-textColor-darkTheme
-`;
-
 const SpaceRow = tw.section`
   w-full
   flex
   flex-row
   items-center
+  justify-evenly
 
 `;
 
@@ -61,6 +78,15 @@ const RowItem = tw.button`
   hover:opacity-80
 
 `;
-const Styled = { Col, SpaceRow, RowItem, IconWrap, Center, Avatar, PlayerWrap };
+const Styled = {
+  Col,
+  SpaceRow,
+  RowItem,
+  IconWrap,
+  Center,
+  Avatar,
+  PlayerWrap,
+  LinkWrap,
+};
 
 export default Styled;
