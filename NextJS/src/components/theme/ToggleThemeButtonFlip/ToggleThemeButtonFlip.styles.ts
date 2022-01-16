@@ -1,5 +1,5 @@
 import { HiMoon, HiSun } from "react-icons/hi";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import tw from "twin.macro";
 
 interface StyleProps {
@@ -16,19 +16,24 @@ const Flip = tw.div`
   perspective[900px]
 `;
 
-const ButtonPos = tw.div`
-  fixed
-  bottom-0 
-  right-0 
+const ButtonPos = styled.div(({ isLogged }: { isLogged?: boolean }) => [
+  !isLogged && tw`flex`,
+  tw`
+    fixed
+    bottom-0 
+    right-0 
 
-  md:m-8 
-  m-4
+    md:m-8 
+    m-4
 
-  filter
-  drop-shadow-2xl
+    filter
+    drop-shadow-2xl
 
-  z-50
-`;
+    hidden
+    md:flex
+    z-50
+  `,
+]);
 
 const InnerFlip = styled.div(
   ({ flipped, isLogged }: { flipped: boolean; isLogged?: boolean }) => [

@@ -18,7 +18,7 @@ function ToggleThemeButtonFlip({
   }, [currentTheme]);
 
   return (
-    <Styled.ButtonPos>
+    <Styled.ButtonPos isLogged={isLogged}>
       <Styled.Flip>
         <Styled.InnerFlip
           aria-label="Theme Button"
