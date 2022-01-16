@@ -13,7 +13,6 @@ const Display = tw.nav`
   h-16
 `;
 
-
 const FixPos = styled.div(() => [
   tw`
     // Position
