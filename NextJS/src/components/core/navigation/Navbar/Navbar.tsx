@@ -1,5 +1,5 @@
 import InfiniteLoadingBar from "components/core/display/atoms/InfiniteLoadingBar";
-import SpotifyPlayer from "components/core/display/organisms/SpotifyPlayer";
+
 import Link from "components/util/Link";
 import { useLoginStore } from "store/useLogin";
 import { useSessionStore } from "store/useSession";
@@ -25,9 +25,6 @@ function Navbar(): JSX.Element {
 
           <NavbarLeftItems />
         </Styled.LeftSide>
-        <Styled.PlayerWrap>
-          <SpotifyPlayer />
-        </Styled.PlayerWrap>
         <Styled.RightSide>
           <NavbarRightSide />
         </Styled.RightSide>

@@ -51,6 +51,8 @@ const Username = tw.span`
   dark:text-white
   text-2xl
   line-height[15px]
+
+  capitalize
 `;
 
 const Arrow = tw(MdOutlineArrowDropDown)`

@@ -1,3 +1,4 @@
+import SpotifyPlayer from "components/core/display/organisms/SpotifyPlayer";
 import { AnimatePresence } from "framer-motion";
 
 import { useState } from "react";
@@ -19,7 +20,11 @@ function NavbarRightSide(): JSX.Element {
   return isLogged ? (
     <>
       <AnimatePresence>
-        <NavDropDown />
+        <Styled.PlayerWrap>
+          <SpotifyPlayer />
+        </Styled.PlayerWrap>
+
+        <NavDropDown username={user.spotifyUser?.display_name}/>
 
         <Styled.Relative key={2}>
           <Styled.ProfilePic

@@ -52,57 +52,17 @@ const Relative = tw.div`
   relative
 `;
 
-const Arrow = tw(IoChevronDown)`
-  rotate-90
-  dark:text-textColor-darkTheme
-  text-textColor-darkTheme
-  absolute
-  left-2
-  bottom-0
-`;
-
-const Github = tw(FaGithub)`
-  dark:text-textColor-darkTheme
-  text-textColor-darkTheme
-  cursor-pointer
-
-`;
-
-const Settings = tw(AiFillSetting)`
-  dark:text-textColor-darkTheme
-  text-textColor-darkTheme
-  cursor-pointer
-
-`;
-
-const Help = tw(IoMdHelpCircleOutline)`
-  dark:text-textColor-darkTheme
-  text-textColor-darkTheme
-  cursor-pointer
-
-`;
 const LogOutDiv = tw(motion.div)`
 	flex
 	justify-center
 	overflow-hidden
 `;
 
-const Globe = tw(FaGlobeEurope)`
-  dark:text-textColor-darkTheme
-  text-textColor-darkTheme
-  cursor-pointer
-`;
-
-const IconWrap = tw.div`
-  flex
-  flex-row
-  items-center
-  
-  space-x-4
-
-  text-3xl
-  ml-2
-  mr-4
+const PlayerWrap = tw.div`
+  max-w-[250px]
+  mr-8
+  hidden
+  lg:block
 `;
 
 const Styled = {
@@ -112,11 +72,6 @@ const Styled = {
   LogOutButton,
   LogOutDiv,
   Relative,
-  Arrow,
-  Globe,
-  Github,
-  Help,
-  Settings,
-  IconWrap,
+  PlayerWrap,
 };
 export default Styled;

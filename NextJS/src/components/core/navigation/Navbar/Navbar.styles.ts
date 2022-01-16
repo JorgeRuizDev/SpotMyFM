@@ -68,11 +68,7 @@ const RightSide = tw.div`
 	h-full
 `;
 
-const PlayerWrap = tw.div`
-  w-[30%]
-  max-w-[300px]
-  
-`;
+
 
 const p = tw.p`
 	dark:text-white
@@ -93,7 +89,6 @@ const Styled = {
   Navbar,
   NavWrapper,
   LeftSide,
-  PlayerWrap,
   RightSide,
   ProfilePic,
   p,

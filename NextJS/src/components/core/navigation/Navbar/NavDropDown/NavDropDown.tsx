@@ -48,8 +48,8 @@ function NavDropDown({ username }: INavDropDownProps): JSX.Element {
           ...styles.popper,
           position: "absolute",
           zIndex: 41,
-          top: 32,
-          right: -120,
+          top: 52,
+          right: -180,
         }}
         {...attributes.popper}
       >
