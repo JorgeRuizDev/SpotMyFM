@@ -48,6 +48,8 @@ const Title = styled.button<ITitle>(({ titleStyle }) => [
 
 const Wrap = tw.div`
 	width[fit-content]
+
+  z-10
 `;
 
 const DropIcon = tw(RiArrowDropDownLine)`
