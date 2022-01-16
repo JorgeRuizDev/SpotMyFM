@@ -29,22 +29,10 @@ const ItemVariant = {
 const ItemLabelVariant = {
   active: {
     opacity: 1,
-    x: 0,
     display: "block",
-    transition: {
-      type: "normal",
-      duration: 0.3,
-      delay: 0.2,
-    },
   },
   inactive: {
     opacity: 0,
-    x: -30,
-    transition: {
-      type: "normal",
-      duration: 0.3,
-      delay: 0.1,
-    },
     transitionEnd: { display: "none" },
   },
 };
