@@ -42,7 +42,7 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
         <Styled.PlayerWrap>
           <SpotifyPlayer />
         </Styled.PlayerWrap>
-      </Styled.Center>  
+      </Styled.Center>
       <hr />
       <Styled.Center>
         <h4>{user.spotifyUser?.display_name || "Stranger"}</h4>

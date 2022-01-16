@@ -11,11 +11,11 @@ const Inline = tw.div`
 `;
 
 const Wrap = styled.div(({ isActive }: { isActive?: boolean }) => [
-  
-  isActive && tw`
+  isActive &&
+    tw`
     bg-green-400
   `,
-  
+
   tw`
     flex
     items-center
@@ -54,7 +54,7 @@ const Wrap = styled.div(({ isActive }: { isActive?: boolean }) => [
 const Label = tw.span`
   whitespace-nowrap
 
-`
+`;
 
 const Styled = { Inline, Wrap, Label };
 

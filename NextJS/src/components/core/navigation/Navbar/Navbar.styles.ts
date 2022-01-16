@@ -68,8 +68,6 @@ const RightSide = tw.div`
 	h-full
 `;
 
-
-
 const p = tw.p`
 	dark:text-white
 	text-white

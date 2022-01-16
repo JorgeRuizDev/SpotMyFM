@@ -24,7 +24,7 @@ function NavbarRightSide(): JSX.Element {
           <SpotifyPlayer />
         </Styled.PlayerWrap>
 
-        <NavDropDown username={user.spotifyUser?.display_name}/>
+        <NavDropDown username={user.spotifyUser?.display_name} />
 
         <Styled.Relative key={2}>
           <Styled.ProfilePic
