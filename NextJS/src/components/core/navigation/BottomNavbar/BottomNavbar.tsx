@@ -23,7 +23,6 @@ function BottomNavbar({ isLogged }: IBottomNavbarProps): JSX.Element {
             }
           }}
         >
-          
           <Link href="/">
             {activePage === ActivePage.HOME ? (
               <Styled.TopIconActive />

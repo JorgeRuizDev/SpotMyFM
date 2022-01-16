@@ -14,8 +14,8 @@ const FullScreen = tw.div`
   z-20
 
   p-3
-`
+`;
 
-const Styled = {FullScreen};
+const Styled = { FullScreen };
 
 export default Styled;

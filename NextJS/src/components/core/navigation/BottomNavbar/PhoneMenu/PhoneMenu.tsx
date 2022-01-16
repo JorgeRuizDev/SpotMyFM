@@ -12,7 +12,6 @@ function PhoneMenu({ isOpen, onClose }: IPhoneMenuProps): JSX.Element {
   useBackButton(onClose, isOpen);
   useEscapeKey(onClose, isOpen);
 
-
   return isOpen ? (
     <Styled.FullScreen>
       <NavDropItems />
