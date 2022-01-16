@@ -12,6 +12,8 @@ const FullScreen = tw.div`
   top-0
   left-0
   z-20
+
+  p-3
 `
 
 const Styled = {FullScreen};
