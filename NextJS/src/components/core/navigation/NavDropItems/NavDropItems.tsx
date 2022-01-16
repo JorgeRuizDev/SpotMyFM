@@ -38,9 +38,11 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
         </Styled.LinkWrap>
       </Styled.SpaceRow>
 
-      <Styled.PlayerWrap>
-        <SpotifyPlayer />
-      </Styled.PlayerWrap>
+      <Styled.Center>
+        <Styled.PlayerWrap>
+          <SpotifyPlayer />
+        </Styled.PlayerWrap>
+      </Styled.Center>  
       <hr />
       <Styled.Center>
         <h4>{user.spotifyUser?.display_name || "Stranger"}</h4>

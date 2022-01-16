@@ -16,6 +16,8 @@ const PlayerWrap = tw.section`
   p-2
 
   shadow-md
+
+  max-width[300px]
 `;
 
 const LinkWrap = styled.div(() => [
