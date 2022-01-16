@@ -17,6 +17,7 @@ const PlayerWrap = tw.section`
 
   shadow-md
 
+  w-full
   max-width[300px]
 `;
 
@@ -60,6 +61,7 @@ const Center = tw.div`
   flex
   items-center
   justify-center
+
 `;
 
 const SpaceRow = tw.section`

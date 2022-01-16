@@ -8,7 +8,7 @@ interface INavDropDownProps {
   username?: string;
 }
 
-function NavDropDown(props: INavDropDownProps): JSX.Element {
+function NavDropDown({ username }: INavDropDownProps): JSX.Element {
   // Popper Attributes:
   const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>();
@@ -29,13 +29,17 @@ function NavDropDown(props: INavDropDownProps): JSX.Element {
   });
 
   return (
-    <Popover tw="relative" as="div" style={{ position: "relative" }}>
+    <Popover
+      tw="relative"
+      as="div"
+      style={{ position: "relative", height: "100%" }}
+    >
       <Popover.Button
         as="div"
         ref={setReferenceElement}
-        style={{ cursor: "pointer" }}
+        style={{ cursor: "pointer", height: "100%" }}
       >
-        <h3>Abajo2</h3>
+        <Button username={username || "Stranger"} />
       </Popover.Button>
 
       <div
@@ -58,6 +62,18 @@ function NavDropDown(props: INavDropDownProps): JSX.Element {
         </Transition>
       </div>
     </Popover>
+  );
+}
+
+function Button({ username }: { username: string }) {
+  return (
+    <Styled.Row>
+      <Styled.Arrow/>
+      <Styled.BtnLayout>
+        <Styled.Message>Welcome Back</Styled.Message>
+        <Styled.Username>{username}</Styled.Username>
+      </Styled.BtnLayout>
+    </Styled.Row>
   );
 }
 
