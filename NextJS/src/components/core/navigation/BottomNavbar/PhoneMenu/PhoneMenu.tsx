@@ -1,5 +1,6 @@
 import useBackButton from "hooks/back/useBackButton";
 import useEscapeKey from "hooks/back/useEscapeKey";
+import React, { useEffect } from "react";
 import NavDropItems from "../../NavDropItems";
 import Styled from "./PhoneMenu.styles";
 interface IPhoneMenuProps {
@@ -11,6 +12,7 @@ function PhoneMenu({ isOpen, onClose }: IPhoneMenuProps): JSX.Element {
   useBackButton(onClose, isOpen);
   useEscapeKey(onClose, isOpen);
 
+
   return isOpen ? (
     <Styled.FullScreen>
       <NavDropItems />
@@ -20,4 +22,4 @@ function PhoneMenu({ isOpen, onClose }: IPhoneMenuProps): JSX.Element {
   );
 }
 
-export default PhoneMenu;
+export default React.memo(PhoneMenu);
