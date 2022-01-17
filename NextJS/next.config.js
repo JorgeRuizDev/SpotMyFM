@@ -1,4 +1,9 @@
-module.exports = {
+const nextTranslate = require("next-translate");
+
+module.exports = nextTranslate({
+  webpack: (config, { isServer, webpack }) => {
+    return config;
+  },
   images: {
     domains: [
       "twemoji.maxcdn.com",
@@ -10,7 +15,7 @@ module.exports = {
       "thisis-images.scdn.co",
     ],
   },
-};
+});
 
 /**
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
