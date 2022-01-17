@@ -1,0 +1,13 @@
+{
+  "log-in": "Log In",
+  "users-top-type": "User's Top {{0}}",
+  "top-type": "Top {{0}}",
+  "tracks": "Tracks",
+  "long-term-since-the-beginning": "Long Term (Since the beginning)",
+  "medium-term-6-months": "Medium Term (6 months)",
+  "short-term-4-weeks": "Short Term (4 weeks)",
+  "last-played": "Last Played",
+  "my-top-artists": "My Top Artists",
+  "my-top-tracks": "My Top Tracks",
+  "getmytopselector-could-not-fetch-your-selection-code-status-or-code-message": "[GetMyTopSelector] Could not fetch your selection: {0} | {1}"
+}
