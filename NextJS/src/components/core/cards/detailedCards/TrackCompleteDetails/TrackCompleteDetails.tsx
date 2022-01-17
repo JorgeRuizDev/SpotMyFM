@@ -29,6 +29,7 @@ import { SaveAlbum, SaveTrack } from "../../buttons/CardButtons/CardButtons";
 import HorizontalCardCarousell from "../../horizontalCards/HorizontalCardCarousell";
 import { motion } from "framer-motion";
 import AlbumTracksView from "../../views/AlbumTracksView";
+import useTranslation from "next-translate/useTranslation";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
@@ -45,7 +46,7 @@ function TrackCompleteDetails({
   const [isAlbumLiked, setIsAlbumLiked] = useState(false);
   const [showAlbumTracks, setShowAlbumTracks] = useState(false);
   const { lastfmApi, spotifyApi } = useClientsStore();
-
+  const { t } = useTranslation("cards");
   const { play, pause, PreviewButton } = useTrackPreview(
     track?.spotifyPreviewURL || "",
     false,
@@ -145,7 +146,7 @@ function TrackCompleteDetails({
           <AlbumTracksView album={album} />
         ) : (
           <button onClick={() => setShowAlbumTracks(true)}>
-            Show Album Tracks
+            {t("show-album-tracks")}{" "}
           </button>
         ))}
     </div>
@@ -155,7 +156,7 @@ function TrackCompleteDetails({
     return (album?.lastfmTagsFull?.length || 0) > 0 ? (
       <>
         <hr />
-        <h4>LastFM Tags:</h4>
+        <h4>{t('lastfm-tags')}</h4>
         <Styled.TagsButtonRow>
           {album?.lastfmTagsFull?.map((t) => (
             <TagButton url={t.url} name={t.name} key={t.name} />
@@ -231,12 +232,12 @@ function CoverText({
   artists?: Artist[];
   lastFMDetails: ILastFMAlbum | null;
 }): JSX.Element {
+  const {t} = useTranslation("cards")
   return (
     <ul>
       <li>
         <h6>
-          Released on
-          <StyledText.pGreen>
+          {t('released-on')} <StyledText.pGreen>
             {album?.spotifyReleaseDate?.toLocaleDateString()}
           </StyledText.pGreen>
         </h6>
@@ -245,7 +246,7 @@ function CoverText({
       <li>
         {track && (
           <h6>
-            Track Length{" "}
+            {t('track-length')}h{" "}
             <StyledText.pGreen>
               {prettyMilliseconds(track.spotifyDurationMS)}
             </StyledText.pGreen>
@@ -254,8 +255,7 @@ function CoverText({
       </li>
       <li>
         <h6>
-          Album Popularity:
-          <br />
+          {t('album-popularity')} <br />
           <StyledText.pGreen>
             &nbsp;&nbsp;
             {formatPopularity(album?.spotifyPopularity || 0)}
@@ -264,8 +264,7 @@ function CoverText({
       </li>
       <li>
         <h6>
-          Artist Popularity:
-          <br />
+          {t('artist-popularity')} <br />
           <StyledText.pGreen>
             &nbsp;&nbsp;
             {formatPopularity(artists?.[0]?.spotifyPopularity || 0)}
@@ -278,16 +277,14 @@ function CoverText({
             <StyledText.pGreen>
               {lastFMDetails?.lastfmListenersCount}
             </StyledText.pGreen>{" "}
-            LastFM Listeners
-          </h6>
+            {t('lastfm-listeners')} </h6>
         </li>
         <li>
           <h6>
             <StyledText.pGreen>
               {lastFMDetails?.lastfmPlayCount}
             </StyledText.pGreen>{" "}
-            LastFM Plays
-          </h6>
+            {t('lastfm-plays')} </h6>
         </li>
       </>
     </ul>

@@ -10,6 +10,7 @@ import {
 } from "hooks/cache/useLibraryCache";
 import { useSessionStore } from "store/useSession";
 import { ActivePage } from "enums/ActivePage";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Home(): JSX.Element {
   useLibraryCache();
@@ -23,6 +24,9 @@ export default function Home(): JSX.Element {
     setActivePage(ActivePage.HOME);
   }, [setActivePage]);
 
+  const { t, lang } = useTranslation();
+
+  console.log(lang)
   return (
     <>
       {!isLogged ? (
@@ -34,7 +38,7 @@ export default function Home(): JSX.Element {
               getOauth().promptCredentials();
             }}
           >
-            Log In
+            {t("home:log-in")}
           </Buttons.PrimaryGreenButton>
         )
       ) : (

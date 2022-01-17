@@ -1,12 +1,12 @@
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { useDataFacade } from "hooks/dataFacade/useDataFacade";
+import useTranslation from "next-translate/useTranslation";
 import React, { useCallback } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useClientsStore } from "store/useClients";
-
 import Styled from "./GetMyTopSelector.styles";
 
 interface IGetMyTopSelectorProps {
@@ -36,6 +36,8 @@ function GetMyTopSelector({
   setHeaderType,
   setIsLoading,
 }: IGetMyTopSelectorProps): JSX.Element {
+  const { t } = useTranslation("home");
+
   const [term, setTerm] = useState<string>(Term.Short);
   const [type, setType] = useState<string>(homeItemType.Tracks);
 
@@ -92,7 +94,9 @@ function GetMyTopSelector({
     } catch (e) {
       const code = api.parse(e);
       toast.error(
-        `[GetMyTopSelector] Could not fetch your selection: ${code?.status} | ${code?.message}`
+        t(
+          "getmytopselector-could-not-fetch-your-selection-code-status-or-code-message"
+        )
       );
     }
   }, [
@@ -145,6 +149,7 @@ interface ITypeSelector {
 }
 
 function TypeSelector({ type, handleType }: ITypeSelector): JSX.Element {
+  const { t } = useTranslation("home");
   return (
     <Styled.Column>
       <Styled.JustifyStart>
@@ -156,7 +161,7 @@ function TypeSelector({ type, handleType }: ITypeSelector): JSX.Element {
             value={homeItemType.Tracks}
             onChange={handleType}
           />
-          <p>My Top Tracks</p>
+          <p>{t("my-top-tracks")}</p>
         </Styled.Inline>
 
         <Styled.Inline>
@@ -167,7 +172,7 @@ function TypeSelector({ type, handleType }: ITypeSelector): JSX.Element {
             value={homeItemType.Artists}
             onChange={handleType}
           />
-          <p>My Top Artists</p>
+          <p>{t("my-top-artists")}</p>
         </Styled.Inline>
       </Styled.JustifyStart>
     </Styled.Column>
@@ -181,6 +186,7 @@ interface ITermSelector {
 }
 
 function TermSelector({ term, type, handleTerm }: ITermSelector): JSX.Element {
+  const { t } = useTranslation("home");
   return (
     <Styled.Column>
       <Styled.JustifyStart>
@@ -193,7 +199,7 @@ function TermSelector({ term, type, handleTerm }: ITermSelector): JSX.Element {
             disabled={type !== homeItemType.Tracks}
             onChange={handleTerm}
           />
-          <p>Last Played</p>
+          <p>{t("last-played")}</p>
         </Styled.Inline>
         <Styled.Inline>
           <input
@@ -204,7 +210,7 @@ function TermSelector({ term, type, handleTerm }: ITermSelector): JSX.Element {
             onChange={handleTerm}
           />
 
-          <p>Short Term (4 weeks)</p>
+          <p>{t("short-term-4-weeks")}</p>
         </Styled.Inline>
 
         <Styled.Inline>
@@ -215,7 +221,7 @@ function TermSelector({ term, type, handleTerm }: ITermSelector): JSX.Element {
             value={Term.Medium}
             onChange={handleTerm}
           />
-          <p>Medium Term (6 months)</p>
+          <p>{t("medium-term-6-months")}</p>
         </Styled.Inline>
 
         <Styled.Inline>
@@ -226,7 +232,7 @@ function TermSelector({ term, type, handleTerm }: ITermSelector): JSX.Element {
             value={Term.Long}
             onChange={handleTerm}
           />
-          <p>Long Term (Since the beginning)</p>
+          <p>{t("long-term-since-the-beginning")}</p>
         </Styled.Inline>
       </Styled.JustifyStart>
     </Styled.Column>
