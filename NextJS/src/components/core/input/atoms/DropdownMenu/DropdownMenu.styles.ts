@@ -1,12 +1,13 @@
 import { RiArrowDropDownLine } from "react-icons/ri";
 import styled from "styled-components";
 import tw from "twin.macro";
+import Buttons from "styles/Buttons";
 
 interface ITitle {
   titleStyle?: "spotify";
 }
 
-const Title = styled.button<ITitle>(({ titleStyle }) => [
+const Title = styled(Buttons.BasicButton)<ITitle>(({ titleStyle }) => [
   tw`
 	rounded-full
 
