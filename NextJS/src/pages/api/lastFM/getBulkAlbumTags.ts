@@ -68,8 +68,8 @@ const auth = async (
 
     if (res) {
       tagged.push({ tags: res, album_id: album.album_id });
-    }else{
-      console.error(err?.message)
+    } else {
+      console.error(err?.message);
     }
   });
 

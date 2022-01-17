@@ -26,7 +26,7 @@ export default function HomeTopTracks() {
   useEffect(() => {
     setActivePage(ActivePage.LIBRARY_MGR);
   }, [setActivePage]);
-  
+
   return (
     <>
       <Head subtitle={t("home:top-type", { 0: type })} />
