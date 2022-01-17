@@ -26,7 +26,7 @@ export default function Home(): JSX.Element {
 
   const { t, lang } = useTranslation();
 
-  console.log(lang)
+  console.log(lang);
   return (
     <>
       {!isLogged ? (

@@ -156,7 +156,7 @@ function TrackCompleteDetails({
     return (album?.lastfmTagsFull?.length || 0) > 0 ? (
       <>
         <hr />
-        <h4>{t('lastfm-tags')}</h4>
+        <h4>{t("lastfm-tags")}</h4>
         <Styled.TagsButtonRow>
           {album?.lastfmTagsFull?.map((t) => (
             <TagButton url={t.url} name={t.name} key={t.name} />
@@ -232,12 +232,13 @@ function CoverText({
   artists?: Artist[];
   lastFMDetails: ILastFMAlbum | null;
 }): JSX.Element {
-  const {t} = useTranslation("cards")
+  const { t } = useTranslation("cards");
   return (
     <ul>
       <li>
         <h6>
-          {t('released-on')} <StyledText.pGreen>
+          {t("released-on")}{" "}
+          <StyledText.pGreen>
             {album?.spotifyReleaseDate?.toLocaleDateString()}
           </StyledText.pGreen>
         </h6>
@@ -246,7 +247,7 @@ function CoverText({
       <li>
         {track && (
           <h6>
-            {t('track-length')}h{" "}
+            {t("track-length")}h{" "}
             <StyledText.pGreen>
               {prettyMilliseconds(track.spotifyDurationMS)}
             </StyledText.pGreen>
@@ -255,7 +256,7 @@ function CoverText({
       </li>
       <li>
         <h6>
-          {t('album-popularity')} <br />
+          {t("album-popularity")} <br />
           <StyledText.pGreen>
             &nbsp;&nbsp;
             {formatPopularity(album?.spotifyPopularity || 0)}
@@ -264,7 +265,7 @@ function CoverText({
       </li>
       <li>
         <h6>
-          {t('artist-popularity')} <br />
+          {t("artist-popularity")} <br />
           <StyledText.pGreen>
             &nbsp;&nbsp;
             {formatPopularity(artists?.[0]?.spotifyPopularity || 0)}
@@ -277,14 +278,16 @@ function CoverText({
             <StyledText.pGreen>
               {lastFMDetails?.lastfmListenersCount}
             </StyledText.pGreen>{" "}
-            {t('lastfm-listeners')} </h6>
+            {t("lastfm-listeners")}{" "}
+          </h6>
         </li>
         <li>
           <h6>
             <StyledText.pGreen>
               {lastFMDetails?.lastfmPlayCount}
             </StyledText.pGreen>{" "}
-            {t('lastfm-plays')} </h6>
+            {t("lastfm-plays")}{" "}
+          </h6>
         </li>
       </>
     </ul>
