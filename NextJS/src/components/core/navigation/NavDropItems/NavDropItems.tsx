@@ -9,6 +9,7 @@ import { useClientsStore } from "store/useClients";
 import SpotifyPlayer from "components/core/display/organisms/SpotifyPlayer";
 import { useMemo } from "react";
 import { useLoginStore } from "store/useLogin";
+import LocaleSelector from "components/util/LocaleSelector";
 interface INavDropItemsProps {}
 
 function NavDropItems(props: INavDropItemsProps): JSX.Element {
@@ -37,7 +38,9 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
           </Link>
         </Styled.LinkWrap>
       </Styled.SpaceRow>
-
+      <Styled.Center>
+        <LocaleSelector />
+      </Styled.Center>
       <Styled.Center>
         <Styled.PlayerWrap>
           <SpotifyPlayer />
@@ -63,6 +66,7 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
           </>
         )}
       </Styled.RowItem>
+
       <Styled.RowItem>
         <FaCog /> <span>Change Language</span>
       </Styled.RowItem>

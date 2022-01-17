@@ -1,7 +1,7 @@
 module.exports = {
   locales: ["en", "es", "ru"],
   defaultLocale: "en",
-  localeDetection: false,
+  localeDetection: true,
   pages: {
     "*": ["cards"],
     "/": ["home"],
