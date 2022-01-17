@@ -36,7 +36,9 @@ function LocaleSelector(props: ILocaleSelectorProps): JSX.Element {
     push(pathname, asPath, { locale: locale, scroll: false });
 
     if (cookie !== locale) {
-      Cookies.set("NEXT_LOCALE", locale, {expires: new Date(new Date().getTime() + 3600 * 24 * 14 * 1000)});
+      Cookies.set("NEXT_LOCALE", locale, {
+        expires: new Date(new Date().getTime() + 3600 * 24 * 14 * 1000),
+      });
     }
   }
 
