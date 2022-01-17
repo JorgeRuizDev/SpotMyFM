@@ -206,7 +206,9 @@ function TrackView({
 
         <Buttons.PrimaryGreenButton onClick={toggleHover}>
           <BsFillCursorFill />
-          <span>{hover ? t("views:disable-hover") : t("views:enable-hover")}</span>
+          <span>
+            {hover ? t("views:disable-hover") : t("views:enable-hover")}
+          </span>
         </Buttons.PrimaryGreenButton>
 
         <Buttons.PrimaryGreenButton rounded onClick={toggleMute}>
