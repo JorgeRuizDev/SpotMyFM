@@ -5,5 +5,7 @@
   "track-length": "Track Length",
   "album-popularity": "Album Popularity:",
   "lastfm-listeners": "LastFM Listeners",
-  "lastfm-plays": "LastFM Plays"
+  "lastfm-plays": "LastFM Plays",
+
+  "artist-popularity": "Artist Popularity"
 }
