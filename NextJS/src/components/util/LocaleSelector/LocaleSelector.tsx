@@ -4,6 +4,7 @@ import Styled from "./LocaleSelector.styles";
 import { useRouter } from "next/router";
 import Twemoji from "../Twemoji";
 import Cookies from "js-cookie";
+import { useCallback } from "react";
 
 interface ILocaleSelectorProps {}
 
@@ -26,44 +27,48 @@ const translations: { [key: string]: transItem } = {
   },
 } as const;
 
+/**
+ * DropDown Menu that toggles the current language
+ *
+ */
 function LocaleSelector(props: ILocaleSelectorProps): JSX.Element {
-  const current = useTranslation().lang;
+  const currentLan = useTranslation().lang;
   const { pathname, asPath, push } = useRouter();
 
-  const cookie = Cookies.get("NEXT_LOCALE");
+  const switchLocale = useCallback(
+    (locale: string) => {
+      const currentCookie = Cookies.get("NEXT_LOCALE");
+      push(pathname, asPath, { locale: locale, scroll: false });
 
-  function switchLocale(locale: string) {
-    push(pathname, asPath, { locale: locale, scroll: false });
-
-    if (cookie !== locale) {
-      Cookies.set("NEXT_LOCALE", locale, {expires: new Date(new Date().getTime() + 3600 * 24 * 14 * 1000)});
-    }
-  }
+      if (currentCookie !== locale) {
+        Cookies.set("NEXT_LOCALE", locale, {
+          expires: new Date(new Date().getTime() + 3600 * 24 * 14 * 1000),
+        });
+      }
+    },
+    [asPath, pathname, push]
+  );
 
   return (
     <DropdownMenu
-      items={Object.entries(translations).map((o) => {
-        return {
-          component: (
-            <>
-              <Twemoji emoji={o[1].iconCode} type="hex" />
-              <span
-                style={{
-                  textDecoration: current === o[1].code ? "underline" : "none",
-                }}
-              >
-                {o[1].lang}
-              </span>
-            </>
-          ),
-          onClick: () => {
-            switchLocale(o[1].code);
-          },
-        };
-      })}
+      items={Object.entries(translations).map((o) => ({
+        onClick: () => switchLocale(o[1].code),
+        component: (
+          <>
+            <Twemoji emoji={o[1].iconCode} type="hex" />
+            <span
+              style={{
+                textDecoration: currentLan === o[1].code ? "underline" : "none",
+              }}
+            >
+              {o[1].lang}
+            </span>
+          </>
+        ),
+      }))}
     >
-      <Twemoji emoji={translations[current]?.iconCode} type="hex" />
-      <span>{translations[current]?.lang}</span>
+      <Twemoji emoji={translations[currentLan]?.iconCode} type="hex" />
+      <span>{translations[currentLan]?.lang}</span>
     </DropdownMenu>
   );
 }
