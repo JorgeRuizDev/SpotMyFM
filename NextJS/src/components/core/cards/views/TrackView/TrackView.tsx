@@ -27,6 +27,7 @@ import {
   ViewTypeOption,
 } from "../GenericCardView/GenericCardView";
 import Styled from "./TrackView.styles";
+import useTranslation from "next-translate/useTranslation";
 interface ITrackViewProps {
   tracks: Track[];
   settings?: trackViewSettings;
@@ -49,6 +50,7 @@ function TrackView({
   },
   selectManager,
 }: ITrackViewProps): JSX.Element {
+  const { t } = useTranslation();
   const [mute, setMute] = useState(false);
   const [hover, setHover] = useState(!isMobile);
   const [advancedFilteredTracks, setAdvancedFilteredTracks] =
@@ -71,7 +73,7 @@ function TrackView({
   } = useTrackSorter(advancedFilteredTracks, settings.defaultTrackSort);
 
   const sorting: IGenericCardViewSortProps = {
-    sortTitle: "Sort Tracks",
+    sortTitle: t("views:sort-tracks"),
     options: trackSortingOptions,
     isAscendant: isAscendentState,
     selected: optionState,
@@ -169,14 +171,14 @@ function TrackView({
               onClick={() => selectManager?.selectAll(filteredTracks)}
             >
               <BiAddToQueue />
-              <span>Select All</span>
+              <span>{t("views:select-all")}</span>
             </Buttons.PrimaryGreenButton>
             <Buttons.PrimaryGreenButton
               onClick={() => selectManager?.unselectAll()}
               disabled={selectManager.selectedCount == 0}
             >
               <MdRemove />
-              <span>Unselect All</span>
+              <span>{t("views:unselect-all")}</span>
             </Buttons.PrimaryGreenButton>
           </>
         )}
@@ -187,7 +189,7 @@ function TrackView({
           }}
         >
           <HiFilter />
-          <span>Filter</span>
+          <span>{t("views:filter")}</span>
         </Buttons.PrimaryGreenButton>
 
         <Buttons.PrimaryGreenButton
@@ -196,7 +198,7 @@ function TrackView({
             setAdvancedFilteredTracks(tracks);
             setResetAdvFilter(true);
           }}
-          aria-label={"Reset Advanced Filter"}
+          aria-label={t("views:reset-advanced-filte")}
           disabled={tracks.length == advancedFilteredTracks.length}
         >
           <BiReset />
@@ -204,7 +206,7 @@ function TrackView({
 
         <Buttons.PrimaryGreenButton onClick={toggleHover}>
           <BsFillCursorFill />
-          <span>{hover ? "Disable Hover" : "Enable Hover"}</span>
+          <span>{hover ? t("views:disable-hover") : t("views:enable-hover")}</span>
         </Buttons.PrimaryGreenButton>
 
         <Buttons.PrimaryGreenButton rounded onClick={toggleMute}>
