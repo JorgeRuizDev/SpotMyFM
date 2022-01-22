@@ -25,7 +25,7 @@ export default describe("BackendDB Rest Client Tests", () => {
   });
 
   test("PutAlbumTags good token", async () => {
-    const promise =  db.updateAlbumTags(jwt, [
+    const promise = db.updateAlbumTags(jwt, [
       { id: "ABC", tags: ["A", "B", "C", "D"] },
     ]);
     mockAxios.mockResponseFor(
@@ -35,7 +35,7 @@ export default describe("BackendDB Rest Client Tests", () => {
         status: 200,
       }
     );
-    const [res, err] = await promise
+    const [res, err] = await promise;
     expect(res).not.toBeNull();
     expect(err).toBeNull();
     expect(res?.size).toBeGreaterThan(0);
