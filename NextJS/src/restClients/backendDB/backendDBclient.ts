@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "util/axios";
 import { IRestClient, RestError } from "interfaces/RestClient";
 import { parseAxiosError } from "util/axios/parseError";
 import cfg from "config";

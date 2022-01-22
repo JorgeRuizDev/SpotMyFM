@@ -1,12 +1,11 @@
-import axios from "axios";
+import axios from "util/axios";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { ILastFMAlbum, LastfmTag } from "interfaces/lastFM";
 import { IRestClient, RestError } from "interfaces/RestClient";
 import { parseAxiosError } from "util/axios/parseError";
 import cfg from "config";
 import { ITagResponse } from "pages/api/lastFM/getBulkAlbumTags";
-import { reduce } from "lodash";
-import { toast } from "react-toastify";
+
 export class LastfmClient implements IRestClient {
   private key: string;
   private apiUrl = "https://ws.audioscrobbler.com/2.0/";
@@ -18,6 +17,12 @@ export class LastfmClient implements IRestClient {
     this.key = apiKey;
   }
 
+  /**
+   * 
+   * @param albums 
+   * @param token 
+   * @returns 
+   */
   async getBulkAlbumTags(
     albums: Album[],
     token: string
