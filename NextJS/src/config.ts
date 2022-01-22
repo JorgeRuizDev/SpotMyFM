@@ -14,6 +14,14 @@ const config = {
       get_album_tags: "api/database/albums/tagAlbums",
       post_album_tags: "api/database/albums/tagAlbums",
     },
+    lastFM: {
+      bulk_tags: "api/lastFM/getBulkAlbumTags",
+      base_url: "https://ws.audioscrobbler.com/2.0/"
+    },
+    spotify: {
+      auth: "api/spotify/oauth2/auth",
+      refresh: "api/spotify/oauth2/refresh",
+    },
   },
 
   //
