@@ -1,45 +1,41 @@
-import axios from "axios";
-import { getOauth } from "util/spotify/oauthFrontend";
+import axios from "util/axios";
 import { BackendDBClient } from "./backendDBclient";
-import env, { envtest } from "env";
-
+import cfg from "config";
+import mockAxios from "jest-mock-axios";
 export default describe("BackendDB Rest Client Tests", () => {
-  let jwt = "";
+  let jwt = "A.jwt.token";
   const db = new BackendDBClient();
-  axios.defaults.adapter = require("axios/lib/adapters/http");
-  axios.defaults.baseURL = envtest.TEST_BASE_URL;
-  beforeAll(async () => {
-    const oauth = getOauth();
-    const [res, err] = await oauth.refreshAuthToken(
-      envtest.SPOTIFY_REFRESH_ENDPOINT,
-      envtest.SPOTIFY_REFRESH_TOKEN
-    );
-
-    expect(err).toBe(null);
-
-    jwt = res?.token || "";
-  });
-
-  test("GetAlbumTags bad token", async () => {
-    const [res, err] = await db.getAllAlbumTags("asdf");
-
-    expect(res).toBeNull();
-    expect(err).not.toBeNull();
-    expect(err?.status).toBe(403);
-  });
+  jest.mock("axios");
+  beforeAll(async () => {});
 
   test("GetAlbumTags good token", async () => {
-    const [res, err] = await db.getAllAlbumTags(jwt);
-    expect(res).not.toBeNull();
+    const promise = db.getAllAlbumTags(jwt);
+    mockAxios.mockResponseFor(
+      { url: cfg.api_endpoints.database.get_album_tags, method: "GET" },
+      {
+        data: { tags: [{ id: "1234", tags: ["tag1", "tag2", "tag3"] }] },
+        status: 200,
+      }
+    );
+    const [res, err] = await promise;
     expect(err).toBeNull();
+
+    expect(res).not.toBeNull();
     expect(res?.size).toBeGreaterThan(0);
   });
 
   test("PutAlbumTags good token", async () => {
-    const [res, err] = await db.updateAlbumTags(jwt, [
+    const promise =  db.updateAlbumTags(jwt, [
       { id: "ABC", tags: ["A", "B", "C", "D"] },
     ]);
-
+    mockAxios.mockResponseFor(
+      { url: cfg.api_endpoints.database.post_album_tags, method: "POST" },
+      {
+        data: { tags: [{ id: "ABC", tags: ["A", "B", "C", "D"] }] },
+        status: 200,
+      }
+    );
+    const [res, err] = await promise
     expect(res).not.toBeNull();
     expect(err).toBeNull();
     expect(res?.size).toBeGreaterThan(0);
