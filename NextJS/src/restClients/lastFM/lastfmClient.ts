@@ -18,10 +18,10 @@ export class LastfmClient implements IRestClient {
   }
 
   /**
-   * 
-   * @param albums 
-   * @param token 
-   * @returns 
+   *
+   * @param albums
+   * @param token
+   * @returns
    */
   async getBulkAlbumTags(
     albums: Album[],
