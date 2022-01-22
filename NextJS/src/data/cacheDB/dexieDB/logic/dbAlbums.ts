@@ -51,14 +51,18 @@ export async function joinAlbums(
   albums: Album[],
   persist = true
 ): Promise<Album[]> {
-  await Promise.all(
-    albums.map(async (album) => {
-      [album.artists] = await Promise.all([
-        db.artists.where("spotifyId").anyOf(album.spotifyArtistsIds).toArray(),
-      ]);
-    })
-  );
   try {
+    await Promise.all(
+      albums.map(async (album) => {
+        [album.artists] = await Promise.all([
+          db.artists
+            .where("spotifyId")
+            .anyOf(album.spotifyArtistsIds)
+            .toArray(),
+        ]);
+      })
+    );
+
     persist && (await db.albums.bulkPut(albums));
   } catch (e) {
     console.warn(e);
