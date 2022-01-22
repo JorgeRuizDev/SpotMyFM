@@ -11,7 +11,7 @@ const config = {
 
   api_endpoints: {
     database: {
-      get_album_tags: "/api/database/albums/tagAlbums",
+      get_album_tags: "api/database/albums/tagAlbums",
       post_album_tags: "api/database/albums/tagAlbums",
     },
   },
