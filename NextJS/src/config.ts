@@ -16,7 +16,7 @@ const config = {
     },
     lastFM: {
       bulk_tags: "api/lastFM/getBulkAlbumTags",
-      base_url: "https://ws.audioscrobbler.com/2.0/"
+      base_url: "https://ws.audioscrobbler.com/2.0/",
     },
     spotify: {
       auth: "api/spotify/oauth2/auth",
