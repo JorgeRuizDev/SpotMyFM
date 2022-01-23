@@ -18,6 +18,7 @@ export class DynamoDB implements IBackendDB {
       region: env.AWS_REGION,
     });
   }
+
   updateLastLogin(userId: string): Promise<Date> {
     throw new Error("Method not implemented.");
   }
@@ -37,6 +38,28 @@ export class DynamoDB implements IBackendDB {
     } catch (err) {
       return null;
     }
+  }
+
+  /**
+   * Drops the given user
+   * @param userId UserId
+   */
+  async dropUser(userId: string): Promise<boolean> {
+    const [user, err] = await this.getFullUser(userId);
+
+    if (err) {
+      return false;
+    }
+
+    // If there is no document ,But the JWT is OK, return a successful drop, 
+    // even if there was no data
+    if (!user) {
+      return true;
+    }
+
+    await user.delete();
+
+    return true;
   }
 
   /**

@@ -16,6 +16,8 @@ export interface IBackendDB {
    */
   isUserAdmin(userId: string): Promise<boolean>;
 
+  dropUser(userId: string): Promise<boolean>
+
   /**
    * Gets all the user album tags
    * @param userId
