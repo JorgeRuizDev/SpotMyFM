@@ -17,6 +17,6 @@ const FullH = tw.div`
   h-full
 `;
 
-const Styled = { TabLayout, TabWrap , FullH};
+const Styled = { TabLayout, TabWrap, FullH };
 
 export default Styled;

@@ -105,7 +105,7 @@ function TabContent({ id, children }: ITabContentProps): JSX.Element {
       initial={{ opacity: 0 }}
       animate={activeId === id ? "open" : "closed"}
       variants={variants}
-      style={{ display: activeId === id ? "block" : "none", padding:"4px"}}
+      style={{ display: activeId === id ? "block" : "none", padding: "4px" }}
     >
       {children}
     </motion.div>

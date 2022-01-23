@@ -51,7 +51,7 @@ export class DynamoDB implements IBackendDB {
       return false;
     }
 
-    // If there is no document ,But the JWT is OK, return a successful drop, 
+    // If there is no document ,But the JWT is OK, return a successful drop,
     // even if there was no data
     if (!user) {
       return true;

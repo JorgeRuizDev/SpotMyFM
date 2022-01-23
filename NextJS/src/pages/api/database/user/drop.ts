@@ -24,13 +24,12 @@ const tagAlbums = async (
 
   const userId = jwt.spotify_id;
   const dropped = await backendDB.dropUser(userId);
-  
-  if (!dropped){
-    return res.status(400).json({error: "The user couldn't be dropped"})
+
+  if (!dropped) {
+    return res.status(400).json({ error: "The user couldn't be dropped" });
   }
 
-  return res.status(200).json({message: "User successfully dropped"})
-
+  return res.status(200).json({ message: "User successfully dropped" });
 };
 
 export default tagAlbums;

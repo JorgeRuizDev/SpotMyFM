@@ -13,7 +13,7 @@ const config = {
     database: {
       get_album_tags: "api/database/albums/tagAlbums",
       post_album_tags: "api/database/albums/tagAlbums",
-      drop_user: "api/database/user/drop"
+      drop_user: "api/database/user/drop",
     },
     lastFM: {
       bulk_tags: "api/lastFM/getBulkAlbumTags",
