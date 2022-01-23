@@ -238,4 +238,4 @@ function ItemLayout({
   );
 }
 
-export default React.memo(GenericCardView);
+export default GenericCardView

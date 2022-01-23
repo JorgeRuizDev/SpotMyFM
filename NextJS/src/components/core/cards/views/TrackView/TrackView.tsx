@@ -6,7 +6,7 @@ import useTrackSorter, {
 } from "hooks/sorters/useTrackSorter";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { selectManager, trackViewSettings } from "interfaces/Track";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { BiAddToQueue } from "react-icons/bi";
 import { BsFillCursorFill } from "react-icons/bs";
@@ -105,13 +105,15 @@ function TrackView({
     setFilteredArray: setFilteredTracks,
   };
 
-  function toggleMute() {
-    setMute(!mute);
-  }
+  const toggleMute = useCallback(() => {
+    setMute((s) => !s);
+  }, []);
 
-  function toggleHover() {
-    setHover(!hover);
-  }
+  const toggleHover = useCallback(() => {
+    setHover((s) => !s);
+  }, []);
+
+  const emptyToggle = useCallback((t: Track) => {}, []);
 
   return (
     <>
@@ -125,7 +127,19 @@ function TrackView({
           setFilteredTracks={setAdvancedFilteredTracks}
         />
       </Modal>
-      <CardLayoutButtons />
+      <CardLayoutButtons
+        advancedFilteredTracks={advancedFilteredTracks}
+        mute={mute}
+        hover={hover}
+        filteredTracks={filteredTracks}
+        setAdvancedFilteredTracks={setAdvancedFilteredTracks}
+        setResetAdvFilter={setResetAdvFilter}
+        setShowAdvancedFilter={setShowAdvancedFilter}
+        toggleHover={toggleHover}
+        toggleMute={toggleMute}
+        tracks={tracks}
+        selectManager={selectManager}
+      />
       <GenericCardView
         filterInputProps={filter}
         sorting={sorting}
@@ -144,7 +158,9 @@ function TrackView({
                 track={t}
                 key={i}
                 inPlaylist={selectManager?.isSelected(t)}
-                toggleFromPlaylist={() => selectManager?.toggleSelected(t)}
+                toggleFromPlaylist={
+                  selectManager ? selectManager.toggleSelected : emptyToggle
+                }
                 isMuted={mute}
                 playOnHover={hover}
               />
@@ -161,62 +177,88 @@ function TrackView({
       </GenericCardView>
     </>
   );
+}
 
-  function CardLayoutButtons() {
-    return (
-      <Buttons.LayoutCenter>
-        {selectManager && (
-          <>
-            <Buttons.PrimaryGreenButton
-              onClick={() => selectManager?.selectAll(filteredTracks)}
-            >
-              <BiAddToQueue />
-              <span>{t("views:select-all")}</span>
-            </Buttons.PrimaryGreenButton>
-            <Buttons.PrimaryGreenButton
-              onClick={() => selectManager?.unselectAll()}
-              disabled={selectManager.selectedCount == 0}
-            >
-              <MdRemove />
-              <span>{t("views:unselect-all")}</span>
-            </Buttons.PrimaryGreenButton>
-          </>
-        )}
-        <Buttons.PrimaryGreenButton
-          onClick={() => {
-            setShowAdvancedFilter(true);
-            setResetAdvFilter(false);
-          }}
-        >
-          <HiFilter />
-          <span>{t("views:filter")}</span>
-        </Buttons.PrimaryGreenButton>
+interface ICardLayoutButtons extends ITrackViewProps {
+  filteredTracks: Track[];
+  setAdvancedFilteredTracks: (t: Track[]) => void;
+  advancedFilteredTracks: Track[];
+  mute: boolean;
+  hover: boolean;
 
-        <Buttons.PrimaryGreenButton
-          rounded
-          onClick={() => {
-            setAdvancedFilteredTracks(tracks);
-            setResetAdvFilter(true);
-          }}
-          aria-label={t("views:reset-advanced-filte")}
-          disabled={tracks.length == advancedFilteredTracks.length}
-        >
-          <BiReset />
-        </Buttons.PrimaryGreenButton>
+  toggleMute: () => void;
+  toggleHover: () => void;
+  setShowAdvancedFilter: (b: boolean) => void;
+  setResetAdvFilter: (b: boolean) => void;
+}
 
-        <Buttons.PrimaryGreenButton onClick={toggleHover}>
-          <BsFillCursorFill />
-          <span>
-            {hover ? t("views:disable-hover") : t("views:enable-hover")}
-          </span>
-        </Buttons.PrimaryGreenButton>
+function CardLayoutButtons({
+  tracks,
+  selectManager,
+  hover,
+  toggleHover,
+  advancedFilteredTracks,
+  setAdvancedFilteredTracks,
+  filteredTracks,
+  mute,
+  setResetAdvFilter,
+  setShowAdvancedFilter,
+  toggleMute,
+}: ICardLayoutButtons) {
+  const { t } = useTranslation();
+  return (
+    <Buttons.LayoutCenter>
+      {selectManager && (
+        <>
+          <Buttons.PrimaryGreenButton
+            onClick={() => selectManager?.selectAll(filteredTracks)}
+          >
+            <BiAddToQueue />
+            <span>{t("views:select-all")}</span>
+          </Buttons.PrimaryGreenButton>
+          <Buttons.PrimaryGreenButton
+            onClick={() => selectManager?.unselectAll()}
+            disabled={selectManager.selectedCount == 0}
+          >
+            <MdRemove />
+            <span>{t("views:unselect-all")}</span>
+          </Buttons.PrimaryGreenButton>
+        </>
+      )}
+      <Buttons.PrimaryGreenButton
+        onClick={() => {
+          setShowAdvancedFilter(true);
+          setResetAdvFilter(false);
+        }}
+      >
+        <HiFilter />
+        <span>{t("views:filter")}</span>
+      </Buttons.PrimaryGreenButton>
 
-        <Buttons.PrimaryGreenButton rounded onClick={toggleMute}>
-          {mute ? <FaVolumeMute /> : <FaVolumeUp />}
-        </Buttons.PrimaryGreenButton>
-      </Buttons.LayoutCenter>
-    );
-  }
+      <Buttons.PrimaryGreenButton
+        rounded
+        onClick={() => {
+          setAdvancedFilteredTracks(tracks);
+          setResetAdvFilter(true);
+        }}
+        aria-label={t("views:reset-advanced-filte")}
+        disabled={tracks.length == advancedFilteredTracks.length}
+      >
+        <BiReset />
+      </Buttons.PrimaryGreenButton>
+
+      <Buttons.PrimaryGreenButton onClick={toggleHover}>
+        <BsFillCursorFill />
+        <span>
+          {hover ? t("views:disable-hover") : t("views:enable-hover")}
+        </span>
+      </Buttons.PrimaryGreenButton>
+
+      <Buttons.PrimaryGreenButton rounded onClick={toggleMute}>
+        {mute ? <FaVolumeMute /> : <FaVolumeUp />}
+      </Buttons.PrimaryGreenButton>
+    </Buttons.LayoutCenter>
+  );
 }
 
 export default React.memo(TrackView);
