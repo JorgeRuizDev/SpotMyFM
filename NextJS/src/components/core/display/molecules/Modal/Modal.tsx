@@ -114,7 +114,7 @@ function Modal({
             />
           </Styled.TopRow>
           <div
-            style={{ overflow: scrollOverflow ? "auto" : "hidden" }}
+            style={{ overflow: scrollOverflow ? "auto" : "hidden", padding: "5px" }}
             id={key.toString()}
           >
             {children}
