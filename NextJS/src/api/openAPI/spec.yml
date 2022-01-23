@@ -12,8 +12,8 @@ tags:
     description: Authentication related Operations
   - name: data
     description: Database Related Operations
-  - name: classifier
-    description: Machine Learning Model related Operations
+  - name: ludwig
+    description: Ludwig (Machine Learning Backend) related Operations
 servers:
   - url: https://dev.spotmyfm.jorgeruizdev.com/api
     description: "Development Server"
@@ -91,6 +91,36 @@ paths:
       security:
         - jwt: []
 
+  /database/user/drop:
+    post:
+      summary: Drops the current user document identified by the JWT Token
+      description: |
+        This endpoint tries to remove all the stored user's data from the database.
+
+      responses:
+        "200":
+          description: The user was successfully removed from the database.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ok"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Not Authorized (Bad Token)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - data
+      security:
+        - jwt: []
 
   /lastFM/getBulkAlbumTags:
     post:
@@ -211,6 +241,11 @@ components:
       type: object
       properties:
         error:
+          type: string
+    Ok:
+      type: object
+      properties:
+        message:
           type: string
 
     PutAlbumTagsReq:
