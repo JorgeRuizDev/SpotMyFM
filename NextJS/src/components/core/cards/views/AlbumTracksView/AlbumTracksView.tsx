@@ -6,6 +6,7 @@ import useTrackSorter from "hooks/sorters/useTrackSorter";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { BsFillVinylFill } from "react-icons/bs";
 import { useClientsStore } from "store/useClients";
 import filterTrack from "util/filters/filterTrack";
 import {
@@ -32,7 +33,7 @@ function AlbumTracksView({
   // Tracks States
   const [tracks, setTracks] = useState<Track[]>([]);
   const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
-  const [tracksMap, setTracksMap] = useState(new Map<number, Track[]>());
+  const [tracksDisc, setTracksDisc] = useState<Track[][]>([]);
 
   // Track Controls
   const [mute, setMute] = useState(false);
@@ -50,12 +51,12 @@ function AlbumTracksView({
 
       const tracks = await getTracksByIds(res.map((t) => t.id));
 
-      setTracks([]);
+      setTracks(tracks);
       setIsLoading(false);
     };
 
     fn();
-  }, [album, api, getTracksByIds, setTracksMap, tracks]);
+  }, [album.spotifyId, api, getTracksByIds]);
 
   // Filter the tracks into a map
   useEffect(() => {
@@ -73,8 +74,10 @@ function AlbumTracksView({
         v.sort((x) => x.spotifyTrackAlbumPos)
       );
     }
-
-    setTracksMap(map);
+    const sortedElements = Array.from(map)
+      .sort((a, b) => a[0] - b[0])
+      .map((t) => t[1]);
+    setTracksDisc(sortedElements);
   }, [filteredTracks]);
 
   const filter: IFilterInputProps<Track> = {
@@ -97,20 +100,39 @@ function AlbumTracksView({
         scrollableTargetId={scrollbarTargetId}
       >
         {currentView === "GRID"
-          ? filteredTracks.map((t, i) => (
-              <SimpleTrackCard
-                track={t}
-                key={i}
-                isMuted={mute}
-                playOnHover={hover}
-              />
+          ? tracksDisc.map((tracks, i) => (
+              <>
+                <DiscNumber discId={i} />
+                {tracks.map((t, i) => (
+                  <SimpleTrackCard
+                    track={t}
+                    key={i}
+                    isMuted={mute}
+                    playOnHover={hover}
+                  />
+                ))}
+              </>
             ))
-          : filteredTracks.map((t, i) => (
-              <ListTrackCard track={t} pos={i + 1} key={i} />
+          : tracksDisc.map((tracks, i) => (
+              <>
+                <DiscNumber discId={i} />
+                {tracks.map((t, i) => (
+                  <ListTrackCard track={t} pos={i + 1} key={i} />
+                ))}
+              </>
             ))}
       </GenericCardView>
     </>
   );
 }
 
+function DiscNumber({ discId }: { discId: number }) {
+  return (
+    <Styled.FullWidth>
+      <Styled.DiscNumber>
+        <BsFillVinylFill /> <span>Disc {discId + 1}</span>
+      </Styled.DiscNumber>
+    </Styled.FullWidth>
+  );
+}
 export default AlbumTracksView;
