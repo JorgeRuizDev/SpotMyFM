@@ -14,6 +14,12 @@ const Inline = tw.article`
 	space-x-2
 `;
 
+const Center = tw.div`
+  flex
+  justify-center
+  w-full
+`;
+
 const pGreen = tw.span`
 	text-darkGreen-base
 	dark:text-lightGreen-base
@@ -21,6 +27,6 @@ const pGreen = tw.span`
 
 const green = pGreen;
 
-const Styled = { pBlack, pGreen, Inline, green };
+const Styled = { pBlack, pGreen, Inline, green, Center };
 
 export default Styled;
