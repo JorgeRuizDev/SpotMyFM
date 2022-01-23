@@ -14,6 +14,7 @@ interface IClientStore {
     isLogged?: boolean
   ) => Promise<SpotifyApi.CurrentUsersProfileResponse | null>;
   user: IStoreUser;
+  setIsPremium: (is: boolean) => void;
 }
 
 interface IStoreUser {
@@ -33,6 +34,10 @@ export const useClientsStore = create<IClientStore>((set, get) => {
 
   const user: IStoreUser = { isPremium: false, spotifyUser: null };
 
+  const setIsPremium = (is: boolean) => {
+    set((s) => ({ user: { isPremium: is, spotifyUser: s.user.spotifyUser } }));
+  };
+
   const getUser = async (isLogged: boolean = false) => {
     // Exit if the user is already fetched or the user is not logged in
     if (!isLogged || get().user.spotifyUser) {
@@ -49,5 +54,13 @@ export const useClientsStore = create<IClientStore>((set, get) => {
       return null;
     }
   };
-  return { cacheClient, spotifyApi, backendDbApi, lastfmApi, getUser, user };
+  return {
+    cacheClient,
+    spotifyApi,
+    backendDbApi,
+    lastfmApi,
+    getUser,
+    user,
+    setIsPremium,
+  };
 });
