@@ -10,9 +10,11 @@ import SpotifyPlayer from "components/core/display/organisms/SpotifyPlayer";
 import { useMemo } from "react";
 import { useLoginStore } from "store/useLogin";
 import LocaleSelector from "components/util/LocaleSelector";
-interface INavDropItemsProps {}
+interface INavDropItemsProps {
+  closeMe?: () => void;
+}
 
-function NavDropItems(props: INavDropItemsProps): JSX.Element {
+function NavDropItems({ closeMe = () => {} }: INavDropItemsProps): JSX.Element {
   const { currentTheme, toggleTheme } = useThemeStore();
   const { user } = useClientsStore();
   const { logOut } = useLoginStore();
@@ -52,9 +54,12 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
         {avatar && <Styled.Avatar src={avatar} alt="User Avatar" />}
       </Styled.Center>
 
-      <Styled.RowItem>
-        <FaCog /> <span>Settings</span>
-      </Styled.RowItem>
+      <Link href="/settings" style={{height: "auto"}}>
+        <Styled.RowItem onClick={closeMe}>
+          <FaCog /> <span>Settings</span>
+        </Styled.RowItem>
+      </Link>
+
       <Styled.RowItem onClick={toggleTheme}>
         {currentTheme === Theme.DARK ? (
           <>
@@ -65,10 +70,6 @@ function NavDropItems(props: INavDropItemsProps): JSX.Element {
             <ThemeStyles.Moon /> <span>Set Dark Theme</span>
           </>
         )}
-      </Styled.RowItem>
-
-      <Styled.RowItem>
-        <FaCog /> <span>Change Language</span>
       </Styled.RowItem>
       <Styled.Center>
         <Buttons.PrimaryBlueButton style={{ width: "70%" }} onClick={logOut}>

@@ -14,7 +14,7 @@ function PhoneMenu({ isOpen, onClose }: IPhoneMenuProps): JSX.Element {
 
   return isOpen ? (
     <Styled.FullScreen>
-      <NavDropItems />
+      <NavDropItems closeMe={onClose} />
     </Styled.FullScreen>
   ) : (
     <></>
