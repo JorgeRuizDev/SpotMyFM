@@ -238,4 +238,4 @@ function ItemLayout({
   );
 }
 
-export default GenericCardView
+export default GenericCardView;
