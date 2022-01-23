@@ -54,7 +54,7 @@ function NavDropItems({ closeMe = () => {} }: INavDropItemsProps): JSX.Element {
         {avatar && <Styled.Avatar src={avatar} alt="User Avatar" />}
       </Styled.Center>
 
-      <Link href="/settings" style={{height: "auto"}}>
+      <Link href="/settings" style={{ height: "auto" }}>
         <Styled.RowItem onClick={closeMe}>
           <FaCog /> <span>Settings</span>
         </Styled.RowItem>
