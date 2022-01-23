@@ -90,6 +90,34 @@ export class BackendDBClient implements IRestClient {
     }
   }
 
+  /**
+   * Drops the user identified by the JWT
+   *
+   * @param jwt
+   * @returns Null if the OP was successful, RestError Otherwise
+   */
+  async dropUser(jwt: string): Promise<RestError | null> {
+    try {
+      const res = await axios.post(
+        cfg.api_endpoints.database.drop_user,
+        {},
+        {
+          headers: this._getHeaders(jwt),
+        }
+      );
+
+      if (res.status !== 200) {
+        return {
+          status: res.status,
+          message: res.data.message,
+        };
+      }
+      return null;
+    } catch (e) {
+      return this.parse(e);
+    }
+  }
+
   _checkJWT(jwt: string): null | RestError {
     if (!jwt || jwt.length === 0) {
       return { status: 403, message: "The JWT Token is empty" };
