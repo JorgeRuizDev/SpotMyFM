@@ -47,7 +47,7 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
       >
         <Styled.CenterContent>
           <Styled.ItemBox>
-            <h5>Save the {tracks.length} selected tracks to a Playlist</h5>
+            <h5>Save the {tracks.length} selected tracks into a Playlist</h5>
             <TabComponent
               tracks={tracks}
               playlists={userPlaylists}
