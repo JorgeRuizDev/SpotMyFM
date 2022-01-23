@@ -106,7 +106,11 @@ function GenericCardView<T>({
           )
         }
       >
-        <ItemLayout />
+        <ItemLayout
+          isLoading={isLoading}
+          scrollItems={scrollItems}
+          view={view}
+        />
       </InfiniteScroll>
       <PaginationBar />
     </div>
@@ -129,24 +133,6 @@ function GenericCardView<T>({
           layoutStartRef?.current?.scrollIntoView();
         }}
       />
-    );
-  }
-  function ItemLayout(): JSX.Element {
-    return (
-      <Styled.CardLayout addSpace={view.type == "GRID"}>
-        {view.type == "LIST" && view.ListHeader}
-        {scrollItems.length > 0 ? (
-          scrollItems
-        ) : isLoading ? (
-          view.type == "GRID" ? (
-            <MultipleSkeletonCards />
-          ) : (
-            <MultipleSkeletonList key={2} />
-          )
-        ) : (
-          <h3>No Items Found</h3>
-        )}
-      </Styled.CardLayout>
     );
   }
 
@@ -225,4 +211,31 @@ function GenericCardView<T>({
   }
 }
 
-export default GenericCardView;
+function ItemLayout({
+  view,
+  scrollItems,
+  isLoading,
+}: {
+  view: ViewType;
+  scrollItems: ReactNode[];
+  isLoading: boolean;
+}): JSX.Element {
+  return (
+    <Styled.CardLayout addSpace={view.type == "GRID"}>
+      {view.type == "LIST" && view.ListHeader}
+      {scrollItems.length > 0 ? (
+        scrollItems
+      ) : isLoading ? (
+        view.type == "GRID" ? (
+          <MultipleSkeletonCards />
+        ) : (
+          <MultipleSkeletonList key={2} />
+        )
+      ) : (
+        <h3>No Items Found</h3>
+      )}
+    </Styled.CardLayout>
+  );
+}
+
+export default React.memo(GenericCardView);
