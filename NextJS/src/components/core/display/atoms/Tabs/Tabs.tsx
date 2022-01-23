@@ -57,13 +57,18 @@ function Tabs({ defaultTabId, children }: ITabsProps): JSX.Element {
 
 interface ITabProps {
   id: string;
+  isColumn?: boolean;
   children: React.ReactNode[] | React.ReactNode;
 }
-function Tab({ id, children }: ITabProps): JSX.Element {
+function Tab({ id, children, isColumn }: ITabProps): JSX.Element {
   const { id: activeId, setId } = useActiveTabContext();
   return (
     <>
-      <Styled.Tab isActive={id === activeId} onClick={() => setId(id)}>
+      <Styled.Tab
+        isColumn={isColumn}
+        isActive={id === activeId}
+        onClick={() => setId(id)}
+      >
         {children}
       </Styled.Tab>
     </>
