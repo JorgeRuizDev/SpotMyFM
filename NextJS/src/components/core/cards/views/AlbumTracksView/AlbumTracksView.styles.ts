@@ -1,9 +1,8 @@
 import tw from "twin.macro";
 
-
 const FullWidth = tw.div`
   w-full
-`
+`;
 
 const DiscNumber = tw.h3`
   flex
@@ -11,8 +10,8 @@ const DiscNumber = tw.h3`
   items-center
   space-x-3
   mt-4
-`
+`;
 
-const Styled = {FullWidth, DiscNumber};
+const Styled = { FullWidth, DiscNumber };
 
 export default Styled;
