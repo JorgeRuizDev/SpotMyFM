@@ -10,8 +10,6 @@ import NavItem from "../NavItem";
 import Styled from "./NavbarLeftItems.styles";
 
 function NavbarLeftItems(): JSX.Element {
-
-
   const { activePage } = useSessionStore();
 
   return (

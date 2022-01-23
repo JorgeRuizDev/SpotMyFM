@@ -46,7 +46,6 @@ function useTrackToPlaylistSelector(): IReturn {
     [trackSet]
   );
 
-
   const removeAll = useCallback(() => setTrackSet(new Map()), []);
 
   function addAll(tracks: Track[]) {
