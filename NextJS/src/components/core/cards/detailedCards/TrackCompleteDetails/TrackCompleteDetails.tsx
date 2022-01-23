@@ -34,12 +34,14 @@ interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
   artists?: Artist[];
+  isNested?: boolean;
 }
 
 function TrackCompleteDetails({
   track,
   album,
   artists,
+  isNested = false,
 }: ITrackCompleteDetailsProps): JSX.Element {
   const [lastFMDetails, setLastFMDetails] = useState<ILastFMAlbum | null>(null);
   const [isTrackLiked, setIsTrackLiked] = useState(false);
@@ -140,15 +142,7 @@ function TrackCompleteDetails({
           </Styled.InfoGrid>
         </div>
       </Styled.Wrapper>
-
-      {album &&
-        (showAlbumTracks ? (
-          <AlbumTracksView album={album} />
-        ) : (
-          <button onClick={() => setShowAlbumTracks(true)}>
-            {t("cards:show-album-tracks")}{" "}
-          </button>
-        ))}
+      {album && !isNested && <AlbumTracksView album={album} />}
     </div>
   );
 

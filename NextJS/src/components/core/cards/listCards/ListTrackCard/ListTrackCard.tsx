@@ -14,6 +14,7 @@ interface IListTrackCardProps {
 
   toggleFromPlaylist?: (track: Track) => void;
   inPlaylist?: boolean;
+  isNested?: boolean;
 }
 
 function ListTrackCard({
@@ -21,6 +22,7 @@ function ListTrackCard({
   pos,
   inPlaylist,
   toggleFromPlaylist,
+  isNested = false,
 }: IListTrackCardProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -93,6 +95,7 @@ function ListTrackCard({
           track={track}
           album={track.album}
           artists={track.artists}
+          isNested={isNested}
         />
       </Modal>
     </>

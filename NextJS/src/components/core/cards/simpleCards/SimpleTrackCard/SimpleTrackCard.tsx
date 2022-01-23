@@ -20,7 +20,7 @@ interface ISimpleTrackCardProps {
 
   playOnHover?: boolean;
   isMuted?: boolean;
-
+  isNested?: boolean;
   toggleFromPlaylist?: (track: Track) => void;
   inPlaylist?: boolean;
 }
@@ -31,6 +31,7 @@ function SimpleTrackCard({
   isMuted = true,
   toggleFromPlaylist,
   inPlaylist = false,
+  isNested = false,
 }: ISimpleTrackCardProps) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -114,7 +115,12 @@ function SimpleTrackCard({
       </Styled.CardLayout>
       <Modal isOpen={showDetails} onClose={() => setShowDetails(false)}>
         <>
-          <TrackCompleteDetails track={track} artists={artists} album={album} />
+          <TrackCompleteDetails
+            track={track}
+            artists={artists}
+            album={album}
+            isNested={isNested}
+          />
         </>
       </Modal>
     </>

@@ -21,11 +21,13 @@ import Styled from "./AlbumTracksView.styles";
 interface IAlbumTracksViewProps {
   album: Album;
   scrollbarTargetId?: string;
+  isNested?: boolean;
 }
 
 function AlbumTracksView({
   album,
   scrollbarTargetId,
+  isNested = false,
 }: IAlbumTracksViewProps): JSX.Element {
   const api = useClientsStore().spotifyApi;
   const { getTracksByIds } = useDataFacade();
@@ -109,6 +111,7 @@ function AlbumTracksView({
                     key={i}
                     isMuted={mute}
                     playOnHover={hover}
+                    isNested={true}
                   />
                 ))}
               </>
@@ -117,7 +120,12 @@ function AlbumTracksView({
               <>
                 <DiscNumber discId={i} />
                 {tracks.map((t, i) => (
-                  <ListTrackCard track={t} pos={i + 1} key={i} />
+                  <ListTrackCard
+                    track={t}
+                    pos={i + 1}
+                    key={i}
+                    isNested={isNested}
+                  />
                 ))}
               </>
             ))}
