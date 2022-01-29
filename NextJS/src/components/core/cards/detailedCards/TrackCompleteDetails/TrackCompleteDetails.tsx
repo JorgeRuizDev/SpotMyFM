@@ -16,6 +16,7 @@ import useTrackPreview from "hooks/useTrackPreview/useTrackPreview";
 import ArtistHorizontalCard from "../../horizontalCards/ArtistHorizontalCard";
 import Collapsible from "components/core/display/atoms/Collapsible";
 import {
+  DownloadPreview,
   EnqueueButton,
   OpenLastFMButton,
   OpenSpotifyButton,
@@ -168,6 +169,7 @@ function TrackCompleteDetails({
         {track && <PreviewButton />}
         {track && <SpotifyButton track={track} artist={artists?.[0]} />}
         {track && <EnqueueButton track={track} artist={artists?.[0]} />}
+        {track && <DownloadPreview track={track} />}
         {track && (
           <SaveTrack
             item={track}

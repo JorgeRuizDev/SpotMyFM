@@ -1,12 +1,20 @@
+import axios from "util/axios";
+import { parseAxiosError } from "util/axios/parseError";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import SpotifyBaseObject from "data/cacheDB/dexieDB/models/SpotifyObject";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import useSpotifyPlayer from "hooks/spotify/useSpotifyPlayer";
 
-import React from "react";
+import React, { createRef, useCallback, useEffect, useMemo } from "react";
 import { BiAddToQueue } from "react-icons/bi";
-import { FaLastfm, FaMinus, FaPlus, FaSpotify } from "react-icons/fa";
+import {
+  FaDownload,
+  FaLastfm,
+  FaMinus,
+  FaPlus,
+  FaSpotify,
+} from "react-icons/fa";
 import { MdAlbum, MdQueueMusic } from "react-icons/md";
 import { toast } from "react-toastify";
 import { SpotifyClient } from "restClients/spotify/spotifyClient";
@@ -75,6 +83,57 @@ function EnqueueButton({ track }: ITrackArtist): JSX.Element {
         </Buttons.SecondaryGreenButton>
       )}
     </>
+  );
+}
+
+/**
+ * Small Button that Downloads the track preview or opens the preview source url in a new tab.
+ * @param param0
+ * @returns
+ */
+function DownloadPreview({ track }: { track: Track }): JSX.Element {
+  const url = useMemo(() => track.spotifyPreviewURL, [track.spotifyPreviewURL]);
+
+  const download = useCallback(async () => {
+    try {
+      const res = await axios({
+        url: track.spotifyPreviewURL || "",
+        method: "GET",
+        responseType: "blob", // important
+      });
+
+      // Create a new fake a tag
+      const a = document.createElement("a");
+      a.style.display = "none";
+
+      a.download = `${track.artists[0]?.name} - ${track.name} (30s Preview)`;
+      document.body.appendChild(a);
+
+      a.href = URL.createObjectURL(res.data);
+      a.click();
+    } catch (e) {
+      const err = parseAxiosError(e);
+      toast.error(`${err?.message}`);
+    }
+  }, [track.artists, track.name, track.spotifyPreviewURL]);
+
+  return url && url.length > 0 ? (
+    <>
+      <a
+        href={url}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+        }}
+      >
+        <Buttons.SecondaryGreenButton onClick={download}>
+          <FaDownload />
+          <span>Preview</span>
+        </Buttons.SecondaryGreenButton>
+      </a>
+    </>
+  ) : (
+    <></>
   );
 }
 
@@ -246,6 +305,7 @@ export {
   LikeButton,
   PlusButton,
   PlaylistButton,
+  DownloadPreview,
   SaveAlbum,
   SaveTrack,
 };
