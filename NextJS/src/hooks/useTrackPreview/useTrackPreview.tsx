@@ -27,7 +27,7 @@ function useTrackPreview(
   isMuted: boolean,
   enablePreviewButton: boolean
 ) {
-  const tp = useRef(new Audio(previewURL));
+  const tp = useMemo(() => new Audio(previewURL), [previewURL]);
 
   const isPlayable = useMemo(
     () => previewURL !== null && previewURL.length !== 0,
@@ -37,22 +37,22 @@ function useTrackPreview(
 
   // Do not preload the song until it is required
   useEffect(() => {
-    tp.current.preload = "none";
-  }, []);
+    tp.preload = "none";
+  }, [tp]);
 
   const play = useCallback(() => {
     if (!isMuted) {
-      tp.current.volume = 0.4;
-      tp.current.play().catch((e) => e);
+      tp.volume = 0.4;
+      tp.play().catch((e) => e);
       setIsPlaying(true);
     }
-  }, [isMuted]);
+  }, [isMuted, tp]);
 
   const pause = useCallback(() => {
-    tp.current.pause();
-    tp.current.currentTime = 0;
+    tp.pause();
+    tp.currentTime = 0;
     setIsPlaying(false);
-  }, []);
+  }, [tp]);
 
   function toggleAudio() {
     isPlaying ? pause() : play();
