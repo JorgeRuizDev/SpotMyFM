@@ -1,6 +1,6 @@
 import SwaggerUI from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
-import tw from "twin.macro"
+import tw from "twin.macro";
 
 const BG = tw.div`
   bg-lightMaterialBG-base
@@ -9,7 +9,7 @@ const BG = tw.div`
   text-textColor-lightTheme
   dark:text-textColor-lightTheme
 
-`
+`;
 export default function UI() {
   return (
     <BG>
