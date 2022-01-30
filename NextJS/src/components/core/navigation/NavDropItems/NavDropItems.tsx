@@ -10,6 +10,7 @@ import SpotifyPlayer from "components/core/display/organisms/SpotifyPlayer";
 import { useMemo } from "react";
 import { useLoginStore } from "store/useLogin";
 import LocaleSelector from "components/util/LocaleSelector";
+import { AiFillApi } from "react-icons/ai";
 interface INavDropItemsProps {
   closeMe?: () => void;
 }
@@ -71,6 +72,12 @@ function NavDropItems({ closeMe = () => {} }: INavDropItemsProps): JSX.Element {
           </>
         )}
       </Styled.RowItem>
+      <Link style={{ height: "auto" }} href="/openapi-ui">
+        <Styled.RowItem>
+          <AiFillApi />
+          <span>OpenAPI Specification</span>
+        </Styled.RowItem>
+      </Link>
       <Styled.Center>
         <Buttons.PrimaryBlueButton style={{ width: "70%" }} onClick={logOut}>
           Log Out
