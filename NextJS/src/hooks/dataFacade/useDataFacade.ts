@@ -317,7 +317,10 @@ export const useDataFacade = createStore(() => {
       setAsLoading();
 
       setTrackStatus("parsingTracks");
-      const parsed = spotifyStatic.spotifyTracks2Tracks(tracks, markAsSaved);
+      const parsed = spotifyStatic.spotifyTracks2Tracks(
+        tracks.filter((t) => t.id),
+        markAsSaved
+      );
       const cached = await _getTracks(parsed);
       unsetAsLoading();
 
@@ -336,7 +339,9 @@ export const useDataFacade = createStore(() => {
     async (savedTracks: SpotifyApi.SavedTrackObject[]) => {
       setAsLoading();
 
-      const parsed = spotifyStatic.spotifySavedTracks2Tracks(savedTracks);
+      const parsed = spotifyStatic.spotifySavedTracks2Tracks(
+        savedTracks.filter((t) => t.track.id)
+      );
       const cached = await _getTracks(parsed);
       unsetAsLoading();
 
