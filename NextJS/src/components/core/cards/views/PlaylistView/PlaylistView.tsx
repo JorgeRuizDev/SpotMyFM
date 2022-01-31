@@ -1,4 +1,3 @@
-import Modal from "components/core/display/molecules/Modal";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import usePlaylistSorter, {
   playlistSortingOptions,
@@ -6,11 +5,16 @@ import usePlaylistSorter, {
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { IPlaylistViewSettings } from "interfaces/Playlist";
 import { useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import filterSpotifyPlaylist from "util/filters/filterSpotifyPlaylist";
 import PlaylistTrackDetails from "../../detailedCards/PlaylistTrackDetails";
+import ListPlaylistCard, {ListPlaylistCardHeader} from "../../listCards/ListPlaylistCard";
 import SimplePlaylistCard from "../../simpleCards/SimplePlaylistCard";
 import GenericCardView from "../GenericCardView";
-import { IGenericCardViewSortProps } from "../GenericCardView/GenericCardView";
+import {
+  IGenericCardViewSortProps,
+  ViewTypeOption,
+} from "../GenericCardView/GenericCardView";
 import Styled from "./PlaylistView.styles";
 interface IPlaylistViewProps {
   playlists: SpotifyApi.PlaylistObjectSimplified[];
@@ -26,6 +30,7 @@ function PlaylistView({
   settings = {
     isNested: false,
     defaultTrackSort: playlistSortingOptions.DEFAULT,
+    defaultView: isMobile ? "LIST" : "GRID",
   },
 }: IPlaylistViewProps) {
   const {
@@ -58,6 +63,9 @@ function PlaylistView({
     filterFunction: filterSpotifyPlaylist,
     setFilteredArray: setFiltered,
   };
+  const [currentView, setCurrentView] = useState<ViewTypeOption>(
+    settings.defaultView || "GRID"
+  );
 
   return (
     <>
@@ -65,23 +73,39 @@ function PlaylistView({
         isLoading={settings.isLoading}
         filterInputProps={filter}
         sorting={sorting}
+        setView={setCurrentView}
+        view={
+          currentView === "GRID"
+            ? { type: currentView }
+            : { type: currentView, ListHeader: <ListPlaylistCardHeader pos/> }
+        }
       >
-        {filtered.map((p, i) => (
-          <SimplePlaylistCard
-            playlist={p}
-            key={i}
-            onDetailsClick={() => {
-              setModalPlaylist(p);
-            }}
-          />
-        ))}
+        {currentView === "GRID"
+          ? filtered.map((p, i) => (
+              <SimplePlaylistCard
+                playlist={p}
+                key={i}
+                onDetailsClick={() => {
+                  setModalPlaylist(p);
+                }}
+              />
+            ))
+          : filtered.map((p, i) => (
+              <ListPlaylistCard
+                playlist={p}
+                pos={i}
+                onMore={() => {
+                  setModalPlaylist(p);
+                }}
+                key={i}
+              />
+            ))}
       </GenericCardView>
-      {
-        <PlaylistTrackDetails
-          playlist={modalPlaylist}
-          setPlaylist={setModalPlaylist}
-        />
-      }
+
+      <PlaylistTrackDetails
+        playlist={modalPlaylist}
+        setPlaylist={setModalPlaylist}
+      />
     </>
   );
 }
