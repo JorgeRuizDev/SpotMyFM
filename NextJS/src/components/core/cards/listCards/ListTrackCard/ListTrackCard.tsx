@@ -154,11 +154,13 @@ function ListTrackCardHeader({
       </Styled.LeftSide>
 
       <Styled.RightSide>
-        <Styled.RightSideSpacing>
-          <Styled.GreenP>
-            <AiOutlineClockCircle />
-          </Styled.GreenP>
-        </Styled.RightSideSpacing>
+        <Styled.E4>
+          <Styled.RightSideSpacing>
+            <Styled.GreenP>
+              <AiOutlineClockCircle />
+            </Styled.GreenP>
+          </Styled.RightSideSpacing>
+        </Styled.E4>
       </Styled.RightSide>
     </Styled.Header>
   );
