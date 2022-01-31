@@ -4,10 +4,13 @@ import prettyMilliseconds from "pretty-ms";
 import React, { useState } from "react";
 import formatPopularity from "util/spotify/formatPopularity";
 import { PlaylistButton } from "../../buttons/CardButtons/CardButtons";
+
 import TrackCompleteDetails from "../../detailedCards/TrackCompleteDetails";
 import { AiOutlineClockCircle } from "react-icons/ai";
 import Styled from "./ListTrackCard.styles";
 import { IGenericCardViewSortProps } from "../../views/GenericCardView/GenericCardView";
+import Buttons from "styles/Buttons";
+import { FaPlus } from "react-icons/fa";
 interface IListTrackCardProps {
   track: Track;
   pos?: number;
@@ -49,9 +52,13 @@ function ListTrackCard({
 
           <Styled.E1>
             <p>{track.name}</p>
-            <span onClick={(e) => e.stopPropagation()}>
+            <span>
               {track.artists.map((a, i) => (
-                <a href={a.spotifyUrl} key={i}>
+                <a
+                  href={a.spotifyUrl}
+                  key={i}
+                  onClick={(e) => e.stopPropagation()}
+                >
                   {a.name + " "}
                 </a>
               ))}
@@ -82,12 +89,21 @@ function ListTrackCard({
           <Styled.Length>
             <p>{prettyMilliseconds(track.spotifyDurationMS)}</p>
           </Styled.Length>
-          <PlaylistButton
-            track={track}
-            inPlaylist={inPlaylist}
-            toggleFromPlaylist={toggleFromPlaylist}
-            showLabels={false}
-          />
+          {toggleFromPlaylist ? (
+            <PlaylistButton
+              track={track}
+              inPlaylist={inPlaylist}
+              toggleFromPlaylist={toggleFromPlaylist}
+              showLabels={false}
+            />
+          ) : (
+            <Buttons.SecondaryGreenButton
+              rounded
+              onClick={() => setIsModalOpen((s) => !s)}
+            >
+              <FaPlus />
+            </Buttons.SecondaryGreenButton>
+          )}
         </Styled.RightSide>
       </Styled.ListItem>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
