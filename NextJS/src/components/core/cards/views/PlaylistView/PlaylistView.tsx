@@ -8,7 +8,9 @@ import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import filterSpotifyPlaylist from "util/filters/filterSpotifyPlaylist";
 import PlaylistTrackDetails from "../../detailedCards/PlaylistTrackDetails";
-import ListPlaylistCard, {ListPlaylistCardHeader} from "../../listCards/ListPlaylistCard";
+import ListPlaylistCard, {
+  ListPlaylistCardHeader,
+} from "../../listCards/ListPlaylistCard";
 import SimplePlaylistCard from "../../simpleCards/SimplePlaylistCard";
 import GenericCardView from "../GenericCardView";
 import {
@@ -77,7 +79,7 @@ function PlaylistView({
         view={
           currentView === "GRID"
             ? { type: currentView }
-            : { type: currentView, ListHeader: <ListPlaylistCardHeader pos/> }
+            : { type: currentView, ListHeader: <ListPlaylistCardHeader pos /> }
         }
       >
         {currentView === "GRID"
