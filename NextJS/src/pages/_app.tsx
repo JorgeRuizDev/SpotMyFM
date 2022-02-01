@@ -13,11 +13,12 @@ import Navbar from "components/core/navigation/Navbar";
 import NotificationRenderer from "components/core/notification/NotificationRenderer";
 import { ReusableProvider } from "reusable";
 import BottomNavbar from "components/core/navigation/BottomNavbar";
+import { useSessionStore } from "store/useSession";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const isLogged = useLoginStore().isLogged;
   useClientsStore().getUser(isLogged);
-
+  console.log(useSessionStore().activePage)
   return (
     <ReusableProvider>
       <main>
