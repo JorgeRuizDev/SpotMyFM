@@ -4,6 +4,7 @@ import usePlaylistSorter, {
 } from "hooks/sorters/usePlaylistSorter";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { IPlaylistViewSettings } from "interfaces/Playlist";
+import useTranslation from "next-translate/useTranslation";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import filterSpotifyPlaylist from "util/filters/filterSpotifyPlaylist";
@@ -35,6 +36,8 @@ function PlaylistView({
     defaultView: isMobile ? "LIST" : "GRID",
   },
 }: IPlaylistViewProps) {
+  const { t } = useTranslation();
+
   const {
     isAscendentState,
     optionState,
@@ -50,14 +53,11 @@ function PlaylistView({
     selected: optionState,
     setIsAscendant: setIsAscendentState,
     setSorting: setOptionState,
-    sortTitle: "Sort Playlists",
+    sortTitle: t("views:sort-playlists"),
   };
 
   const [modalPlaylist, setModalPlaylist] =
     useState<SpotifyApi.PlaylistObjectSimplified>();
-  const [modalTracks, setModalTracks] = useState<Track[]>([]);
-  const [isModalLoading, setIsModalLoading] = useState(false);
-
   const [filtered, setFiltered] = useState(sortedPlaylists);
 
   const filter: IFilterInputProps<SpotifyApi.PlaylistObjectSimplified> = {

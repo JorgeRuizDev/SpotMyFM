@@ -53,7 +53,6 @@ function TrackCompleteDetails({
   const [lastFMDetails, setLastFMDetails] = useState<ILastFMAlbum | null>(null);
   const [isTrackLiked, setIsTrackLiked] = useState(false);
   const [isAlbumLiked, setIsAlbumLiked] = useState(false);
-  const [showAlbumTracks, setShowAlbumTracks] = useState(false);
   const { lastfmApi, spotifyApi } = useClientsStore();
   const { t } = useTranslation();
   const { play, pause, PreviewButton } = useTrackPreview(
