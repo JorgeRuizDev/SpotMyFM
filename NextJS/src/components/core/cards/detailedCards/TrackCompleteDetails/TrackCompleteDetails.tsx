@@ -206,7 +206,7 @@ function AlbumTags({ album }: { album?: Album }): JSX.Element {
   return album ? (
     <>
       <h4 style={{ marginTop: 20 }}>
-        <Twemoji emoji="🏷" type="emoji" /> {t("album-tags")}
+        <Twemoji emoji="🏷" type="emoji" /> {t("views:album-tags")}
       </h4>
 
       <Styled.TagsButtonRow>
@@ -220,7 +220,9 @@ function AlbumTags({ album }: { album?: Album }): JSX.Element {
           rounded={album.albumTags.length !== 0}
         >
           <BsFillPencilFill />{" "}
-          {album.albumTags.length === 0 && <span>{t("add-new-tags")}</span>}
+          {album.albumTags.length === 0 && (
+            <span>{t("views:add-new-tags")}</span>
+          )}
         </Buttons.PrimaryGreenButton>
       </Styled.TagsButtonRow>
 
