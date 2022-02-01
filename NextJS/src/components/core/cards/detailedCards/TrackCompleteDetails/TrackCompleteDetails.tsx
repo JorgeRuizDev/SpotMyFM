@@ -205,7 +205,7 @@ function AlbumTags({ album }: { album?: Album }): JSX.Element {
 
   return album ? (
     <>
-      <h4 style={{marginTop: 20}}>
+      <h4 style={{ marginTop: 20 }}>
         <Twemoji emoji="🏷" type="emoji" /> Album Tags
       </h4>
 
