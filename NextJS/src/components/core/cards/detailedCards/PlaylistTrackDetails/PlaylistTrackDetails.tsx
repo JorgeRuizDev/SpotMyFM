@@ -146,7 +146,6 @@ function PlaylistTrackDetails({
           <></>
         )}
       </Modal>
-      )
     </>
   );
 }
