@@ -95,7 +95,13 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
       savedAlbums.forEach((a) => map.set(a.spotifyId, a));
     }
 
-    setDisplayAlbums(Array.from(map.values()));
+    const display = Array.from(map.values());
+
+    const tagged = display.filter((a) => a.albumTags.length);
+
+    const saved = display.filter((a) => a.savedAt);
+
+    setDisplayAlbums(Array.from(new Set([...tagged, ...saved])));
   }, [
     showCached,
     showSaved,
