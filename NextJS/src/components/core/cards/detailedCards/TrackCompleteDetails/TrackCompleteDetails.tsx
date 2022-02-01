@@ -31,6 +31,12 @@ import HorizontalCardCarousell from "../../horizontalCards/HorizontalCardCarouse
 import { motion } from "framer-motion";
 import AlbumTracksView from "../../views/AlbumTracksView";
 import useTranslation from "next-translate/useTranslation";
+import Buttons from "styles/Buttons";
+import Modal from "components/core/display/molecules/Modal";
+import { FaLessThanEqual } from "react-icons/fa";
+import ModifyAlbumTags from "../../other/ModifyAlbumTags";
+import Twemoji from "components/util/Twemoji";
+import { BsFillPencilFill } from "react-icons/bs";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
@@ -125,7 +131,7 @@ function TrackCompleteDetails({
                 </motion.div>
 
                 <AlbumCollapsible album={album} />
-                <hr />
+
                 <CoverText
                   album={album}
                   track={track}
@@ -135,6 +141,7 @@ function TrackCompleteDetails({
               </Styled.AlbumColumn>
               <Buttons />
               <LastFMTags />
+              <AlbumTags album={album} />
             </Styled.Column>
             <RightColumn
               artists={artists || []}
@@ -150,7 +157,6 @@ function TrackCompleteDetails({
   function LastFMTags(): JSX.Element {
     return (album?.lastfmTagsFull?.length || 0) > 0 ? (
       <>
-        <hr />
         <h4>{t("cards:lastfm-tags")}</h4>
         <Styled.TagsButtonRow>
           {album?.lastfmTagsFull?.map((t) => (
@@ -192,6 +198,40 @@ function TrackCompleteDetails({
       </Styled.ButtonRow>
     );
   }
+}
+
+function AlbumTags({ album }: { album?: Album }): JSX.Element {
+  const [showModal, setShowModal] = useState(false);
+
+  return album ? (
+    <>
+      <h4 style={{marginTop: 20}}>
+        <Twemoji emoji="🏷" type="emoji" /> Album Tags
+      </h4>
+
+      <Styled.TagsButtonRow>
+        {album.albumTags.map((t) => (
+          <Buttons.SecondaryGreenButton key={t}>
+            {t}
+          </Buttons.SecondaryGreenButton>
+        ))}{" "}
+        <Buttons.PrimaryGreenButton onClick={() => setShowModal(true)} rounded>
+          <BsFillPencilFill />
+        </Buttons.PrimaryGreenButton>
+      </Styled.TagsButtonRow>
+
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <ModifyAlbumTags
+          album={album}
+          closeModal={() => {
+            setShowModal(false);
+          }}
+        />
+      </Modal>
+    </>
+  ) : (
+    <></>
+  );
 }
 
 function RightColumn({

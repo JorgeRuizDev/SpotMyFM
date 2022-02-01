@@ -241,6 +241,8 @@ const CustomGlobalStyle = createGlobalStyle`
       ml-0.5
       mr-0.5
 
+      w-full
+
       `}
   }
 `;
