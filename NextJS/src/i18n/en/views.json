@@ -5,5 +5,7 @@
   "filter": "Filter",
   "unselect-all": "Unselect All",
   "select-all": "Select All",
-  "sort-tracks": "Sort Tracks"
+  "sort-tracks": "Sort Tracks",
+  "album-tags": "Album Tags",
+  "add-new-tags": "Add New Tags"
 }

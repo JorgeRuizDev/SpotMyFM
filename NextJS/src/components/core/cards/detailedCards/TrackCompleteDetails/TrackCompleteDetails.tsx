@@ -202,11 +202,11 @@ function TrackCompleteDetails({
 
 function AlbumTags({ album }: { album?: Album }): JSX.Element {
   const [showModal, setShowModal] = useState(false);
-
+  const { t } = useTranslation();
   return album ? (
     <>
-      <h4 style={{marginTop: 20}}>
-        <Twemoji emoji="🏷" type="emoji" /> Album Tags
+      <h4 style={{ marginTop: 20 }}>
+        <Twemoji emoji="🏷" type="emoji" /> {t("album-tags")}
       </h4>
 
       <Styled.TagsButtonRow>
@@ -215,8 +215,12 @@ function AlbumTags({ album }: { album?: Album }): JSX.Element {
             {t}
           </Buttons.SecondaryGreenButton>
         ))}{" "}
-        <Buttons.PrimaryGreenButton onClick={() => setShowModal(true)} rounded>
-          <BsFillPencilFill />
+        <Buttons.PrimaryGreenButton
+          onClick={() => setShowModal(true)}
+          rounded={album.albumTags.length !== 0}
+        >
+          <BsFillPencilFill />{" "}
+          {album.albumTags.length === 0 && <span>{t("add-new-tags")}</span>}
         </Buttons.PrimaryGreenButton>
       </Styled.TagsButtonRow>
 
