@@ -95,7 +95,7 @@ function PlaylistView({
           : filtered.map((p, i) => (
               <ListPlaylistCard
                 playlist={p}
-                pos={i}
+                pos={i + 1}
                 onMore={() => {
                   setModalPlaylist(p);
                 }}
