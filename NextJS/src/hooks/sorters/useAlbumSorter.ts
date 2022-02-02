@@ -74,7 +74,7 @@ export default function useAlbumSorter(
 
     setSortedAlbums(Array.from(isAscendentState ? [...t.reverse()] : [...t]));
   }, [albums, optionState, isAscendentState, defaultAlbums]);
-  console.log(sortedAlbums)
+
   // On option change: Sort the albums
   useEffect(sort, [sort]);
 
