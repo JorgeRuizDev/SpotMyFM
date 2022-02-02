@@ -18,7 +18,7 @@ export const playlistSortingOptions: Record<PlaylistSortingOptions, string> = {
   PLAYLIST_TRACK_COUNT: "Playlist Track Count",
 };
 const so = playlistSortingOptions;
-export default function useAlbumSorter(
+export default function usePlaylistSorter(
   playlists: SpotifyApi.PlaylistObjectSimplified[],
   option = playlistSortingOptions.DEFAULT,
   isAscendent = false
