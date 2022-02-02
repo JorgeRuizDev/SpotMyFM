@@ -26,15 +26,16 @@ export const albumSortingOptions: Record<AlbumSortingOptions, string> = {
   ARTIST_POPULARITY: "Artist Popularity",
   ALBUM_POPULARITY: "Album Popularity",
 };
+
+const so = albumSortingOptions;
+
 export default function useAlbumSorter(
   albums: Album[],
   option = albumSortingOptions.DEFAULT,
   isAscendent = false
 ) {
-  const so = albumSortingOptions;
-
   const [defaultAlbums, setDefaultAlbums] = useState([...albums]);
-  const [sortedAlbums, setSortedAlbums] = useState(albums);
+  const [sortedAlbums, setSortedAlbums] = useState([...albums]);
   const [optionState, setOptionState] = useState(option);
   const [isAscendentState, setIsAscendentState] = useState(isAscendent);
 
@@ -51,6 +52,9 @@ export default function useAlbumSorter(
   const sort = useCallback(() => {
     let t = albums;
     switch (optionState) {
+      case so.DEFAULT:
+        t = [...defaultAlbums];
+        break;
       case so.ALBUM_NAME:
         t = albums.sort(sortByName);
         break;
@@ -66,15 +70,13 @@ export default function useAlbumSorter(
       case so.ARTIST_NAME:
         t = albums.sort(sortByArtistName);
         break;
-      case so.DEFAULT:
-        t = [...defaultAlbums];
     }
 
-    setSortedAlbums(isAscendentState ? [...t.reverse()] : [...t]);
-  }, [so, albums, optionState, isAscendentState, defaultAlbums]);
-
+    setSortedAlbums(Array.from(isAscendentState ? [...t.reverse()] : [...t]));
+  }, [albums, optionState, isAscendentState, defaultAlbums]);
+  console.log(sortedAlbums)
   // On option change: Sort the albums
-  useEffect(sort, [sort, optionState, isAscendentState]);
+  useEffect(sort, [sort]);
 
   return {
     sortedAlbums,

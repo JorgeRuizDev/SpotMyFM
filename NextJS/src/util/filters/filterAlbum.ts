@@ -1,6 +1,6 @@
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 
-export function filterArtist(album: Album, query: string): boolean {
+export function filterAlbum(album: Album, query: string): boolean {
   query = query.toUpperCase();
   return (
     album.name.toUpperCase().includes(query) ||
