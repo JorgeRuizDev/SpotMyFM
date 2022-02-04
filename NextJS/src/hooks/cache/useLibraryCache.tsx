@@ -231,7 +231,7 @@ export function useLibraryCache() {
     if (!isLogged) {
       return;
     }
-
+    hideAllNotifications();
     switch (cacheStatus) {
       case cacheStatusType.OUTDATED:
         pushNotification(
@@ -276,6 +276,7 @@ export function useLibraryCache() {
     cacheTrackLibrary,
     deepRefreshTrackCache,
     getLastCacheDate,
+    hideAllNotifications,
     hideNotification,
     isLogged,
     pushNotification,
