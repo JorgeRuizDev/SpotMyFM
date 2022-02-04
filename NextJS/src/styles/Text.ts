@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import tw from "twin.macro";
 
 const pBlack = tw.p`
@@ -20,6 +21,19 @@ const Center = tw.div`
   w-full
 `;
 
+interface IColumn {
+  centered?: boolean;
+}
+
+const Column = styled.div<IColumn>(({ centered }) => [
+  tw`
+    flex
+    flex-col
+    space-y-3
+    w-full
+  `,
+  centered && tw`items-center`
+]);
 const pGreen = tw.span`
 	text-darkGreen-base
 	dark:text-lightGreen-base
@@ -27,6 +41,6 @@ const pGreen = tw.span`
 
 const green = pGreen;
 
-const Styled = { pBlack, pGreen, Inline, green, Center };
+const Styled = { pBlack, pGreen, Inline, green, Center, Column };
 
 export default Styled;
