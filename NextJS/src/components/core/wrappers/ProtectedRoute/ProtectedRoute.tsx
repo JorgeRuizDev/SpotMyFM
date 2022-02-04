@@ -13,6 +13,11 @@ interface IProtectedRouteProps {
   onlyCached?: boolean;
 }
 
+/**
+ * This component wrapper restricts the protects to a page if the only* prop is active
+ * @param param0 
+ * @returns 
+ */
 function ProtectedRoute({
   onlyAdmin = false,
   onlyCached = false,
@@ -57,7 +62,10 @@ function ProtectedRoute({
           </Styled.Card>
         </Styled.FullPageCenter>
       );
-    } else if (cacheStatus !== cacheStatusType.CACHED) {
+    } else if (
+      cacheStatus !== cacheStatusType.CACHED &&
+      cacheStatus !== cacheStatusType.OUTDATED
+    ) {
       return (
         <>
           <Styled.FullPageCenter>
