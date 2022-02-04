@@ -10,27 +10,24 @@ interface ILibraryManagerTopTabProps {
   setTracks: (t: Track[]) => void;
   cachedTracks: Track[];
   setIsLoading: (isLoading: boolean) => void;
+  resetTrackSel: () => void;
 }
-
-const defaultValue = 10;
 
 function LibraryManagerTopTab({
   cachedTracks,
   setTracks,
   setIsLoading,
+  resetTrackSel,
 }: ILibraryManagerTopTabProps): JSX.Element {
   const trackCount = useMemo(() => cachedTracks.length, [cachedTracks]);
 
-  const [numberTracks, setNumberTracks] = useState(defaultValue);
+  const [numberTracks, setNumberTracks] = useState(trackCount);
 
   const shuffle = useCallback(
     (nTracks: number) => {
       setIsLoading(true);
 
-      const shuffled = _.shuffle(cachedTracks).slice(
-        0,
-        Math.min(defaultValue, nTracks)
-      );
+      const shuffled = _.shuffle(cachedTracks).slice(0, nTracks);
 
       setTracks(shuffled);
       setIsLoading(false);
@@ -72,7 +69,6 @@ function LibraryManagerTopTab({
                   <SimpleSlider
                     min={10}
                     max={trackCount}
-                    defaultValue={trackCount}
                     onChange={(x) => setNumberTracks(x)}
                     onAfterChange={shuffle}
                   />
@@ -81,7 +77,17 @@ function LibraryManagerTopTab({
                   Select a <Text.green>random amount of tracks</Text.green> from
                   your library
                 </p>
-                <p>{numberTracks} Tracks Selected!</p>
+                <p>
+                  {numberTracks} Tracks Selected! (
+                  <Styled.ClickText
+                    onClick={() => {
+                      resetTrackSel();
+                    }}
+                  >
+                    Reset Selection
+                  </Styled.ClickText>
+                  )
+                </p>
               </Styled.CenterSliderContainer>
             </Tab.TabContent>
           </Tab.TabContentWrap>

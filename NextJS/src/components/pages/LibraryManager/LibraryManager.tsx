@@ -3,6 +3,7 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { trackSortingOptions } from "hooks/sorters/useTrackSorter";
 import { useEffect, useState } from "react";
 import { useClientsStore } from "store/useClients";
+import { sortByName } from "util/sorters/commonSoters";
 import Styled from "./LibraryManager.styles";
 import LibraryManagerTopTab from "./LibraryManagerTopTab";
 interface ILibraryManagerProps {}
@@ -11,6 +12,7 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
   const db = useClientsStore((s) => s.cacheClient);
   const [cachedTracks, setCachedTracks] = useState<Track[]>([]);
   const [selectedTracks, setSelectedTracks] = useState<Track[]>([]);
+  const [selTracksBack, setSelTracksBack] = useState<Track[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -18,7 +20,9 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
       setIsLoading(true);
       const r = await db.getSavedTracks();
       setSelectedTracks(r);
-      setCachedTracks(r);
+      const t = r.sort(sortByName);
+      setCachedTracks(t);
+      setSelTracksBack([...t]);
       setIsLoading(false);
     };
     fn();
@@ -31,6 +35,9 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
       </Styled.Center>
       <Styled.Center>
         <LibraryManagerTopTab
+          resetTrackSel={() => {
+            setSelectedTracks([...selTracksBack]);
+          }}
           cachedTracks={cachedTracks}
           setIsLoading={setIsLoading}
           setTracks={setSelectedTracks}
@@ -40,7 +47,7 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
         tracks={selectedTracks}
         settings={{
           isLoading: isLoading,
-          defaultTrackSort: trackSortingOptions.TRACK_NAME,
+          defaultTrackSort: trackSortingOptions.DEFAULT,
         }}
       />
     </Styled.SpaceY>

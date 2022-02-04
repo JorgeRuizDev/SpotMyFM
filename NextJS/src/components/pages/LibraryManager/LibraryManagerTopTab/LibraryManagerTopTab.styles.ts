@@ -1,4 +1,5 @@
 import tw from "twin.macro";
+import Text from "styles/Text";
 
 const MinH = tw.div`
   min-h-[300px]
@@ -24,8 +25,13 @@ const CenterSliderContainer = tw.div`
 	justify-center
 `;
 
+const ClickText = tw(Text.pGreen)`
+  cursor-pointer
+`;
+
 const Styled = {
   SliderContainer,
+  ClickText,
   Wrap,
   CenterSliderContainer,
   MinH,
