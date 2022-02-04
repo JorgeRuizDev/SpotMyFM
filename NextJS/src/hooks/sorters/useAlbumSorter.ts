@@ -13,6 +13,8 @@ import {
 type AlbumSortingOptions =
   | "DEFAULT"
   | "ALBUM_NAME"
+  | "LAST_TAG_COUNT"
+  | "USER_TAG_COUNT"
   | "RELEASE_DATE"
   | "ALBUM_POPULARITY"
   | "ARTIST_NAME"
@@ -25,6 +27,8 @@ export const albumSortingOptions: Record<AlbumSortingOptions, string> = {
   ARTIST_NAME: "Artist Name",
   ARTIST_POPULARITY: "Artist Popularity",
   ALBUM_POPULARITY: "Album Popularity",
+  USER_TAG_COUNT: "User Tags",
+  LAST_TAG_COUNT: "LastFM Tags",
 };
 
 const so = albumSortingOptions;
@@ -66,6 +70,14 @@ export default function useAlbumSorter(
         break;
       case so.ARTIST_POPULARITY:
         t = albums.sort(sortByArtistPop);
+        break;
+      case so.LAST_TAG_COUNT:
+        t = albums.sort(
+          (a, b) => a.lastfmTagsNames.length - b.lastfmTagsNames.length
+        );
+        break;
+      case so.USER_TAG_COUNT:
+        t = albums.sort((a, b) => a.albumTags.length - b.albumTags.length);
         break;
       case so.ARTIST_NAME:
         t = albums.sort(sortByArtistName);
