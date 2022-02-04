@@ -145,9 +145,9 @@ function GenericCardView<T>({
                 component: (
                   <>
                     {!sorting.isAscendant ? (
-                      <FaSortAmountUpAlt />
-                    ) : (
                       <FaSortAmountDownAlt />
+                    ) : (
+                      <FaSortAmountUpAlt />
                     )}
                     <span>
                       Set {sorting.isAscendant ? "Descending" : "Ascending"}
