@@ -81,7 +81,7 @@ function DateIntervalSelector({
   }, [albums, oldestDate, newestDate]);
 
   return (
-    <div>
+    <div style={{ width: "100%" }}>
       <h4>📆 Select the release date interval</h4>
 
       {oldestDate !== null && newestDate !== null ? (
