@@ -1,6 +1,6 @@
 import axios from "util/axios";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
-import { ILastFMAlbum, LastfmTag } from "interfaces/lastFM";
+import { ILastFMAlbum, ILastFMArtist, LastfmTag } from "interfaces/lastFM";
 import { IRestClient, RestError } from "interfaces/RestClient";
 import { parseAxiosError } from "util/axios/parseError";
 import cfg from "config";
@@ -116,7 +116,8 @@ export class LastfmClient implements IRestClient {
    */
   async getAlbumDetails(
     artist: string,
-    album: string
+    album: string,
+    lang = "en"
   ): Promise<[null | ILastFMAlbum, RestError | null]> {
     const params = {
       method: "album.getinfo",
@@ -124,6 +125,7 @@ export class LastfmClient implements IRestClient {
       album: album,
       api_key: this.key,
       format: "json",
+      lang: lang,
     };
 
     try {
@@ -136,6 +138,44 @@ export class LastfmClient implements IRestClient {
           lastfmListenersCount: parseInt(data.listeners),
           lastfmPlayCount: parseInt(data.playcount),
           lastfmURL: data.url,
+        },
+        null,
+      ];
+    } catch (e) {
+      return [null, this.parse(e)];
+    }
+  }
+
+  /**
+   * Gets Artist Details from LastFM API
+   * @param artist: Artist Name 
+   * @param lang : Language to try and fetch 
+   * @returns 
+   */
+  async getArtistDetails(
+    artist: string,
+    lang = "es"
+  ): Promise<[ILastFMArtist | null, RestError | null]> {
+    const params = {
+      method: "artist.getinfo",
+      artist: artist,
+      api_key: this.key,
+      format: "json",
+      lang: lang,
+    };
+
+    try {
+      const res = await axios.get(this.apiUrl, { params });
+      const { name, stats, tags, bio, url } = res.data.artist;
+
+      return [
+        {
+          name: name,
+          plays: stats.playcount,
+          listeners: stats.listeners,
+          bio,
+          url,
+          tags: tags.tag,
         },
         null,
       ];
