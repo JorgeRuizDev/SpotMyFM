@@ -100,7 +100,7 @@ function AlbumView({
           }}
           disableReset={advancedFilteredAlbums.length === albums.length}
         />
-      </Styled.Center>  
+      </Styled.Center>
       <Modal
         isOpen={showAdvancedFilter}
         onClose={() => {

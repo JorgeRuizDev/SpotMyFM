@@ -21,7 +21,7 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
     const fn = async () => {
       setIsLoading(true);
       const cached = await db.getSavedTracks();
-      const r = await getTracksByIds(cached.map(t => t.spotifyId))
+      const r = await getTracksByIds(cached.map((t) => t.spotifyId));
       setSelectedTracks(r);
       const t = r.sort(sortByName);
       setCachedTracks(t);

@@ -56,7 +56,7 @@ function AdvancedTrackFilters({
 
     setArtists(Array.from(artists.values()));
   }, [albums, tracks]);
-  console.log(filteredPillAlbums)
+  console.log(filteredPillAlbums);
 
   // Return the filtered interval as the filter results:
   useEffect(() => {
