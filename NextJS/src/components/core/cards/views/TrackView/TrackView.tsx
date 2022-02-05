@@ -55,8 +55,8 @@ function TrackView({
   const [hover, setHover] = useState(!isMobile);
   const [advancedFilteredTracks, setAdvancedFilteredTracks] =
     useState<Track[]>(tracks);
-  const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
   const [resetAdvFilter, setResetAdvFilter] = useState(false);
+  const [filteredTracks, setFilteredTracks] = useState<Track[]>([]);
 
   const [currentView, setCurrentView] = useState<ViewTypeOption>(
     settings.defaultView ? settings.defaultView : isMobile ? "LIST" : "GRID"

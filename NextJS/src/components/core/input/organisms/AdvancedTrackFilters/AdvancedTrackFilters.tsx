@@ -26,8 +26,6 @@ function AdvancedTrackFilters({
   // Default non-filtered items used as source
   const [artists, setArtists] = useState<Artist[]>([]);
 
-  const [abvIntervalAlbums, setAbvIntervalAlbums] = useState<Album[]>([]);
-
   const [filteredPillTracks, setFilteredPillTracks] = useState<Track[]>(
     tracks || []
   );
@@ -58,11 +56,7 @@ function AdvancedTrackFilters({
 
     setArtists(Array.from(artists.values()));
   }, [albums, tracks]);
-
-  // Get the pill filtered result and set the tracks as the album filter
-  useEffect(() => {
-    setAbvIntervalAlbums(filteredPillTracks.flatMap((t) => t.album || []));
-  }, [filteredPillTracks]);
+  console.log(filteredPillAlbums)
 
   // Return the filtered interval as the filter results:
   useEffect(() => {
@@ -114,7 +108,7 @@ function AdvancedTrackFilters({
 
       <TrackIntervalFilters
         tracks={filteredPillTracks}
-        albums={abvIntervalAlbums}
+        albums={filteredPillAlbums}
         artists={artists}
         setFilteredTracks={setFilteredIntervalTracks}
         setFilteredAlbums={setFilteredIntervalAlbums}

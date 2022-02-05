@@ -66,7 +66,7 @@ function TrackPillFilters({
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
    */
   const filterTracks = useCallback(() => {
-    if (!tracks) {
+    if (!tracks?.length) {
       return;
     }
 
@@ -109,7 +109,7 @@ function TrackPillFilters({
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
    */
   const filterAlbums = useCallback(() => {
-    if (!albums) {
+    if (!albums?.length) {
       return;
     }
 
@@ -130,7 +130,6 @@ function TrackPillFilters({
       )
       // By user's album tags:
       .filter((a) => filterByPill(a.albumTags || [], filteredMyAlbumTags));
-
     setFilteredAlbums(filtered);
   }, [
     albums,
@@ -144,7 +143,7 @@ function TrackPillFilters({
   // On filter change: Update the tracks
   useEffect(() => {
     filterTracks();
-    filterAlbums;
+    filterAlbums();
   }, [filterAlbums, filterTracks]);
   const artistsNames = useMemo(
     () => (artists || []).map((a) => a.name),
