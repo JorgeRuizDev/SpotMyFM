@@ -63,7 +63,7 @@ const LeftSide = tw(StyledList.LeftSide)``;
 
 const RightSide = tw(StyledList.RightSide)``;
 
-const E1 = tw(StyledList.E1)`flex flex-col max-width[400px] min-width[200px]`;
+const E1 = tw(StyledList.E1)`flex flex-col max-width[400px] `;
 const E2 = tw(StyledList.E2)`max-width[140px]`;
 const E3 = tw(StyledList.E3)`max-width[200px]`;
 const E4 = tw(
