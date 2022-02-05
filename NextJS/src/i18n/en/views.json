@@ -8,5 +8,7 @@
   "sort-tracks": "Sort Tracks",
   "album-tags": "Album Tags",
   "add-new-tags": "Add New Tags",
-  "sort-playlists": "Sort Playlists"
+  "sort-playlists": "Sort Playlists",
+  "open-advance-filter": "Open Advance Filter",
+  "reset-filter": "Reset Filter"
 }
