@@ -10,5 +10,7 @@
   "add-new-tags": "Add New Tags",
   "sort-playlists": "Sort Playlists",
   "open-advance-filter": "Open Advance Filter",
-  "reset-filter": "Reset Filter"
+  "reset-filter": "Reset Filter",
+  "select-all-elements-": "Select All Elements on Screen",
+  "unselect-all-selecte": "Unselect all selected elements"
 }
