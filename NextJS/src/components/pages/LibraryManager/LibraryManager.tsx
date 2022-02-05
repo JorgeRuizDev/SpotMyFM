@@ -1,5 +1,6 @@
 import TrackSelectorView from "components/core/cards/views/TrackSelectorView";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
+import { useDataFacade } from "hooks/dataFacade/useDataFacade";
 import { trackSortingOptions } from "hooks/sorters/useTrackSorter";
 import { useEffect, useState } from "react";
 import { useClientsStore } from "store/useClients";
@@ -10,6 +11,7 @@ interface ILibraryManagerProps {}
 
 function LibraryManager(props: ILibraryManagerProps): JSX.Element {
   const db = useClientsStore((s) => s.cacheClient);
+  const { getTracksByIds } = useDataFacade();
   const [cachedTracks, setCachedTracks] = useState<Track[]>([]);
   const [selectedTracks, setSelectedTracks] = useState<Track[]>([]);
   const [selTracksBack, setSelTracksBack] = useState<Track[]>([]);
@@ -18,7 +20,8 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
   useEffect(() => {
     const fn = async () => {
       setIsLoading(true);
-      const r = await db.getSavedTracks();
+      const cached = await db.getSavedTracks();
+      const r = await getTracksByIds(cached.map(t => t.spotifyId))
       setSelectedTracks(r);
       const t = r.sort(sortByName);
       setCachedTracks(t);
@@ -26,7 +29,7 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
       setIsLoading(false);
     };
     fn();
-  }, [db]);
+  }, [db, getTracksByIds]);
 
   return (
     <Styled.SpaceY>

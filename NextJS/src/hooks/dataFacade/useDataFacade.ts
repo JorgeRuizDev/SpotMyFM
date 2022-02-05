@@ -358,7 +358,6 @@ export const useDataFacade = createStore(() => {
       );
       const cached = await _getTracks(parsed);
       unsetAsLoading();
-
       setTrackStatus("default");
       return cached;
     },
@@ -376,6 +375,7 @@ export const useDataFacade = createStore(() => {
     getAlbumsById,
     getArtists,
     getArtistsById,
+    addAlbumTags,
   };
 });
 
