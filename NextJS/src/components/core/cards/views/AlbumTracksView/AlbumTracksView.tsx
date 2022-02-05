@@ -104,11 +104,11 @@ function AlbumTracksView({
         {currentView === "GRID"
           ? tracksDisc.map((tracks, i) => (
               <>
-                <DiscNumber discId={i} />
-                {tracks.map((t, i) => (
+                <DiscNumber discId={i} key={-i}/>
+                {tracks.map((t, j) => (
                   <SimpleTrackCard
                     track={t}
-                    key={i}
+                    key={j}
                     isMuted={mute}
                     playOnHover={hover}
                     isNested={true}
@@ -118,12 +118,12 @@ function AlbumTracksView({
             ))
           : tracksDisc.map((tracks, i) => (
               <>
-                <DiscNumber discId={i} />
-                {tracks.map((t, i) => (
+                <DiscNumber discId={i} key={-i}/>
+                {tracks.map((t, j) => (
                   <ListTrackCard
                     track={t}
-                    pos={i + 1}
-                    key={i}
+                    pos={j + 1}
+                    key={j}
                     isNested={isNested}
                   />
                 ))}
