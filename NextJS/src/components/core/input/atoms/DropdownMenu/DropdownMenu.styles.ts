@@ -7,33 +7,13 @@ interface ITitle {
   titleStyle?: "spotify";
 }
 
-const Title = styled(Buttons.BasicButton)<ITitle>(({ titleStyle }) => [
+const Title = styled(Buttons.PrimaryGreenButton)<ITitle>(({ titleStyle }) => [
   tw`
-	rounded-full
 
+  
 	p-0
 	pl-4
-	space-x-2
 
-	dark:(hover:bg-green-400 bg-green-500)
-
-	bg-green-600
-	hover:bg-green-500
-
-	
-	// Text Style
-	text-white
-	dark:text-white
-	text-lg
-	font-bold
-	select-none
-
-	cursor-pointer
-
-	flex
-	flex-row
-	items-center
-	justify-between
 	`,
 
   titleStyle == "spotify" &&
