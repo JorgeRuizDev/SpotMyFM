@@ -1,11 +1,10 @@
-import { Track } from "data/cacheDB/dexieDB/models/Track";
 import usePlaylistSorter, {
   playlistSortingOptions,
 } from "hooks/sorters/usePlaylistSorter";
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { IPlaylistViewSettings } from "interfaces/Playlist";
 import useTranslation from "next-translate/useTranslation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { isMobile } from "react-device-detect";
 import filterSpotifyPlaylist from "util/filters/filterSpotifyPlaylist";
 import PlaylistTrackDetails from "../../detailedCards/PlaylistTrackDetails";
