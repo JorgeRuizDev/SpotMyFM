@@ -154,7 +154,7 @@ export class LastfmClient implements IRestClient {
    */
   async getArtistDetails(
     artist: string,
-    lang = "es"
+    lang = "en"
   ): Promise<[ILastFMArtist | null, RestError | null]> {
     const params = {
       method: "artist.getinfo",

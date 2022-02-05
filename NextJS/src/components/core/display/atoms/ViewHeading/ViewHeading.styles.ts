@@ -10,6 +10,7 @@ const Row = tw.div`
 `;
 
 const Col = tw.div`
+  w-full
   flex
   flex-col
   
