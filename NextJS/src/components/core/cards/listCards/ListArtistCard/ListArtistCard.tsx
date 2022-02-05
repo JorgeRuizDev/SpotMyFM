@@ -1,5 +1,10 @@
+import Modal from "components/core/display/molecules/Modal";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
+import { useState } from "react";
+import { FaPlus } from "react-icons/fa";
+import Buttons from "styles/Buttons";
 import formatPopularity from "util/spotify/formatPopularity";
+import ArtistCompleteDetails from "../../detailedCards/ArtistCompleteDetails";
 import { IGenericCardViewSortProps } from "../../views/GenericCardView/GenericCardView";
 import Styled from "./ListArtistCard.styles";
 interface IListArtistCardProps {
@@ -8,6 +13,8 @@ interface IListArtistCardProps {
 }
 
 function ListArtistCard({ artist, pos }: IListArtistCardProps): JSX.Element {
+  const [showDet, setShowDet] = useState(false);
+
   return (
     <>
       <Styled.ListItem>
@@ -33,11 +40,20 @@ function ListArtistCard({ artist, pos }: IListArtistCardProps): JSX.Element {
           </Styled.E2>
           <Styled.E3>
             <Styled.TrucateP>
-              {artist.spotifyGenres?.slice(0, 3).join(", ") || "No Genres"}
+              {artist.spotifyGenres?.join(", ") || "No Genres"}
             </Styled.TrucateP>
           </Styled.E3>
         </Styled.LeftSide>
+        <Styled.RightSide>
+          <Buttons.SecondaryGreenButton rounded onClick={() => setShowDet(true)}>
+            <FaPlus />
+          </Buttons.SecondaryGreenButton>
+        </Styled.RightSide>
       </Styled.ListItem>
+
+      <Modal isOpen={showDet} onClose={() => setShowDet(false)}>
+        <ArtistCompleteDetails artist={artist} />
+      </Modal>
     </>
   );
 }
