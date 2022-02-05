@@ -5,6 +5,10 @@ function sortByName<E extends { name: string }>(a?: E, b?: E) {
   return a?.name.localeCompare(b?.name || "") || 0;
 }
 
+function sortByNumber(a: number, b: number) {
+  return a - b;
+}
+
 function sortByPopularity(
   a: { spotifyPopularity?: number },
   b: { spotifyPopularity?: number }
@@ -20,4 +24,10 @@ function sortByArtistName(a: Track | Album, b: Track | Album) {
   return sortByName(a.artists?.[0], b.artists?.[0]);
 }
 
-export { sortByArtistName, sortByName, sortByArtistPop, sortByPopularity };
+export {
+  sortByArtistName,
+  sortByName,
+  sortByArtistPop,
+  sortByPopularity,
+  sortByNumber,
+};
