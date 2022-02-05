@@ -7,7 +7,7 @@ interface IFilterButtonProps {
   onFilter: () => void;
   onReset: () => void;
   disableReset?: boolean;
-  disableFilter: boolean;
+  disableFilter?: boolean;
 }
 
 function FilterButton({
@@ -25,7 +25,7 @@ function FilterButton({
         {
           body: (
             <>
-              <HiFilter /> <span>{t("views.filter")}</span>
+              <HiFilter /> <span>{t("views:filter")}</span>
             </>
           ),
           title: t("views:open-advance-filter"),
