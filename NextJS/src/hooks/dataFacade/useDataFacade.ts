@@ -272,9 +272,12 @@ export const useDataFacade = createStore(() => {
       setTrackStatus("default");
       unsetAsLoading();
 
-      return await cache.getTracksBySpotifyId(spotifyIds);
+      const tracks = await cache.getTracksBySpotifyId(spotifyIds);
+      await addAlbumTags(tracks.flatMap((t) => (t.album ? t.album : [])));
+      return tracks;
     },
     [
+      addAlbumTags,
       cache,
       getAlbumsById,
       getArtistsById,
@@ -299,9 +302,14 @@ export const useDataFacade = createStore(() => {
       await cache.joinTracks(missing);
 
       setTrackStatus("default");
-      return await cache.getTracksBySpotifyId(parsed.map((t) => t.spotifyId));
+
+      const tracks = await cache.getTracksBySpotifyId(
+        parsed.map((t) => t.spotifyId)
+      );
+      await addAlbumTags(tracks.flatMap((t) => (t.album ? t.album : [])));
+      return tracks;
     },
-    [cache, getAlbumsById, getArtistsById]
+    [addAlbumTags, cache, getAlbumsById, getArtistsById]
   );
 
   /**
