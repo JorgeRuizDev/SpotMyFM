@@ -8,12 +8,9 @@ import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import { selectManager, trackViewSettings } from "interfaces/Track";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { isMobile } from "react-device-detect";
-import { BiAddToQueue } from "react-icons/bi";
+import { FiMoreHorizontal } from "react-icons/fi";
 import { BsFillCursorFill } from "react-icons/bs";
 import { FaVolumeMute, FaVolumeUp } from "react-icons/fa";
-import { HiFilter } from "react-icons/hi";
-import { MdRemove } from "react-icons/md";
-import { BiReset } from "react-icons/bi";
 import Buttons from "styles/Buttons";
 import filterTrack from "util/filters/filterTrack";
 import {
@@ -28,6 +25,9 @@ import {
 } from "../GenericCardView/GenericCardView";
 import Styled from "./TrackView.styles";
 import useTranslation from "next-translate/useTranslation";
+import FilterButton from "../../buttons/FilterButton";
+import SelectAllButton from "../../buttons/SelectAllButton";
+import DropdownMenu from "components/core/input/atoms/DropdownMenu";
 interface ITrackViewProps {
   tracks: Track[];
   settings?: trackViewSettings;
@@ -215,54 +215,59 @@ function CardLayoutButtons({
   return (
     <Buttons.LayoutCenter>
       {selectManager && (
-        <>
-          <Buttons.PrimaryGreenButton
-            onClick={() => selectManager?.selectAll(filteredTracks)}
-          >
-            <BiAddToQueue />
-            <span>{t("views:select-all")}</span>
-          </Buttons.PrimaryGreenButton>
-          <Buttons.PrimaryGreenButton
-            onClick={() => selectManager?.unselectAll()}
-            disabled={selectManager.selectedCount == 0}
-          >
-            <MdRemove />
-            <span>{t("views:unselect-all")}</span>
-          </Buttons.PrimaryGreenButton>
-        </>
+        <SelectAllButton
+          onSelect={() => {
+            selectManager.selectAll(filteredTracks);
+          }}
+          onUnselect={() => selectManager.unselectAll()}
+          disableUnselect={selectManager.selectedCount == 0}
+        />
       )}
-      <Buttons.PrimaryGreenButton
-        onClick={() => {
+
+      <FilterButton
+        onFilter={() => {
           setShowAdvancedFilter(true);
           setResetAdvFilter(false);
         }}
-      >
-        <HiFilter />
-        <span>{t("views:filter")}</span>
-      </Buttons.PrimaryGreenButton>
-
-      <Buttons.PrimaryGreenButton
-        rounded
-        onClick={() => {
+        onReset={() => {
           setAdvancedFilteredTracks(tracks);
           setResetAdvFilter(true);
         }}
-        aria-label={t("views:reset-advanced-filte")}
-        disabled={tracks.length == advancedFilteredTracks.length}
+        disableReset={tracks.length == advancedFilteredTracks.length}
+      />
+
+      <DropdownMenu
+        items={[
+          {
+            component: (
+              <>
+                {" "}
+                <BsFillCursorFill />
+                <span>
+                  {hover ? t("views:disable-hover") : t("views:enable-hover")}
+                </span>
+              </>
+            ),
+            onClick: toggleHover,
+          },
+
+          {
+            component: mute ? (
+              <>
+                <FaVolumeMute /> <span>{t("views:unmute")}</span>
+              </>
+            ) : (
+              <>
+                <FaVolumeUp /> <span>{t("views:mute")}</span>
+              </>
+            ),
+            onClick: toggleMute,
+          },
+        ]}
       >
-        <BiReset />
-      </Buttons.PrimaryGreenButton>
-
-      <Buttons.PrimaryGreenButton onClick={toggleHover}>
-        <BsFillCursorFill />
-        <span>
-          {hover ? t("views:disable-hover") : t("views:enable-hover")}
-        </span>
-      </Buttons.PrimaryGreenButton>
-
-      <Buttons.PrimaryGreenButton rounded onClick={toggleMute}>
-        {mute ? <FaVolumeMute /> : <FaVolumeUp />}
-      </Buttons.PrimaryGreenButton>
+        <FiMoreHorizontal />
+        <span>{t("views:more")}</span>
+      </DropdownMenu>
     </Buttons.LayoutCenter>
   );
 }

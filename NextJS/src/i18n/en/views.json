@@ -12,5 +12,8 @@
   "open-advance-filter": "Open Advance Filter",
   "reset-filter": "Reset Filter",
   "select-all-elements-": "Select All Elements on Screen",
-  "unselect-all-selecte": "Unselect all selected elements"
+  "unselect-all-selecte": "Unselect all selected elements",
+  "unmute": "Unmute",
+  "mute": "Mute",
+  "more": "More"
 }
