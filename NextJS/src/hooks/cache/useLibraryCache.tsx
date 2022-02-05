@@ -225,13 +225,23 @@ export function useLibraryCache() {
     }
   }, [cacheStatus, percent, refreshNotification, trackStatus]);
 
+
+  // Hide the current notification 
+  useEffect(() => {
+    if (cacheStatus === cacheStatusType.CACHING) {
+      hideNotification(cacheNotification.OUTDATED);
+      hideNotification(cacheNotification.INCONSISTENT);
+      hideNotification(cacheNotification.NOCACHED);
+    }
+  }, [cacheStatus, hideNotification]);
+
   // On Load: pop a notification
   useEffect(() => {
     // Do not prompt anything if the user is not logged in
     if (!isLogged) {
       return;
     }
-    hideAllNotifications();
+
     switch (cacheStatus) {
       case cacheStatusType.OUTDATED:
         pushNotification(
