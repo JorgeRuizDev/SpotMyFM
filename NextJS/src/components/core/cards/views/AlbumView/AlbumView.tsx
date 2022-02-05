@@ -14,7 +14,7 @@ import {
 } from "../GenericCardView/GenericCardView";
 import useTranslation from "next-translate/useTranslation";
 import { isMobile } from "react-device-detect";
-import ListAlbumCard from "../../listCards/ListAlbumCard";
+import ListAlbumCard, { ListAlbumCardHeader } from "../../listCards/ListAlbumCard";
 import Modal from "components/core/display/molecules/Modal";
 import AdvancedTrackFilters from "components/core/input/organisms/AdvancedTrackFilters";
 import FilterButton from "../../buttons/FilterButton";
@@ -120,7 +120,7 @@ function AlbumView({
         view={
           currentView === "GRID"
             ? { type: currentView }
-            : { type: currentView, ListHeader: <></> }
+            : { type: currentView, ListHeader: <ListAlbumCardHeader pos/> }
         }
         setView={setCurrentView}
       >

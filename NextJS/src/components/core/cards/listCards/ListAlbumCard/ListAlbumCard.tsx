@@ -13,6 +13,42 @@ interface IListAlbumCardProps {
   pos?: number;
 }
 
+function ListAlbumCardHeader({ pos }: { pos?: boolean }) {
+  return (
+    <Styled.Header>
+      <Styled.LeftSide>
+        <Styled.FirstTwoCols>
+          <Styled.Pos>{pos && <p>#</p>}</Styled.Pos>
+        </Styled.FirstTwoCols>
+
+        <Styled.E1>
+          <Styled.GreenP>Name</Styled.GreenP>
+        </Styled.E1>
+
+        <Styled.E2>
+          <Styled.GreenP>Released On</Styled.GreenP>
+        </Styled.E2>
+
+        <Styled.E3>
+          <Styled.GreenP>Popularity</Styled.GreenP>
+        </Styled.E3>
+
+        <Styled.E5>
+          <Styled.GreenP>Album Tags</Styled.GreenP>
+        </Styled.E5>
+
+        <Styled.E6>
+          <Styled.GreenP>LastFM Tags</Styled.GreenP>
+        </Styled.E6>
+      </Styled.LeftSide>
+
+      <Styled.RightSide>
+
+      </Styled.RightSide>
+    </Styled.Header>
+  );
+}
+
 function ListAlbumCard({ album, pos }: IListAlbumCardProps): JSX.Element {
   const { t, lang } = useTranslation();
   const [showDet, setShowDet] = useState(false);
@@ -100,3 +136,4 @@ function ListAlbumCard({ album, pos }: IListAlbumCardProps): JSX.Element {
 }
 
 export default ListAlbumCard;
+export { ListAlbumCard, ListAlbumCardHeader };
