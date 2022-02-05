@@ -1,4 +1,5 @@
 import { Album } from "data/cacheDB/dexieDB/models/Album";
+
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import _ from "lodash";
@@ -8,6 +9,8 @@ import { IRestClient, RestError } from "interfaces/RestClient";
 import SpotifyResponse from "./spotifyResponseCodes";
 import { parseAxiosError } from "util/axios/parseError";
 import asyncPool from "tiny-async-pool";
+
+type include_groups = "album" | "single" | "appears_on" | "compilation";
 /**
  * Spotify Api Rest Client
  */
@@ -124,6 +127,41 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     });
 
     return artists;
+  }
+
+  /**
+   * Gets all the albums of an specific artist
+   * @param artistId Artist id to get albums from
+   * @param includeGroups A list of group types to include in the response
+   * @returns
+   */
+  async getAllArtistAlbums(
+    artistId: string,
+    includeGroups: include_groups[]
+  ): Promise<SpotifyApi.AlbumObjectSimplified[]> {
+    const albums = [];
+    let offset = 0;
+    let limit = 50;
+
+    // Filter the includeGroups duplicates
+    const groups = Array.from(new Set(includeGroups).values());
+
+    while (true) {
+      try {
+        const res = await this.getArtistAlbums(artistId, {
+          include_groups: groups.join(","),
+        });
+        albums.push(...res.items);
+        if (offset > res.total) {
+          break;
+        }
+        offset += limit;
+      } catch (e) {
+        throw e;
+      }
+    }
+
+    return albums;
   }
 
   /**
