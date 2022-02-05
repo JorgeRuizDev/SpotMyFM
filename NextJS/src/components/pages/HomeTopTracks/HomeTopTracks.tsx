@@ -24,7 +24,7 @@ export default function HomeTopTracks() {
   const setActivePage = useSessionStore().setActivePage;
 
   useEffect(() => {
-    setActivePage(ActivePage.LIBRARY_MGR);
+    setActivePage(ActivePage.HOME);
   }, [setActivePage]);
 
   return (
