@@ -164,7 +164,7 @@ export const useDataFacade = createStore(() => {
    * @returns Album[]
    */
   const getAlbumsById = useCallback(
-    async (spotifyIds: string[]) => {
+    async (spotifyIds: string[], addCustomTags = true) => {
       setAsLoading();
       const missingIds = await cache.getMissingAlbums(spotifyIds);
       const missingObjects = await (
@@ -180,7 +180,7 @@ export const useDataFacade = createStore(() => {
 
       const cached = await cache.getAlbumsBySpotifyId(spotifyIds);
       unsetAsLoading();
-      return await addAlbumTags(cached);
+      return addCustomTags ? await addAlbumTags(cached) : cached;
     },
     [
       addAlbumTags,
@@ -265,7 +265,10 @@ export const useDataFacade = createStore(() => {
         markAsSaved
       );
       setTrackStatus("gettingAlbums");
-      await getAlbumsById(parsedMissing.map((t) => t.spotifyAlbumId));
+      await getAlbumsById(
+        parsedMissing.map((t) => t.spotifyAlbumId),
+        false
+      );
       setTrackStatus("gettingAlbums");
       await getArtistsById(parsedMissing.flatMap((t) => t.spotifyArtistsIds));
       await cache.joinTracks(parsedMissing, true);
@@ -296,7 +299,10 @@ export const useDataFacade = createStore(() => {
 
       const missing = getMissingObject(parsed, missingIds);
       setTrackStatus("gettingAlbums");
-      await getAlbumsById(missing.map((t) => t.spotifyAlbumId));
+      await getAlbumsById(
+        missing.map((t) => t.spotifyAlbumId),
+        false
+      );
       setTrackStatus("gettingArtists");
       await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
       await cache.joinTracks(missing);
