@@ -107,9 +107,7 @@ function TrackIntervalFilters({
 
       // Album Popularity
       .filter((a) =>
-        a
-          ? spotifyPopularityFilter(a, albumPopularityInterval)
-          : true
+        a ? spotifyPopularityFilter(a, albumPopularityInterval) : true
       )
       // Artist Popularity
       .filter((a) =>
@@ -119,7 +117,13 @@ function TrackIntervalFilters({
       );
 
     setFilteredAlbums(filtered);
-  }, [albums, setFilteredAlbums, releaseInterval, albumPopularityInterval, artistPopularityInterval]);
+  }, [
+    albums,
+    setFilteredAlbums,
+    releaseInterval,
+    albumPopularityInterval,
+    artistPopularityInterval,
+  ]);
 
   // On filter change (any filter changes) -> Filter
   useEffect(() => {

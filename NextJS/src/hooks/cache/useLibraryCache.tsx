@@ -225,8 +225,7 @@ export function useLibraryCache() {
     }
   }, [cacheStatus, percent, refreshNotification, trackStatus]);
 
-
-  // Hide the current notification 
+  // Hide the current notification
   useEffect(() => {
     if (cacheStatus === cacheStatusType.CACHING) {
       hideNotification(cacheNotification.OUTDATED);

@@ -32,7 +32,7 @@ const Column = styled.span<IColumn>(({ centered }) => [
     space-y-3
     w-full
   `,
-  centered && tw`items-center`
+  centered && tw`items-center`,
 ]);
 const pGreen = tw.span`
 	text-darkGreen-base

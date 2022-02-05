@@ -66,8 +66,12 @@ const RightSide = tw(StyledList.RightSide)``;
 const E1 = tw(StyledList.E1)`flex flex-col max-width[400px] min-width[200px]`;
 const E2 = tw(StyledList.E2)`max-width[100px]`;
 const E3 = tw(StyledList.E3)`max-width[200px]`;
-const E4 = tw(StyledList.E4)`2xl:max-width[350px] max-width[300px] xl:max-width[250px]`;
-const E5 = tw(StyledList.E5)`2xl:max-width[350px] max-width[300px] xl:max-width[250px]`;
+const E4 = tw(
+  StyledList.E4
+)`2xl:max-width[350px] max-width[300px] xl:max-width[250px]`;
+const E5 = tw(
+  StyledList.E5
+)`2xl:max-width[350px] max-width[300px] xl:max-width[250px]`;
 const E6 = tw(StyledList.E6)``;
 const Styled = {
   ListItem,

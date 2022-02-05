@@ -15,8 +15,8 @@ interface IProtectedRouteProps {
 
 /**
  * This component wrapper restricts the protects to a page if the only* prop is active
- * @param param0 
- * @returns 
+ * @param param0
+ * @returns
  */
 function ProtectedRoute({
   onlyAdmin = false,
