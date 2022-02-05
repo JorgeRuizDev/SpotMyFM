@@ -40,7 +40,6 @@ function FilterButton({
           title: t("views:reset-filter"),
           onClick: onReset,
           disabled: disableReset,
-          
         },
       ]}
     />
