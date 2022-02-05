@@ -18,10 +18,10 @@ import { useSessionStore } from "store/useSession";
 function MyApp({ Component, pageProps }: AppProps) {
   const isLogged = useLoginStore().isLogged;
   useClientsStore().getUser(isLogged);
-  console.log(useSessionStore().activePage);
+  
   return (
     <ReusableProvider>
-      <main>
+      <div>
         <div id="modal-core"></div>
 
         <Navbar />
@@ -33,7 +33,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </div>
         <BottomNavbar isLogged={isLogged} />
-      </main>
+      </div>
     </ReusableProvider>
   );
 }
