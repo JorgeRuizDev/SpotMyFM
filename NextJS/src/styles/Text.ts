@@ -25,7 +25,7 @@ interface IColumn {
   centered?: boolean;
 }
 
-const Column = styled.div<IColumn>(({ centered }) => [
+const Column = styled.span<IColumn>(({ centered }) => [
   tw`
     flex
     flex-col

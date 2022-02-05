@@ -13,18 +13,21 @@ import {
   trackLengthIntervalFilter,
 } from "util/filters/intervalFilters";
 import TrackLengthIntervalSelector from "components/core/input/molecules/TrackLengthIntervalSelector";
+import Collapsible from "components/core/display/atoms/Collapsible";
 interface ITrackIntervalFiltersProps {
-  tracks: Track[];
-  albums: Album[];
-  artists: Artist[];
-  setFilteredTracks: (tracks: Track[]) => void;
+  tracks?: Track[];
+  albums?: Album[];
+  artists?: Artist[];
+  setFilteredTracks?: (tracks: Track[]) => void;
+  setFilteredAlbums?: (albums: Album[]) => void;
 }
 
 function TrackIntervalFilters({
   tracks,
   albums,
   artists,
-  setFilteredTracks,
+  setFilteredTracks = () => {},
+  setFilteredAlbums = () => {},
 }: ITrackIntervalFiltersProps) {
   // State that stores the
   const [releaseInterval, setReleaseInterval] = useState<IInterval<Date>>({
@@ -53,8 +56,8 @@ function TrackIntervalFilters({
     IInterval<number>
   >({ low: 0, top: 100 });
 
-  const filter = useCallback(() => {
-    if (tracks.length == 0) {
+  const filterTracks = useCallback(() => {
+    if (!tracks || tracks.length === 0) {
       return;
     }
 
@@ -92,38 +95,88 @@ function TrackIntervalFilters({
     tracks,
   ]);
 
+  const filterAlbums = useCallback(() => {
+    if (!albums || albums.length === 0) {
+      return;
+    }
+
+    const filtered = albums
+
+      // Filter by Track Release Date
+      .filter((a) => albumReleaseDateFilter(a, releaseInterval) || false)
+
+      // Album Popularity
+      .filter((a) =>
+        a
+          ? spotifyPopularityFilter(a, albumPopularityInterval)
+          : true
+      )
+      // Artist Popularity
+      .filter((a) =>
+        a.artists?.[0]
+          ? spotifyPopularityFilter(a.artists?.[0], artistPopularityInterval)
+          : true
+      );
+
+    setFilteredAlbums(filtered);
+  }, [albums, setFilteredAlbums, releaseInterval, albumPopularityInterval, artistPopularityInterval]);
+
   // On filter change (any filter changes) -> Filter
-  useEffect(filter, [filter]);
+  useEffect(() => {
+    filterAlbums();
+    filterTracks();
+  }, [filterAlbums, filterTracks]);
 
   return (
     <>
-      <DateIntervalSelector
-        albums={albums}
-        setDateInterval={setReleaseInterval}
-      />
-      <TrackLengthIntervalSelector
-        tracks={tracks}
-        setInterval={setDurationInterval}
-      />
-      <p>
-        Note: Some albums (remastered / re-releases) do not have their original
-        Release Date.
-      </p>
+      {albums && (
+        <DateIntervalSelector
+          albums={albums}
+          setDateInterval={setReleaseInterval}
+        />
+      )}
+      {(albums || artists) && (
+        <Collapsible isOpenDefault={false}>
+          {tracks && (
+            <TrackLengthIntervalSelector
+              tracks={tracks}
+              setInterval={setDurationInterval}
+            />
+          )}
+          <p>
+            Note: Some albums (remastered / re-releases) do not have their
+            original Release Date.
+          </p>
 
-      <PopularitySelector
-        setPopularityInterval={setArtistPopularityInterval}
-        title={<h4>👨‍🎤🥇 Artist Popularity</h4>}
-      />
+          {tracks && (
+            <PopularitySelector
+              setPopularityInterval={setTrackPopularityInterval}
+              title={<h4>🎵🥇 Track Popularity</h4>}
+            />
+          )}
 
-      <PopularitySelector
-        setPopularityInterval={setAlbumPopularityInterval}
-        title={<h4>🎵🥇 Album Popularity</h4>}
-      />
-      <p>
-        Note: Spotify has duplicated albums with the exact same name and tracks,
-        but they are often "Hidden", so their popularity is usually lower than
-        their original counterpart.
-      </p>
+          {artists && (
+            <PopularitySelector
+              setPopularityInterval={setArtistPopularityInterval}
+              title={<h4>👨‍🎤🥇 Artist Popularity</h4>}
+            />
+          )}
+
+          {albums && (
+            <>
+              <PopularitySelector
+                setPopularityInterval={setAlbumPopularityInterval}
+                title={<h4>💽🥇 Album Popularity</h4>}
+              />
+              <p>
+                Note: Spotify has duplicated albums with the exact same name and
+                tracks, but they are often "Hidden", so their popularity is
+                usually lower than their original counterpart.
+              </p>
+            </>
+          )}
+        </Collapsible>
+      )}
     </>
   );
 }

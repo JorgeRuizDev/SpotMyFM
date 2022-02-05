@@ -8,11 +8,13 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Styled from "./TrackPillFilters.styles";
 import Ms from "styles/Miscellaneous";
 import { filterByPill } from "util/filters/filterByPill";
+import Collapsible from "components/core/display/atoms/Collapsible";
 interface ITrackPillFiltersProps {
-  tracks: Track[];
-  albums: Album[];
-  artists: Artist[];
-  setFilteredTracks: (tracks: Track[]) => void;
+  tracks?: Track[];
+  albums?: Album[];
+  artists?: Artist[];
+  setFilteredTracks?: (tracks: Track[]) => void;
+  setFilteredAlbums?: (albums: Album[]) => void;
 }
 
 /**
@@ -34,7 +36,8 @@ function TrackPillFilters({
   tracks,
   albums,
   artists,
-  setFilteredTracks,
+  setFilteredTracks = () => {},
+  setFilteredAlbums = () => {},
 }: ITrackPillFiltersProps) {
   // Stats to list in pills:
   const [lastTags, setLastTags] = useState<string[]>([]);
@@ -52,17 +55,21 @@ function TrackPillFilters({
 
   // Get the tracks genres:
   useEffect(() => {
-    setTrackGenres(tracks.flatMap((t) => t.genres || []));
+    tracks && setTrackGenres(tracks.flatMap((t) => t.genres || []));
 
-    setLastTags(albums.flatMap((a) => a.lastfmTagsNames));
-    setCustomTags(albums.flatMap((a) => a.albumTags));
-    setArtistGenres(artists.flatMap((a) => a.spotifyGenres || []));
+    albums && setLastTags(albums.flatMap((a) => a.lastfmTagsNames));
+    albums && setCustomTags(albums.flatMap((a) => a.albumTags));
+    artists && setArtistGenres(artists.flatMap((a) => a.spotifyGenres || []));
   }, [albums, artists, tracks]);
 
   /**
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
    */
-  const filter = useCallback(() => {
+  const filterTracks = useCallback(() => {
+    if (!tracks) {
+      return;
+    }
+
     const filtered = tracks
       .filter((t) =>
         filterByPill(t.album?.lastfmTagsNames || [], filteredLastTags)
@@ -98,52 +105,106 @@ function TrackPillFilters({
     tracks,
   ]);
 
-  // On filter change: Update the tracks
-  useEffect(filter, [filter]);
+  /**
+   * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
+   */
+  const filterAlbums = useCallback(() => {
+    if (!albums) {
+      return;
+    }
 
+    const filtered = albums
+      .filter((a) => filterByPill(a.lastfmTagsNames, filteredLastTags))
+      .filter((a) =>
+        filterByPill(
+          a.artists.flatMap((a) => a.spotifyGenres || []),
+          filteredArtistGenres
+        )
+      )
+      // By Artist:
+      .filter((a) =>
+        filterByPill(
+          a.artists.flatMap((a) => a.name),
+          filteredArtists
+        )
+      )
+      // By user's album tags:
+      .filter((a) => filterByPill(a.albumTags || [], filteredMyAlbumTags));
+
+    setFilteredAlbums(filtered);
+  }, [
+    albums,
+    filteredArtistGenres,
+    filteredArtists,
+    filteredLastTags,
+    filteredMyAlbumTags,
+    setFilteredAlbums,
+  ]);
+
+  // On filter change: Update the tracks
+  useEffect(() => {
+    filterTracks();
+    filterAlbums;
+  }, [filterAlbums, filterTracks]);
+  const artistsNames = useMemo(
+    () => (artists || []).map((a) => a.name),
+    [artists]
+  );
   return (
     <>
-      <PillSearch
-        title={<h4>🏷 Filter by LastFM Tags:</h4>}
-        type={"tag"}
-        items={lastTags}
-        examplePill={"Example: Russian War Songs"}
-        setFilteredItems={setFilteredLastTags}
-      />
-
-      <PillSearch
-        title={<h4>💽Filter by Artist Genres:</h4>}
-        type={"genre"}
-        examplePill={"Example: Minecraft Ambient"}
-        items={artistGenres}
-        setFilteredItems={setFilteredArtistGenres}
-      />
-      <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
-
-      <PillSearch
-        title={<h4>🎸Filter by Track Genres:</h4>}
-        type={"genre"}
-        examplePill={"Example: Ambient"}
-        items={trackGenres}
-        setFilteredItems={setFilteredTrackGenres}
-      />
-      <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
-
-      <PillSearch
-        title={<h4>💚 Filter by MySpotifyFM Album Tags:</h4>}
-        type={"MySpotifyFmTags"}
-        examplePill={"Example: To Listen"}
-        items={customTags}
-        setFilteredItems={setFilteredMyAlbumTags}
-      />
-
-      <PillSearch
-        title={<h4>👨‍🎤 Filter by Artist:</h4>}
-        type={"artist"}
-        examplePill={"Example: Bowie"}
-        items={useMemo(() => artists.map((a) => a.name), [artists])}
-        setFilteredItems={setFilteredArtists}
-      />
+      {albums && (
+        <PillSearch
+          title={<h4>🏷 Filter by LastFM Tags:</h4>}
+          type={"tag"}
+          items={lastTags}
+          examplePill={"Example: Russian War Songs"}
+          setFilteredItems={setFilteredLastTags}
+        />
+      )}
+      <Collapsible isOpenDefault={false}>
+        {artists && (
+          <>
+            <PillSearch
+              title={<h4>💽Filter by Artist Genres:</h4>}
+              type={"genre"}
+              examplePill={"Example: Minecraft Ambient"}
+              items={artistGenres}
+              setFilteredItems={setFilteredArtistGenres}
+            />
+            <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
+          </>
+        )}
+        {tracks && (
+          <>
+            <PillSearch
+              title={<h4>🎸Filter by Track Genres:</h4>}
+              type={"genre"}
+              examplePill={"Example: Ambient"}
+              items={trackGenres}
+              setFilteredItems={setFilteredTrackGenres}
+            />
+            <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
+          </>
+        )}
+        {albums && (
+          <PillSearch
+            title={<h4>💚 Filter by MySpotifyFM Album Tags:</h4>}
+            type={"MySpotifyFmTags"}
+            examplePill={"Example: To Listen"}
+            items={customTags}
+            setFilteredItems={setFilteredMyAlbumTags}
+          />
+        )}
+        {artists && (
+          <PillSearch
+            title={<h4>👨‍🎤 Filter by Artist:</h4>}
+            type={"artist"}
+            examplePill={"Example: Bowie"}
+            items={artistsNames}
+            setFilteredItems={setFilteredArtists}
+          />
+        )}
+      </Collapsible>
     </>
   );
 }

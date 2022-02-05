@@ -115,6 +115,11 @@ function TrackView({
 
   const emptyToggle = useCallback((t: Track) => {}, []);
 
+  const albums = useMemo(
+    () => tracks.flatMap((t) => (t.album ? [t.album] : [])),
+    [tracks]
+  );
+
   return (
     <>
       <Modal
@@ -124,6 +129,7 @@ function TrackView({
       >
         <AdvancedSpotifyFilters
           tracks={tracks}
+          albums={albums}
           setFilteredTracks={setAdvancedFilteredTracks}
         />
       </Modal>
