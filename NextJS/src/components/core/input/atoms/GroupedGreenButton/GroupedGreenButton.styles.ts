@@ -9,8 +9,6 @@ const BtnWrap = tw.div`
 
   divide-x
   divide-green-300
-
-  m-1
   overflow-hidden
 `;
 

@@ -10,13 +10,15 @@ interface IButton {
 
 interface IGroupedGreenButtonProps {
   buttons: IButton[];
+  style?: React.CSSProperties;
 }
 
 function GroupedGreenButton({
   buttons,
+  style,
 }: IGroupedGreenButtonProps): JSX.Element {
   return (
-    <Styled.BtnWrap>
+    <Styled.BtnWrap style={style}>
       {buttons.map((b, i) => {
         return b.secondary ? (
           <Styled.BtnSecondary
