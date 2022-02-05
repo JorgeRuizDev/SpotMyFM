@@ -15,6 +15,10 @@ import {
 import useTranslation from "next-translate/useTranslation";
 import { isMobile } from "react-device-detect";
 import ListAlbumCard from "../../listCards/ListAlbumCard";
+import Modal from "components/core/display/molecules/Modal";
+import AdvancedTrackFilters from "components/core/input/organisms/AdvancedTrackFilters";
+import FilterButton from "../../buttons/FilterButton";
+import Styled from "./AlbumView.styles";
 
 interface IAlbumViewProps {
   albums: Album[];
@@ -31,11 +35,21 @@ function AlbumView({
   },
 }: IAlbumViewProps): JSX.Element {
   const [filteredAlbums, setFilteredAlbums] = useState<Album[]>([]);
+  const [advancedFilteredAlbums, setAdvancedFilteredAlbums] =
+    useState<Album[]>(albums);
+  const [resetAdvFilter, setResetAdvFilter] = useState(false);
+  const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
   const { t } = useTranslation();
 
   const [currentView, setCurrentView] = useState<ViewTypeOption>(
     settings.defaultView || "GRID"
   );
+
+  // Reset on Sort Change
+  useEffect(() => {
+    setAdvancedFilteredAlbums(albums);
+    setFilteredAlbums(albums);
+  }, [albums]);
 
   const {
     sortedAlbums,
@@ -44,7 +58,7 @@ function AlbumView({
     isAscendentState,
     setIsAscendentState,
     sortOptions,
-  } = useAlbumSorter(albums, settings.defaultTrackSort);
+  } = useAlbumSorter(advancedFilteredAlbums, settings.defaultTrackSort);
 
   const sorting: IGenericCardViewSortProps = useMemo(
     () => ({
@@ -73,7 +87,32 @@ function AlbumView({
   };
 
   return (
-    <>
+    <div>
+      <Styled.Center>
+        <FilterButton
+          onFilter={() => {
+            setShowAdvancedFilter(true);
+            setResetAdvFilter(false);
+          }}
+          onReset={() => {
+            setAdvancedFilteredAlbums(albums);
+            setResetAdvFilter(true);
+          }}
+          disableReset={advancedFilteredAlbums.length === albums.length}
+        />
+      </Styled.Center>  
+      <Modal
+        isOpen={showAdvancedFilter}
+        onClose={() => {
+          setShowAdvancedFilter(false);
+        }}
+        doNotUmount={!resetAdvFilter}
+      >
+        <AdvancedTrackFilters
+          albums={albums}
+          setFilteredAlbums={setAdvancedFilteredAlbums}
+        />
+      </Modal>
       <GenericCardView
         isLoading={settings.isLoading}
         sorting={sorting}
@@ -94,7 +133,7 @@ function AlbumView({
             ))}
         {}
       </GenericCardView>
-    </>
+    </div>
   );
 }
 
