@@ -132,12 +132,12 @@ function TrackFavDistribution({
             textAnchor="end"
             stroke={getStroke()}
           />
-          <YAxis stroke={getStroke()}>
-            <Label
-              value={"Saved Tracks"}
-              angle={-90}
-              position="insideBottomLeft"
-            />
+          <YAxis
+            style={{
+              color: getStroke(),
+            }}
+          >
+            <Label value={"Saved Tracks"} angle={-90} position="insideLeft" />
           </YAxis>
           <Tooltip
             content={({ payload, label }) => (
