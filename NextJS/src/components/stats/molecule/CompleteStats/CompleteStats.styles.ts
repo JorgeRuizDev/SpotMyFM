@@ -20,7 +20,6 @@ const OverScroll = tw.div`
   space-y-3
 `;
 
-
-const Styled = { Layout, OverScroll};
+const Styled = { Layout, OverScroll };
 
 export default Styled;

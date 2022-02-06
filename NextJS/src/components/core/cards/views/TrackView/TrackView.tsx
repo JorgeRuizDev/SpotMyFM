@@ -138,7 +138,7 @@ function TrackView({
       .flatMap((t) => (t.artists ? [...t.artists] : []))
       .forEach((a) => artistMap.set(a.spotifyId, a));
     return Array.from(artistMap.values());
-  }, [tracks])
+  }, [tracks]);
 
   return (
     <>
