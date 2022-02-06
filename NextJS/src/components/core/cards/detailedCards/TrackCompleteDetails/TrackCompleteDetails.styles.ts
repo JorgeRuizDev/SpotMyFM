@@ -48,7 +48,7 @@ const DescriptionBox = tw.article`
 const Column = tw.div`
 	flex
 	flex-col
-	
+	space-y-4
 	items-center
 `;
 const AlbumColumn = tw.div`

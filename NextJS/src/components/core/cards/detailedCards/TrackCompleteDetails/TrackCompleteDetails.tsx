@@ -254,10 +254,19 @@ function RightColumn({
         )) || []}
       </HorizontalCardCarousell>
 
-      <Styled.DescriptionBox>
-        <p>{parse(lastFMDetails?.lastfmDescription || "")}</p>
-      </Styled.DescriptionBox>
-      <Styled.BouncyArrow />
+      {lastFMDetails?.lastfmDescription ? (
+        <>
+          <h4>Album Description</h4>
+          <Styled.DescriptionBox>
+            <p>{parse(lastFMDetails?.lastfmDescription || "")}</p>
+          </Styled.DescriptionBox>
+        </>
+      ) : (
+        <>
+          <h4>This album does not have a description</h4>
+          <Styled.BouncyArrow />
+        </>
+      )}
     </Styled.Column>
   );
 }
