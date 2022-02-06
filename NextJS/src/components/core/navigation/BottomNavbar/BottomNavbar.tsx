@@ -55,6 +55,14 @@ function BottomNavbar({ isLogged }: IBottomNavbarProps): JSX.Element {
             )}
           </Link>
 
+          <Link href="/search">
+            {activePage === ActivePage.SEARCH ? (
+              <Styled.SearchIconActive />
+            ) : (
+              <Styled.SearchIcon />
+            )}
+          </Link>
+
           <div
             onClick={() => {
               setIsMenuActive((isActive) => !isActive);

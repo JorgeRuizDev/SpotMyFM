@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import tw from "twin.macro";
 import { BsVinyl, BsVinylFill } from "react-icons/bs";
+import { BiSearch, BiSearchAlt } from "react-icons/bi";
 import { RiPlayListFill, RiPlayListLine } from "react-icons/ri";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { GiPodiumThird, GiPodiumWinner } from "react-icons/gi";
@@ -119,6 +120,14 @@ const MenuActive = tw(HiMenuAlt3)`
   ${activeIcon}
 `;
 
+const SearchIcon = tw(BiSearch)`
+  ${icon}
+`;
+
+const SearchIconActive = tw(BiSearchAlt)`
+  ${activeIcon}
+`;
+
 const Styled = {
   Display,
   FixPos,
@@ -133,6 +142,8 @@ const Styled = {
   MenuActive,
   TopIcon,
   TopIconActive,
+  SearchIcon,
+  SearchIconActive,
 };
 
 export default Styled;
