@@ -25,7 +25,7 @@ interface IDecade {
 }
 
 function FavDecades({ tracks, albums }: IFavDecadesProps): JSX.Element {
-  const { getStroke, colors, width, height } = useRechartsHelper();
+  const { getStroke, colors, width, height, margin } = useRechartsHelper();
 
   const [decades, setDecades] = useState<IDecade[]>([]);
 
@@ -78,7 +78,7 @@ function FavDecades({ tracks, albums }: IFavDecadesProps): JSX.Element {
         View the distribution of your favorite albums and songs in each decade.
       </p>
       
-        <BarChart width={width} height={height} data={decades} margin={{top: 25}}>
+        <BarChart width={width} height={height} data={decades} margin={margin} >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="Decade" stroke={getStroke()} />
           <YAxis stroke={getStroke()} />

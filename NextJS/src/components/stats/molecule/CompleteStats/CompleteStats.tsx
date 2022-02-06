@@ -1,4 +1,5 @@
 import FavDecades from "components/stats/atoms/FavDecades";
+import TrackFavDistribution from "components/stats/atoms/TrackFavDistribution";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
@@ -28,6 +29,8 @@ function CompleteStats({
           <FavDecades tracks={tracks} albums={albums} />
         </Styled.OverScroll>
       )}
+
+      {!!tracks.length && <TrackFavDistribution tracks={tracks} />}
     </Styled.Layout>
   );
 }
