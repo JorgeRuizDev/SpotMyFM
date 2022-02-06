@@ -45,7 +45,10 @@ function ListArtistCard({ artist, pos }: IListArtistCardProps): JSX.Element {
           </Styled.E3>
         </Styled.LeftSide>
         <Styled.RightSide>
-          <Buttons.SecondaryGreenButton rounded onClick={() => setShowDet(true)}>
+          <Buttons.SecondaryGreenButton
+            rounded
+            onClick={() => setShowDet(true)}
+          >
             <FaPlus />
           </Buttons.SecondaryGreenButton>
         </Styled.RightSide>

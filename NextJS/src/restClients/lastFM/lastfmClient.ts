@@ -148,9 +148,9 @@ export class LastfmClient implements IRestClient {
 
   /**
    * Gets Artist Details from LastFM API
-   * @param artist: Artist Name 
-   * @param lang : Language to try and fetch 
-   * @returns 
+   * @param artist: Artist Name
+   * @param lang : Language to try and fetch
+   * @returns
    */
   async getArtistDetails(
     artist: string,
