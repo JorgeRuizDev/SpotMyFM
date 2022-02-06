@@ -36,6 +36,8 @@ const Wrap = styled.div(({ isActive }: { isActive?: boolean }) => [
 
     cursor-pointer
 
+    hover:bg-green-500
+
     text-white
     dark:text-white
     `,
