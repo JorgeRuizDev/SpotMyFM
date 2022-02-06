@@ -6,12 +6,42 @@ import Switch from "components/core/input/atoms/Switch";
 import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from "react";
 import SimpleSlider from "components/core/input/atoms/Sliders/SimpleSlider";
 import { FaSearch } from "react-icons/fa";
+import { useClientsStore } from "store/useClients";
+import { useDataFacade } from "hooks/dataFacade/useDataFacade";
+import { Album } from "data/cacheDB/dexieDB/models/Album";
+import { Artist } from "data/cacheDB/dexieDB/models/Artist";
+import { Track } from "data/cacheDB/dexieDB/models/Track";
+import SearchResultsView from "components/core/cards/views/SearchResultsView";
 interface ISearchPageProps {}
 
+type searchType = "tracks" | "albums" | "artists" | "playlists";
+
 function SearchPage(props: ISearchPageProps): JSX.Element {
-  const [searchArtists, setSearchArtists] = useState(true);
+  const SearchType: Record<searchType, string> = useMemo(
+    () => ({
+      albums: "Albums",
+      tracks: "Tracks",
+      artists: "Artists",
+      playlists: "Playlists",
+    }),
+    []
+  );
+
+  const api = useClientsStore((s) => s.spotifyApi);
+  const { getTracks, getAlbumsById, getArtists } = useDataFacade();
+
   const [searchTracks, setSearchTracks] = useState(true);
-  const [searchAlbums, setSearchAlbums] = useState(true);
+  const [searchArtists, setSearchArtists] = useState(false);
+  const [searchAlbums, setSearchAlbums] = useState(false);
+  const [searchPlaylists, setSearchPlaylists] = useState(false);
+
+  const [albums, setAlbums] = useState<Album[]>([]);
+  const [tracks, setTracks] = useState<Track[]>([]);
+  const [artists, setArtists] = useState<Artist[]>([]);
+  const [playlists, setPlaylists] = useState<
+    SpotifyApi.PlaylistObjectSimplified[]
+  >([]);
+
   const [maxRes, setMaxRes] = useState(15);
   const [searchStr, setSearchStr] = useState("");
 
@@ -27,11 +57,57 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
     }
   }, []);
 
-  const search = useCallback(() => {
+  const search = useCallback(async () => {
     if (validStr) {
-      console.log("hehe");
+      if (searchTracks) {
+        const _tracks = (await api.searchTracks(searchStr, { limit: maxRes }))
+          .tracks.items;
+        const tracks = await getTracks(_tracks);
+        setTracks(tracks);
+      } else {
+        setTracks([]);
+      }
+
+      if (searchAlbums) {
+        const _albums = (await api.searchAlbums(searchStr, { limit: maxRes }))
+          .albums.items;
+        const albums = await getAlbumsById(_albums.map((a) => a.id));
+        setAlbums(albums);
+      } else {
+        setAlbums([]);
+      }
+
+      if (searchArtists) {
+        const _artists = (await api.searchArtists(searchStr, { limit: maxRes }))
+          .artists.items;
+        const artists = await getArtists(_artists);
+        setArtists(artists);
+      } else {
+        setArtists([]);
+      }
+
+      if (searchPlaylists) {
+        const playlists = (
+          await api.searchPlaylists(searchStr, { limit: maxRes })
+        ).playlists.items;
+        setPlaylists(playlists);
+      } else {
+        setPlaylists([]);
+      }
     }
-  }, [validStr]);
+  }, [
+    api,
+    getAlbumsById,
+    getArtists,
+    getTracks,
+    maxRes,
+    searchAlbums,
+    searchArtists,
+    searchPlaylists,
+    searchStr,
+    searchTracks,
+    validStr,
+  ]);
 
   return (
     <Styled.Col>
@@ -41,7 +117,7 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
             <Text.green>
               <FaSearch />
             </Text.green>
-            <span>{" "}Spotify Search</span>
+            <span> Spotify Search</span>
           </Text.Inline>{" "}
         </h1>
       </Text.Center>
@@ -75,7 +151,14 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
             >
               <p>Search Artists</p>
             </Switch>
-
+            <Switch
+              isChecked={searchPlaylists}
+              onToggle={() => {
+                setSearchPlaylists((p) => !p);
+              }}
+            >
+              <p>Search Playlists</p>
+            </Switch>
             <hr />
             <p>Show {maxRes} results per category</p>
             <SimpleSlider
@@ -111,6 +194,13 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
           </Styled.Form>
         </Styled.CardWrap>
       </Styled.Center>
+
+      <SearchResultsView
+        tracks={tracks}
+        artists={artists}
+        albums={albums}
+        playlists={playlists}
+      />
     </Styled.Col>
   );
 }

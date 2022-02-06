@@ -12,7 +12,7 @@ const Inline = tw.article`
   items-center
   
 	flex-wrap
-	space-x-2
+	space-x-3
 `;
 
 const Center = tw.div`
