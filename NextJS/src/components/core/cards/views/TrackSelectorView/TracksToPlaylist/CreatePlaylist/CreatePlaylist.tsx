@@ -120,7 +120,7 @@ function CreatePlaylist({
       try {
         const playlist = await createPlaylistApi(
           `${playlistName} (${i + 1})`,
-          "Created with MySpotifyFM",
+          "Created with SpotMyFM",
           isPublic,
           isCollaborative
         );
@@ -137,7 +137,7 @@ function CreatePlaylist({
     try {
       const playlist = await createPlaylistApi(
         playlistName,
-        "Created with MySpotifyFM",
+        "Created with SpotMyFM",
         isPublic,
         isCollaborative
       );

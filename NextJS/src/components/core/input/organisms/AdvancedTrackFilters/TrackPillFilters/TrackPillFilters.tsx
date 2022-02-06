@@ -187,7 +187,7 @@ function TrackPillFilters({
         )}
         {albums && (
           <PillSearch
-            title={<h4>💚 Filter by MySpotifyFM Album Tags:</h4>}
+            title={<h4>💚 Filter by SpotMyFM Album Tags:</h4>}
             type={"MySpotifyFmTags"}
             examplePill={"Example: To Listen"}
             items={customTags}

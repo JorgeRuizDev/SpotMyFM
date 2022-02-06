@@ -108,7 +108,7 @@ function SimpleAlbumCard({
         {album.albumTags.length > 0 && (
           <>
             <hr />
-            <b>🏷 MySpotifyFm Tags:</b>
+            <b>🏷 SpotMyFM Tags:</b>
             <Buttons.LayoutCenter>
               {album.albumTags.slice(0, 4).map((t, i) => (
                 <Buttons.SecondaryGreenButton key={i}>
