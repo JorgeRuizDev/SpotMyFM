@@ -18,7 +18,7 @@ import { useSessionStore } from "store/useSession";
 function MyApp({ Component, pageProps }: AppProps) {
   const isLogged = useLoginStore().isLogged;
   useClientsStore().getUser(isLogged);
-  
+
   return (
     <ReusableProvider>
       <div>

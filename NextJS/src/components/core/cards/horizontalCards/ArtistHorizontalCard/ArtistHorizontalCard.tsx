@@ -19,7 +19,7 @@ function ArtistHorizontalCard({
   return (
     <>
       <Modal isOpen={showDet} onClose={() => setShowDet(false)}>
-        <ArtistCompleteDetails artist={artist}/>
+        <ArtistCompleteDetails artist={artist} />
       </Modal>
       <Styled.HorizontalCard>
         <Styled.Image

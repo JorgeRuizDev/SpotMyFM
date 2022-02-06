@@ -65,7 +65,9 @@ const RightSide = tw(StyledList.RightSide)``;
 
 const E1 = tw(StyledList.E1)`max-width[250px]`;
 const E2 = tw(StyledList.E2)`max-width[300px]`;
-const E3 = tw(StyledList.E3)`truncate md:max-width[400px] xl:max-width[600px] lg:max-width[500px] max-width[1500px]`;
+const E3 = tw(
+  StyledList.E3
+)`truncate md:max-width[400px] xl:max-width[600px] lg:max-width[500px] max-width[1500px]`;
 
 const Styled = {
   ListItem,

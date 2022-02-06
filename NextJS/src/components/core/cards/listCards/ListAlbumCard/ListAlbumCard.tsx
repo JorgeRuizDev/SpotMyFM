@@ -42,9 +42,7 @@ function ListAlbumCardHeader({ pos }: { pos?: boolean }) {
         </Styled.E6>
       </Styled.LeftSide>
 
-      <Styled.RightSide>
-
-      </Styled.RightSide>
+      <Styled.RightSide></Styled.RightSide>
     </Styled.Header>
   );
 }
