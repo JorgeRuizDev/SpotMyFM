@@ -3,6 +3,7 @@ export enum ActivePage {
   LIBRARY_MGR,
   ALBUM_MGR,
   SETTINGS,
+  SEARCH,
   PLAYLIST_MGR,
   DATASET_MGR,
 }
