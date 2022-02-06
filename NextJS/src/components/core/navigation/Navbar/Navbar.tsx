@@ -11,7 +11,7 @@ import NavbarRightSide from "./NavbarRightSide";
 
 function Navbar(): JSX.Element {
   const { isLogged } = useLoginStore();
-  //const { isLoading } = useSessionStore();
+  const { isLoading } = useSessionStore();
 
   return isLogged ? (
     <Styled.Navbar>
@@ -31,7 +31,7 @@ function Navbar(): JSX.Element {
         </Styled.RightSide>
       </Styled.NavWrapper>
 
-      <InfiniteLoadingBar isLoading={false} />
+      <InfiniteLoadingBar isLoading={!!isLoading} />
     </Styled.Navbar>
   ) : (
     <></>
