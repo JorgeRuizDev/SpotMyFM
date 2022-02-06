@@ -27,7 +27,7 @@ const Card = tw(Ms.Card)`
 const Form = tw.form`
   m-4
   mt-10
-`
+`;
 
 const Center = tw.div`
   w-full
