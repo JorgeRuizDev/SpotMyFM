@@ -28,6 +28,10 @@ import useTranslation from "next-translate/useTranslation";
 import FilterButton from "../../buttons/FilterButton";
 import SelectAllButton from "../../buttons/SelectAllButton";
 import DropdownMenu from "components/core/input/atoms/DropdownMenu";
+import CompleteStats from "components/stats/molecule/CompleteStats";
+import { IoStatsChart } from "react-icons/io5";
+import { Album } from "data/cacheDB/dexieDB/models/Album";
+import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 interface ITrackViewProps {
   tracks: Track[];
   settings?: trackViewSettings;
@@ -63,6 +67,8 @@ function TrackView({
   );
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+
   // Sort Item:
   const {
     sortedTracks,
@@ -115,10 +121,24 @@ function TrackView({
 
   const emptyToggle = useCallback((t: Track) => {}, []);
 
-  const albums = useMemo(
-    () => tracks.flatMap((t) => (t.album ? [t.album] : [])),
-    [tracks]
-  );
+  // Get all the albums without dupes
+  const albums = useMemo(() => {
+    const albumMap = new Map<string, Album>();
+
+    tracks
+      .flatMap((t) => (t.album ? [t.album] : []))
+      .forEach((a) => albumMap.set(a.spotifyId, a));
+    return Array.from(albumMap.values());
+  }, [tracks]);
+
+  const artists = useMemo(() => {
+    const artistMap = new Map<string, Artist>();
+
+    tracks
+      .flatMap((t) => (t.artists ? [...t.artists] : []))
+      .forEach((a) => artistMap.set(a.spotifyId, a));
+    return Array.from(artistMap.values());
+  }, [tracks])
 
   return (
     <>
@@ -133,6 +153,9 @@ function TrackView({
           setFilteredTracks={setAdvancedFilteredTracks}
         />
       </Modal>
+      <Modal isOpen={showStats} onClose={() => setShowStats(false)}>
+        <CompleteStats tracks={tracks} albums={albums} />
+      </Modal>
       <CardLayoutButtons
         advancedFilteredTracks={advancedFilteredTracks}
         mute={mute}
@@ -145,6 +168,7 @@ function TrackView({
         toggleMute={toggleMute}
         tracks={tracks}
         selectManager={selectManager}
+        setShowStats={setShowStats}
       />
       <GenericCardView
         filterInputProps={filter}
@@ -196,6 +220,7 @@ interface ICardLayoutButtons extends ITrackViewProps {
   toggleHover: () => void;
   setShowAdvancedFilter: (b: boolean) => void;
   setResetAdvFilter: (b: boolean) => void;
+  setShowStats: (b: boolean) => void;
 }
 
 function CardLayoutButtons({
@@ -210,6 +235,7 @@ function CardLayoutButtons({
   setResetAdvFilter,
   setShowAdvancedFilter,
   toggleMute,
+  setShowStats,
 }: ICardLayoutButtons) {
   const { t } = useTranslation();
   return (
@@ -235,6 +261,11 @@ function CardLayoutButtons({
         }}
         disableReset={tracks.length == advancedFilteredTracks.length}
       />
+
+      <Buttons.SecondaryGreenButton onClick={() => setShowStats(true)}>
+        <IoStatsChart />
+        <span>Show Stats</span>
+      </Buttons.SecondaryGreenButton>
 
       <DropdownMenu
         items={[
