@@ -23,6 +23,7 @@ export default describe("LastfmClient Test", () => {
       album: album,
       api_key: env.LASTFM_KEY,
       format: "json",
+      lang: "en"
     };
     mockAxios.mockResponseFor(
       {

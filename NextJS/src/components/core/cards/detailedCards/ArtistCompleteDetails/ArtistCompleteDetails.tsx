@@ -36,7 +36,7 @@ function ArtistCompleteDetails({
       setLastDet(res);
     };
     f();
-  }, [artist.name, lastfmApi]);
+  }, [artist, lastfmApi]);
 
   return (
     <>
