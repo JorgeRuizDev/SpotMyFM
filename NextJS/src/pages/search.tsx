@@ -12,7 +12,7 @@ export default function Search() {
   return (
     <ProtectedRoute onlyLogged>
       <Head subtitle="Search" />
-      <SearchPage/>
+      <SearchPage />
     </ProtectedRoute>
   );
 }

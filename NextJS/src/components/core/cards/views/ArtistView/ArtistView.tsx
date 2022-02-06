@@ -28,7 +28,7 @@ function ArtistView({
     defaultArtistSort: artistSortingOptions.DEFAULT,
     isLoading: false,
     isNested: false,
-    defaultView: isMobile ? "LIST" : "GRID"
+    defaultView: isMobile ? "LIST" : "GRID",
   },
 }: IArtistViewProps) {
   const [filteredArtists, setFilteredArtists] = useState<Artist[]>(artists);

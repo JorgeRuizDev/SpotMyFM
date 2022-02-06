@@ -47,7 +47,7 @@ function NavbarLeftItems(): JSX.Element {
         <NavItem
           isActive={activePage === ActivePage.SEARCH}
           href="/search"
-          item={<BiSearch/>}
+          item={<BiSearch />}
           label={"Search"}
         />
       </>
