@@ -42,6 +42,8 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [showResults, setShowResults] = useState(false);
+
   const [searchTypeSel, setSearchTypeSel] = useState<[string, ReactNode]>([
     "tracks",
     SearchType.tracks,
@@ -81,9 +83,6 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
       setAlbums([]);
       setArtists([]);
 
-      console.log(searchStr);
-      console.log(searchTypeSel[0]);
-
       switch (searchType) {
         case "tracks":
           const _tracks = (await api.searchTracks(searchStr, { limit: maxRes }))
@@ -111,6 +110,7 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
           setPlaylists(playlists);
           break;
       }
+      setShowResults(true);
       setIsLoading(false);
     },
     [
@@ -195,18 +195,22 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
               />
             </div>
           </Styled.Card>
-          <hr />
         </Styled.CardWrap>
       </Styled.Center>
 
-      <SearchResultsView
-        tracks={tracks}
-        artists={artists}
-        albums={albums}
-        playlists={playlists}
-        searchType={searchTypeSel[0]}
-        isLoading={isLoading}
-      />
+      {showResults && (
+        <>
+          <hr />
+          <SearchResultsView
+            tracks={tracks}
+            artists={artists}
+            albums={albums}
+            playlists={playlists}
+            searchType={searchTypeSel[0]}
+            isLoading={isLoading}
+          />
+        </>
+      )}
     </Styled.Col>
   );
 }
