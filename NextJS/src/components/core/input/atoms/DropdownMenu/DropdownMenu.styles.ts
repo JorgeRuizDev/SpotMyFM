@@ -9,11 +9,8 @@ interface ITitle {
 
 const Title = styled(Buttons.PrimaryGreenButton)<ITitle>(({ titleStyle }) => [
   tw`
-
-  
 	p-0
 	pl-4
-
 	`,
 
   titleStyle == "spotify" &&
@@ -29,8 +26,6 @@ const Title = styled(Buttons.PrimaryGreenButton)<ITitle>(({ titleStyle }) => [
 
 const Wrap = tw.div`
 	width[fit-content]
-
-  z-10
 `;
 
 const DropIcon = tw(RiArrowDropDownLine)`
@@ -45,6 +40,8 @@ const ItemList = tw.ul`
 
 
 	absolute
+  z-10
+
 	text-gray-700
 	width[fit-content]
 
