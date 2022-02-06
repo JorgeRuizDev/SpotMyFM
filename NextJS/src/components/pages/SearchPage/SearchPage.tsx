@@ -3,7 +3,15 @@ import Buttons from "styles/Buttons";
 
 import Text from "styles/Text";
 import Switch from "components/core/input/atoms/Switch";
-import { ChangeEvent, FormEvent, useCallback, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  FormEvent,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import SimpleSlider from "components/core/input/atoms/Sliders/SimpleSlider";
 import { FaSearch } from "react-icons/fa";
 import { useClientsStore } from "store/useClients";
@@ -12,12 +20,14 @@ import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import SearchResultsView from "components/core/cards/views/SearchResultsView";
+import DropdownMenu from "components/core/input/atoms/DropdownMenu";
+import { toast } from "react-toastify";
 interface ISearchPageProps {}
 
 type searchType = "tracks" | "albums" | "artists" | "playlists";
 
 function SearchPage(props: ISearchPageProps): JSX.Element {
-  const SearchType: Record<searchType, string> = useMemo(
+  const SearchType: Record<searchType, ReactNode> = useMemo(
     () => ({
       albums: "Albums",
       tracks: "Tracks",
@@ -30,10 +40,12 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
   const api = useClientsStore((s) => s.spotifyApi);
   const { getTracks, getAlbumsById, getArtists } = useDataFacade();
 
-  const [searchTracks, setSearchTracks] = useState(true);
-  const [searchArtists, setSearchArtists] = useState(false);
-  const [searchAlbums, setSearchAlbums] = useState(false);
-  const [searchPlaylists, setSearchPlaylists] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [searchTypeSel, setSearchTypeSel] = useState<[string, ReactNode]>([
+    "tracks",
+    SearchType.tracks,
+  ]);
 
   const [albums, setAlbums] = useState<Album[]>([]);
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -57,57 +69,61 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
     }
   }, []);
 
-  const search = useCallback(async () => {
-    if (validStr) {
-      if (searchTracks) {
-        const _tracks = (await api.searchTracks(searchStr, { limit: maxRes }))
-          .tracks.items;
-        const tracks = await getTracks(_tracks);
-        setTracks(tracks);
-      } else {
-        setTracks([]);
+  const search = useCallback(
+    async (searchType = searchTypeSel[0]) => {
+      if (!validStr) {
+        return;
       }
 
-      if (searchAlbums) {
-        const _albums = (await api.searchAlbums(searchStr, { limit: maxRes }))
-          .albums.items;
-        const albums = await getAlbumsById(_albums.map((a) => a.id));
-        setAlbums(albums);
-      } else {
-        setAlbums([]);
-      }
+      setIsLoading(true);
+      setTracks([]);
+      setPlaylists([]);
+      setAlbums([]);
+      setArtists([]);
 
-      if (searchArtists) {
-        const _artists = (await api.searchArtists(searchStr, { limit: maxRes }))
-          .artists.items;
-        const artists = await getArtists(_artists);
-        setArtists(artists);
-      } else {
-        setArtists([]);
-      }
+      console.log(searchStr);
+      console.log(searchTypeSel[0]);
 
-      if (searchPlaylists) {
-        const playlists = (
-          await api.searchPlaylists(searchStr, { limit: maxRes })
-        ).playlists.items;
-        setPlaylists(playlists);
-      } else {
-        setPlaylists([]);
+      switch (searchType) {
+        case "tracks":
+          const _tracks = (await api.searchTracks(searchStr, { limit: maxRes }))
+            .tracks.items;
+          const tracks = await getTracks(_tracks);
+          setTracks(tracks);
+          break;
+        case "albums":
+          const _albums = (await api.searchAlbums(searchStr, { limit: maxRes }))
+            .albums.items;
+          const albums = await getAlbumsById(_albums.map((a) => a.id));
+          setAlbums(albums);
+          break;
+        case "artists":
+          const _artists = (
+            await api.searchArtists(searchStr, { limit: maxRes })
+          ).artists.items;
+          const artists = await getArtists(_artists);
+          setArtists(artists);
+          break;
+        case "playlists":
+          const playlists = (
+            await api.searchPlaylists(searchStr, { limit: maxRes })
+          ).playlists.items;
+          setPlaylists(playlists);
+          break;
       }
-    }
-  }, [
-    api,
-    getAlbumsById,
-    getArtists,
-    getTracks,
-    maxRes,
-    searchAlbums,
-    searchArtists,
-    searchPlaylists,
-    searchStr,
-    searchTracks,
-    validStr,
-  ]);
+      setIsLoading(false);
+    },
+    [
+      api,
+      getAlbumsById,
+      getArtists,
+      getTracks,
+      maxRes,
+      searchStr,
+      searchTypeSel,
+      validStr,
+    ]
+  );
 
   return (
     <Styled.Col>
@@ -123,52 +139,6 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
       </Text.Center>
       <Styled.Center>
         <Styled.CardWrap>
-          <Styled.Card>
-            <Text.Center>
-              <h4>Settings</h4>
-            </Text.Center>
-            <Switch
-              isChecked={searchTracks}
-              onToggle={() => {
-                setSearchTracks((p) => !p);
-              }}
-            >
-              <p>Search Tracks</p>
-            </Switch>
-            <Switch
-              isChecked={searchAlbums}
-              onToggle={() => {
-                setSearchAlbums((p) => !p);
-              }}
-            >
-              <p>Search Albums</p>
-            </Switch>
-            <Switch
-              isChecked={searchArtists}
-              onToggle={() => {
-                setSearchArtists((p) => !p);
-              }}
-            >
-              <p>Search Artists</p>
-            </Switch>
-            <Switch
-              isChecked={searchPlaylists}
-              onToggle={() => {
-                setSearchPlaylists((p) => !p);
-              }}
-            >
-              <p>Search Playlists</p>
-            </Switch>
-            <hr />
-            <p>Show {maxRes} results per category</p>
-            <SimpleSlider
-              max={50}
-              min={10}
-              defaultValue={15}
-              onAfterChange={(c) => setMaxRes(c)}
-            />
-          </Styled.Card>
-
           <Styled.Form>
             <Text.Center>
               <Text.Inline>
@@ -192,6 +162,40 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
               </Text.Inline>
             </Text.Center>
           </Styled.Form>
+          <Styled.Card>
+            <DropdownMenu
+              items={Object.entries(SearchType).map((o) => ({
+                component: (
+                  <span
+                    style={{
+                      textDecorationLine:
+                        o[0] === searchTypeSel[0] ? "underline" : "none",
+                    }}
+                  >
+                    {o[1]}
+                  </span>
+                ),
+                onClick: () => {
+                  setSearchTypeSel(o);
+                  search(o[0]);
+                },
+              }))}
+            >
+              Search {searchTypeSel[1]} {validStr && `With ${searchStr}`}
+            </DropdownMenu>
+            <p>Show {maxRes} results</p>
+            <div style={{ width: "100%" }}>
+              <SimpleSlider
+                max={50}
+                min={10}
+                defaultValue={15}
+                onAfterChange={(c) => {
+                  setMaxRes(c);
+                }}
+              />
+            </div>
+          </Styled.Card>
+          <hr />
         </Styled.CardWrap>
       </Styled.Center>
 
@@ -200,6 +204,8 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
         artists={artists}
         albums={albums}
         playlists={playlists}
+        searchType={searchTypeSel[0]}
+        isLoading={isLoading}
       />
     </Styled.Col>
   );

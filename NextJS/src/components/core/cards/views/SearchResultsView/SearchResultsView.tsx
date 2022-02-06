@@ -11,6 +11,8 @@ interface ISearchResultsViewProps {
   artists: Artist[];
   tracks: Track[];
   playlists: SpotifyApi.PlaylistObjectSimplified[];
+  searchType: string;
+  isLoading: boolean;
 }
 
 function SearchResultsView({
@@ -18,24 +20,35 @@ function SearchResultsView({
   artists,
   albums,
   playlists,
+  isLoading,
+  searchType,
 }: ISearchResultsViewProps): JSX.Element {
   return (
     <>
-      {!!tracks.length && (
-        <TrackView tracks={tracks} settings={{ defaultView: "LIST" }} />
+      {searchType == "tracks" && (
+        <TrackView
+          tracks={tracks}
+          settings={{ defaultView: "LIST", isLoading: isLoading }}
+        />
       )}
 
-      {!!albums.length && (
-        <AlbumView albums={albums} settings={{ defaultView: "LIST" }} />
+      {searchType == "albums" && (
+        <AlbumView
+          albums={albums}
+          settings={{ defaultView: "LIST", isLoading: isLoading }}
+        />
       )}
 
-      {!!artists.length && (
-        <ArtistView artists={artists} settings={{ defaultView: "LIST" }} />
+      {searchType == "artists" && (
+        <ArtistView
+          artists={artists}
+          settings={{ defaultView: "LIST", isLoading: isLoading }}
+        />
       )}
-      {!!playlists.length  && (
+      {searchType == "playlists" && (
         <PlaylistView
           playlists={playlists}
-          settings={{ defaultView: "LIST" }}
+          settings={{ defaultView: "LIST", isLoading: isLoading }}
         />
       )}
     </>

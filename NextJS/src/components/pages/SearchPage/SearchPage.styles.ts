@@ -16,6 +16,11 @@ const CardWrap = tw.div`
 const Card = tw(Ms.Card)`
   pt-5
   pb-5
+  flex
+  flex-col
+  items-center
+  justify-center
+  space-y-4
   
 `;
 
