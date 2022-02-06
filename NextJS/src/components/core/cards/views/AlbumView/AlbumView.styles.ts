@@ -7,8 +7,8 @@ const Center = tw.div`
   justify-center
   w-full
 
-`
+`;
 
-const Styled = {Center};
+const Styled = { Center };
 
 export default Styled;

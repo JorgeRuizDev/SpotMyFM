@@ -133,15 +133,17 @@ function TrackIntervalFilters({
 
   return (
     <>
-      {albums?.length && (<>
-        <DateIntervalSelector
-          albums={albums}
-          setDateInterval={setReleaseInterval}
-        />
-        <p>
-        Note: Some albums (remastered / re-releases) do not have their
-        original Release Date.
-      </p></>
+      {albums?.length && (
+        <>
+          <DateIntervalSelector
+            albums={albums}
+            setDateInterval={setReleaseInterval}
+          />
+          <p>
+            Note: Some albums (remastered / re-releases) do not have their
+            original Release Date.
+          </p>
+        </>
       )}
       {(albums?.length || artists?.length) && (
         <Collapsible isOpenDefault={false}>
@@ -151,7 +153,6 @@ function TrackIntervalFilters({
               setInterval={setDurationInterval}
             />
           )}
-
 
           {tracks?.length && (
             <PopularitySelector
