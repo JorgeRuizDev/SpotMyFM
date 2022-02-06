@@ -22,7 +22,7 @@ function ListArtistCard({ artist, pos }: IListArtistCardProps): JSX.Element {
           <Styled.FirstTwoCols>
             <Styled.Pos>{pos != undefined && <p>{pos}</p>}</Styled.Pos>
             {artist.spotifyArtistImgs?.[artist.spotifyArtistImgs.length - 1]
-              .url && (
+              ?.url && (
               <Styled.Cover
                 src={
                   artist.spotifyArtistImgs[artist.spotifyArtistImgs.length - 1]
