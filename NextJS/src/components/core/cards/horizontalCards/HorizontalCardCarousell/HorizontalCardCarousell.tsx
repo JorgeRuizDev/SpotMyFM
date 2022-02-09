@@ -39,7 +39,7 @@ function HorizontalCardCarousell({ children }: IHorizontalCardCarousellProps) {
   return (
     <>
       {children.length > 1 ? (
-        <>
+        <Styled.Bundle>
           <Styled.Snap ref={scrollRef}>
             <Styled.Observer ref={leftRef} />
             {children}
@@ -60,7 +60,7 @@ function HorizontalCardCarousell({ children }: IHorizontalCardCarousellProps) {
               <FaArrowRight />
             </Buttons.PrimaryGreenButton>
           </Styled.ButtonsWrap>
-        </>
+        </Styled.Bundle>
       ) : (
         children
       )}

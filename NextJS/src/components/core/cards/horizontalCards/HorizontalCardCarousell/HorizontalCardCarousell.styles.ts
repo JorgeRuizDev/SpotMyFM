@@ -11,6 +11,7 @@ const Snap = tw.div`
   
   flex
   flex-row
+  items-center
 
   overflow-x-scroll
   overflow-y-hidden
@@ -22,15 +23,25 @@ const Snap = tw.div`
   scroll-behavior[smooth]
 `;
 
+const Bundle = tw.div`
+
+  flex
+  flex-col
+  overflow-hidden
+
+
+  w-full
+`
+
 const ButtonsWrap = tw.div`
   hidden
   md:flex
 
   flex-row
   items-center
-  justify-evenly
+  justify-center
 `;
 
-const Styled = { Snap, Observer, ButtonsWrap };
+const Styled = { Snap, Observer, ButtonsWrap, Bundle };
 
 export default Styled;
