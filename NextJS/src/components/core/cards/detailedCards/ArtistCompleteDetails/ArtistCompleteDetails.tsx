@@ -12,6 +12,7 @@ import { FaLastfm, FaSpotify } from "react-icons/fa";
 import Collapsible from "components/core/display/atoms/Collapsible";
 import parse from "html-react-parser";
 import Modal from "components/core/display/molecules/Modal";
+import { last } from "lodash";
 interface IArtistCompleteDetailsProps {
   artist: Artist;
   isNested?: boolean;
@@ -68,46 +69,48 @@ function ArtistCompleteDetails({
             </Text.Inline>
             <LastStats d={lastDet} />
           </Styled.Col>
-
-          <Styled.PillCol>
-            {lastDet?.bio.summary ? (
-              <>
-                {" "}
-                <Styled.BioBox>
-                  <p>{parse(lastDet?.bio.summary || "")}</p>
-                </Styled.BioBox>
-                <Text.Center>
-                  <Buttons.PrimaryGreenButton onClick={() => setShowDesc(true)}>
-                    Read More
-                  </Buttons.PrimaryGreenButton>
-                </Text.Center>
-              </>
-            ) : (
-              <h3>There is no Artist Bio</h3>
-            )}
-          </Styled.PillCol>
         </Styled.TwoCols>
         <></>
       </ViewHeading>
       <Styled.PillCols>
-        <Styled.PillCol>
-          <h4>Artist Genres</h4>
-          <Styled.PillWrap>
-            {artist.spotifyGenres?.map((g, i) => (
-              <Styled.GenrePill key={i}>{g}</Styled.GenrePill>
-            ))}
-          </Styled.PillWrap>
-        </Styled.PillCol>
-        <Styled.PillCol>
-          <h4>Artist LastFM Tags</h4>
-          <Styled.PillWrap>
-            {(lastDet?.tags || []).map((t, i) => (
-              <Buttons.PrimaryRedButton key={i}>
-                {t.name}
-              </Buttons.PrimaryRedButton>
-            ))}
-          </Styled.PillWrap>
-        </Styled.PillCol>
+        {!!artist.spotifyGenres?.length && (
+          <Styled.PillCol>
+            <h4>Artist Genres</h4>
+            <Styled.PillWrap>
+              {artist.spotifyGenres?.map((g, i) => (
+                <Styled.GenrePill key={i}>{g}</Styled.GenrePill>
+              ))}
+            </Styled.PillWrap>
+          </Styled.PillCol>
+        )}
+
+        {!!lastDet?.tags?.length && (
+          <Styled.PillCol>
+            <h4>Artist LastFM Tags</h4>
+            <Styled.PillWrap>
+              {(lastDet.tags || []).map((t, i) => (
+                <Buttons.PrimaryRedButton key={i}>
+                  {t.name}
+                </Buttons.PrimaryRedButton>
+              ))}
+            </Styled.PillWrap>
+          </Styled.PillCol>
+        )}
+
+        {(lastDet?.bio?.summary?.length || 0) > 20 && (
+          <Styled.PillCol>
+            <>
+              <Styled.BioBox>
+                <p>{parse(lastDet?.bio.summary || "")}</p>
+              </Styled.BioBox>
+              <Text.Center>
+                <Buttons.PrimaryGreenButton onClick={() => setShowDesc(true)}>
+                  Read More
+                </Buttons.PrimaryGreenButton>
+              </Text.Center>
+            </>
+          </Styled.PillCol>
+        )}
       </Styled.PillCols>
       <ArtistAlbumsView artist={artist} />
     </>

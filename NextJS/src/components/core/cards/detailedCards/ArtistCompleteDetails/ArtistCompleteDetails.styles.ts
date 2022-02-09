@@ -30,13 +30,21 @@ const TwoCols = tw.section`
 `;
 
 const PillCols = tw(TwoCols)`
+  flex
+  flex-row
+  flex-wrap
   items-start
-  justify-start
+  justify-around
   mt-5
+  mb-5
+
+  gap-5
 `;
 
 const PillCol = tw(Col)`
   items-center
+  min-width[40%]
+  max-width[fit-content]
 `;
 
 const PillWrap = tw.div`
