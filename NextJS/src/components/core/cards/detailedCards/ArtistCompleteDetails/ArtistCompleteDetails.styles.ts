@@ -54,6 +54,7 @@ const PillWrap = tw.div`
   items-center
   justify-center
   max-width[500px]
+  xl:max-width[680px]
 
 `;
 
