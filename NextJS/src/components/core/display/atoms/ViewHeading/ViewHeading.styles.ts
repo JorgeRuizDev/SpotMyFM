@@ -7,6 +7,7 @@ const Row = tw.div`
   flex-col
   gap-4
   items-center
+  p-3
 `;
 
 const Col = tw.div`
@@ -25,6 +26,7 @@ const Img = tw.img`
   md:max-w-[300px]
   sm:max-w-[250px]
   max-w-[200px]
+  rounded
 `;
 
 const Styled = { Row, Col, Img };
