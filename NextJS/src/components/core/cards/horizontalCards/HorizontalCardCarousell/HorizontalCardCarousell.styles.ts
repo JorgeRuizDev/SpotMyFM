@@ -31,7 +31,7 @@ const Bundle = tw.div`
 
 
   w-full
-`
+`;
 
 const ButtonsWrap = tw.div`
   hidden
