@@ -24,7 +24,7 @@ const HorizontalCard = tw.article`
 	rounded-2xl
 
 	shadow-xl
-
+  p-1
 `;
 
 const Inline = tw.div`
@@ -65,9 +65,9 @@ const GenrePillWrap = tw.section`
 const Image = tw(motion.img)`
 	max-width[300px]
   min-width[200px]
-  self-start
+  self-center
 
-	rounded
+	rounded-xl
 	m-2
 	z-50
 `;
