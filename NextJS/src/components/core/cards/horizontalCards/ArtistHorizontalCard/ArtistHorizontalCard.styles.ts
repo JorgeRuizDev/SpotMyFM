@@ -21,6 +21,7 @@ const HorizontalCard = tw.article`
 	// Shape:
   
 	min-width[90%]
+  height[fit-content]
 	rounded-2xl
 
 	shadow-xl
