@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { ReactNode, useEffect } from "react";
 import { useState } from "react";
 
 import Styled from "./TrackCompleteDetails.styles";
@@ -92,10 +92,12 @@ function TrackCompleteDetails({
         .catch((e) => toast.error(spotifyApi.parse(e)?.message));
   }, [album, track, spotifyApi]);
 
+  const hasDesc = (lastFMDetails?.lastfmDescription?.length || 0) > 20;
+
   return (
     <div>
       <Styled.Wrapper>
-        <div>
+        <div style={{ width: "100%" }}>
           <h3>
             {track && (
               <>
@@ -110,59 +112,67 @@ function TrackCompleteDetails({
             }
           </h3>
           <hr />
-          <Styled.InfoGrid>
-            <Styled.Column>
-              <Styled.AlbumColumn>
-                <motion.div
-                  onMouseEnter={play}
-                  onMouseLeave={pause}
-                  whileHover={{
-                    scale: 1.1,
-                    transition: { ease: "easeInOut", duration: 0.3 },
-                  }}
-                >
-                  <Styled.Image
-                    src={album?.spotifyCoverUrl[0] || ""}
-                    alt={album?.name}
-                    height={"320px"}
-                    width={"320px"}
+          {hasDesc && (
+            <Styled.InfoGrid>
+              <Styled.Column>
+                <>
+                  <Cover album={album} play={play} pause={pause} />
+                  <CoverText
+                    album={album}
+                    track={track}
+                    artists={artists}
+                    lastFMDetails={lastFMDetails}
                   />
-                </motion.div>
-
-                <AlbumCollapsible album={album} />
-
-                <CoverText
-                  album={album}
-                  track={track}
-                  artists={artists}
-                  lastFMDetails={lastFMDetails}
-                />
-              </Styled.AlbumColumn>
-              <Buttons />
-              <LastFMTags />
-              <AlbumTags album={album} />
-            </Styled.Column>
-            <RightColumn
-              artists={artists || []}
-              lastFMDetails={lastFMDetails}
-            />
-          </Styled.InfoGrid>
+                  <Buttons />
+                  <LastFMTags />
+                  <AlbumTags album={album} />
+                </>
+              </Styled.Column>
+              <RightColumn
+                artists={artists || []}
+                lastFMDetails={lastFMDetails}
+              ></RightColumn>
+            </Styled.InfoGrid>
+          )}
         </div>
       </Styled.Wrapper>
+      {!hasDesc && (
+        <Styled.NoDescLayout>
+          <Cover album={album} play={play} pause={pause} />
+
+          <HorizontalCardCarousell>
+            {(artists || []).map((a) => (
+              <ArtistHorizontalCard artist={a} key={a.spotifyId} />
+            )) || []}
+          </HorizontalCardCarousell>
+
+          <CoverText
+            album={album}
+            track={track}
+            artists={artists}
+            lastFMDetails={lastFMDetails}
+          />
+          <div>
+            <Buttons />
+          </div>
+          <AlbumTags album={album} />
+          <LastFMTags />
+        </Styled.NoDescLayout>
+      )}
       {album && !isNested && <AlbumTracksView album={album} />}
     </div>
   );
 
   function LastFMTags(): JSX.Element {
     return (album?.lastfmTagsFull?.length || 0) > 0 ? (
-      <>
+      <Styled.Column>
         <h4>{t("cards:lastfm-tags")}</h4>
         <Styled.TagsButtonRow>
           {album?.lastfmTagsFull?.map((t) => (
             <TagButton url={t.url} name={t.name} key={t.name} />
           ))}
         </Styled.TagsButtonRow>
-      </>
+      </Styled.Column>
     ) : (
       <></>
     );
@@ -170,7 +180,7 @@ function TrackCompleteDetails({
 
   function Buttons(): JSX.Element {
     return (
-      <Styled.ButtonRow>
+      <Styled.TagsButtonRow>
         {track && <PreviewButton />}
         {track && <SpotifyButton track={track} artist={artists?.[0]} />}
         {track && <EnqueueButton track={track} artist={artists?.[0]} />}
@@ -194,7 +204,7 @@ function TrackCompleteDetails({
         <PlayAlbum album={album} />
         <OpenSpotifyButton url={album?.spotifyUrl || ""} />
         <OpenLastFMButton url={lastFMDetails?.lastfmURL || ""} />
-      </Styled.ButtonRow>
+      </Styled.TagsButtonRow>
     );
   }
 }
@@ -203,7 +213,7 @@ function AlbumTags({ album }: { album?: Album }): JSX.Element {
   const [showModal, setShowModal] = useState(false);
   const { t } = useTranslation();
   return album ? (
-    <>
+    <Styled.Column>
       <h4 style={{ marginTop: 20 }}>
         <Twemoji emoji="🏷" type="emoji" /> {t("views:album-tags")}
       </h4>
@@ -233,27 +243,61 @@ function AlbumTags({ album }: { album?: Album }): JSX.Element {
           }}
         />
       </Modal>
-    </>
+    </Styled.Column>
   ) : (
     <></>
+  );
+}
+
+function Cover({
+  album,
+  play,
+  pause,
+}: {
+  album?: Album;
+  play: () => void;
+  pause: () => void;
+}) {
+  return (
+    <Styled.AlbumColumn>
+      <motion.div
+        onMouseEnter={play}
+        onMouseLeave={pause}
+        whileHover={{
+          scale: 1.1,
+          transition: { ease: "easeInOut", duration: 0.3 },
+        }}
+      >
+        <Styled.Image
+          src={album?.spotifyCoverUrl[0] || ""}
+          alt={album?.name}
+          height={"320px"}
+          width={"320px"}
+        />
+      </motion.div>
+    </Styled.AlbumColumn>
   );
 }
 
 function RightColumn({
   artists,
   lastFMDetails,
+  children,
 }: {
   artists: Artist[];
   lastFMDetails: ILastFMAlbum | null;
+  children?: ReactNode | ReactNode[];
 }): JSX.Element {
   return (
-    <Styled.Column>
+    <Styled.Column
+      centerCol={(lastFMDetails?.lastfmDescription?.length || 0) < 20}
+    >
       <HorizontalCardCarousell>
         {artists.map((a) => (
           <ArtistHorizontalCard artist={a} key={a.spotifyId} />
         )) || []}
       </HorizontalCardCarousell>
-
+      {children}
       {lastFMDetails?.lastfmDescription ? (
         <>
           <h4>Album Description</h4>
@@ -262,10 +306,7 @@ function RightColumn({
           </Styled.DescriptionBox>
         </>
       ) : (
-        <>
-          <h4>This album does not have a description</h4>
-          <Styled.BouncyArrow />
-        </>
+        <></>
       )}
     </Styled.Column>
   );
@@ -344,19 +385,4 @@ function CoverText({
   );
 }
 
-function AlbumCollapsible({ album }: { album?: Album }): JSX.Element {
-  return (
-    <Styled.CenterElement>
-      <Collapsible>
-        <iframe
-          src={`https://open.spotify.com/embed/album/${album?.spotifyId}`}
-          width="100%"
-          height="380"
-          frameBorder="0"
-          allow="encrypted-media"
-        ></iframe>
-      </Collapsible>
-    </Styled.CenterElement>
-  );
-}
 export default React.memo(TrackCompleteDetails);

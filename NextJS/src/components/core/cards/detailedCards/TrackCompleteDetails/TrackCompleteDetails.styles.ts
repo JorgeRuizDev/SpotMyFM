@@ -1,4 +1,5 @@
 import { FaArrowDown } from "react-icons/fa";
+import styled from "styled-components";
 import tw from "twin.macro";
 import StyledCards from "../../Card.styles";
 const Wrapper = tw.div`
@@ -45,12 +46,18 @@ const DescriptionBox = tw.article`
 	m-2
 `;
 
-const Column = tw.div`
+const Column = styled.div(({ centerCol }: { centerCol?: boolean }) => [
+  tw`
 	flex
 	flex-col
 	space-y-4
 	items-center
-`;
+  
+  m-2
+  `,
+
+  centerCol && tw`justify-center`,
+]);
 const AlbumColumn = tw.div`
 	flex
 	flex-col
@@ -72,16 +79,33 @@ const InfoGrid = tw.section`
 `;
 
 const ButtonRow = tw(StyledCards.ButtonRow)`
+
 	max-width[70%]
 	justify-center
-	
+
+	height[fit-content]
 	mt-4
 	mb-4
 `;
 
 const TagsButtonRow = tw(ButtonRow)`
-	max-width[95%]
+	2xl:max-width[700px]
+  xl:max-width[600px]
+  min-width[40%]
 `;
+
+const NoDescLayout = tw.div`
+  p-4
+  w-auto
+  grid
+  justify-items-center  
+  md:grid-cols-2
+  grid-cols-1
+  gap-6
+
+`;
+
+
 
 const Styled = {
   Wrapper,
@@ -94,6 +118,7 @@ const Styled = {
   TagsButtonRow,
   BouncyArrow,
   CenterElement,
+  NoDescLayout,
 };
 
 export default Styled;
