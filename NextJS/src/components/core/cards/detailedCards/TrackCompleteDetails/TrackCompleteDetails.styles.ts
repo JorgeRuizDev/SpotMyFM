@@ -105,8 +105,6 @@ const NoDescLayout = tw.div`
 
 `;
 
-
-
 const Styled = {
   Wrapper,
   Image,
