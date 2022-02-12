@@ -155,7 +155,7 @@ function lockBackScroll(): void {
 
   document.body.style.height = "100%";
   const main = document.getElementById("main");
-  main && (main.style.visibility= "hidden");
+  main && (main.style.visibility = "hidden");
 }
 
 function unlockBackScroll(): void {
