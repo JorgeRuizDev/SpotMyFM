@@ -152,12 +152,18 @@ function Modal({
 
 function lockBackScroll(): void {
   document.body.style.overflow = "hidden";
+
   document.body.style.height = "100%";
+  const main = document.getElementById("main");
+  main && (main.style.visibility= "hidden");
 }
 
 function unlockBackScroll(): void {
   document.body.style.overflow = "auto";
   document.body.style.height = "auto";
+  const main = document.getElementById("main");
+
+  main && (main.style.visibility = "visible");
 }
 
 export default React.memo(Modal);
