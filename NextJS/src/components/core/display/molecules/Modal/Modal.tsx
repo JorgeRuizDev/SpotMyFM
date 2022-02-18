@@ -84,7 +84,7 @@ function Modal({
 
     // On component unmount: Unlock
     return () => {
-      show_parent()
+      show_parent();
       !wasLocked && unlockBackScroll();
     };
   }, [isOpen, lockBodyScroll]);
@@ -156,20 +156,20 @@ function lockBackScroll(): void {
 
   document.body.style.height = "100%";
   const main = document.getElementById("main");
-  main && (main.classList.add("hide-modal-body"));
+  main && main.classList.add("hide-modal-body");
 }
 
 function show_parent(): void {
-  const main = document.getElementById("modal-core")
-  if (main){
-    
-    const children = main.children
-    const upper_brother = children[Math.max(0, children.length - 2)]
-    console.log(upper_brother)
-    upper_brother.classList.add("modal-second-last-child")
-    setTimeout(() => {
-      upper_brother.classList.remove("modal-second-last-child")
-    }, 300);
+  const main = document.getElementById("modal-core");
+  if (main) {
+    const children = main.children;
+    const upper_brother = children[Math.max(0, children.length - 2)];
+    if (upper_brother) {
+      upper_brother.classList.add("modal-second-last-child");
+      setTimeout(() => {
+        upper_brother.classList.remove("modal-second-last-child");
+      }, 300);
+    }
   }
 }
 
@@ -178,7 +178,7 @@ function unlockBackScroll(): void {
   document.body.style.height = "auto";
   const main = document.getElementById("main");
 
-  main && (main.classList.remove("hide-modal-body"));
+  main && main.classList.remove("hide-modal-body");
 }
 
 export default React.memo(Modal);
