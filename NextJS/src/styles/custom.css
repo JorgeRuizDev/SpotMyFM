@@ -77,3 +77,19 @@
     height: 166px;
   }
 }
+
+.hide-modal-body {
+  visibility: hidden;
+  transition-delay: 260ms;
+  transition-property: visibility;
+}
+
+.modal-second-last-child {
+}
+
+.hide-parent-modals > div:not(:last-child, :nth-last-child(2).modal-second-last-child) {
+  visibility: hidden;
+  transition-delay: 260ms;
+  transition-property: visibility;
+}
+

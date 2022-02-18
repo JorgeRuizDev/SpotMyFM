@@ -22,14 +22,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ReusableProvider>
       <div>
-        <div id="modal-core"></div>
+        <div id="modal-core" className="hide-parent-modals"></div>
 
         <Navbar />
         <NotificationRenderer />
         <ToastConfig />
         <ToggleThemeButtonFlip isLogged={isLogged} />
         <GlobalStyle />
-        <div style={{ minHeight: "100%", padding: "7px" }}>
+        <div id="main" style={{ minHeight: "100%", padding: "7px" }}>
           <Component {...pageProps} />
         </div>
         <BottomNavbar isLogged={isLogged} />
