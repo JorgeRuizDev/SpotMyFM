@@ -4,28 +4,29 @@ const Wrap = tw.div`
   absolute
 
   z-index[-10]
-  bg-black
+  bg-darkMaterialBG-base
   blur-md
-  -mt-5
+  
   w-full
 `
 
 const ExtraBlur = tw.div`
   blur-3xl
-  h-0.5
+
 
 `
 
 const HideOverflow = tw.div`
   w-full
   relative
-  
 `
 
 const Img = tw.img`
   w-full
   h-52
-  dark:opacity-50
+  md:mt-8
+  opacity-50
+
   
   object-fit[cover]
 `

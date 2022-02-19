@@ -6,6 +6,7 @@ import Head from "components/util/Head";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import Styled from "./HomeTopTracks.styles";
+import Text from "styles/Text"
 import React, { useEffect, useState } from "react";
 import { useSessionStore } from "store/useSession";
 import { ActivePage } from "enums/ActivePage";
@@ -30,7 +31,7 @@ export default function HomeTopTracks() {
   return (
     <>
       <Head subtitle={t("home:top-type", { 0: type })} />
-      <Styled.Title>{t("home:users-top-type", { 0: type })}</Styled.Title>
+      <Text.PageTitle>{t("home:users-top-type", { 0: type })}</Text.PageTitle>
       <GetMyTopSelector
         setTracks={setTrackList}
         setArtists={setArtistList}

@@ -24,19 +24,18 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ReusableProvider>
       <div>
         <div id="modal-core" className="hide-parent-modals"></div>
-
+        <ImageHead />
         <Navbar />
 
         <ToastConfig />
         <ToggleThemeButtonFlip isLogged={isLogged} />
         <GlobalStyle />
-        <ImageHead>
-          <NotificationRenderer />
-          <div id="main" style={{ minHeight: "100%", padding: "7px" }}>
-            <Component {...pageProps} />
-          </div>
-          <BottomNavbar isLogged={isLogged} />
-        </ImageHead>
+
+        <NotificationRenderer />
+        <div id="main" style={{ minHeight: "100%", padding: "7px" }}>
+          <Component {...pageProps} />
+        </div>
+        <BottomNavbar isLogged={isLogged} />
       </div>
     </ReusableProvider>
   );

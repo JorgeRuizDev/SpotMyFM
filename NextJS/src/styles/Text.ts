@@ -15,6 +15,14 @@ const Inline = tw.article`
 	space-x-3
 `;
 
+const PageTitle = tw.h1`
+  dark:text-white
+  text-white
+  w-full
+  text-center
+`
+
+
 const Center = tw.div`
   flex
   justify-center
@@ -41,6 +49,6 @@ const pGreen = tw.span`
 
 const green = pGreen;
 
-const Styled = { pBlack, pGreen, Inline, green, Center, Column };
+const Styled = { pBlack, pGreen, Inline, green, Center, Column, PageTitle };
 
 export default Styled;
