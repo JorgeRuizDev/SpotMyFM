@@ -20,8 +20,7 @@ const PageTitle = tw.h1`
   text-white
   w-full
   text-center
-`
-
+`;
 
 const Center = tw.div`
   flex

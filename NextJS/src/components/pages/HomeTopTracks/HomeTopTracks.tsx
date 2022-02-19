@@ -6,7 +6,7 @@ import Head from "components/util/Head";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import Styled from "./HomeTopTracks.styles";
-import Text from "styles/Text"
+import Text from "styles/Text";
 import React, { useEffect, useState } from "react";
 import { useSessionStore } from "store/useSession";
 import { ActivePage } from "enums/ActivePage";

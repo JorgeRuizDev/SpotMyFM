@@ -19,7 +19,7 @@ const ExtraBlur = tw.div`
 const HideOverflow = tw.div`
   w-full
   relative
-`
+`;
 
 const Img = tw.img`
   w-full
