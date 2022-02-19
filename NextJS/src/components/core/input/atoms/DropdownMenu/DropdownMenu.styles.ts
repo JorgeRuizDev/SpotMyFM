@@ -1,38 +1,66 @@
 import { RiArrowDropDownLine } from "react-icons/ri";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import tw from "twin.macro";
 import Buttons from "styles/Buttons";
 
 interface ITitle {
-  titleStyle?: "spotify";
+  titleStyle?: "spotify" | "input";
 }
 
-const Title = styled(Buttons.PrimaryGreenButton)<ITitle>(({ titleStyle }) => [
+const Title = styled.button<ITitle>(({ titleStyle }) => [
   tw`
-	p-0
-	pl-4
+    p-0
+    pl-4
+    flex
+    flex-row
+    w-full
+    items-center
+    justify-center
+    space-x-2
+
+    width[fit-content]
+    md:(min-height[40px] max-height[40px])
+    min-height[35px]
+    max-height[35px]
 	`,
+
 
   titleStyle == "spotify" &&
     tw`
-		bg-green-200
-		hover:bg-green-300
-		dark:(hover:bg-green-500 bg-green-400)
-		dark:text-white
-		text-gray-600
-		rounded-xl
+		bg-green-500
+    hover:bg-green-400 
+    text-white
+		
+		rounded-full
 	`,
+
+  titleStyle == "input" &&
+    tw`
+    rounded-none
+    text-textColor-lightTheme
+    
+
+    //dark:(bg-white hover:(bg-gray-200))
+    bg-white
+    m-0
+    shadow-none
+
+    hover:bg-gray-200 
+  `,
 ]);
 
 const Wrap = tw.div`
 	width[fit-content]
 `;
 
-const DropIcon = tw(RiArrowDropDownLine)`
-	h-11
-	w-11
-	dark:text-white
-`;
+const DropIcon = styled(RiArrowDropDownLine)(({ titleStyle }: ITitle) => [
+  tw`
+    h-11
+    w-11
+    text-white
+  `,
+  titleStyle == "input" && tw`text-textColor-lightTheme `,
+]);
 
 const ItemList = tw.ul`
 	hidden
@@ -52,7 +80,7 @@ const ItemList = tw.ul`
 `;
 
 interface itemStyle {
-  itemStyle?: "lastFM";
+  itemStyle?: "spotify" | "input" | "lastFM";
 }
 
 const Item = styled.a<itemStyle>(({ itemStyle }) => [

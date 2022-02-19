@@ -21,8 +21,7 @@ const ExtraBlur = tw.div`
 const HideOverflow = tw.div`
   w-full
   relative
-  overflow-clip
-  -mt-5
+
 `;
 
 const Img = tw.img`
@@ -32,7 +31,7 @@ const Img = tw.img`
   
   opacity-50
   object-fit[cover]
-  scale-110
+  -mt-5
   `;
 
 const Styled = { Img, Wrap, HideOverflow, ExtraBlur };
