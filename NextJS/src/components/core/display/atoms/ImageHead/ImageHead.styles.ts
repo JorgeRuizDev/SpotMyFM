@@ -8,13 +8,13 @@ const Wrap = tw.div`
   blur-md
   
   w-full
-`
+`;
 
 const ExtraBlur = tw.div`
   blur-3xl
 
 
-`
+`;
 
 const HideOverflow = tw.div`
   w-full
@@ -29,8 +29,8 @@ const Img = tw.img`
 
   
   object-fit[cover]
-`
+`;
 
-const Styled = {Img, Wrap, HideOverflow, ExtraBlur};
+const Styled = { Img, Wrap, HideOverflow, ExtraBlur };
 
 export default Styled;
