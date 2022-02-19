@@ -127,16 +127,10 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
 
   return (
     <Styled.Col>
-      <Text.Center>
-        <h1>
-          <Text.Inline>
-            <Text.green>
-              <FaSearch />
-            </Text.green>
-            <span> Spotify Search</span>
-          </Text.Inline>{" "}
-        </h1>
-      </Text.Center>
+      <Text.PageTitle>
+        <span> Spotify Search</span>
+      </Text.PageTitle>
+
       <Styled.Center>
         <Styled.CardWrap>
           <Styled.Form>

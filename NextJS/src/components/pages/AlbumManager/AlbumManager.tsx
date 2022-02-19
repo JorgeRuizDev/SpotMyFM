@@ -8,7 +8,7 @@ import Styled from "./AlbumManager.styles";
 import Ms from "styles/Miscellaneous";
 import Switch from "components/core/input/atoms/Switch";
 import AlbumView from "components/core/cards/views/AlbumView";
-
+import Text from "styles/Text"
 interface IAlbumManagerProps {}
 
 function AlbumManager(props: IAlbumManagerProps): JSX.Element {
@@ -113,7 +113,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
 
   return (
     <Styled.Wrap>
-      <Styled.Title>Album Manager</Styled.Title>
+      <Text.PageTitle>Album Manager</Text.PageTitle>
       <Styled.Center>
         <Styled.CardWrap>
           <Ms.Card>

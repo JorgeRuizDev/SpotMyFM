@@ -59,7 +59,7 @@ function PlaylistManager(props: IPlaylistManagerProps): JSX.Element {
 
   return (
     <Styled.Wrap>
-      <Styled.Title>Playlist Manager</Styled.Title>
+      <Text.PageTitle>Playlist Manager</Text.PageTitle>
       <Styled.Center>
         <Styled.CardWrap>
           <Ms.Card>

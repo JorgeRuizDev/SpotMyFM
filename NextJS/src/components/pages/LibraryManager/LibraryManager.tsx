@@ -7,6 +7,7 @@ import { useClientsStore } from "store/useClients";
 import { sortByName } from "util/sorters/commonSoters";
 import Styled from "./LibraryManager.styles";
 import LibraryManagerTopTab from "./LibraryManagerTopTab";
+import Text from "styles/Text";
 interface ILibraryManagerProps {}
 
 function LibraryManager(props: ILibraryManagerProps): JSX.Element {
@@ -33,9 +34,8 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
 
   return (
     <Styled.SpaceY>
-      <Styled.Center>
-        <h1>Library Manager</h1>
-      </Styled.Center>
+      <Text.PageTitle>Library Manager</Text.PageTitle>
+
       <Styled.Center>
         <LibraryManagerTopTab
           resetTrackSel={() => {
