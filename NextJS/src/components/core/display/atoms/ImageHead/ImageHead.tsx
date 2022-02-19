@@ -11,15 +11,15 @@ interface IImageHeadProps {
 }
 
 const showHead = (isLogged: boolean, activePage: ActivePage) => {
-  return isLogged && activePage != ActivePage.SETTINGS
-}
+  return isLogged && activePage != ActivePage.SETTINGS;
+};
 
 function ImageHead({ children }: IImageHeadProps): JSX.Element {
   const { cacheClient } = useClientsStore();
 
-  const isLogged = useLoginStore(s => s.isLogged)
+  const isLogged = useLoginStore((s) => s.isLogged);
 
-  const {activePage} = useSessionStore()
+  const { activePage } = useSessionStore();
 
   const [mtop, setMtop] = useState(0);
 
@@ -31,15 +31,15 @@ function ImageHead({ children }: IImageHeadProps): JSX.Element {
     }
   }, [position]);
 
-  const [img, setImg] = useState<string>("a" );
+  const [img, setImg] = useState<string>("a");
   useEffect(() => {
-    const f = async() => {
-      const albums = await cacheClient.getAllAlbums()
-      const rand = Math.floor(Math.random() * albums.length - 2)
-      
-      setImg(albums[rand]?.spotifyCoverUrl[0] || "a")
-    }
-    f()
+    const f = async () => {
+      const albums = await cacheClient.getAllAlbums();
+      const rand = Math.floor(Math.random() * albums.length - 2);
+
+      setImg(albums[rand]?.spotifyCoverUrl[0] || "a");
+    };
+    f();
   }, [cacheClient]);
 
   return (
@@ -55,6 +55,7 @@ function ImageHead({ children }: IImageHeadProps): JSX.Element {
                 currentTarget.src = "/img/head/court.jpg";
               }}
             />
+
             <Styled.ExtraBlur />
           </Styled.Wrap>
           {children}
