@@ -116,6 +116,11 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
                   inputProps={{
                     minLength: 3,
                     placeholder: "David Bowie Heroes",
+                    onKeyDown: (e) => {
+                      if (e.key == "Enter") {
+                        search(searchStr);
+                      }
+                    },
                   }}
                   dropTitle={
                     <span style={{ whiteSpace: "nowrap" }}>
