@@ -28,13 +28,15 @@ const field = `
   text-textColor-lightTheme
   font-sans
   px-2
+  h-10
+  bg-gray-100
 `;
 
 const hover = `
   ${field}
   bg-gray-200
   rounded
-`
+`;
 
 const TextField = styled.input(() => [
   tw`
@@ -52,7 +54,7 @@ const TextField = styled.input(() => [
   `,
 ]);
 
-const FieldWrap = styled.div(({ }: IWrapProps) => [
+const FieldWrap = styled.div(({}: IWrapProps) => [
   css`
     :focus-within {
       ${tw`ring-green-400 ring-2 border-transparent`},
@@ -63,11 +65,16 @@ const FieldWrap = styled.div(({ }: IWrapProps) => [
   `,
   tw`
   flex
-  flex-row
+  sm:flex-row
+  flex-col
+  gap-2
+
   items-center
-  h-10
+  justify-center
+  min-height[40px]
   
-  pr-2
+  sm:(p-0 px-2)
+  p-2
 
   //Background:
   bg-white
@@ -92,7 +99,6 @@ const FieldWrap = styled.div(({ }: IWrapProps) => [
   outline-none
   
   `,
-
 ]);
 
 const Styled = { FieldWrap, TextField, Cross, VerticalLine };

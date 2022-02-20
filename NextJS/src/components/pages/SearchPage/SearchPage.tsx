@@ -2,17 +2,7 @@ import Styled from "./SearchPage.styles";
 import Buttons from "styles/Buttons";
 
 import Text from "styles/Text";
-import Switch from "components/core/input/atoms/Switch";
-import {
-  ChangeEvent,
-  FormEvent,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
-import SimpleSlider from "components/core/input/atoms/Sliders/SimpleSlider";
+import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { useClientsStore } from "store/useClients";
 import { useDataFacade } from "hooks/dataFacade/useDataFacade";
@@ -20,34 +10,20 @@ import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import SearchResultsView from "components/core/cards/views/SearchResultsView";
-import DropdownMenu from "components/core/input/atoms/DropdownMenu";
-import { toast } from "react-toastify";
+import InputWithSelector from "components/core/input/molecules/InputWithSelector";
 interface ISearchPageProps {}
 
 type searchType = "tracks" | "albums" | "artists" | "playlists";
 
 function SearchPage(props: ISearchPageProps): JSX.Element {
-  const SearchType: Record<searchType, ReactNode> = useMemo(
-    () => ({
-      albums: "Albums",
-      tracks: "Tracks",
-      artists: "Artists",
-      playlists: "Playlists",
-    }),
-    []
-  );
-
   const api = useClientsStore((s) => s.spotifyApi);
   const { getTracks, getAlbumsById, getArtists } = useDataFacade();
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [showResults, setShowResults] = useState(false);
-
-  const [searchTypeSel, setSearchTypeSel] = useState<[string, ReactNode]>([
-    "tracks",
-    SearchType.tracks,
-  ]);
+  const [prevSearchType, setPrevSearchType] = useState("tracks");
+  const [searchTypeSel, setSearchTypeSel] = useState("tracks");
 
   const [albums, setAlbums] = useState<Album[]>([]);
   const [tracks, setTracks] = useState<Track[]>([]);
@@ -61,9 +37,7 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
 
   const validStr = useMemo(() => searchStr.length >= 3, [searchStr]);
 
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const v = e.target.value;
-
+  const handleChange = useCallback((v: string) => {
     if (v.length >= 3) {
       setSearchStr(v);
     } else {
@@ -72,23 +46,26 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
   }, []);
 
   const search = useCallback(
-    async (searchType = searchTypeSel[0]) => {
+    async (searchStr: string) => {
       if (!validStr) {
         return;
       }
 
+      // Update the previous search type
+      setPrevSearchType(searchTypeSel);
       setIsLoading(true);
       setTracks([]);
       setPlaylists([]);
       setAlbums([]);
       setArtists([]);
 
-      switch (searchType) {
+      switch (searchTypeSel) {
         case "tracks":
           const _tracks = (await api.searchTracks(searchStr, { limit: maxRes }))
             .tracks.items;
           const tracks = await getTracks(_tracks);
           setTracks(tracks);
+
           break;
         case "albums":
           const _albums = (await api.searchAlbums(searchStr, { limit: maxRes }))
@@ -113,34 +90,51 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
       setShowResults(true);
       setIsLoading(false);
     },
-    [
-      api,
-      getAlbumsById,
-      getArtists,
-      getTracks,
-      maxRes,
-      searchStr,
-      searchTypeSel,
-      validStr,
-    ]
+    [api, getAlbumsById, getArtists, getTracks, maxRes, searchTypeSel, validStr]
   );
+
+  useEffect(() => {
+    // On search type change: Search Again
+    if (searchTypeSel !== prevSearchType) {
+      search(searchStr);
+    }
+  }, [prevSearchType, search, searchStr, searchTypeSel]);
 
   return (
     <Styled.Col>
       <Text.PageTitle>
-        <span> Spotify Search</span>
+        <span>Spotify Search</span>
       </Text.PageTitle>
 
       <Styled.Center>
         <Styled.CardWrap>
-          <Styled.Form>
-            <Text.Center>
-              <Text.Inline>
-                <input
-                  placeholder="David Bowie Heroes"
+          <Styled.Form onSubmit={() => search(searchStr)}>
+            <Styled.Center>
+              <Styled.Inline>
+                <InputWithSelector
                   onChange={handleChange}
-                  onSubmit={search}
-                  minLength={3}
+                  inputProps={{
+                    minLength: 3,
+                    placeholder: "David Bowie Heroes",
+                  }}
+                  dropTitle={
+                    <span style={{ whiteSpace: "nowrap" }}>
+                      Number Of Results
+                    </span>
+                  }
+                  dropItems={[5, 10, 15, 25, 35, 50].map((n, i) => ({
+                    component: (
+                      <span
+                        style={{
+                          textDecorationLine:
+                            n === maxRes ? "underline" : "none",
+                        }}
+                      >
+                        {n} results
+                      </span>
+                    ),
+                    onClick: () => setMaxRes(n),
+                  }))}
                 />
                 <Buttons.PrimaryGreenButton
                   disabled={!validStr}
@@ -148,59 +142,51 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
                   rounded
                   onClick={(e) => {
                     e.preventDefault();
-                    search();
+                    search(searchStr);
                   }}
                 >
                   <FaSearch />
                 </Buttons.PrimaryGreenButton>
-              </Text.Inline>
-            </Text.Center>
+              </Styled.Inline>
+            </Styled.Center>
           </Styled.Form>
           <Styled.Card>
-            <DropdownMenu
-              items={Object.entries(SearchType).map((o) => ({
-                component: (
-                  <span
-                    style={{
-                      textDecorationLine:
-                        o[0] === searchTypeSel[0] ? "underline" : "none",
-                    }}
-                  >
-                    {o[1]}
-                  </span>
-                ),
-                onClick: () => {
-                  setSearchTypeSel(o);
-                  search(o[0]);
-                },
-              }))}
+            <Buttons.CheckableGreenButton
+              isChecked={searchTypeSel === "tracks"}
+              onClick={() => setSearchTypeSel("tracks")}
             >
-              Search {searchTypeSel[1]} {validStr && `With ${searchStr}`}
-            </DropdownMenu>
-            <p>Show {maxRes} results</p>
-            <div style={{ width: "100%" }}>
-              <SimpleSlider
-                max={50}
-                min={10}
-                defaultValue={15}
-                onAfterChange={(c) => {
-                  setMaxRes(c);
-                }}
-              />
-            </div>
+              Tracks
+            </Buttons.CheckableGreenButton>
+            <Buttons.CheckableGreenButton
+              isChecked={searchTypeSel === "albums"}
+              onClick={() => setSearchTypeSel("albums")}
+            >
+              Albums
+            </Buttons.CheckableGreenButton>
+            <Buttons.CheckableGreenButton
+              isChecked={searchTypeSel === "artists"}
+              onClick={() => setSearchTypeSel("artists")}
+            >
+              Artists
+            </Buttons.CheckableGreenButton>
+            <Buttons.CheckableGreenButton
+              onClick={() => setSearchTypeSel("playlists")}
+              isChecked={searchTypeSel === "playlists"}
+            >
+              Playlists
+            </Buttons.CheckableGreenButton>
           </Styled.Card>
         </Styled.CardWrap>
       </Styled.Center>
 
       {showResults && (
         <>
-          <hr />
           <SearchResultsView
             tracks={tracks}
             artists={artists}
             albums={albums}
             playlists={playlists}
-            searchType={searchTypeSel[0]}
+            searchType={searchTypeSel}
             isLoading={isLoading}
           />
         </>

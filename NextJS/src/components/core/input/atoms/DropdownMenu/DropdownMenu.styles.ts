@@ -18,7 +18,6 @@ const Title = styled.button<ITitle>(({ titleStyle }) => [
     justify-center
     space-x-2
 
-    width[fit-content]
     md:(min-height[40px] max-height[40px])
     min-height[35px]
     max-height[35px]

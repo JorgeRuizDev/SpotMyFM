@@ -1,22 +1,26 @@
-import { ReactNode, createRef, useEffect, useState } from "react";
+import {
+  InputHTMLAttributes,
+  ReactNode,
+  createRef,
+  useEffect,
+  useState,
+} from "react";
 import Styled from "./InputWithSelector.styles";
 import { MdClear } from "react-icons/md";
 import DropdownMenu from "../../atoms/DropdownMenu";
 import { IDropItem } from "../../atoms/DropdownMenu/DropdownMenu";
 interface IInputWithSelectorProps {
   onChange?: (e: string) => void;
-  placeholder?: string;
   dropTitle?: ReactNode | ReactNode[];
   dropItems?: IDropItem[];
-  autofocus?: boolean;
+  inputProps?: InputHTMLAttributes<HTMLInputElement>;
 }
 
 function InputWithSelector({
   onChange,
-  placeholder,
   dropItems,
   dropTitle,
-  autofocus,
+  inputProps,
 }: IInputWithSelectorProps): JSX.Element {
   const [val, setVal] = useState("");
   const inputRef = createRef<HTMLInputElement>();
@@ -29,22 +33,25 @@ function InputWithSelector({
     <>
       <Styled.FieldWrap>
         {dropTitle && (
-          <>
+          <div
+            onClick={(e) => {
+              e.preventDefault();
+            }}
+          >
             <DropdownMenu titleStyle="input" items={dropItems}>
               {dropTitle}
             </DropdownMenu>
             <Styled.VerticalLine />
-          </>
+          </div>
         )}
 
         <Styled.TextField
           ref={inputRef}
+          {...inputProps}
           value={val}
-          autoFocus={autofocus}
           onChange={(e) => {
             setVal(e.target.value);
           }}
-          placeholder={placeholder}
         />
         <Styled.Cross
           visible={!!val.length}
