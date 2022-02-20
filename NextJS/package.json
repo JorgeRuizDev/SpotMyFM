@@ -35,7 +35,7 @@
     "js-cookie": "3.0.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "4.17.21",
-    "next": "12.0.7",
+    "next": "12.1.0",
     "next-translate": "^1.2.0",
     "npm": "7.22.0",
     "pretty-ms": "7.0.1",
