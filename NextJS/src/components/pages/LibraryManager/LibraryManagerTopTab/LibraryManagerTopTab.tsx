@@ -55,7 +55,23 @@ function LibraryManagerTopTab({
 
           <Tab.TabContentWrap>
             <Tab.TabContent id={"1"}>
-              <p>Track Manager</p>
+              <Text.Column centered>
+                <h5>
+                  <Text.green>Explore Your Library!</Text.green>
+                </h5>
+                <p>
+                  Browse, filter, create personalized playlists and check your
+                  personal stats of{" "}
+                  <Text.green>{cachedTracks.length}</Text.green> saved songs.
+                </p>
+                <br />
+                <p>
+                  Generate a <Text.green>shuffled sample</Text.green> of your
+                  saved tracks in the{" "}
+                  <Text.green>Random Shuffle Tab</Text.green>
+                </p>
+                <br />
+              </Text.Column>
             </Tab.TabContent>
             <Tab.TabContent id={"2"}>
               <Styled.CenterSliderContainer>

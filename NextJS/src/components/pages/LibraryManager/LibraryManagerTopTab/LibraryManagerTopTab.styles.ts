@@ -2,7 +2,7 @@ import tw from "twin.macro";
 import Text from "styles/Text";
 
 const MinH = tw.div`
-  min-h-[300px]
+  min-h-[280px]
 `;
 
 const SliderContainer = tw.section`
@@ -12,7 +12,7 @@ const SliderContainer = tw.section`
 `;
 
 const Wrap = tw.div`
-  width[clamp(50%, 700px, 95%)]
+  w-full
 
 `;
 

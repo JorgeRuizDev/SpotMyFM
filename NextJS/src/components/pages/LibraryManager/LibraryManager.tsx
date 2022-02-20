@@ -37,14 +37,16 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
       <Text.PageTitle>Library Manager</Text.PageTitle>
 
       <Styled.Center>
-        <LibraryManagerTopTab
-          resetTrackSel={() => {
-            setSelectedTracks([...selTracksBack]);
-          }}
-          cachedTracks={cachedTracks}
-          setIsLoading={setIsLoading}
-          setTracks={setSelectedTracks}
-        />
+        <Styled.Card>
+          <LibraryManagerTopTab
+            resetTrackSel={() => {
+              setSelectedTracks([...selTracksBack]);
+            }}
+            cachedTracks={cachedTracks}
+            setIsLoading={setIsLoading}
+            setTracks={setSelectedTracks}
+          />
+        </Styled.Card>
       </Styled.Center>
       <TrackSelectorView
         tracks={selectedTracks}
