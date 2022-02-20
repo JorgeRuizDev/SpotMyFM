@@ -23,7 +23,6 @@ const Title = styled.button<ITitle>(({ titleStyle }) => [
     max-height[35px]
 	`,
 
-
   titleStyle == "spotify" &&
     tw`
 		bg-green-500

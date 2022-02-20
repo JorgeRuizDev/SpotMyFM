@@ -17,7 +17,7 @@ const Inline = tw.article`
   justify-center
   gap-2
   
-`
+`;
 
 const CardWrap = tw.div`
   w-auto
@@ -50,6 +50,6 @@ const Center = tw.div`
   justify-center
 `;
 
-const Styled = { Center, CardWrap, Col, Card, Form, Inline};
+const Styled = { Center, CardWrap, Col, Card, Form, Inline };
 
 export default Styled;

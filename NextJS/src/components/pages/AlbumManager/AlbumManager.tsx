@@ -8,7 +8,7 @@ import Styled from "./AlbumManager.styles";
 import Ms from "styles/Miscellaneous";
 import Switch from "components/core/input/atoms/Switch";
 import AlbumView from "components/core/cards/views/AlbumView";
-import Text from "styles/Text"
+import Text from "styles/Text";
 interface IAlbumManagerProps {}
 
 function AlbumManager(props: IAlbumManagerProps): JSX.Element {
