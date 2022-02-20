@@ -94,10 +94,7 @@ function FavDecades({ tracks, albums }: IFavDecadesProps): JSX.Element {
         </BarChart>
       </ResponsiveContainer>
       <ResponsiveContainer width={width} height={height}>
-        <BarChart
-          data={decades}
-          margin={{ top: 25 }}
-        >
+        <BarChart data={decades} margin={{ top: 25 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="Decade" stroke={getStroke()} />
           <YAxis stroke={getStroke()} />

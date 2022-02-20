@@ -99,11 +99,7 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
         <span>Top Interval</span>
       </DropdownMenu>
       <ResponsiveContainer width={width} height={height}>
-        <LineChart
-          data={data}
-          margin={margin}
-          stroke={getStroke()}
-        >
+        <LineChart data={data} margin={margin} stroke={getStroke()}>
           <CartesianGrid strokeDasharray="3 3" stroke={getStroke()} />
           <XAxis
             dataKey="decade"
