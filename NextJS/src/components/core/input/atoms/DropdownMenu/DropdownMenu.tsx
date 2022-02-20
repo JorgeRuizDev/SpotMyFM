@@ -33,7 +33,7 @@ function DropdownMenu({
     <Styled.Wrap className={"group"}>
       <Styled.Title titleStyle={titleStyle}>
         {children}
-        <Styled.DropIcons titleStyle={titleStyle}/>
+        <Styled.DropIcons titleStyle={titleStyle} />
       </Styled.Title>
       <Styled.ItemList>
         {items?.map((x, i) => (
