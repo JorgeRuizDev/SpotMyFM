@@ -14,9 +14,7 @@ const Layout = tw.div`
 const OverScroll = tw.div`
   flex
   flex-col
-	width[fit-content]
-	overflow-x-auto
-	overflow-y-hidden
+  md:min-width[600px]
   space-y-3
 `;
 

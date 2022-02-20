@@ -25,6 +25,11 @@ function CompleteStats({
 }: ICompleteStatsProps): JSX.Element {
   return (
     <Styled.Layout>
+      {!!tracks.length && (
+        <Styled.OverScroll>
+          <GenreEvolution tracks={tracks} />
+        </Styled.OverScroll>
+      )}
       {!!tracks.length && !!albums.length && (
         <Styled.OverScroll>
           <FavDecades tracks={tracks} albums={albums} />
@@ -32,7 +37,6 @@ function CompleteStats({
       )}
 
       {!!tracks.length && <TrackFavDistribution tracks={tracks} />}
-      {!!tracks.length && <GenreEvolution tracks={tracks}/>}
     </Styled.Layout>
   );
 }

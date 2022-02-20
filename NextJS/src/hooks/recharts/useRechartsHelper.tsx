@@ -21,7 +21,7 @@ const colors = [
   "#FF7450",
 ];
 
-const width = 750;
+const width = "100%";
 const height = 300;
 
 const margin = { bottom: 40, top: 25, left: 10, right: 10 };
@@ -30,15 +30,16 @@ const animationDuration = 1000;
 
 interface ICustomTooltip {
   payload?: Payload<any, any>[];
+  sort?: (payloadA: any, payloadB: any) => any;
   label: any;
 }
 
-function CustomTooltip({ payload, label }: ICustomTooltip) {
+function CustomTooltip({ payload, label, sort = () => 0 }: ICustomTooltip) {
   return (
     <TooltipWrap>
       <p>{label}</p>
       {payload?.length &&
-        payload.map(({ name, color, value }, index) => {
+        payload.sort(sort).map(({ name, color, value }, index) => {
           return (
             <p key={index} className="tooltip-items" style={{ color: color }}>
               {`${name}: ${value}`}
@@ -64,18 +65,18 @@ export function useRechartsHelper() {
 
   const months = useMemo(
     () => [
-      "January",
-      "February",
-      "March",
-      "April",
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
       "May",
       "June",
       "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
     ],
     []
   );

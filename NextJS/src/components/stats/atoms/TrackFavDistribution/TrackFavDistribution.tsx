@@ -8,7 +8,9 @@ import {
   AreaChart,
   CartesianGrid,
   Label,
+  Legend,
   RadialBarChart,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
@@ -81,77 +83,73 @@ function TrackFavDistribution({
       <StatStyles.OverScroll>
         <h3>Saved Tracks Per Month:</h3>
         <p>There are {savedTracks.length} saved tracks.</p>
-        <AreaChart
-          width={width}
-          height={height}
-          data={monthData}
-          margin={margin}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="name"
-            angle={-45}
-            textAnchor="end"
-            stroke={getStroke()}
-          />
-          <YAxis stroke={getStroke()}>
-            <Label
-              value={"Saved Tracks"}
-              angle={-90}
-              position="insideBottomLeft"
+        <ResponsiveContainer width={width} height={height}>
+          <AreaChart data={monthData} margin={margin}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="name"
+              angle={-45}
+              textAnchor="end"
+              stroke={getStroke()}
             />
-          </YAxis>
-          <Tooltip
-            content={({ payload, label }) => (
-              <CustomTooltip payload={payload} label={label} />
-            )}
-          />
-          <Area
-            type="monotone"
-            dataKey="Total"
-            stroke={colors[0]}
-            fill={colors[0]}
-            animationDuration={animationDuration}
-          />
-        </AreaChart>
+            <Legend
+              stroke={getStroke()}
+              verticalAlign="top"
+              wrapperStyle={{ marginTop: -25 }}
+            />
+            <Tooltip
+              content={({ payload, label }) => (
+                <CustomTooltip payload={payload} label={label} />
+              )}
+            />
+            <Area
+              type="monotone"
+              dataKey="Total"
+              name="Total Saved Tracks"
+              stroke={colors[0]}
+              fill={colors[0]}
+              animationDuration={animationDuration}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
       </StatStyles.OverScroll>
 
       <StatStyles.OverScroll>
         <h3>Saved Tracks Per Year:</h3>
         <p>There are {savedTracks.length} saved tracks.</p>
-        <AreaChart
-          width={width}
-          height={height}
-          data={yearData}
-          margin={{ bottom: 40, top: 10, left: 10, right: 10 }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis
-            dataKey="name"
-            angle={-45}
-            textAnchor="end"
-            stroke={getStroke()}
-          />
-          <YAxis
-            style={{
-              color: getStroke(),
-            }}
+        <ResponsiveContainer width={width} height={height}>
+          <AreaChart
+            data={yearData}
+            margin={{ bottom: 40, top: 10, left: 10, right: 10 }}
           >
-            <Label value={"Saved Tracks"} angle={-90} position="insideLeft" />
-          </YAxis>
-          <Tooltip
-            content={({ payload, label }) => (
-              <CustomTooltip payload={payload} label={label} />
-            )}
-          />
-          <Area
-            type="monotone"
-            dataKey="Total"
-            stroke={colors[4]}
-            fill={colors[4]}
-            animationDuration={animationDuration}
-          />
-        </AreaChart>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="name"
+              angle={-45}
+              textAnchor="end"
+              stroke={getStroke()}
+            />
+
+            <Legend
+              stroke={getStroke()}
+              verticalAlign="top"
+              wrapperStyle={{ marginTop: -25 }}
+            />
+            <Tooltip
+              content={({ payload, label }) => (
+                <CustomTooltip payload={payload} label={label} />
+              )}
+            />
+            <Area
+              type="monotone"
+              dataKey="Total"
+              name="Total Saved Tracks"
+              stroke={colors[4]}
+              fill={colors[4]}
+              animationDuration={animationDuration}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
       </StatStyles.OverScroll>
     </>
   ) : (
