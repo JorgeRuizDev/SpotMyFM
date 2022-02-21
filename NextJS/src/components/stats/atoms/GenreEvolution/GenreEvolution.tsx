@@ -1,8 +1,10 @@
 import DropdownMenu from "components/core/input/atoms/DropdownMenu";
+import Switch from "components/core/input/atoms/Switch";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { useRechartsHelper } from "hooks/recharts/useRechartsHelper";
 import React from "react";
 import { useCallback, useEffect, useState } from "react";
+import Text from "styles/Text";
 import {
   CartesianGrid,
   Line,
@@ -19,22 +21,35 @@ interface IGenreEvolutionProps {
   tracks: Track[];
 }
 
-const GENRES_PER_STAMP = 5;
-
 interface IData {
   [k: string | number]: number | string;
 }
 
+/**
+ * Graph that shows the evolution of the artist genres
+ * @param param0
+ * @returns
+ */
 function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
+  // Data to display in the graph
   const [data, setData] = useState<IData[]>([]);
+  // Genres to display
   const [genres, setGenres] = useState<string[]>([]);
-
+  // Connect the null values
+  const [connect, setConnect] = useState(false);
+  // Top Interval [0, 5] -> Top 5 Items, Top [6,10] -> Next 5 Items
   const [interval, setInterval] = useState([0, 5]);
-
+  // State that stores the function that groups up the genre evolution and fills up the data state.
+  const [groupFn, setGroupFn] = useState<() => void>(() => {});
+  // List with the years the user has saved tracks
+  const [years, setYears] = useState<number[]>([]);
+  // Save the group type selection ("decade" or an specific year)
+  const [dropGroupSel, setDropGroupSel] = useState<string | number>("decade");
   const { currentTheme } = useThemeStore();
   const { getStroke, width, height, margin, CustomTooltip, months } =
     useRechartsHelper();
 
+  // Group By Main Function
   const groupBy = useCallback(
     (
       getGroup: () => Map<number, Map<string, number>>,
@@ -71,39 +86,120 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
     [interval]
   );
 
-  useEffect(
-    () =>
-      groupBy(
-        () => perSavedYear(tracks, 2020),
-        (lbl) => months[lbl]
-      ),
-    [groupBy, months, tracks]
-  );
+  /**
+   * Gets a sorted list with the user saved years
+   */
+  const getUserActiveYears = useCallback(() => {
+    const years = new Set<number>();
+    for (const t of tracks) {
+      if (t.savedAt) {
+        years.add(t.savedAt.getFullYear());
+      }
+    }
+
+    setYears(Array.from(years.values()).sort());
+  }, [tracks]);
+
+  useEffect(getUserActiveYears, [getUserActiveYears]);
+
+  useEffect(() => {
+    if (groupFn) {
+      groupFn();
+    } else {
+      groupBy(() => perDecade(tracks));
+    }
+  }, [groupBy, groupFn, tracks]);
 
   return (
     <>
-      <DropdownMenu
-        items={[
-          { component: <span>Top 5</span>, onClick: () => setInterval([0, 5]) },
-          { component: <span>Top 8</span>, onClick: () => setInterval([0, 8]) },
-          {
-            component: <span>Top 6-10</span>,
-            onClick: () => setInterval([6, 10]),
-          },
-          {
-            component: <span>Top 11-15</span>,
-            onClick: () => setInterval([6, 10]),
-          },
-        ]}
-      >
-        <span>Top Interval</span>
-      </DropdownMenu>
-      <ResponsiveContainer width={width} height={height}>
-        <LineChart
-          data={data}
-          margin={margin}
-          stroke={getStroke()}
+      <h3>👨‍🎤 Artist Genres Evolution:</h3>
+      <Styled.Inline>
+        <DropdownMenu
+          items={[
+            {
+              component: (
+                <span style={underlineIfTrue(interval[1] === 5)}>Top 5</span>
+              ),
+              onClick: () => setInterval([0, 5]),
+            },
+            {
+              component: (
+                <span style={underlineIfTrue(interval[1] === 8)}>Top 8</span>
+              ),
+              onClick: () => setInterval([0, 8]),
+            },
+            {
+              component: (
+                <span style={underlineIfTrue(interval[1] === 10)}>
+                  Top 6-10
+                </span>
+              ),
+              onClick: () => setInterval([6, 10]),
+            },
+            {
+              component: (
+                <span style={underlineIfTrue(interval[1] === 15)}>
+                  Top 11-15
+                </span>
+              ),
+              onClick: () => setInterval([11, 15]),
+            },
+          ]}
         >
+          <span>Top Interval</span>
+        </DropdownMenu>
+        <DropdownMenu
+          items={[
+            {
+              component: (
+                <span style={underlineIfTrue("decade" === dropGroupSel)}>
+                  Track Release Decades
+                </span>
+              ),
+              onClick: () => {
+                setGroupFn(() => groupBy(() => perDecade(tracks)));
+                setDropGroupSel("decade");
+              },
+            },
+            ...years.map((y) => ({
+              component: (
+                <span style={underlineIfTrue(y === dropGroupSel)}>
+                  Saved On {y}
+                </span>
+              ),
+              onClick: () => {
+                setGroupFn(() =>
+                  groupBy(
+                    () => perSavedYear(tracks, y),
+                    (lbl) => months[lbl]
+                  )
+                );
+                setDropGroupSel(y);
+              },
+            })),
+          ]}
+        >
+          <span>Group By</span>
+        </DropdownMenu>
+        <Switch isChecked={connect} onToggle={() => setConnect((c) => !c)}>
+          <span>Connect Genre Skips</span>
+        </Switch>
+      </Styled.Inline>
+      <p>
+        Showing{" "}
+        <Text.green>
+          Top {interval[0] === 0 ? interval[1] : interval.join(" - ")}
+        </Text.green>{" "}
+        Artist Genres found in your saved tracks{" "}
+        <Text.green>
+          {" "}
+          {dropGroupSel === "decade"
+            ? "grouped by decades"
+            : "of " + dropGroupSel}
+        </Text.green>
+      </p>
+      <ResponsiveContainer width={width} height={height}>
+        <LineChart data={data} margin={margin}>
           <CartesianGrid strokeDasharray="3 3" stroke={getStroke()} />
           <XAxis
             dataKey="decade"
@@ -127,7 +223,7 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
           {genres.map((g) => (
             <Line
               key={g}
-              connectNulls
+              connectNulls={connect}
               dataKey={g}
               stroke={generateColorFromString(g, currentTheme)}
               dot={{
@@ -143,6 +239,10 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
       </ResponsiveContainer>
     </>
   );
+}
+
+function underlineIfTrue(underline: boolean) {
+  return underline ? { textDecoration: "underline" } : {};
 }
 
 function perDecade(tracks: Track[]) {
