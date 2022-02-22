@@ -6,8 +6,8 @@ const Inline = tw.div`
   flex-wrap
   items-center
   justify-around
-`
+`;
 
-const Styled = {Inline};
+const Styled = { Inline };
 
 export default Styled;
