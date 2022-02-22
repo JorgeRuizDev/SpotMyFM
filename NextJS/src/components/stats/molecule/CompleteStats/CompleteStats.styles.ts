@@ -4,7 +4,7 @@ const Layout = tw.div`
   flex
   flex-row
   flex-wrap
-  items-start
+  items-end
   justify-around
 
   gap-5
