@@ -44,7 +44,7 @@ function AlbumView({
   const { t } = useTranslation();
 
   const [currentView, setCurrentView] = useState<ViewTypeOption>(
-    settings.defaultView || "GRID"
+    settings.defaultView || isMobile ? "LIST" : "GRID"
   );
 
   // Reset on Sort Change

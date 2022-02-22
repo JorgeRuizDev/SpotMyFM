@@ -48,12 +48,15 @@ function useTrackToPlaylistSelector(): IReturn {
 
   const removeAll = useCallback(() => setTrackSet(new Map()), []);
 
-  function addAll(tracks: Track[]) {
-    for (let t of tracks) {
-      trackSet.set(t.spotifyId, t);
-    }
-    setTrackSet(new Map(trackSet));
-  }
+  const addAll = useCallback(
+    (tracks: Track[]) => {
+      for (let t of tracks) {
+        trackSet.set(t.spotifyId, t);
+      }
+      setTrackSet(new Map(trackSet));
+    },
+    [trackSet]
+  );
 
   return { trackSet, toggleFromPlaylist, contains, addAll, removeAll };
 }

@@ -9,9 +9,9 @@ import React, {
   useMemo,
   useRef,
 } from "react";
-import { useInView } from "react-hook-inview";
+import { useInView } from "react-intersection-observer";
 import { toast } from "react-toastify";
-const DynamicTrackView = dynamic(() => import("../TrackView"));
+import TrackView from "../TrackView";
 import Styled from "./TrackSelectorView.styles";
 import TracksToPlaylist from "./TracksToPlaylist";
 interface ITrackSelectorViewProps {
@@ -73,6 +73,17 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
     }
   }, [inView, notify, trackSet.size, updateNotification]);
 
+  const selectManager = useMemo(
+    () => ({
+      isSelected: contains,
+      toggleSelected: toggleFromPlaylist,
+      selectAll: addAll,
+      unselectAll: removeAll,
+      selectedCount: trackSet.size,
+    }),
+    [addAll, contains, removeAll, toggleFromPlaylist, trackSet]
+  );
+
   return (
     <>
       <div ref={viewRef}></div>
@@ -86,16 +97,10 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
           </>
         ) : null}
 
-        <DynamicTrackView
+        <TrackView
           tracks={tracks}
           settings={settings}
-          selectManager={{
-            isSelected: contains,
-            toggleSelected: toggleFromPlaylist,
-            selectAll: addAll,
-            unselectAll: removeAll,
-            selectedCount: trackSet.size,
-          }}
+          selectManager={selectManager}
         />
       </div>
     </>

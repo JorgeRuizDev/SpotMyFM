@@ -6,7 +6,7 @@ import React, {
   useRef,
 } from "react";
 import { ReactNode } from "react";
-import { useInView } from "react-hook-inview";
+import { useInView } from "react-intersection-observer";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Buttons from "styles/Buttons";
 import Styled from "./HorizontalCardCarousell.styles";
