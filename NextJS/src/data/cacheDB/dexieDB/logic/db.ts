@@ -12,7 +12,7 @@ export class DexieCache extends Dexie {
 
   constructor() {
     super("SpotifyLibraryCache");
-    this.version(2).stores({
+    this.version(3).stores({
       albums: "++id, &spotifyId",
       tracks: "++id, &spotifyId, &savedAt",
       artists: "++id, &spotifyId",
