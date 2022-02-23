@@ -43,7 +43,7 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
   const [interval, setInterval] = useState<intervalT>([0, 5]);
   // State that stores the function that groups up the genre evolution and fills up the data state.
   const [groupFn, setGroupFn] = useState<(interval: intervalT) => void>(
-    () => (int: intervaT) => groupBy(() => perDecade(tracks), int)
+    () => (int: intervalT) => groupBy(() => perDecade(tracks), int)
   );
   // List with the years the user has saved tracks
   const [years, setYears] = useState<number[]>([]);
