@@ -25,6 +25,8 @@ interface IData {
   [k: string | number]: number | string;
 }
 
+type intervalT = [number, number];
+
 /**
  * Graph that shows the evolution of the artist genres
  * @param param0
@@ -38,9 +40,11 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
   // Connect the null values
   const [connect, setConnect] = useState(false);
   // Top Interval [0, 5] -> Top 5 Items, Top [6,10] -> Next 5 Items
-  const [interval, setInterval] = useState<[number, number]>([0, 5]);
+  const [interval, setInterval] = useState<intervalT>([0, 5]);
   // State that stores the function that groups up the genre evolution and fills up the data state.
-  const [groupFn, setGroupFn] = useState<() => void>(() => () => {});
+  const [groupFn, setGroupFn] = useState<(interval: intervalT) => void>(
+    () => (int: intervaT) => groupBy(() => perDecade(tracks), int)
+  );
   // List with the years the user has saved tracks
   const [years, setYears] = useState<number[]>([]);
   // Save the group type selection ("decade" or an specific year)
@@ -53,7 +57,7 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
   const groupBy = useCallback(
     (
       getGroup: () => Map<number, Map<string, number>>,
-      interval: [number, number],
+      interval: intervalT,
       formatXlbl: (lbl: number) => number | string = (lbl) => lbl
     ) => {
       const groupMap = getGroup();
@@ -106,13 +110,8 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
   useEffect(getUserActiveYears, [getUserActiveYears]);
 
   useEffect(() => {
-    if (groupFn) {
-      groupFn();
-      console.log("FN");
-    } else {
-      groupBy(() => perDecade(tracks), interval);
-    }
-  }, [groupBy, groupFn, interval, tracks]);
+    groupFn(interval);
+  }, [groupFn, interval]);
 
   return (
     <>
@@ -162,7 +161,8 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
               ),
               onClick: () => {
                 setGroupFn(
-                  () => () => groupBy(() => perDecade(tracks), interval)
+                  () => (int: intervalT) =>
+                    groupBy(() => perDecade(tracks), int)
                 );
                 setDropGroupSel("decade");
               },
@@ -175,10 +175,10 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
               ),
               onClick: () => {
                 setGroupFn(
-                  () => () =>
+                  () => (int: intervalT) =>
                     groupBy(
                       () => perSavedYear(tracks, y),
-                      interval,
+                      int,
                       (lbl) => months[lbl]
                     )
                 );
