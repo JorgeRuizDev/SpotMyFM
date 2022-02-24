@@ -243,7 +243,11 @@ const getMapDecade = (tracks: Track[], decade: number): [genreMapT, number] => {
   const genreMap = new Map<string, number>();
   let totalAppearances = 0;
   for (const t of tracks) {
-    if (Math.floor((t.album?.spotifyReleaseDate?.getFullYear() || 0) /10) * 10 === decade) {
+    if (
+      Math.floor((t.album?.spotifyReleaseDate?.getFullYear() || 0) / 10) *
+        10 ===
+      decade
+    ) {
       const genres = t.artists.flatMap((a) => a.spotifyGenres || []);
       for (const genre of genres) {
         const currentCount = genreMap.get(genre) || 0;
