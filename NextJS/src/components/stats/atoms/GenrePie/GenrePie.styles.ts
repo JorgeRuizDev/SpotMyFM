@@ -5,15 +5,15 @@ const LabelWrap = tw.div`
   rounded-md
   m-1
   
-`
+`;
 
 const Inline = tw.div`
   flex
   flex-row
   items-center
   justify-around
-`
+`;
 
-const Styled = {LabelWrap, Inline};
+const Styled = { LabelWrap, Inline };
 
 export default Styled;
