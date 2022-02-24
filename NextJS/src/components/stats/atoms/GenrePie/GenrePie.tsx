@@ -4,6 +4,7 @@ import { Theme } from "enums/Theme";
 import { useRechartsHelper } from "hooks/recharts/useRechartsHelper";
 import { clearPreviewData } from "next/dist/server/api-utils";
 import { useCallback, useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { useThemeStore } from "store/useTheme";
 import Text from "styles/Text";
@@ -179,7 +180,7 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
             data={data}
             dataKey="count"
             outerRadius={"60%"}
-            label={customLabel}
+            label={isMobile ? customLabel : false}
             labelLine={false}
           >
             {data.map((entry, index) => (
@@ -242,7 +243,7 @@ const getMapDecade = (tracks: Track[], decade: number): [genreMapT, number] => {
   const genreMap = new Map<string, number>();
   let totalAppearances = 0;
   for (const t of tracks) {
-    if ((t.album?.spotifyReleaseDate?.getFullYear() || 0) === decade) {
+    if (Math.floor((t.album?.spotifyReleaseDate?.getFullYear() || 0) /10) * 10 === decade) {
       const genres = t.artists.flatMap((a) => a.spotifyGenres || []);
       for (const genre of genres) {
         const currentCount = genreMap.get(genre) || 0;
