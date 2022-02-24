@@ -156,7 +156,7 @@ function TrackPillFilters({
           title={<h4>🏷 Filter by LastFM Tags:</h4>}
           type={"tag"}
           items={lastTags}
-          examplePill={"Example: Russian War Songs"}
+          examplePill={"Example: Space"}
           setFilteredItems={setFilteredLastTags}
         />
       )}
