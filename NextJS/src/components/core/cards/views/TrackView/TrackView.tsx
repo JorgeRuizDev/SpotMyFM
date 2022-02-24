@@ -247,6 +247,7 @@ function CardLayoutButtons({
           }}
           onUnselect={() => selectManager.unselectAll()}
           disableUnselect={selectManager.selectedCount == 0}
+          disableSelect={!filteredTracks.length}
         />
       )}
 
@@ -260,9 +261,13 @@ function CardLayoutButtons({
           setResetAdvFilter(true);
         }}
         disableReset={tracks.length == advancedFilteredTracks.length}
+        disableFilter={!advancedFilteredTracks.length}
       />
 
-      <Buttons.SecondaryGreenButton onClick={() => setShowStats(true)}>
+      <Buttons.SecondaryGreenButton
+        onClick={() => setShowStats(true)}
+        disabled={!tracks.length}
+      >
         <IoStatsChart />
         <span>Show Stats</span>
       </Buttons.SecondaryGreenButton>

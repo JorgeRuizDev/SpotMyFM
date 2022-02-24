@@ -30,6 +30,7 @@ function FilterButton({
           ),
           title: t("views:open-advance-filter"),
           onClick: onFilter,
+          disabled: disableFilter,
         },
         {
           body: (
