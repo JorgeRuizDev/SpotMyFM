@@ -49,6 +49,7 @@ const Title = styled.button<ITitle>(({ titleStyle }) => [
 
 const Wrap = tw.div`
 	width[fit-content]
+  relative
 `;
 
 const DropIcon = styled(RiArrowDropDownLine)(({ titleStyle }: ITitle) => [
@@ -66,6 +67,7 @@ const ItemList = tw.ul`
 
 
 	absolute
+  
   z-10
 
 	text-gray-700
