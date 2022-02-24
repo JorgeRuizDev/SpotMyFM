@@ -4,12 +4,10 @@ const Layout = tw.div`
   flex
   flex-row
   flex-wrap
-  items-end
+  items-start
   justify-around
-
-  gap-5
-
-  mb-[800px]
+  flex-1
+  gap-8
 `;
 
 const OverScroll = tw.div`
@@ -20,6 +18,23 @@ const OverScroll = tw.div`
   space-y-3
 `;
 
-const Styled = { Layout, OverScroll };
+const Inline = tw.div`
+  w-full
+  flex
+  flex-row
+  items-center
+  justify-center
+  space-x-2
+`;
+
+const AlbumViewMinH = tw.div`
+  w-full
+  min-height[400px]
+  flex
+  justify-center
+
+`;
+
+const Styled = { Layout, OverScroll, Inline, AlbumViewMinH };
 
 export default Styled;

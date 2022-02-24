@@ -24,7 +24,7 @@ const colors = [
 const width = "100%";
 const height = 300;
 
-const margin = { bottom: 40, top: 25, left: 10, right: 10 };
+const margin = { bottom: 40, top: 25, left: 0, right: 0 };
 
 const animationDuration = 1000;
 
