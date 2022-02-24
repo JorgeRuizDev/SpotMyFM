@@ -72,7 +72,7 @@ const ItemList = tw.ul`
   z-10
 
 	text-gray-700
-	width[fit-content]
+	width[max-content]
 
 	ml-3
 	pl-0

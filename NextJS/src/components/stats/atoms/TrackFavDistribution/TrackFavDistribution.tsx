@@ -113,19 +113,43 @@ function TrackFavDistribution({
         <DropdownMenu
           items={[
             {
-              component: <span>Per Year</span>,
+              component: (
+                <span
+                  style={{
+                    textDecoration: dropSel == "year" ? "underline" : "",
+                  }}
+                >
+                  Per Year
+                </span>
+              ),
               onClick: () => {
                 setDropSel("year");
               },
             },
             {
-              component: <span>Accumulated Months</span>,
+              component: (
+                <span
+                  style={{
+                    textDecoration: dropSel == "acc" ? "underline" : "",
+                  }}
+                >
+                  Accumulated Months
+                </span>
+              ),
               onClick: () => {
                 setDropSel("acc");
               },
             },
             ...years.map((y) => ({
-              component: <span>Saved On {y}</span>,
+              component: (
+                <span
+                  style={{
+                    textDecoration: dropSel == y ? "underline" : "",
+                  }}
+                >
+                  Saved On {y}
+                </span>
+              ),
               onClick: () => {
                 setDropSel(y);
               },
