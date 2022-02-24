@@ -4,6 +4,6 @@ import { render } from "@testing-library/react";
 
 describe("<GenreEvolution />", () => {
   test("Renders the component", () => {
-    const component = render(<GenreEvolution tracks={[]} />);
+    const component = render(<GenreEvolution tracks={[]} years={[]} />);
   });
 });

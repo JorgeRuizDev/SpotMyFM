@@ -4,6 +4,6 @@ import { render } from "@testing-library/react";
 
 describe("<FavDecades />", () => {
   test("Renders the component", () => {
-    const component = render(<FavDecades albums={[]} tracks={[]} />);
+    const component = render(<FavDecades albums={[]} tracks={[]} years={[]} />);
   });
 });
