@@ -1,6 +1,8 @@
+import DropdownMenu from "components/core/input/atoms/DropdownMenu";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { useRechartsHelper } from "hooks/recharts/useRechartsHelper";
+import Text from "styles/Text";
 import { useCallback, useEffect, useState } from "react";
 import {
   Bar,
@@ -16,6 +18,7 @@ import Styled from "./FavDecades.styles";
 interface IFavDecadesProps {
   tracks: Track[];
   albums: Album[];
+  years: number[];
 }
 
 interface IDecade {
@@ -24,15 +27,17 @@ interface IDecade {
   "Track Count": number | undefined;
 }
 
-function FavDecades({ tracks, albums }: IFavDecadesProps): JSX.Element {
+function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
   const { getStroke, colors, width, height, margin } = useRechartsHelper();
 
   const [decades, setDecades] = useState<IDecade[]>([]);
 
-  const __setDecades = useCallback(async () => {
+  const [tracksToShow, setTracksToShow] = useState(tracks);
+  const [dropSelection, setDropSelection] = useState<number | string>("all");
+  const __setDecades = useCallback(async (tracks: Track[]) => {
     const albumDecades = new Map<number, number>();
     const trackDecades = new Map<number, number>();
-
+    const albums = tracks.flatMap((t) => t.album || []);
     // Fill albumDecades
     for (const a of albums || []) {
       const year =
@@ -65,19 +70,57 @@ function FavDecades({ tracks, albums }: IFavDecadesProps): JSX.Element {
       });
 
     setDecades(data);
-  }, [albums, tracks]);
+  }, []);
 
   useEffect(() => {
-    __setDecades();
-  }, [__setDecades]);
+    __setDecades(tracksToShow);
+  }, [__setDecades, tracksToShow]);
 
   return (
     <>
       <h3>📆 Your Favorite Decades:</h3>
-      <p>
-        View the distribution of your favorite albums and songs in each decade.
-      </p>
-
+      <p>Distribution of your favorite albums and songs in each decade .</p>
+      <Styled.CenterInline>
+        <DropdownMenu
+          items={[
+            {
+              component: (
+                <span
+                  style={{
+                    textDecoration:
+                      tracks.length === tracksToShow.length ? "underline" : "",
+                  }}
+                >
+                  All Tracks
+                </span>
+              ),
+              onClick: () => {
+                setDropSelection("all");
+                setTracksToShow(tracks);
+              },
+            },
+            ...years.map((y) => ({
+              component: (
+                <span
+                  style={{
+                    textDecoration: dropSelection === y ? "underline" : "",
+                  }}
+                >
+                  Saved On {y}
+                </span>
+              ),
+              onClick: () => {
+                setDropSelection(y);
+                setTracksToShow(
+                  tracks.filter((t) => (t.savedAt?.getFullYear() || 0) === y)
+                );
+              },
+            })),
+          ]}
+        >
+          Saved Interval
+        </DropdownMenu>
+      </Styled.CenterInline>
       <ResponsiveContainer width={width} height={height}>
         <BarChart data={decades} margin={margin}>
           <CartesianGrid strokeDasharray="3 3" />

@@ -10,6 +10,8 @@ import Text from "styles/Text";
 import Styled from "./GenrePie.styles";
 interface IGenrePieProps {
   tracks: Track[];
+  years: number[];
+  decades: number[];
 }
 
 interface IData {
@@ -20,13 +22,11 @@ const PERCENTILE = 1 - 0.01;
 
 type genreMapT = Map<string, number>;
 
-function GenrePie({ tracks }: IGenrePieProps): JSX.Element {
+function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
   const [data, setData] = useState<IData[]>([]);
   const { currentTheme } = useThemeStore();
   const { width, height, CustomTooltip, colors } = useRechartsHelper();
 
-  const [years, setYears] = useState<number[]>([]);
-  const [decades, setDecades] = useState<number[]>([]);
   const [dropOption, setDropOption] = useState<number | string>("full");
 
   const getData = useCallback(
@@ -48,27 +48,6 @@ function GenrePie({ tracks }: IGenrePieProps): JSX.Element {
     },
     []
   );
-
-  const updateYearsDecades = useCallback(() => {
-    const years = new Set<number>();
-    const decades = new Set<number>();
-    for (const t of tracks) {
-      if (t.savedAt) {
-        years.add(t.savedAt.getFullYear());
-      }
-      if (t.album?.spotifyReleaseDate) {
-        decades.add(
-          Math.floor(t.album.spotifyReleaseDate.getFullYear() / 10) * 10
-        );
-      }
-    }
-
-    setYears(Array.from(years.values()).sort());
-    setDecades(Array.from(decades.values()).sort());
-  }, [tracks]);
-
-  // On Load, update the years an decades list
-  useEffect(updateYearsDecades, [updateYearsDecades]);
 
   useEffect(() => {
     getData(() => getMapFullInterval(tracks));

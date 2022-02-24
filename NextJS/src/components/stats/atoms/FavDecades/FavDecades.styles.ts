@@ -1,5 +1,12 @@
 import tw from "twin.macro";
 
-const Styled = {};
+const CenterInline = tw.div`
+  flex
+  flex-row
+  items-center
+  justify-center
+`;
+
+const Styled = { CenterInline };
 
 export default Styled;

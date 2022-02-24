@@ -19,6 +19,7 @@ import { generateColorFromString } from "util/colorGenerator";
 import Styled from "./GenreEvolution.styles";
 interface IGenreEvolutionProps {
   tracks: Track[];
+  years: number[];
 }
 
 interface IData {
@@ -32,7 +33,7 @@ type intervalT = [number, number];
  * @param param0
  * @returns
  */
-function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
+function GenreEvolution({ tracks, years }: IGenreEvolutionProps): JSX.Element {
   // Data to display in the graph
   const [data, setData] = useState<IData[]>([]);
   // Genres to display
@@ -45,8 +46,7 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
   const [groupFn, setGroupFn] = useState<(interval: intervalT) => void>(
     () => (int: intervalT) => groupBy(() => perDecade(tracks), int)
   );
-  // List with the years the user has saved tracks
-  const [years, setYears] = useState<number[]>([]);
+
   // Save the group type selection ("decade" or an specific year)
   const [dropGroupSel, setDropGroupSel] = useState<string | number>("decade");
   const { currentTheme } = useThemeStore();
@@ -92,22 +92,6 @@ function GenreEvolution({ tracks }: IGenreEvolutionProps): JSX.Element {
     },
     []
   );
-
-  /**
-   * Gets a sorted list with the user saved years
-   */
-  const getUserActiveYears = useCallback(() => {
-    const years = new Set<number>();
-    for (const t of tracks) {
-      if (t.savedAt) {
-        years.add(t.savedAt.getFullYear());
-      }
-    }
-
-    setYears(Array.from(years.values()).sort());
-  }, [tracks]);
-
-  useEffect(getUserActiveYears, [getUserActiveYears]);
 
   useEffect(() => {
     groupFn(interval);

@@ -9,12 +9,14 @@ const Layout = tw.div`
 
   gap-5
 
+  mb-[800px]
 `;
 
 const OverScroll = tw.div`
   flex
   flex-col
   md:min-width[600px]
+  overflow-hidden
   space-y-3
 `;
 
