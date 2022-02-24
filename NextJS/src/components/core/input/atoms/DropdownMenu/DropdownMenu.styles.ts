@@ -18,9 +18,9 @@ const Title = styled.button<ITitle>(({ titleStyle }) => [
     justify-center
     space-x-2
 
-    md:(min-height[40px] max-height[40px])
+    md:(min-height[40px] )
     min-height[35px]
-    max-height[35px]
+
 	`,
 
   titleStyle == "spotify" &&
@@ -54,8 +54,9 @@ const Wrap = tw.div`
 
 const DropIcon = styled(RiArrowDropDownLine)(({ titleStyle }: ITitle) => [
   tw`
-    h-11
-    w-11
+    h-8
+    w-8
+    pr-1
     text-white
   `,
   titleStyle == "input" && tw`text-textColor-lightTheme `,

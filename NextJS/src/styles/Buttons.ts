@@ -19,7 +19,7 @@ const BasicButton: StyledComponent<"button", any, IButton, never> =
       bg-darkCard-base
       text-white
       text-base
-      truncate
+      
       cursor-pointer
       
     
@@ -28,9 +28,9 @@ const BasicButton: StyledComponent<"button", any, IButton, never> =
       md:(py-2 px-4)
       py-1 px-3
       width[fit-content]
-      md:(min-height[40px] max-height[40px])
+      md:(min-height[40px])
       min-height[35px]
-      max-height[35px]
+      
     
     
       flex
