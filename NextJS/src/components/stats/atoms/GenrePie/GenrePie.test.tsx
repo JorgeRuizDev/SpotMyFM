@@ -4,6 +4,6 @@ import { render } from "@testing-library/react";
 
 describe("<GenrePie />", () => {
   test("Renders the component", () => {
-    const component = render(<GenrePie tracks={[]} />);
+    const component = render(<GenrePie tracks={[]} years={[]} decades={[]} />);
   });
 });

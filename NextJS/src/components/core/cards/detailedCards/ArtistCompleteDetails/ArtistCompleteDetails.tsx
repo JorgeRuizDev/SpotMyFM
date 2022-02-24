@@ -26,7 +26,7 @@ function ArtistCompleteDetails({
 
   const [lastDet, setLastDet] = useState<ILastFMArtist>();
   const [showDesc, setShowDesc] = useState(false);
-
+  const [showAlbums, setShowAlbums] = useState(false);
   useEffect(() => {
     const f = async () => {
       const [res, err] = await lastfmApi.getArtistDetails(artist.name);
@@ -112,7 +112,15 @@ function ArtistCompleteDetails({
           </Styled.PillCol>
         )}
       </Styled.PillCols>
-      <ArtistAlbumsView artist={artist} />
+      {showAlbums ? (
+        <ArtistAlbumsView artist={artist} />
+      ) : (
+        <Text.Center>
+          <Buttons.PrimaryGreenButton onClick={() => setShowAlbums(true)} style={{marginTop: "50px"}}>
+            Show Artist Albums
+          </Buttons.PrimaryGreenButton>
+        </Text.Center>
+      )}
     </>
   );
 }

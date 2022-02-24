@@ -54,6 +54,7 @@ function TrackCompleteDetails({
   const [isTrackLiked, setIsTrackLiked] = useState(false);
   const [isAlbumLiked, setIsAlbumLiked] = useState(false);
   const { lastfmApi, spotifyApi } = useClientsStore();
+  const [showAlbumTracks, setShowAlbumTracks] = useState(false);
   const { t } = useTranslation();
   const { play, pause, PreviewButton } = useTrackPreview(
     track?.spotifyPreviewURL || "",
@@ -123,7 +124,7 @@ function TrackCompleteDetails({
                     artists={artists}
                     lastFMDetails={lastFMDetails}
                   />
-                  <Buttons />
+                  <Buttons_ />
                   <LastFMTags />
                   <AlbumTags album={album} />
                 </>
@@ -153,13 +154,24 @@ function TrackCompleteDetails({
             lastFMDetails={lastFMDetails}
           />
           <div>
-            <Buttons />
+            <Buttons_ />
           </div>
           <AlbumTags album={album} />
           <LastFMTags />
         </Styled.NoDescLayout>
       )}
-      {album && !isNested && <AlbumTracksView album={album} />}
+      {album && !isNested && showAlbumTracks ? (
+        <AlbumTracksView album={album} />
+      ) : (
+        <Styled.CenterElement>
+          <Buttons.PrimaryGreenButton
+            onClick={() => setShowAlbumTracks(true)}
+            style={{ marginTop: "80px" }}
+          >
+            Show Album Tracks
+          </Buttons.PrimaryGreenButton>
+        </Styled.CenterElement>
+      )}
     </div>
   );
 
@@ -178,7 +190,7 @@ function TrackCompleteDetails({
     );
   }
 
-  function Buttons(): JSX.Element {
+  function Buttons_(): JSX.Element {
     return (
       <Styled.TagsButtonRow>
         {track && <PreviewButton />}
