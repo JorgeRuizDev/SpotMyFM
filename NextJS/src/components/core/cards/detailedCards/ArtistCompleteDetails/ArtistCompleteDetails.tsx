@@ -116,7 +116,10 @@ function ArtistCompleteDetails({
         <ArtistAlbumsView artist={artist} />
       ) : (
         <Text.Center>
-          <Buttons.PrimaryGreenButton onClick={() => setShowAlbums(true)} style={{marginTop: "50px"}}>
+          <Buttons.PrimaryGreenButton
+            onClick={() => setShowAlbums(true)}
+            style={{ marginTop: "50px" }}
+          >
             Show Artist Albums
           </Buttons.PrimaryGreenButton>
         </Text.Center>
