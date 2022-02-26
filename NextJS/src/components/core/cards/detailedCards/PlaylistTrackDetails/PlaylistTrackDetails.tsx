@@ -145,6 +145,7 @@ function PlaylistTrackDetails({
         ) : (
           <></>
         )}
+        <p style={{ opacity: "30%" }}>URI: {playlist?.uri}</p>
       </Modal>
     </>
   );
