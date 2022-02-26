@@ -1,29 +1,46 @@
-import yargs from "yargs";
 import SpotifyWebApi from "spotify-web-api-node";
+import { Command } from "commander";
+import { getPlaylist } from "./restQueries/getPlaylist";
+import { downloadAndSave } from "./util/saveToFolder";
+const program = new Command();
 
-const argv = yargs
-  .usage("Usage: $0 <command> [options]")
-  .alias("t", "token")
-  .nargs("t", 1)
-  .describe("t", "Spotify Api Token")
+program
+  .name("dataset-downloader")
+  .description(
+    "CLI tool that downloads all the .mp3 previews from an spotify item"
+  );
 
-  .alias("o", "out")
-  .nargs("o", 1)
-  .describe("o", "Output Directory Path")
+program
+  .requiredOption("-u, --uri <string>", "Spotify URI")
+  .requiredOption("-t, --token <string>", "Spotify Token")
+  .option("-o, --output <string>", "Output Directory Path", "./previews");
 
-  .alias("u", "uri")
-  .nargs("uri", 1)
-  .describe("uri", "Spotify Item URI to download all the tracks from")
+const argv = program.parse(process.argv).opts();
 
-  .demandOption(["t, uri"])
-  .help("h")
-  .alias("h", "help").argv;
-
-function main(token: string, uri: string, outPath: string = "./previews") {
+async function main(
+  token: string,
+  uri: string,
+  outPath: string = "./previews"
+) {
+  console.info("Out Dir: " + outPath);
   const api = new SpotifyWebApi();
-  console.log(typeof api);
+  api.setAccessToken(token);
+
+  const [_, type, id] = uri.split(":");
+
+  let tracks: SpotifyApi.TrackObjectSimplified[] = [];
+
+  switch (type) {
+    case "playlist":
+      tracks = await getPlaylist(api, id);
+      break;
+    default:
+      console.info(type + "is not supported");
+  }
+
+  downloadAndSave(tracks, outPath);
 }
 
 if (require.main === module) {
-  main(argv.token, argv.uri, argv.out);
+  main(argv.token, argv.uri, argv.output);
 }
