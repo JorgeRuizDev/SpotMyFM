@@ -111,11 +111,9 @@ function CreatePlaylist({
   );
 
   function createPlaylistsHandler() {
-
-    if (numberOfPlaylists <= 0 || !playlistName.length){
-      return
+    if (numberOfPlaylists <= 0 || !playlistName.length) {
+      return;
     }
-
 
     numberOfPlaylists > 1 ? createMultiplePlaylists() : createPlaylist();
   }
