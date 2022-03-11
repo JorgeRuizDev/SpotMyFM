@@ -54,7 +54,7 @@ function CreatePlaylist({
               placeholder={"MySpotifyFM Playlist"}
               onChange={savePlaylistName}
             ></input>
-            <Buttons.PrimaryGreenButton>
+            <Buttons.PrimaryGreenButton onClick={createPlaylistsHandler}>
               Create Playlist
             </Buttons.PrimaryGreenButton>
           </Styled.Box>
@@ -111,6 +111,12 @@ function CreatePlaylist({
   );
 
   function createPlaylistsHandler() {
+
+    if (numberOfPlaylists <= 0 || !playlistName.length){
+      return
+    }
+
+
     numberOfPlaylists > 1 ? createMultiplePlaylists() : createPlaylist();
   }
 
