@@ -90,7 +90,7 @@ const FieldWrap = styled.div(({}: IWrapProps) => [
   // Design:
   shadow-md
   m-2
-  overflow-hidden
+
 
   // Text
   text-gray-600
