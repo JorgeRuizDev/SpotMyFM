@@ -26,7 +26,7 @@ const config = {
   },
 
   //
-  playlist_track_view_max_track_count: 200,
+  playlist_track_view_max_track_count: 600,
 
   dynamo: {
     album_prefix: "ALBM",
