@@ -4,11 +4,7 @@ import { getPlaylist } from "./restQueries/getPlaylist";
 import { downloadAndSave } from "./util/saveToFolder";
 const program = new Command();
 
-program
-  .name("dataset-tools")
-  .description(
-    "CLI tool that manages "
-  );
+program.name("dataset-tools").description("CLI tool that manages ");
 
 program
   .command("spotify-downloader")
@@ -17,9 +13,9 @@ program
   .requiredOption("-t, --token <string>", "Spotify Token")
   .option("-o, --output <string>", "Output Directory Path", "./previews")
   .action((options) => {
-    main(options.token, options.uri, options.output)
-  }).parse()
-
+    main(options.token, options.uri, options.output);
+  })
+  .parse();
 
 async function main(
   token: string,
@@ -46,5 +42,4 @@ async function main(
 }
 
 if (require.main === module) {
-  
 }
