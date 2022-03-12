@@ -81,6 +81,7 @@ async function fixPlaylistPreviews(token: string, uri: string) {
   }
 }
 
+
 /**
  * This Function downloads all the tracks of a given URI into outPath
  * Requires a valid spotify token
