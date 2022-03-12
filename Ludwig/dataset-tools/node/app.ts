@@ -5,17 +5,21 @@ import { downloadAndSave } from "./util/saveToFolder";
 const program = new Command();
 
 program
-  .name("dataset-downloader")
+  .name("dataset-tools")
   .description(
-    "CLI tool that downloads all the .mp3 previews from an spotify item"
+    "CLI tool that manages "
   );
 
 program
+  .command("spotify-downloader")
+  .description("Download a playlist as .mp3 given the Spotify URI")
   .requiredOption("-u, --uri <string>", "Spotify URI")
   .requiredOption("-t, --token <string>", "Spotify Token")
-  .option("-o, --output <string>", "Output Directory Path", "./previews");
+  .option("-o, --output <string>", "Output Directory Path", "./previews")
+  .action((options) => {
+    main(options.token, options.uri, options.output)
+  }).parse()
 
-const argv = program.parse(process.argv).opts();
 
 async function main(
   token: string,
@@ -42,5 +46,5 @@ async function main(
 }
 
 if (require.main === module) {
-  main(argv.token, argv.uri, argv.output);
+  
 }
