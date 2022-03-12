@@ -22,7 +22,7 @@ program
   .action((options) => {
     downloadUri(options.token, options.uri, options.output);
   });
-  
+
 program
   .command("playlist-preview-fix")
   .description(
@@ -40,12 +40,11 @@ if (!process.argv.length) {
 }
 program.parse(process.argv);
 
-
 /**
- * Given a playlist, updates all the tracks without a preview URL with a valid URL. 
- * If no alternative was found, the track is removed from the playlist. 
+ * Given a playlist, updates all the tracks without a preview URL with a valid URL.
+ * If no alternative was found, the track is removed from the playlist.
  * @param token A Valid Spotify Api Token
- * @param uri  Playlist URI to clean. 
+ * @param uri  Playlist URI to clean.
  */
 async function fixPlaylistPreviews(token: string, uri: string) {
   const api = new SpotifyWebApi();
@@ -63,7 +62,6 @@ async function fixPlaylistPreviews(token: string, uri: string) {
     for (const t of tracks.body.items
       .map((t) => t.track)
       .filter((t) => !t.is_local && t.type === "track")) {
-
       if (isPreviewBroken(t)) {
         const alternative = await findTrackWithPreview(api, t);
         updatePlaylistTrack(api, playlist, t, alternative);
@@ -80,7 +78,6 @@ async function fixPlaylistPreviews(token: string, uri: string) {
     console.info(`${Math.min(offset, totalTracks)}/${totalTracks}`);
   }
 }
-
 
 /**
  * This Function downloads all the tracks of a given URI into outPath

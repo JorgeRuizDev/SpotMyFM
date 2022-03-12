@@ -17,10 +17,9 @@ async function updatePlaylistTrack(
   oldTrack: SpotifyApi.TrackObjectSimplified,
   newTrack: SpotifyApi.TrackObjectSimplified | undefined | null
 ) {
-  
-    await api.removeTracksFromPlaylist(playlist.id, [oldTrack]);
+  await api.removeTracksFromPlaylist(playlist.id, [oldTrack]);
 
-    await api.addTracksToPlaylist(playlist.id, [newTrack.id]);
+  await api.addTracksToPlaylist(playlist.id, [newTrack.id]);
 }
 
 /**
@@ -33,11 +32,13 @@ async function findTrackWithPreview(
   api: SpotifyWebApi,
   track: SpotifyApi.TrackObjectSimplified
 ) {
-  if (!isPreviewBroken(track)) {  
+  if (!isPreviewBroken(track)) {
     return track;
   }
 
-  const res = await api.searchTracks(`${track.name.split("-")[0]} + ${track.artists[0].name}`);
+  const res = await api.searchTracks(
+    `${track.name.split("-")[0]} + ${track.artists[0].name}`
+  );
   const fixed_candidates = res.body.tracks.items
     .filter(
       (t) => !isPreviewBroken(t) && t.artists[0].id == track.artists[0].id
