@@ -97,7 +97,7 @@ program
   //.requiredOption("-u, --uri <string>", "Spotify Playlist URI")
   //.requiredOption("-t, --token <string>", "Spotify Token")
   .action(async (options) => {
-    playlist2dynamodb("3jiI0TIwxx4DqJP595GHcC", "hip hop-", ["hip hop---trap"])
+    playlist2dynamodb("3jiI0TIwxx4DqJP595GHcC", "hip hop-", ["hip hop---trap"]);
   });
 
 if (!process.argv.length) {

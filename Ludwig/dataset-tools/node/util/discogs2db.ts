@@ -120,9 +120,7 @@ export interface IBaseTrack {
 }
 
 const api = new SpotifyWebApi();
-api.setAccessToken(
-  ""
-);
+api.setAccessToken("");
 
 export async function parseDiscgosAndPersist(path: string) {
   const rows = [];
@@ -230,10 +228,10 @@ export async function playlist2dynamodb(
   const tracks = (await getPlaylist(api, playlistId)).filter(
     (t) => t.preview_url
   );
-  console.log(tracks.length)
+  console.log(tracks.length);
   for (const chunk of _.chunk(tracks, 25)) {
     try {
-      console.log(chunk)
+      console.log(chunk);
       await DatasetDB.batchPut(
         chunk.map((t) => ({
           PK: t.id,
