@@ -15,8 +15,13 @@
   },
   "dependencies": {
     "@types/spotify-web-api-node": "^5.0.7",
-    "axios": "^0.26.0",
+    "axios": "^0.26.1",
     "commander": "^9.0.0",
+    "csv-parser": "^3.0.0",
+    "d3-dsv": "^2.0.0",
+    "dynamoose": "^2.8.5",
+    "lodash": "^4.17.21",
+    "node-fetch": "^3.2.3",
     "spotify-web-api-node": "^5.0.2"
   }
 }

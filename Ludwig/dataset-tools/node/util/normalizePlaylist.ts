@@ -8,18 +8,24 @@ function isPreviewBroken(track: SpotifyApi.TrackObjectSimplified) {
  * Function that replaces two tracks in one playlist.
  * @param api Spotify API Object
  * @param playlist Playlist to work with
- * @param oldTrack Track to replace
- * @param newTrack New Track (If null, oldTrack gets deleted from the playlist)
+ * @param replace Track to replace
+ * @param replacements New Track (If null, oldTrack gets deleted from the playlist)
  */
 async function updatePlaylistTrack(
   api: SpotifyWebApi,
   playlist: SpotifyApi.PlaylistBaseObject,
-  oldTrack: SpotifyApi.TrackObjectSimplified,
-  newTrack: SpotifyApi.TrackObjectSimplified | undefined | null
+  replace: SpotifyApi.TrackObjectSimplified[],
+  replacements: SpotifyApi.TrackObjectSimplified[] | undefined | null
 ) {
-  await api.removeTracksFromPlaylist(playlist.id, [oldTrack]);
+  await api.addTracksToPlaylist(
+    playlist.id,
+    replacements.map((t) => t.uri)
+  );
 
-  await api.addTracksToPlaylist(playlist.id, [newTrack.id]);
+  await api.removeTracksFromPlaylist(
+    playlist.id,
+    replace.map((t) => ({ uri: t.uri }))
+  );
 }
 
 /**
@@ -31,19 +37,20 @@ async function updatePlaylistTrack(
 async function findTrackWithPreview(
   api: SpotifyWebApi,
   track: SpotifyApi.TrackObjectSimplified
-) {
-  if (!isPreviewBroken(track)) {
-    return track;
+): Promise<SpotifyApi.TrackObjectFull> {
+  let q = `${track.name.split("-")[0]}`;
+
+  if (!q || q.length <= 1) {
+    return null;
   }
 
-  const res = await api.searchTracks(
-    `${track.name.split("-")[0]} + ${track.artists[0].name}`
-  );
+  const res = await api.searchTracks(q, { limit: 50 });
   const fixed_candidates = res.body.tracks.items
     .filter(
-      (t) => !isPreviewBroken(t) && t.artists[0].id == track.artists[0].id
+      (t) => !isPreviewBroken(t) && t.artists[0].name == track.artists[0].name
     )
-    .sort((a, b) => a.popularity - b.popularity);
+    .sort((a, b) => a.popularity - b.popularity)
+    .reverse();
 
   if (fixed_candidates.length == 0) {
     return null;

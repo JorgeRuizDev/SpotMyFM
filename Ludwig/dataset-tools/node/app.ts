@@ -6,7 +6,11 @@ import {
   updatePlaylistTrack,
   isPreviewBroken,
   findTrackWithPreview,
-} from "./util/fixPlaylistPreviews";
+} from "./util/normalizePlaylist";
+import fs from "fs";
+import { urlToUri } from "./util/uri";
+import { parseDiscgosAndPersist, playlist2dynamodb } from "./util/discogs2db";
+
 const program = new Command();
 
 program
@@ -24,17 +28,78 @@ program
   });
 
 program
-  .command("playlist-preview-fix")
+  .command("normalize-playlist")
   .description(
     "Updates the playlist so all the tracks have a preview attribute"
   )
   .requiredOption("-u, --uri <string>", "Spotify Playlist URI")
   .requiredOption("-t, --token <string>", "Spotify Token")
   .action((options) => {
-    console.info("Fixing Playlist Previews");
+    console.info("Normalizing Playlist");
 
-    fixPlaylistPreviews(options.token, options.uri);
+    normalizePlaylist(options.token, options.uri);
   });
+
+program
+  .command("dataset-json-extract-tracks")
+  .description(
+    "Extracts all the tracks of the current dataset (given as a .json) and saves them in a .json file"
+  )
+  .requiredOption("-j, --json <string>", "Dataset Path (.json)")
+  .requiredOption("-t, --token <string>", "Spotify Token")
+  .action((options) => {
+    console.info("Normalizing Dataset");
+
+    normalizeJson(options.token, options.json);
+  });
+
+program
+  .command("normalize-dataset")
+  .description("Normalizes all the playlists of the .json dataset.")
+  .requiredOption("-j, --json <string>", "Dataset Path (.json)")
+  .requiredOption("-t, --token <string>", "Spotify Token")
+  .action((options) => {
+    console.info("Normalizing Dataset");
+
+    normalizeJson(options.token, options.json);
+  });
+
+program
+  .command("parse-discogs")
+  .description(
+    "Parses the discogs tsv dataset from AccousticBrainz, fetches the api and saves the preview"
+  )
+  //.requiredOption("-u, --uri <string>", "Spotify Playlist URI")
+  //.requiredOption("-t, --token <string>", "Spotify Token")
+  .action(async (options) => {
+    for (const f of [
+      //"hip.csv",
+
+      "blues.csv",
+      "latin.csv",
+
+      //"shoe.csv",
+      //"triphop.csv",
+      //"viking.csv",
+      //"indie.csv",
+
+      //"new.csv",
+      //"opera.csv",
+    ]) {
+      console.info(f);
+      await parseDiscgosAndPersist(f);
+    }
+  });
+
+program
+  .command("playlist2dynamo")
+  .description("Saves a playlist into DynamoDB")
+  //.requiredOption("-u, --uri <string>", "Spotify Playlist URI")
+  //.requiredOption("-t, --token <string>", "Spotify Token")
+  .action(async (options) => {
+    playlist2dynamodb("3jiI0TIwxx4DqJP595GHcC", "hip hop-", ["hip hop---trap"])
+  });
+
 if (!process.argv.length) {
   program.help();
 }
@@ -46,7 +111,7 @@ program.parse(process.argv);
  * @param token A Valid Spotify Api Token
  * @param uri  Playlist URI to clean.
  */
-async function fixPlaylistPreviews(token: string, uri: string) {
+async function normalizePlaylist(token: string, uri: string) {
   const api = new SpotifyWebApi();
   api.setAccessToken(token);
   const [_, type, id] = uri.split(":");
@@ -59,19 +124,26 @@ async function fixPlaylistPreviews(token: string, uri: string) {
   // Get {limit} playlist items per page / request
   while (offset < totalTracks) {
     const tracks = await api.getPlaylistTracks(id, { limit, offset });
+
+    const replace: SpotifyApi.TrackObjectSimplified[] = [];
+    const replacements: SpotifyApi.TrackObjectSimplified[] = [];
+
     for (const t of tracks.body.items
       .map((t) => t.track)
       .filter((t) => !t.is_local && t.type === "track")) {
-      if (isPreviewBroken(t)) {
-        const alternative = await findTrackWithPreview(api, t);
-        updatePlaylistTrack(api, playlist, t, alternative);
+      const alternative = await findTrackWithPreview(api, t);
 
-        if (!alternative) {
-          console.info(
-            `Track ${t.name} by ${t.artists[0].name} has no preview`
-          );
-        }
+      if (!alternative) {
+        console.info(`Track ${t.name} by ${t.artists[0].name} has no preview`);
+      } else if (alternative.id !== t.id) {
+        replace.push(t);
+        replacements.push(alternative);
       }
+    }
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    if (replace.length > 0) {
+      updatePlaylistTrack(api, playlist, replace, replacements);
     }
 
     offset += limit;
@@ -110,5 +182,15 @@ async function downloadUri(
   downloadAndSave(tracks, outPath);
 }
 
-if (require.main === module) {
+async function normalizeJson(token: string, path: string) {
+  const f = fs.readFileSync(path, "utf8");
+  const json = JSON.parse(f);
+  for (const genres of json["genres"]) {
+    for (const playlist of genres["subgenres"]) {
+      console.info(playlist["name"]);
+      await normalizePlaylist(token, urlToUri(playlist["url"]));
+
+      await new Promise((resolve) => setTimeout(resolve, 10000));
+    }
+  }
 }
