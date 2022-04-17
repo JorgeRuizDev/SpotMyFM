@@ -4,7 +4,8 @@
 
 ### How To Install:
 
-
 ### How To Run:
+
 ```bash
 $ uvicorn main:app
+```
