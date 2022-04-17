@@ -17,7 +17,8 @@ N_MELS = 32
 
 
 def __split_track(y, samples_per_split=SAMPLES_PER_SPLIT):
-    """Splits a track into samaller chunks of the given sample size
+    """
+    Splits a track into samaller chunks of the given sample size
 
     Args:
         y (_type_): Librosa Singal
@@ -33,7 +34,8 @@ def __split_track(y, samples_per_split=SAMPLES_PER_SPLIT):
 
 
 def normalize_mfccs(mfcc_feat: np.ndarray):
-    """Normalizes an MFFC
+    """
+    Normalizes an MFFC
 
     Args:
         mfcc_feat (np.ndarray): MFCC to normalize
@@ -44,7 +46,8 @@ def normalize_mfccs(mfcc_feat: np.ndarray):
 
 
 def __preprocess_track(signal: Union[np.ndarray, Any], sr=SAMPLE_RATE):
-    """Preprocesses a track
+    """
+    Preprocesses a track
     In this case, returns a batch of MFCCs
 
     Args:
@@ -75,7 +78,7 @@ def track2mfccs(path: str, sample_rate=None):
     track, sr = librosa.load(path, sr=sample_rate)
     splits = __split_track(track)
     mfccs = []
-    for i, split in enumerate(splits):
+    for split in splits:
         if len(split) == SAMPLES_PER_SPLIT:
             mfccs.append(np.array(__preprocess_track(split, sr)))
 

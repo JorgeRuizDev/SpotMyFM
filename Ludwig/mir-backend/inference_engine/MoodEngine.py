@@ -9,7 +9,8 @@ MOODS = ["happy", "sad", "party", "relaxed", "acoustic", "electronic", "aggressi
 
 class MoodEngine(IEngine):
     def __init__(self, model_path="models/moods/moods.onnx"):
-        """Initialize the engine.
+        """
+        Initialize the engine.
 
         Args:
             model_path (str): Path to the ONNX model.
@@ -21,7 +22,8 @@ class MoodEngine(IEngine):
         self.__output = self.__session.get_outputs()[0].name  # output tensor name
 
     def infer(self, mfccs: np.ndarray):
-        """Infer the the audio file.
+        """
+        Infer the the audio file.
 
         Args:
             mfccs (np.ndarray): Batch (N) of MFFCCS to implement  SHAPE = (N, 130, 32)
@@ -34,7 +36,11 @@ class MoodEngine(IEngine):
         return np.array(res)
 
     def res_to_dic(self, res: np.ndarray):
-        """Returns an JSON like object with the voted moods given an inference result (Matrix with each mood probability of a SINGLE TRACK)"""
+        """
+        Returns an JSON like object with the voted moods given an inference result 
+        
+        (Matrix with each mood probability of a SINGLE TRACK)
+        """
 
         res = res.mean(axis=0)
         res_binary = [1 if x > 0.5 else 0 for x in res]

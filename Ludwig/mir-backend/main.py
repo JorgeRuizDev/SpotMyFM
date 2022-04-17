@@ -1,7 +1,7 @@
 import tempfile
 from fastapi import FastAPI, UploadFile
 from typing import Optional
-from inference_engine.MoodEngine import MoodEngine, MOODS
+from inference_engine.MoodEngine import MoodEngine
 from requests_sepecifications.body import LudwigTrackUrl
 from util import track_preprocessing as tp
 from time import time
@@ -20,7 +20,8 @@ async def root():
 
 @app.post("/ludwig/track")
 async def spotify_mir_url(body: LudwigTrackUrl):
-    """Receives a track url and some flags as a parsed json body. 
+    """
+    Receives a track url and some flags as a parsed json body. 
 
     Args:
         body (LudwigTrackUrl): _description_
@@ -45,7 +46,8 @@ async def spotify_mir_file_upload(
     genres: Optional[bool] = True,
     subgenres: Optional[bool] = True,
 ):
-    """Sent a file, returns the Mood, Genre and subgenres of the file (if specified)
+    """
+    Sent a file, returns the Mood, Genre and subgenres of the file (if specified)
 
     Args:
         file (UploadFile): ByteArray with an audio file

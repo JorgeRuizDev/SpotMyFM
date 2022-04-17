@@ -7,7 +7,8 @@ from util import mfcc
 
 
 def download_track_from_preview(preview_url: str) -> str:
-    """Downloads a track from a spotify preview url
+    """
+    Downloads a track from a spotify preview url
 
     Args:
         preview_url (str): Spotify Preview URL
@@ -21,7 +22,8 @@ def download_track_from_preview(preview_url: str) -> str:
 
 
 def to_wav(track_path: str):
-    """Converts an mp3 file to a wav file with a sample rate of 22050
+    """
+    Converts an mp3 file to a wav file with a sample rate of 22050
 
     Args:
         track_path (str): _description_
@@ -34,7 +36,8 @@ def to_wav(track_path: str):
 
 
 def get_input_data(track_path: str, normalize = True):
-    """Returns the input data for the model
+    """
+    Returns the input data for the model
 
     Args:
         track_path (str): Path to the track
