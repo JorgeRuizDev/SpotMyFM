@@ -1,3 +1,4 @@
+from time import time
 import ffmpeg
 import tempfile
 import requests
@@ -14,8 +15,11 @@ def download_track_from_preview(preview_url: str) -> str:
         preview_url (str): Spotify Preview URL
     returns: Path name with the mp3 file 
     """
-    r = requests.get(preview_url)
-
+    start_time = time()
+    header = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36"}
+    r = requests.get(preview_url, stream=True, allow_redirects=False, headers=header)
+    print(f"Took {time() - start_time} seconds to download the track")
+    
     with tempfile.NamedTemporaryFile(delete=False) as tmp:
         tmp.write(r.content)
         return tmp.name
