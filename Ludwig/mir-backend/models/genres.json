@@ -1,0 +1,149 @@
+{
+  "version": "1.0",
+  "models": [
+    {
+      "name": "main-genre",
+      "model_path": "models/genres.onnx",
+      "type": "genre",
+      "labels": [
+        "pop",
+        "rock",
+        "latin",
+        "hip hop",
+        "funk / soul",
+        "blues",
+        "electronic",
+        "classical",
+        "jazz"
+      ],
+      "children": [
+        {
+          "name": "rock",
+          "model_path": "models/subgenres/rock/main.onnx",
+          "type": "genre",
+          "labels": ["rock-sub", "metal-sub", "punk-sub"],
+          "children": [
+            {
+              "name": "rock-sub",
+              "model_path": "models/subgenres/rock/rock_sub.onnx",
+              "type": "subgenre",
+              "labels": [
+                "rock---pop rock",
+                "rock---prog rock",
+                "rock---alternative rock",
+                "rock---hard rock",
+                "rock---goth rock",
+                "rock---post rock",
+                "rock---shoegaze",
+                "rock---art rock",
+                "rock---new wave"
+              ]
+            },
+            {
+              "name": "metal-sub",
+              "model_path": "models/subgenres/rock/metal-sub.onnx",
+              "type": "subgenre",
+              "labels": [
+                "rock---heavy metal",
+                "rock---nu metal",
+                "rock---death metal"
+              ]
+            },
+            {
+              "name": "punk-sub",
+              "model_path": "models/subgenres/rock/punk-sub.onnx",
+              "type": "subgenre",
+              "labels": ["rock---punk", "rock---post-punk"]
+            }
+          ]
+        },
+        {
+          "name": "pop",
+          "model_path": "models/subgenres/pop/pop-sub.onnx",
+          "type": "subgenre",
+          "labels": ["pop---indie pop", "pop---europop", "pop---ballad"]
+        },
+        {
+          "name": "latin",
+          "model_path": "models/subgenres/latin/main.onnx",
+          "type": "subgenre",
+          "labels": [
+            "latin---reggaeton",
+            "latin---salsa",
+            "latin---reggae",
+            "latin---flamenco",
+            "latin---samba",
+            "latin---cubano"
+          ]
+        },
+        {
+          "name": "hip hop",
+          "model_path": "models/subgenres/hip hop/hip hop-sub.onnx",
+          "type": "subgenre",
+          "labels": [
+            "hip hop---trap",
+            "hip hop---pop rap",
+            "hip hop---instrumental",
+            "hip hop---conscious",
+            "hip hop---trip hop",
+            "hip hop---gangsta"
+          ]
+        },
+        {
+          "name": "funk / soul",
+          "model_path": "models/subgenres/funk soul/funk soul-sub.onnx",
+          "type": "subgenre",
+          "labels": [
+            "funk / soul---disco",
+            "funk / soul---rhythm & blues",
+            "funk / soul---soul"
+          ]
+        },
+        {
+          "name": "blues",
+          "model_path": "models/subgenres/blues/blues-sub.onnx",
+          "type": "subgenre",
+          "labels": ["blues---country blues", "blues---electric blues"]
+        },
+        {
+          "name": "electronic",
+          "model_path": "models/subgenres/electronic/electronic-sub.onnx",
+          "type": "subgenre",
+          "labels": [
+            "electronic---ambient",
+            "electronic---synth-pop",
+            "electronic---disco",
+            "electronic---house",
+            "electronic---drum n bass",
+            "electronic---downtempo",
+            "electronic---new wave",
+            "electronic---electro",
+            "electronic---trip hop"
+          ]
+        },
+        {
+          "name": "classical",
+          "model_path": "models/subgenres/classical/classical-sub.onnx",
+          "type": "subgenre",
+          "labels": [
+            "classical---classical",
+            "classical---romantic",
+            "classical---baroque",
+            "classical---modern",
+            "classical---opera"
+          ]
+        },
+        {
+          "name": "jazz",
+          "model_path": "models/subgenres/jazz/jazz-sub.onnx",
+          "type": "subgenre",
+          "labels": [
+            "jazz---contemporary jazz",
+            "jazz---swing",
+            "jazz---soul-jazz"
+          ]
+        }
+      ]
+    }
+  ]
+}
