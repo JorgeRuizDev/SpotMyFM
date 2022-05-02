@@ -5,17 +5,7 @@
       "name": "main-genre",
       "model_path": "models/genres.onnx",
       "type": "genre",
-      "labels": [
-        "pop",
-        "rock",
-        "latin",
-        "hip hop",
-        "funk / soul",
-        "blues",
-        "electronic",
-        "classical",
-        "jazz"
-      ],
+      "labels": ["rock", "jazz", "electronic", "funk / soul", "blues", "classical", "latin", "hip hop", "pop"],
       "children": [
         {
           "name": "rock",
@@ -25,7 +15,7 @@
           "children": [
             {
               "name": "rock-sub",
-              "model_path": "models/subgenres/rock/rock_sub.onnx",
+              "model_path": "models/subgenres/rock/rock-sub.onnx",
               "type": "subgenre",
               "labels": [
                 "rock---pop rock",
@@ -65,7 +55,7 @@
         },
         {
           "name": "latin",
-          "model_path": "models/subgenres/latin/main.onnx",
+          "model_path": "models/subgenres/latin/latin-sub.onnx",
           "type": "subgenre",
           "labels": [
             "latin---reggaeton",
