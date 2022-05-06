@@ -38,17 +38,12 @@ class MoodEngine(IEngine):
         for req in requests:
             mfccs.extend(req.splits)
 
-        
-
         # run onnxruntime inference session:
         results = self.__session.run([self.__output], {self.__input: mfccs})[0]
         
-        
-        print(np.array(results).shape)
         for req in requests:
             
             res = results[:req.n_splits]
-            print("OK")
             results = results[req.n_splits:]
 
             res = res.mean(axis=0)

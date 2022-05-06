@@ -1,10 +1,9 @@
 import asyncio
 from multiprocessing import Pool
-from operator import ge
+import os
 import tempfile
 from fastapi import FastAPI, UploadFile
 from typing import List, Optional
-
 import numpy as np
 from inference_engine.GenreEngine import GenreEngine
 from inference_engine.MoodEngine import MoodEngine
@@ -12,11 +11,40 @@ from inference_engine.__genre_engine.json_spec import InferenceRequest
 from requests_sepecifications.body import LudwigTrackUrl, LudwigTrackUrlBulk
 from util import track_preprocessing as tp
 from time import time
+from fastapi import HTTPException, Depends
+from fastapi.security import HTTPBearer, HTTPBasicCredentials, OAuth2PasswordBearer
+from dotenv import load_dotenv
 
+load_dotenv(".env")
 app = FastAPI()
+
+security = HTTPBearer()
 
 __moodIE = MoodEngine()
 __genre_engine = GenreEngine()
+
+
+oauth2_scheme = HTTPBearer()
+...
+
+
+async def authorize_token(
+    credentials: HTTPBasicCredentials = Depends(oauth2_scheme),
+):  # You created a function that depends on oauth2_scheme
+
+    token: str = credentials.credentials  # type: ignore
+    # load secret_token from .env file
+    secret_token = os.environ.get("SECURITY_TOKEN")
+
+    if secret_token is None or len(secret_token) == 0:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+
+    if token != secret_token :
+        raise HTTPException(
+            status_code=401,
+            detail="Not authorized, provide a valid bearer as an HTTP Authorization header. check /docs for more info",
+        )
+    return True
 
 
 @app.get("/about")
@@ -25,8 +53,10 @@ async def root():
     return {"message": "Ludwing is a Music Information Retrieval (MIR) API"}
 
 
-@app.post("/ludwig/track")
-async def spotify_mir_url(body: LudwigTrackUrl):
+@app.post(
+    "/ludwig/track",
+)
+async def spotify_mir_url(body: LudwigTrackUrl, _=Depends(authorize_token)):
     """
     Receives a track url and some flags as a parsed json body.
 
@@ -65,8 +95,8 @@ async def spotify_mir_url(body: LudwigTrackUrl):
     }
 
 
-@app.post("/ludwig/track/bulk")
-async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk):
+@app.post("/ludwig/track/bulk", )
+async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_token)):
     """
     Receives a track url and some flags as a parsed json body.
 
@@ -110,12 +140,12 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk):
 
     res = inference_requests[0]
 
-    response_dict = {
-        track.id: inference_requests[i].to_json() for i, track in enumerate(body.tracks)
-    }
+    response_list = [
+        {"id": track.id, "labels": inference_requests[i].to_json()} for i, track in enumerate(body.tracks)
+    ]
 
     return {
-        **response_dict,
+        "tracks": response_list,
         "took": {
             "download": times[1] - times[0],
             "to_wav": times[2] - times[1],
@@ -123,7 +153,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk):
             "moods": times[4] - times[3],
             "genres": times[5] - times[4],
             "total": times[5] - times[0],
-        }
+        },
     }
 
 
@@ -132,6 +162,7 @@ async def spotify_mir_file_upload(
     file: UploadFile,
     moods: Optional[bool] = True,
     genres: Optional[bool] = True,
+    _=Depends(authorize_token)
 ):
     """
     Sent a file, returns the Mood, Genre and subgenres of the file (if specified)

@@ -23,7 +23,7 @@ def _genre_target(splits: np.ndarray, labels: List[str]):
     res = splits.mean(axis=0)
     genres: List[Tuple[str, float]] = []
 
-    if labels[3] == "punk" and len(labels) == 3:
+    if len(labels) == 3 and labels[2] == "punk":
         res *= np.array([1, 1, 1/3])
 
     for i, confidence in enumerate(res):
