@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Tuple
 
 import numpy as np
 from inference_engine.__genre_engine.json_spec import InferenceNodeJson
@@ -21,11 +21,22 @@ def _genre_target(splits: np.ndarray, labels: List[str]):
         Single label
     """
     res = splits.sum(axis=0)
+    genres: List[Tuple[str, float]] = []
 
     if labels[3] == "punk" and len(labels) == 3:
         res *= np.array([1, 1, 1/3])
 
-    return labels[np.argmax(res)]
+    for i, confidence in enumerate(res):
+        if confidence > 0.4:
+            genres.append((labels[i], confidence))
+            
+    if len(genres) == 0:
+
+
+        idx = np.argmax(res)
+        genres.append((labels[idx], res[idx]))
+
+    return genres
 
 
 def _subgenre_target(splits: np.ndarray, labels: List[str]):
@@ -34,21 +45,21 @@ def _subgenre_target(splits: np.ndarray, labels: List[str]):
 
     Gets the argmax of the mean of the splits and returns a list of labels corresponding to the indiceswith the subgenres
     """
-    subs: List[str] = []
+    subs: List[Tuple[str, float]] = []
     
     mean = splits.mean(axis=0)
 
     for label, binary_res in zip(labels, mean):
         # 
         if binary_res > 0.4:
-            subs.append(label)
+            subs.append((label, binary_res))
         
     if len(subs) == 0:
         # if there ar no subs, add the largest with a confidence over 30%
         largest_idx = mean.argmax()
 
         
-        subs.append(labels[largest_idx])
+        subs.append((labels[largest_idx], mean[largest_idx]))
 
     return subs
 
@@ -106,7 +117,10 @@ class InferenceNode:
             
             if self.__type == "genre":
                 req.genre = _genre_target(res_split, self.__labels)
-                current_results[req.genre].append(req)
+
+
+                for genre in req.genre:
+                    current_results[genre[0]].append(req)
             elif self.__type == "subgenre":
                 req.subgenres = _subgenre_target(res_split, self.__labels)
 

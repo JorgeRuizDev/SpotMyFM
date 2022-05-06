@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List, Literal, Optional, TypedDict
+from typing import List, Literal, Optional, Tuple, TypedDict
 
 import numpy as np
 
@@ -25,8 +25,9 @@ class InferenceRequest():
 
     splits: np.ndarray
     n_splits: int
-    genre: Optional[str]
-    subgenres: Optional[List[str]]
+    genre: Optional[List[Tuple[str, float]]]
+    subgenres: Optional[List[Tuple[str, float]]]
+    moods: Optional[List[Tuple[str, float]]]
 
 
     def __str__(self) -> str:
