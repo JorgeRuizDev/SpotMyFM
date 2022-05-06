@@ -23,7 +23,7 @@ const config = {
       auth: "api/spotify/oauth2/auth",
       refresh: "api/spotify/oauth2/refresh",
     },
-    ludwig:{
+    ludwig: {
       track_file: "ludwig/track/file",
       track_single: "ludwig/track",
       track_bulk: "ludwig/track/bulk",
@@ -37,7 +37,7 @@ const config = {
       track_bulk: "api/ludwig/track/bulk",
 
       recommender: "api/ludwig/recommender",
-    }
+    },
   },
 
   //
