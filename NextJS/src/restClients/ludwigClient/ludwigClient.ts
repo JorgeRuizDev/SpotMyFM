@@ -22,7 +22,7 @@ export class LudwigClient implements IRestClient {
   getHeaders() {
     return {
       accept: "application/json",
-      
+
       "Content-Type": "application/json",
     };
   }

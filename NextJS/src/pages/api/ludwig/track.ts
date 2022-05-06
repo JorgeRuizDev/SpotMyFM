@@ -37,7 +37,7 @@ const track = async (
       .json({ error: "There is no url/id attribute in the request body" });
   }
 
-  try{
+  try {
     const response = await axios.post(
       `${env.LUDWIG_BASE_URL}/${cfg.api_endpoints.ludwig.track_single}`,
       {
@@ -54,20 +54,16 @@ const track = async (
       }
     );
 
-
     const data = response.data;
-    res
-    .status(200)
-    .json({
+    res.status(200).json({
       moods: data.moods || [],
       genres: data.genres || [],
       subgenres: data.subgenres || [],
     });
-  }catch(e: any){
+  } catch (e: any) {
     console.log(e);
     res.status(500).json({ error: "Error getting the track" });
   }
-
 };
 
 export default track;

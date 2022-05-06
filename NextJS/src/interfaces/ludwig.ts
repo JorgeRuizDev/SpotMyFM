@@ -1,4 +1,4 @@
 export interface IMirResult {
-  label: string
-  confidence: number
+  label: string;
+  confidence: number;
 }
