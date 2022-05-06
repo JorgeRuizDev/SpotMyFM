@@ -141,7 +141,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
     res = inference_requests[0]
 
     response_list = [
-        {"id": track.id, "labels": inference_requests[i].to_json()} for i, track in enumerate(body.tracks)
+        {"id": track.id, **inference_requests[i].to_json()} for i, track in enumerate(body.tracks)
     ]
 
     return {
