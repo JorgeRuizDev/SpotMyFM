@@ -11,6 +11,9 @@ const env = {
   DYNAMOSE_USER_TABLE: process.env.DYNAMOOSE_USER_TABLE || "",
 
   LASTFM_KEY: process.env.NEXT_PUBLIC_LAST_KEY || "",
+
+  LUDWIG_BASE_URL : process.env.LUDWIG_URL || "",
+  LUDWIG_SECRET: process.env.LUDWIG_SECRET || "",
 };
 
 export const envtest = {
