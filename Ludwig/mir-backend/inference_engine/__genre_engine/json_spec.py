@@ -19,9 +19,9 @@ class NetworkJson(TypedDict):
 @dataclass
 class InferenceRequest():
 
-    def __init__(self, mffcs: np.ndarray):
-        self.splits = mffcs
-        self.n_splits = len(mffcs)
+    def __init__(self, mfccs: np.ndarray):
+        self.splits =np.expand_dims(mfccs, axis=3)
+        self.n_splits = len(mfccs)
 
     splits: np.ndarray
     n_splits: int
@@ -29,6 +29,13 @@ class InferenceRequest():
     subgenres: Optional[List[Tuple[str, float]]]
     moods: Optional[List[Tuple[str, float]]]
 
+
+    def to_json(self,):
+        return {
+            "genres": [{"label": g[0], "confidence": g[1]} for g in self.genre or []],
+            "subgenres": [{"label": s[0], "confidence": s[1]} for s in self.subgenres or []],
+            "moods": [{"label": m[0], "confidence": m[1]} for m in self.moods or []]
+        }
 
     def __str__(self) -> str:
         return f"{self.__class__.__name__}(splits={self.splits}, n_splits={self.n_splits}, genre={self.genre}, subgenres={self.subgenres})"

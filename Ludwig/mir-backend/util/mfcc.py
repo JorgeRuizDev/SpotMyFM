@@ -82,4 +82,4 @@ def track2mfccs(path: str, sample_rate=None):
         if len(split) == SAMPLES_PER_SPLIT:
             mfccs.append(np.array(__preprocess_track(split, sr)))
 
-    return np.array(mfccs)
+    return np.array(mfccs), track

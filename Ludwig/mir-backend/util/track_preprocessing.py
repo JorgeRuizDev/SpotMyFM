@@ -1,4 +1,5 @@
 from time import time
+from typing import List
 import ffmpeg
 import tempfile
 import requests
@@ -24,6 +25,23 @@ def download_track_from_preview(preview_url: str) -> str:
         tmp.write(r.content)
         return tmp.name
 
+import aiohttp
+import asyncio
+async def download_multiple_from_preview(preview_urls: List[str], loop) -> List[str]:
+
+    async def fetch(session, url):
+        async with session.get(url) as response:
+            res = await response.read()
+            
+            with tempfile.NamedTemporaryFile(delete=False) as tmp:
+                tmp.write(res)
+                return tmp.name
+
+
+    async with aiohttp.ClientSession(loop=loop, connector=aiohttp.TCPConnector(verify_ssl=False)) as session:
+        results = await asyncio.gather(*[fetch(session, url) for url in preview_urls], return_exceptions=True)
+        return results
+
 
 def to_wav(track_path: str):
     """
@@ -41,14 +59,19 @@ def to_wav(track_path: str):
 
 def get_input_data(track_path: str, normalize = True):
     """
-    Returns the input data for the model
-
+    It takes a path to a track, and returns the MFCCs and the track
+    
     Args:
-        track_path (str): Path to the track
+      track_path (str): the path to the track you want to get the MFCCs for
+      normalize: If True, normalize the MFCCs to have zero mean and unit variance. Defaults to True
+    
+    Returns:
+      The mfccs and the track
     """
-    track = mfcc.track2mfccs(track_path)
+
+    mfccs, track = mfcc.track2mfccs(track_path)
 
     if normalize:
-        track = mfcc.normalize_mfccs(track)
+        track= mfcc.normalize_mfccs(mfccs)
     
-    return track
+    return mfccs, track

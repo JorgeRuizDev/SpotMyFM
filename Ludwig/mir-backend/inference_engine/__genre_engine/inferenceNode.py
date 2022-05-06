@@ -20,7 +20,7 @@ def _genre_target(splits: np.ndarray, labels: List[str]):
     Returns:
         Single label
     """
-    res = splits.sum(axis=0)
+    res = splits.mean(axis=0)
     genres: List[Tuple[str, float]] = []
 
     if labels[3] == "punk" and len(labels) == 3:
@@ -28,13 +28,11 @@ def _genre_target(splits: np.ndarray, labels: List[str]):
 
     for i, confidence in enumerate(res):
         if confidence > 0.4:
-            genres.append((labels[i], confidence))
+            genres.append((labels[i], float(confidence)))
             
     if len(genres) == 0:
-
-
         idx = np.argmax(res)
-        genres.append((labels[idx], res[idx]))
+        genres.append((labels[idx], float(res[idx])))
 
     return genres
 
@@ -52,14 +50,14 @@ def _subgenre_target(splits: np.ndarray, labels: List[str]):
     for label, binary_res in zip(labels, mean):
         # 
         if binary_res > 0.4:
-            subs.append((label, binary_res))
+            subs.append((label, float(binary_res)))
         
     if len(subs) == 0:
         # if there ar no subs, add the largest with a confidence over 30%
         largest_idx = mean.argmax()
 
         
-        subs.append((labels[largest_idx], mean[largest_idx]))
+        subs.append((labels[largest_idx], float(mean[largest_idx])))
 
     return subs
 
@@ -109,10 +107,10 @@ class InferenceNode:
         for data in requests:
             input_data.extend(data.splits)
 
-        res = self.__session.run([self.__output], {self.__input: input_data})
+        res = self.__session.run([self.__output], {self.__input: input_data})[0]
 
         for req in requests:
-            res_split = np.array(res[: req.n_splits][0])
+            res_split = np.array(res[: req.n_splits])
             res = res[req.n_splits :]
             
             if self.__type == "genre":

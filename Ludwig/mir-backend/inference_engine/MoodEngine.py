@@ -1,7 +1,9 @@
+from typing import List, Tuple
 import onnxruntime as ort
 import numpy as np
 from inference_engine.IEngine import IEngine
 from inference_engine.__execution_providers import EXECUTION_PROVIDERS
+from inference_engine.__genre_engine.json_spec import InferenceRequest
 
 
 MOODS = ["happy", "sad", "party", "relaxed", "acoustic", "electronic", "aggressive"]
@@ -21,19 +23,44 @@ class MoodEngine(IEngine):
         self.__input = self.__session.get_inputs()[0].name  # input tensor name
         self.__output = self.__session.get_outputs()[0].name  # output tensor name
 
-    def infer(self, mfccs: np.ndarray):
+    def infer(self, requests: List[InferenceRequest]):
         """
-        Infer the the audio file.
-
+        The function takes a list of InferenceRequest objects, each of which contains a list of MFCCs. The
+        function then runs the ONNX model on the list of MFCCs, and returns a list of InferenceRequest
+        objects, each of which contains a list of moods and their confidence scores
+        
         Args:
-            mfccs (np.ndarray): Batch (N) of MFFCCS to implement  SHAPE = (N, 130, 32)
-
-
+          requests (List[InferenceRequest]): List[InferenceRequest]
         """
-        input_data = np.expand_dims(mfccs, axis=3)
+
+        mfccs = []
+
+        for req in requests:
+            mfccs.extend(req.splits)
+
+        
+
         # run onnxruntime inference session:
-        res = self.__session.run([self.__output], {self.__input: input_data})
-        return np.array(res)
+        results = self.__session.run([self.__output], {self.__input: mfccs})[0]
+        
+        
+        print(np.array(results).shape)
+        for req in requests:
+            
+            res = results[:req.n_splits]
+            print("OK")
+            results = results[req.n_splits:]
+
+            res = res.mean(axis=0)
+
+            moods: List[Tuple[str, float]] = []
+            for mood, confidence in zip(MOODS, res):
+                moods.append((mood, float(confidence)))
+
+            req.moods = moods
+
+
+        return requests
 
     def res_to_dic(self, res: np.ndarray):
         """

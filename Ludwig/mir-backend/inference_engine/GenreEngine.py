@@ -9,8 +9,7 @@ from inference_engine.__genre_engine.json_spec import InferenceRequest, NetworkJ
 
 class GenreEngine(IEngine):
     def __init__(self, json_path: str = "./models/genres.json"):
-        """
-        Initialize the engine.
+        """ Initialize the engine.
 
         Args:
             json_path (str): Path to the JSON config file that has all the models and labels.
@@ -18,10 +17,8 @@ class GenreEngine(IEngine):
         self.__json_model: NetworkJson = json.load(open(json_path, "r"))
         self.__composite_engine = InferenceNode(self.__json_model["models"][0])
 
-    def infer(self, mfccs: List[np.ndarray]):
-        mfccs_ = np.expand_dims(np.array(mfccs), axis=4)
-        
-        return self.__composite_engine.infer([InferenceRequest(mffc) for mffc in mfccs_])
+    def infer(self, mfccs: List[InferenceRequest]):
+        return self.__composite_engine.infer(mfccs)
 
 
 

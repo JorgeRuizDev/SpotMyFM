@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -12,3 +12,11 @@ class LudwigTrackBase(BaseModel):
 
 class LudwigTrackUrl(LudwigTrackBase):
     url: str
+
+
+class UrlBulk(BaseModel):
+    id: str
+    url: str
+
+class LudwigTrackUrlBulk(LudwigTrackBase):
+    tracks: List[UrlBulk]
