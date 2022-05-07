@@ -120,7 +120,7 @@ class InferenceNode:
                 for genre in req.genre:
                     current_results[genre[0]].append(req)
             elif self.__type == "subgenre":
-                req.subgenres = _subgenre_target(res_split, self.__labels)
+                req.subgenres.extend(_subgenre_target(res_split, self.__labels))
 
         for child_name, req in current_results.items():
             if child_name in self.__children:

@@ -22,12 +22,13 @@ class InferenceRequest():
     def __init__(self, mfccs: np.ndarray):
         self.splits =np.expand_dims(mfccs, axis=3)
         self.n_splits = len(mfccs)
+        self.genre: List[Tuple[str, float]] = []
+        self.subgenres: List[Tuple[str, float]] = []
+        self.moods: List[Tuple[str, float]] = []
 
     splits: np.ndarray
     n_splits: int
-    genre: Optional[List[Tuple[str, float]]]
-    subgenres: Optional[List[Tuple[str, float]]]
-    moods: Optional[List[Tuple[str, float]]]
+
 
 
     def to_json(self,):
