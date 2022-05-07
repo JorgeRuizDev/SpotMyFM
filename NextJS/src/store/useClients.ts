@@ -4,12 +4,14 @@ import { CacheAdapter, CacheDb } from "./../data/cacheDB/CacheDB";
 import create from "zustand";
 import env from "env";
 import { BackendDBClient } from "restClients/backendDB/backendDBclient";
+import { LudwigClient } from "restClients/ludwigClient/ludwigClient";
 
 interface IClientStore {
   cacheClient: CacheAdapter;
   spotifyApi: SpotifyClient;
   lastfmApi: LastfmClient;
   backendDbApi: BackendDBClient;
+  ludwigApi: LudwigClient;
   getUser: (
     isLogged?: boolean
   ) => Promise<SpotifyApi.CurrentUsersProfileResponse | null>;
@@ -31,7 +33,7 @@ export const useClientsStore = create<IClientStore>((set, get) => {
   const spotifyApi = new SpotifyClient();
   const lastfmApi = new LastfmClient(env.LASTFM_KEY);
   const backendDbApi = new BackendDBClient();
-
+  const ludwigApi = new LudwigClient();
   const user: IStoreUser = { isPremium: false, spotifyUser: null };
 
   const setIsPremium = (is: boolean) => {
@@ -59,6 +61,7 @@ export const useClientsStore = create<IClientStore>((set, get) => {
     spotifyApi,
     backendDbApi,
     lastfmApi,
+    ludwigApi,
     getUser,
     user,
     setIsPremium,

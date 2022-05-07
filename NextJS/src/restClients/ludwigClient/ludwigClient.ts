@@ -7,7 +7,7 @@ import axios from "util/axios/axios";
 
 interface ILudwigTrack {
   spotifyId: string;
-  spotifyPreviewURL: string;
+  spotifyPreviewURL?: string | null;
 }
 
 interface ILudwigResponse {
@@ -44,6 +44,10 @@ export class LudwigClient implements IRestClient {
     moods: boolean,
     genres: boolean
   ): Promise<[ILudwigResponse | null, RestError | null]> {
+    if (!track.spotifyPreviewURL) {
+      return [{ genres: [], subgenres: [], moods: [] }, null];
+    }
+
     try {
       const response = await axios.post(
         cfg.api_endpoints.ludwig_mir.track_single,
@@ -86,6 +90,9 @@ export class LudwigClient implements IRestClient {
     moods: boolean,
     genres: boolean
   ): Promise<[Map<string, ILudwigResponse> | null, RestError | null]> {
+    
+    tracks = tracks.filter(t => t.spotifyPreviewURL)
+    
     try {
       const response = await axios.post(
         cfg.api_endpoints.ludwig_mir.track_bulk,
