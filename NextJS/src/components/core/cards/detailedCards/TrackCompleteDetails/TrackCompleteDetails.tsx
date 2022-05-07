@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 import Styled from "./TrackCompleteDetails.styles";
@@ -58,6 +58,7 @@ function TrackCompleteDetails({
   const [showAlbumTracks, setShowAlbumTracks] = useState(false);
   const { t } = useTranslation();
   const [isMirLoading, setIsMirLoading] = useState(false);
+
   const { play, pause, PreviewButton } = useTrackPreview(
     track?.spotifyPreviewURL || "",
     false,
@@ -79,7 +80,6 @@ function TrackCompleteDetails({
         setLastFMDetails(res[0]);
       });
   }, [artists, album, lastfmApi]);
-
   useEffect(() => {
     if (
       track &&
@@ -105,7 +105,6 @@ function TrackCompleteDetails({
       fn();
     }
   }, [ludwigApi, setIsMirLoading, track]);
-
   // Check if the album & tracks are liked or not
   useEffect(() => {
     album &&
@@ -121,12 +120,10 @@ function TrackCompleteDetails({
         .catch((e) => toast.error(spotifyApi.parse(e)?.message));
   }, [album, track, spotifyApi]);
 
-  const hasDesc = (lastFMDetails?.lastfmDescription?.length || 0) > 20;
-
   return (
     <div>
       <Styled.Wrapper>
-        <div style={{ width: "100%" }}>
+        <div>
           <h3>
             {track && (
               <>
@@ -141,62 +138,47 @@ function TrackCompleteDetails({
             }
           </h3>
           <hr />
-          {hasDesc && (
-            <Styled.InfoGrid>
-              <Styled.Column>
-                <>
-                  <Cover album={album} play={play} pause={pause} />
-                  <CoverText
-                    album={album}
-                    track={track}
-                    artists={artists}
-                    lastFMDetails={lastFMDetails}
+          <Styled.InfoGrid>
+            <Styled.Column>
+              <Styled.AlbumColumn>
+                <motion.div
+                  onMouseEnter={play}
+                  onMouseLeave={pause}
+                  whileHover={{
+                    scale: 1.1,
+                    transition: { ease: "easeInOut", duration: 0.3 },
+                  }}
+                >
+                  <Styled.Image
+                    src={album?.spotifyCoverUrl[0] || ""}
+                    alt={album?.name}
+                    height={"320px"}
+                    width={"320px"}
                   />
-                  <Buttons_ />
-                  <LastFMTags />
-                  <AlbumTags album={album} />
-                </>
-              </Styled.Column>
-              <RightColumn
-                isMirLoading={isMirLoading}
-                track={track}
-                artists={artists || []}
-                lastFMDetails={lastFMDetails}
-              ></RightColumn>
-            </Styled.InfoGrid>
-          )}
+                </motion.div>
+
+                <AlbumCollapsible album={album} />
+
+                <CoverText
+                  album={album}
+                  track={track}
+                  artists={artists}
+                  lastFMDetails={lastFMDetails}
+                />
+              </Styled.AlbumColumn>
+              <Buttons_ />
+              <LastFMTags />
+              <AlbumTags album={album} />
+            </Styled.Column>
+            <RightColumn
+              track={track}
+              isMirLoading={isMirLoading}
+              artists={artists || []}
+              lastFMDetails={lastFMDetails}
+            />
+          </Styled.InfoGrid>
         </div>
       </Styled.Wrapper>
-      {!hasDesc && (
-        <Styled.NoDescLayout>
-          <Cover album={album} play={play} pause={pause} />
-          <div>
-            <HorizontalCardCarousell>
-              {(artists || []).map((a) => (
-                <ArtistHorizontalCard artist={a} key={a.spotifyId} />
-              )) || []}
-            </HorizontalCardCarousell>
-          </div>
-
-          <CoverText
-            album={album}
-            track={track}
-            artists={artists}
-            lastFMDetails={lastFMDetails}
-          />
-          <LudwigResultsCard
-            isLoading={isMirLoading}
-            genres={track?.ludwigGenres}
-            moods={track?.ludwigMoods}
-            subgenres={track?.ludwigSubgenres}
-          />  
-          <div>
-            <Buttons_ />
-          </div>
-          <AlbumTags album={album} />
-          <LastFMTags />
-        </Styled.NoDescLayout>
-      )}
       {album && !isNested && showAlbumTracks ? (
         <AlbumTracksView album={album} />
       ) : (
@@ -214,14 +196,14 @@ function TrackCompleteDetails({
 
   function LastFMTags(): JSX.Element {
     return (album?.lastfmTagsFull?.length || 0) > 0 ? (
-      <Styled.Column>
+      <>
         <h4>{t("cards:lastfm-tags")}</h4>
         <Styled.TagsButtonRow>
           {album?.lastfmTagsFull?.map((t) => (
             <TagButton url={t.url} name={t.name} key={t.name} />
           ))}
         </Styled.TagsButtonRow>
-      </Styled.Column>
+      </>
     ) : (
       <></>
     );
@@ -298,53 +280,19 @@ function AlbumTags({ album }: { album?: Album }): JSX.Element {
   );
 }
 
-function Cover({
-  album,
-  play,
-  pause,
-}: {
-  album?: Album;
-  play: () => void;
-  pause: () => void;
-}) {
-  return (
-    <Styled.AlbumColumn>
-      <motion.div
-        onMouseEnter={play}
-        onMouseLeave={pause}
-        whileHover={{
-          scale: 1.1,
-          transition: { ease: "easeInOut", duration: 0.3 },
-        }}
-      >
-        <Styled.Image
-          src={album?.spotifyCoverUrl[0] || ""}
-          alt={album?.name}
-          height={"320px"}
-          width={"320px"}
-        />
-      </motion.div>
-    </Styled.AlbumColumn>
-  );
-}
-
 function RightColumn({
   artists,
   track,
-  lastFMDetails,
-  children,
   isMirLoading,
+  lastFMDetails,
 }: {
   artists: Artist[];
+  lastFMDetails: ILastFMAlbum | null;
   track?: Track;
   isMirLoading: boolean;
-  lastFMDetails: ILastFMAlbum | null;
-  children?: ReactNode | ReactNode[];
 }): JSX.Element {
   return (
-    <Styled.Column
-      centerCol={(lastFMDetails?.lastfmDescription?.length || 0) < 20}
-    >
+    <Styled.Column>
       <HorizontalCardCarousell>
         {artists.map((a) => (
           <ArtistHorizontalCard artist={a} key={a.spotifyId} />
@@ -356,7 +304,6 @@ function RightColumn({
         moods={track?.ludwigMoods}
         subgenres={track?.ludwigSubgenres}
       />
-      {children}
       {lastFMDetails?.lastfmDescription ? (
         <>
           <h4>Album Description</h4>
@@ -365,7 +312,10 @@ function RightColumn({
           </Styled.DescriptionBox>
         </>
       ) : (
-        <></>
+        <>
+          <h4>This album does not have a description</h4>
+          
+        </>
       )}
     </Styled.Column>
   );
@@ -444,4 +394,19 @@ function CoverText({
   );
 }
 
+function AlbumCollapsible({ album }: { album?: Album }): JSX.Element {
+  return (
+    <Styled.CenterElement>
+      <Collapsible>
+        <iframe
+          src={`https://open.spotify.com/embed/album/${album?.spotifyId}`}
+          width="100%"
+          height="380"
+          frameBorder="0"
+          allow="encrypted-media"
+        ></iframe>
+      </Collapsible>
+    </Styled.CenterElement>
+  );
+}
 export default React.memo(TrackCompleteDetails);
