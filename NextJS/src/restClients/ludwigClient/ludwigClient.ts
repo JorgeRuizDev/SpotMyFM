@@ -90,9 +90,8 @@ export class LudwigClient implements IRestClient {
     moods: boolean,
     genres: boolean
   ): Promise<[Map<string, ILudwigResponse> | null, RestError | null]> {
-    
-    tracks = tracks.filter(t => t.spotifyPreviewURL)
-    
+    tracks = tracks.filter((t) => t.spotifyPreviewURL);
+
     try {
       const response = await axios.post(
         cfg.api_endpoints.ludwig_mir.track_bulk,

@@ -1,3 +1,3 @@
-import LudwigResultsCard from './LudwigResultsCard'
+import LudwigResultsCard from "./LudwigResultsCard";
 
 export default LudwigResultsCard;

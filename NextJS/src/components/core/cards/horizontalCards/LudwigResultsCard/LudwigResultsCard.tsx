@@ -25,17 +25,17 @@ function LudwigResultsCard({
       return label.split("---")[1] || label;
     }
 
-    const translate: {[key: string]: string; } = {
+    const translate: { [key: string]: string } = {
       "metal-sub": "Metal",
       "rock-sub": "Rock",
       "punk-sub": "Punk",
-      "happy": "Happy 😁",
-      "sad": "Sad 😔",
-      "electronic": "Electronic ⚡",
-      "acoustic": "Acoustic 🎸",
-      "party": "Party 🎉",
-      "relaxed": "Relaxed 😌",
-      "aggressive": "Aggressive 🔫",
+      happy: "Happy 😁",
+      sad: "Sad 😔",
+      electronic: "Electronic ⚡",
+      acoustic: "Acoustic 🎸",
+      party: "Party 🎉",
+      relaxed: "Relaxed 😌",
+      aggressive: "Aggressive 🔫",
     };
 
     return translate[label] || label;

@@ -314,7 +314,6 @@ function RightColumn({
       ) : (
         <>
           <h4>This album does not have a description</h4>
-          
         </>
       )}
     </Styled.Column>
