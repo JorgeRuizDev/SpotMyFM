@@ -2,6 +2,10 @@ import { Album } from "./Album";
 import { Artist } from "./Artist";
 import SpotifyBaseObject from "./SpotifyObject";
 
+interface LudwigItem {
+  label: string
+  confidence: number
+}
 export interface Track extends SpotifyBaseObject {
   // Album:
   spotifyAlbumId: string;
@@ -35,4 +39,10 @@ export interface Track extends SpotifyBaseObject {
   savedAt?: Date;
 
   genreVersion: number;
+
+  ludwigGenres?: LudwigItem[];
+
+  ludwigMoods?: LudwigItem[];
+
+  ludwigSubgenres?: LudwigItem[]; 
 }
