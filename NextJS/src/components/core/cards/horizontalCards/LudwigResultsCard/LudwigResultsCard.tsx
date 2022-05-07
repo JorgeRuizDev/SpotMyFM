@@ -1,5 +1,5 @@
 import { IMirResult } from "interfaces/ludwig";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
 import Styled from "./LudwigResultsCard.styles";
 
@@ -20,10 +20,26 @@ function LudwigResultsCard({
   moods = [],
   subgenres = [],
 }: ILudwigResultsCardProps): JSX.Element {
-  const translate = useMemo(
-    () => ({ "metal-sub": "Metal", "rock-sub": "Rock" }),
-    []
-  );
+  const translate = useCallback((label: string): string => {
+    if (label.indexOf("---") > -1) {
+      return label.split("---")[1] || label;
+    }
+
+    const translate: {[key: string]: string; } = {
+      "metal-sub": "Metal",
+      "rock-sub": "Rock",
+      "punk-sub": "Punk",
+      "happy": "Happy 😁",
+      "sad": "Sad 😔",
+      "electronic": "Electronic ⚡",
+      "acoustic": "Acoustic 🎸",
+      "party": "Party 🎉",
+      "relaxed": "Relaxed 😌",
+      "aggressive": "Aggressive 🔫",
+    };
+
+    return translate[label] || label;
+  }, []);
   const theme = useThemeStore((s) => s.currentTheme);
   return (
     <Styled.HorizontalCard>
@@ -43,7 +59,7 @@ function LudwigResultsCard({
                 {genres.map((g, i) => (
                   <>
                     <ConfidencePill
-                      label={g.label}
+                      label={translate(g.label)}
                       confidence={g.confidence}
                       key={i}
                     />
@@ -57,7 +73,7 @@ function LudwigResultsCard({
                 <Styled.Subtitle>Subgenres</Styled.Subtitle>
                 {subgenres.map((g, i) => (
                   <ConfidencePill
-                    label={g.label}
+                    label={translate(g.label)}
                     confidence={g.confidence}
                     key={i}
                   />
@@ -72,7 +88,7 @@ function LudwigResultsCard({
                   .filter((m) => m.confidence > 0.5)
                   .map((g, i) => (
                     <ConfidencePill
-                      label={g.label}
+                      label={translate(g.label)}
                       confidence={g.confidence}
                       key={i}
                     />

@@ -113,6 +113,7 @@ const Pill = styled(Buttons.BasicButton)<IPill>(({ confidence }) => [
 
   tw`
     border
+    capitalize
     
   `,
   
