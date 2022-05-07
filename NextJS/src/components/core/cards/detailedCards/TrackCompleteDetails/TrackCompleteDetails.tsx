@@ -37,6 +37,7 @@ import { FaLessThanEqual } from "react-icons/fa";
 import ModifyAlbumTags from "../../other/ModifyAlbumTags";
 import Twemoji from "components/util/Twemoji";
 import { BsFillPencilFill } from "react-icons/bs";
+import LudwigResultsCard from "../../horizontalCards/LudwigResultsCard";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
@@ -53,9 +54,10 @@ function TrackCompleteDetails({
   const [lastFMDetails, setLastFMDetails] = useState<ILastFMAlbum | null>(null);
   const [isTrackLiked, setIsTrackLiked] = useState(false);
   const [isAlbumLiked, setIsAlbumLiked] = useState(false);
-  const { lastfmApi, spotifyApi } = useClientsStore();
+  const { lastfmApi, spotifyApi, ludwigApi } = useClientsStore();
   const [showAlbumTracks, setShowAlbumTracks] = useState(false);
   const { t } = useTranslation();
+  const [isMirLoading, setIsMirLoading] = useState(false);
   const { play, pause, PreviewButton } = useTrackPreview(
     track?.spotifyPreviewURL || "",
     false,
@@ -77,6 +79,32 @@ function TrackCompleteDetails({
         setLastFMDetails(res[0]);
       });
   }, [artists, album, lastfmApi]);
+
+  useEffect(() => {
+    if (
+      track &&
+      (track?.ludwigMoods == undefined || track.ludwigGenres == undefined)
+    ) {
+      setIsMirLoading(true);
+      const fn = async () => {
+        const [res, error] = await ludwigApi.getTrackDetails(track, true, true);
+
+        if (res && !error) {
+          track.ludwigGenres = res.genres;
+          track.ludwigMoods = res.moods;
+          track.ludwigSubgenres = res.subgenres;
+          console.log(track);
+        } else {
+          toast.error(
+            `An error ocured while analyzing the track: ${error?.message}`
+          );
+        }
+        setIsMirLoading(false);
+      };
+
+      fn();
+    }
+  }, [ludwigApi, setIsMirLoading, track]);
 
   // Check if the album & tracks are liked or not
   useEffect(() => {
@@ -130,6 +158,8 @@ function TrackCompleteDetails({
                 </>
               </Styled.Column>
               <RightColumn
+                isMirLoading={isMirLoading}
+                track={track}
                 artists={artists || []}
                 lastFMDetails={lastFMDetails}
               ></RightColumn>
@@ -140,12 +170,13 @@ function TrackCompleteDetails({
       {!hasDesc && (
         <Styled.NoDescLayout>
           <Cover album={album} play={play} pause={pause} />
-
-          <HorizontalCardCarousell>
-            {(artists || []).map((a) => (
-              <ArtistHorizontalCard artist={a} key={a.spotifyId} />
-            )) || []}
-          </HorizontalCardCarousell>
+          <div>
+            <HorizontalCardCarousell>
+              {(artists || []).map((a) => (
+                <ArtistHorizontalCard artist={a} key={a.spotifyId} />
+              )) || []}
+            </HorizontalCardCarousell>
+          </div>
 
           <CoverText
             album={album}
@@ -153,6 +184,12 @@ function TrackCompleteDetails({
             artists={artists}
             lastFMDetails={lastFMDetails}
           />
+          <LudwigResultsCard
+            isLoading={isMirLoading}
+            genres={track?.ludwigGenres}
+            moods={track?.ludwigMoods}
+            subgenres={track?.ludwigSubgenres}
+          />  
           <div>
             <Buttons_ />
           </div>
@@ -293,10 +330,14 @@ function Cover({
 
 function RightColumn({
   artists,
+  track,
   lastFMDetails,
   children,
+  isMirLoading,
 }: {
   artists: Artist[];
+  track?: Track;
+  isMirLoading: boolean;
   lastFMDetails: ILastFMAlbum | null;
   children?: ReactNode | ReactNode[];
 }): JSX.Element {
@@ -309,6 +350,12 @@ function RightColumn({
           <ArtistHorizontalCard artist={a} key={a.spotifyId} />
         )) || []}
       </HorizontalCardCarousell>
+      <LudwigResultsCard
+        isLoading={isMirLoading}
+        genres={track?.ludwigGenres}
+        moods={track?.ludwigMoods}
+        subgenres={track?.ludwigSubgenres}
+      />
       {children}
       {lastFMDetails?.lastfmDescription ? (
         <>
