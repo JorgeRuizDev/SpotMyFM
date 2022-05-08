@@ -78,9 +78,7 @@ async def spotify_mir_url(body: LudwigTrackUrl, _=Depends(authorize_token)):
         raise HTTPException(status_code=400, detail="Could not process the track")
         return 
     inference_request = [InferenceRequest("", input_data)]
-    return {
 
-    }
     if body.moods:
         _ = __moodIE.infer(inference_request)
 

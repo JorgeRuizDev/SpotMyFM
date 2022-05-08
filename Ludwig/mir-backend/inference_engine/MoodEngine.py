@@ -5,9 +5,7 @@ from inference_engine.IEngine import IEngine
 from inference_engine.__execution_providers import EXECUTION_PROVIDERS
 from inference_engine.__genre_engine.json_spec import InferenceRequest
 
-
 MOODS = ["happy", "sad", "party", "relaxed", "acoustic", "electronic", "aggressive"]
-
 
 class MoodEngine(IEngine):
     def __init__(self, model_path="models/moods/moods.onnx"):
