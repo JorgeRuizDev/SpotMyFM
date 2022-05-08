@@ -14,7 +14,6 @@ $ pip install -r requirements.txt
 $ uvicorn main:app
 ```
 
-
 ### Tag image & Push To Google Cloud Container Registry:
 
 ```
