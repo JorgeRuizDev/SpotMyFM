@@ -4,6 +4,6 @@ import { render } from "@testing-library/react";
 
 describe("<LudwigResultsCard />", () => {
  test("Renders the component", () => {
-   const component = render(< LudwigResultsCard />);
+   const component = render(< LudwigResultsCard isLoading={false} />);
  });
 });

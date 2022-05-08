@@ -27,6 +27,7 @@ export const useDataFacade = createStore(() => {
   const spotifyApi = useClientsStore((s) => s.spotifyApi);
   const lastfmApi = useClientsStore((s) => s.lastfmApi);
   const databaseApi = useClientsStore((s) => s.backendDbApi);
+  const ludwigApi = useClientsStore((s) => s.ludwigApi);
   const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
 
   const { setAsLoading, unsetAsLoading } = useSessionStore();
@@ -248,6 +249,40 @@ export const useDataFacade = createStore(() => {
     [_getAlbums, addAlbumTags, cache, setAsLoading, unsetAsLoading]
   );
 
+/**
+ * "This function takes in an array of tracks and a promise that resolves to a map of track ids to
+ * track details. It then adds the track details to the tracks array."
+ * 
+ * The function is called like this:
+ * @param {Track[]} tracks - Track[]
+ * @param ludwig - Promise<[Map<string, any> | null, any]>
+ */
+  const addLudwigToTracks = async (
+    tracks: Track[],
+    ludwig: Promise<[Map<string, any> | null, any]>
+  ) => {
+    
+    const [ludwig_res, ludwig_error] = await ludwig;
+    
+    if (!ludwig_error && ludwig_res) {
+      for (const track of tracks) {
+        const details = ludwig_res.get(track.spotifyId);
+
+        if (details) {
+          track.ludwigGenres = details.genres;
+          track.ludwigMoods = details.moods;
+          track.ludwigSubgenres = details.subgenres;
+        }
+      }
+      toast.info("Track Analysis is ready! ")
+    }else{
+      toast.error(ludwig_error?.message);
+    }
+  };
+
+
+  
+
   /**
    * Retrieves from the local cache or fetches a list of tracks
    * @param spotifyIds An array of track ids
@@ -259,6 +294,8 @@ export const useDataFacade = createStore(() => {
       setTrackStatus("fetchingMissTracks");
       const missingIds = await cache.getMissingTracks(spotifyIds);
       const missingObjects = await spotifyApi.getFullTracks(missingIds);
+
+
       setTrackStatus("parsingTracks");
       const parsedMissing = spotifyStatic.spotifyTracks2Tracks(
         missingObjects,
@@ -271,25 +308,26 @@ export const useDataFacade = createStore(() => {
       );
       setTrackStatus("gettingAlbums");
       await getArtistsById(parsedMissing.flatMap((t) => t.spotifyArtistsIds));
+      
       await cache.joinTracks(parsedMissing, true);
       setTrackStatus("default");
       unsetAsLoading();
 
       const tracks = await cache.getTracksBySpotifyId(spotifyIds);
+      const ludwig = ludwigApi.getTrackDetailsBulk(
+tracks,
+        true,
+        true
+      );
+
       await addAlbumTags(tracks.flatMap((t) => (t.album ? t.album : [])));
+      addLudwigToTracks(tracks, ludwig)
       return tracks;
     },
-    [
-      addAlbumTags,
-      cache,
-      getAlbumsById,
-      getArtistsById,
-      setAsLoading,
-      spotifyApi,
-      unsetAsLoading,
-    ]
+    [addAlbumTags, cache, getAlbumsById, getArtistsById, ludwigApi, setAsLoading, spotifyApi, unsetAsLoading]
   );
 
+/* A function that is called when a user uploads a playlist. */
   const _getTracks = useCallback(
     async (parsed: Track[]) => {
       setTrackStatus("fetchingMissTracks");
@@ -298,6 +336,14 @@ export const useDataFacade = createStore(() => {
       );
 
       const missing = getMissingObject(parsed, missingIds);
+      
+      const ludwig = ludwigApi.getTrackDetailsBulk(
+        parsed,
+        true,
+        true
+      );
+
+      
       setTrackStatus("gettingAlbums");
       await getAlbumsById(
         missing.map((t) => t.spotifyAlbumId),
@@ -305,17 +351,20 @@ export const useDataFacade = createStore(() => {
       );
       setTrackStatus("gettingArtists");
       await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
+      
       await cache.joinTracks(missing);
-
+      
       setTrackStatus("default");
 
       const tracks = await cache.getTracksBySpotifyId(
         parsed.map((t) => t.spotifyId)
       );
       await addAlbumTags(tracks.flatMap((t) => (t.album ? t.album : [])));
+      addLudwigToTracks(tracks, ludwig)
+      console.log("The End")
       return tracks;
     },
-    [addAlbumTags, cache, getAlbumsById, getArtistsById]
+    [addAlbumTags, cache, getAlbumsById, getArtistsById, ludwigApi]
   );
 
   /**

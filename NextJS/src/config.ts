@@ -23,6 +23,8 @@ const config = {
       auth: "api/spotify/oauth2/auth",
       refresh: "api/spotify/oauth2/refresh",
     },
+
+    // Python Ludwig Server
     ludwig: {
       track_file: "ludwig/track/file",
       track_single: "ludwig/track",
@@ -31,6 +33,7 @@ const config = {
       recommender: "ludwig/recommender",
     },
 
+    // NextJS Ludwig Endpoints 
     ludwig_mir: {
       track_file: "api/ludwig/track/file",
       track_single: "api/ludwig/track",
