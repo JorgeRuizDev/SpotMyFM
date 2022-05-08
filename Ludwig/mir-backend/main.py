@@ -3,7 +3,7 @@ from multiprocessing import Pool
 import os
 import tempfile
 from fastapi import FastAPI, UploadFile
-from typing import List, Optional
+from typing import List, Optional, Union
 import numpy as np
 from inference_engine.GenreEngine import GenreEngine
 from inference_engine.MoodEngine import MoodEngine
@@ -39,7 +39,7 @@ async def authorize_token(
     if secret_token is None or len(secret_token) == 0:
         raise HTTPException(status_code=401, detail="Unauthorized")
 
-    if token != secret_token :
+    if token != secret_token:
         raise HTTPException(
             status_code=401,
             detail="Not authorized, provide a valid bearer as an HTTP Authorization header. check /docs for more info",
@@ -71,10 +71,13 @@ async def spotify_mir_url(body: LudwigTrackUrl, _=Depends(authorize_token)):
     times.append(time())
     track_path = tp.to_wav(track_path)
     times.append(time())
-    input_data = tp.get_input_data(track_path)[0]
+    input_data = tp.get_input_data(track_path or "")[0]
     times.append(time())
 
-    inference_request = [InferenceRequest(input_data)]
+    if input_data is None:
+        raise HTTPException(status_code=400, detail="Could not process the track")
+        return 
+    inference_request = [InferenceRequest("", input_data)]
 
     if body.moods:
         _ = __moodIE.infer(inference_request)
@@ -95,7 +98,9 @@ async def spotify_mir_url(body: LudwigTrackUrl, _=Depends(authorize_token)):
     }
 
 
-@app.post("/ludwig/track/bulk", )
+@app.post(
+    "/ludwig/track/bulk",
+)
 async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_token)):
     """
     Receives a track url and some flags as a parsed json body.
@@ -116,18 +121,31 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
     times.append(time())
 
     # multiprocessing: Convert with multiple processes the different tracks to wav
-    input_data: List[np.ndarray] = []
+    input_data: List[Union[np.ndarray, None]] = []
     if len(track_paths) > 1:
         with Pool(3) as p:
             wav_tracks = p.map(tp.to_wav, track_paths)
+
+            # Remove None / Failed executions
+            wav_tracks = [t if t is not None else "" for t in wav_tracks]
+
             input_data = [data[0] for data in p.map(tp.get_input_data, wav_tracks)]
     else:
         wav_track = tp.to_wav(track_paths[0])
-        input_data.append(tp.get_input_data(wav_track)[0])
+        if wav_track is not None:
+            input_data.append(tp.get_input_data(wav_track)[0])
+
     times.append(time())
 
     # Create the empty requests objects
-    inference_requests = [InferenceRequest(data) for data in input_data]
+    inference_requests_nullables = [
+        InferenceRequest(body.tracks[i].id, data) if data is not None else None
+        for i, data in enumerate(input_data)
+    ]
+    # remove nones from inference_requests
+    inference_requests = [
+        req for req in inference_requests_nullables if req is not None
+    ]
 
     times.append(time())
     if body.moods:
@@ -138,11 +156,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
         _ = __genre_engine.infer(inference_requests)
     times.append(time())
 
-    res = inference_requests[0]
-
-    response_list = [
-        {"id": track.id, **inference_requests[i].to_json()} for i, track in enumerate(body.tracks)
-    ]
+    response_list = [request.to_json() for request in inference_requests]
 
     return {
         "tracks": response_list,
@@ -162,7 +176,7 @@ async def spotify_mir_file_upload(
     file: UploadFile,
     moods: Optional[bool] = True,
     genres: Optional[bool] = True,
-    _=Depends(authorize_token)
+    _=Depends(authorize_token),
 ):
     """
     Sent a file, returns the Mood, Genre and subgenres of the file (if specified)
@@ -182,8 +196,12 @@ async def spotify_mir_file_upload(
         times.append(time())
         track_path = tp.to_wav(track)
         times.append(time())
-        input_data, _ = tp.get_input_data(track_path)
-        request = [InferenceRequest(input_data)]
+        input_data, _ = tp.get_input_data(track_path or "")
+
+        if input_data is None:
+            raise HTTPException(status_code=400, detail="Could not process the track")
+        
+        request = [InferenceRequest("", input_data)]
 
         times.append(time())
         # Infer the moods
