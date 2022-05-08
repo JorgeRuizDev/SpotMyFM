@@ -4,6 +4,6 @@ import { render } from "@testing-library/react";
 
 describe("<MoodPie />", () => {
  test("Renders the component", () => {
-   const component = render(< MoodPie />);
+   const component = render(< MoodPie tracks={[]} years={[]} decades={[]} />);
  });
 });
