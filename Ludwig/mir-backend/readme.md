@@ -13,3 +13,12 @@ $ pip install -r requirements.txt
 ```bash
 $ uvicorn main:app
 ```
+
+
+### Tag image & Push To Google Cloud Container Registry:
+
+```
+$ docker build -t ludwig-mir .
+$ docker tag ludwig-mir gcr.io/ludwig-mir-backend/ludwig-mir
+$ docker push gcr.io/ludwig-mir-backend/ludwig-mir
+```

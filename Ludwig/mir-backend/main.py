@@ -142,10 +142,12 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
         InferenceRequest(body.tracks[i].id, data) if data is not None else None
         for i, data in enumerate(input_data)
     ]
+    del input_data
     # remove nones from inference_requests
     inference_requests = [
         req for req in inference_requests_nullables if req is not None
     ]
+    del inference_requests_nullables
 
     times.append(time())
     if body.moods:
@@ -157,7 +159,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
     times.append(time())
 
     response_list = [request.to_json() for request in inference_requests]
-
+    del inference_requests
     return {
         "tracks": response_list,
         "took": {
