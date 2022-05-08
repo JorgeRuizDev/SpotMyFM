@@ -33,7 +33,7 @@ const config = {
       recommender: "ludwig/recommender",
     },
 
-    // NextJS Ludwig Endpoints 
+    // NextJS Ludwig Endpoints
     ludwig_mir: {
       track_file: "api/ludwig/track/file",
       track_single: "api/ludwig/track",
