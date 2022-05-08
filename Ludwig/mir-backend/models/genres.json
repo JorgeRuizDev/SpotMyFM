@@ -9,13 +9,13 @@
       "children": [
         {
           "name": "rock",
-          "model_path": "models/subgenres/rock/main.onnx",
+          "model_path": "models/subgenres/rock/main_quantized.onnx",
           "type": "genre",
           "labels": ["rock-sub", "metal-sub", "punk-sub"],
           "children": [
             {
               "name": "rock-sub",
-              "model_path": "models/subgenres/rock/rock-sub.onnx",
+              "model_path": "models/subgenres/rock/rock-sub_quantized.onnx",
               "type": "subgenre",
               "labels": [
                 "rock---pop rock",
@@ -31,7 +31,7 @@
             },
             {
               "name": "metal-sub",
-              "model_path": "models/subgenres/rock/metal-sub.onnx",
+              "model_path": "models/subgenres/rock/metal-sub_quantized.onnx",
               "type": "subgenre",
               "labels": [
                 "rock---heavy metal",
@@ -41,7 +41,7 @@
             },
             {
               "name": "punk-sub",
-              "model_path": "models/subgenres/rock/punk-sub.onnx",
+              "model_path": "models/subgenres/rock/punk-sub_quantized.onnx",
               "type": "subgenre",
               "labels": ["rock---punk", "rock---post-punk"]
             }
@@ -49,13 +49,13 @@
         },
         {
           "name": "pop",
-          "model_path": "models/subgenres/pop/pop-sub.onnx",
+          "model_path": "models/subgenres/pop/pop-sub_quantized.onnx",
           "type": "subgenre",
           "labels": ["pop---indie pop", "pop---europop", "pop---ballad"]
         },
         {
           "name": "latin",
-          "model_path": "models/subgenres/latin/latin-sub.onnx",
+          "model_path": "models/subgenres/latin/latin-sub_quantized.onnx",
           "type": "subgenre",
           "labels": [
             "latin---reggaeton",
@@ -68,7 +68,7 @@
         },
         {
           "name": "hip hop",
-          "model_path": "models/subgenres/hip hop/hip hop-sub.onnx",
+          "model_path": "models/subgenres/hip hop/hip hop-sub_quantized.onnx",
           "type": "subgenre",
           "labels": [
             "hip hop---trap",
@@ -81,7 +81,7 @@
         },
         {
           "name": "funk / soul",
-          "model_path": "models/subgenres/funk soul/funk soul-sub.onnx",
+          "model_path": "models/subgenres/funk soul/funk soul-sub_quantized.onnx",
           "type": "subgenre",
           "labels": [
             "funk / soul---disco",
@@ -91,13 +91,13 @@
         },
         {
           "name": "blues",
-          "model_path": "models/subgenres/blues/blues-sub.onnx",
+          "model_path": "models/subgenres/blues/blues-sub_quantized.onnx",
           "type": "subgenre",
           "labels": ["blues---country blues", "blues---electric blues"]
         },
         {
           "name": "electronic",
-          "model_path": "models/subgenres/electronic/electronic-sub.onnx",
+          "model_path": "models/subgenres/electronic/electronic-sub_quantized.onnx",
           "type": "subgenre",
           "labels": [
             "electronic---ambient",
@@ -113,7 +113,7 @@
         },
         {
           "name": "classical",
-          "model_path": "models/subgenres/classical/classical-sub.onnx",
+          "model_path": "models/subgenres/classical/classical-sub_quantized.onnx",
           "type": "subgenre",
           "labels": [
             "classical---classical",
@@ -125,7 +125,7 @@
         },
         {
           "name": "jazz",
-          "model_path": "models/subgenres/jazz/jazz-sub.onnx",
+          "model_path": "models/subgenres/jazz/jazz-sub_quantized.onnx",
           "type": "subgenre",
           "labels": [
             "jazz---contemporary jazz",

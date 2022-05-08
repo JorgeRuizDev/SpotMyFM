@@ -8,7 +8,7 @@ def quantize_onnx_model(onnx_model_path):
     onnx_opt_model = onnx.load(onnx_model_path)
     quantize_dynamic(onnx_model_path,
                      quantized_model_path,
-                     weight_type=QuantType.QInt8)
+                     weight_type=QuantType.QUInt8)
 
     print(f"quantized model saved to:{quantized_model_path}")
 
