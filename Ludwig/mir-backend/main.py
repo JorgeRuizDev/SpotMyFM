@@ -78,7 +78,9 @@ async def spotify_mir_url(body: LudwigTrackUrl, _=Depends(authorize_token)):
         raise HTTPException(status_code=400, detail="Could not process the track")
         return 
     inference_request = [InferenceRequest("", input_data)]
+    return {
 
+    }
     if body.moods:
         _ = __moodIE.infer(inference_request)
 
@@ -122,6 +124,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
 
     # multiprocessing: Convert with multiple processes the different tracks to wav
     input_data: List[Union[np.ndarray, None]] = []
+    
     if len(track_paths) > 1:
         with Pool(3) as p:
             wav_tracks = p.map(tp.to_wav, track_paths)
@@ -130,6 +133,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
             wav_tracks = [t if t is not None else "" for t in wav_tracks]
 
             input_data = [data[0] for data in p.map(tp.get_input_data, wav_tracks)]
+        
     else:
         wav_track = tp.to_wav(track_paths[0])
         if wav_track is not None:
@@ -142,22 +146,24 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
         InferenceRequest(body.tracks[i].id, data) if data is not None else None
         for i, data in enumerate(input_data)
     ]
+    
     del input_data
     # remove nones from inference_requests
     inference_requests = [
         req for req in inference_requests_nullables if req is not None
     ]
+    
     del inference_requests_nullables
-
+    
     times.append(time())
     if body.moods:
         _ = __moodIE.infer(inference_requests)
-
+    
     times.append(time())
     if body.genres:
         _ = __genre_engine.infer(inference_requests)
     times.append(time())
-
+    
     response_list = [request.to_json() for request in inference_requests]
     del inference_requests
     return {

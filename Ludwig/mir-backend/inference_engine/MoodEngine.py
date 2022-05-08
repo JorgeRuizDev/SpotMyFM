@@ -18,10 +18,13 @@ class MoodEngine(IEngine):
             model_path (str): Path to the ONNX model.
         """
         self.__model_path = model_path
-        self.__session = ort.InferenceSession(model_path, providers=EXECUTION_PROVIDERS)
-
+        
+        self.__start_session()
         self.__input = self.__session.get_inputs()[0].name  # input tensor name
         self.__output = self.__session.get_outputs()[0].name  # output tensor name
+
+    def __start_session(self):
+        self.__session = ort.InferenceSession(self.__model_path, providers=EXECUTION_PROVIDERS)
 
     def infer(self, requests: List[InferenceRequest]):
         """
@@ -39,8 +42,9 @@ class MoodEngine(IEngine):
             mfccs.extend(req.splits)
 
         # run onnxruntime inference session:
+        self.__start_session()
         results = self.__session.run([self.__output], {self.__input: mfccs})[0]
-        
+        del self.__session
         for req in requests:
             
             res = results[:req.n_splits]

@@ -7,6 +7,10 @@ from inference_engine.__execution_providers import EXECUTION_PROVIDERS
 from inference_engine.__genre_engine.json_spec import InferenceRequest
 
 
+import gc
+
+
+
 def _genre_target(splits: np.ndarray, labels: List[str]):
     """
     Genre Target Function
@@ -73,16 +77,22 @@ class InferenceNode:
         Args:
             node (InferenceNodeJson): An dictionary extracted from a json with the class configuration.
         """
+        print(f"Loading {node['name']}")
         self.__children = {child["name"]: InferenceNode(child) for child in node.get("children") or {}}
         self.__model_path = node["model_path"]
         self.__type = node["type"]
         self.__labels = node["labels"]
-        self.__session = ort.InferenceSession(
-            self.__model_path, providers=EXECUTION_PROVIDERS
-        )
+
+        self.__start_session()
 
         self.__input = self.__session.get_inputs()[0].name  # input tensor name
         self.__output = self.__session.get_outputs()[0].name  # output tensor name
+    
+    
+    def __start_session(self):
+        self.__session = ort.InferenceSession(
+            self.__model_path, providers=EXECUTION_PROVIDERS
+        )
 
     def infer(self, requests: List[InferenceRequest]) -> List[InferenceRequest]:
         """Infers a batch of requests
@@ -102,13 +112,18 @@ class InferenceNode:
         }
 
         # reduce all the data splits into one python list
-
+        
         input_data: List[np.ndarray] = []
         for data in requests:
             input_data.extend(data.splits)
+        
+        input_data_np = np.array(input_data)
 
-        res = self.__session.run([self.__output], {self.__input: input_data})[0]
-
+        self.__start_session()
+        res = self.__session.run([self.__output], {self.__input: input_data_np})[0]
+        del self.__session
+        gc.collect()
+        
         for req in requests:
             res_split = np.array(res[: req.n_splits])
             res = res[req.n_splits :]
@@ -121,9 +136,13 @@ class InferenceNode:
                     current_results[genre[0]].append(req)
             elif self.__type == "subgenre":
                 req.subgenres.extend(_subgenre_target(res_split, self.__labels))
+            del res_split
 
         for child_name, req in current_results.items():
             if child_name in self.__children:
                 self.__children[child_name].infer(req)
-            
+
+        del input_data
+        del current_results   
+
         return requests
