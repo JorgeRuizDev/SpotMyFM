@@ -1,3 +1,3 @@
-import MoodPie from './MoodPie'
+import MoodPie from "./MoodPie";
 
 export default MoodPie;

@@ -26,7 +26,7 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
   const { currentTheme } = useThemeStore();
   const { width, height, CustomTooltip, colors } = useRechartsHelper();
   const [dropOption, setDropOption] = useState<number | string>("full");
-  
+
   const getData = useCallback(
     (getMoodMap: () => [map: Map<string, number>, total: number]) => {
       // k: genre, v: number of appearances
@@ -41,7 +41,6 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
     },
     []
   );
-
 
   function customLabel({
     cx,
@@ -197,8 +196,6 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
     </>
   );
 }
-
-
 
 const getMapFullInterval = (tracks: Track[]): [genreMapT, number] => {
   const moodMap = new Map<string, number>();
