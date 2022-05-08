@@ -2,6 +2,7 @@ import AlbumView from "components/core/cards/views/AlbumView";
 import FavDecades from "components/stats/atoms/FavDecades";
 import GenreEvolution from "components/stats/atoms/GenreEvolution";
 import GenrePie from "components/stats/atoms/GenrePie";
+import MoodPie from "components/stats/atoms/MoodPie";
 import TrackFavDistribution from "components/stats/atoms/TrackFavDistribution";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
@@ -90,6 +91,16 @@ function CompleteStats({
             />
           </Styled.OverScroll>
         )}
+
+        {!!tracks.length && (
+          <Styled.OverScroll>
+            <MoodPie
+              tracks={tracks}
+              years={userActiveYears}
+              decades={decades}
+            />
+          </Styled.OverScroll>
+        )}
         {!!tracks.length && !!albums.length && (
           <Styled.OverScroll>
             <FavDecades
@@ -105,6 +116,7 @@ function CompleteStats({
             <TrackFavDistribution tracks={tracks} years={userActiveYears} />
           </Styled.OverScroll>
         )}
+
         <h3 style={{ width: "100%", textAlign: "center" }}>
           🎉These albums are celebrating their birthday (
           {birthDate.toLocaleDateString(lang)})🎉

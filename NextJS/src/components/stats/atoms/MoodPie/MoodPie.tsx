@@ -1,14 +1,15 @@
-import DropdownMenu from "components/core/input/atoms/DropdownMenu";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { Theme } from "enums/Theme";
 import { useRechartsHelper } from "hooks/recharts/useRechartsHelper";
 import { useCallback, useEffect, useState } from "react";
-import { isMobile } from "react-device-detect";
-import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { useThemeStore } from "store/useTheme";
+import Styled from "./MoodPie.styles";
 import Text from "styles/Text";
-import Styled from "./GenrePie.styles";
-interface IGenrePieProps {
+import DropdownMenu from "components/core/input/atoms/DropdownMenu";
+import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
+import { isMobile } from "react-device-detect";
+
+interface IMoodPieProps {
   tracks: Track[];
   years: number[];
   decades: number[];
@@ -18,40 +19,29 @@ interface IData {
   name: string;
   count: number;
 }
-const PERCENTILE = 1 - 0.01;
+const RADIAN = Math.PI / 180;
 
-type genreMapT = Map<string, number>;
-
-function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
+function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
   const [data, setData] = useState<IData[]>([]);
   const { currentTheme } = useThemeStore();
   const { width, height, CustomTooltip, colors } = useRechartsHelper();
-
   const [dropOption, setDropOption] = useState<number | string>("full");
-
+  
   const getData = useCallback(
-    (getGenreMap: () => [map: Map<string, number>, total: number]) => {
+    (getMoodMap: () => [map: Map<string, number>, total: number]) => {
       // k: genre, v: number of appearances
-      const [genreMap, totalAppearances] = getGenreMap();
-      const fivePercent = totalAppearances * (1 - PERCENTILE);
+      const [moodMap, totalAppearances] = getMoodMap();
 
       const pieData: IData[] = [];
 
-      for (const [genre, app] of [...genreMap].sort((a, b) => b[1] - a[1])) {
+      for (const [genre, app] of [...moodMap].sort((a, b) => b[1] - a[1])) {
         pieData.push({ name: genre, count: app });
-
-        if (app < fivePercent) {
-          break;
-        }
       }
       setData(pieData);
     },
     []
   );
 
-  useEffect(() => {
-    getData(() => getMapFullInterval(tracks));
-  }, [getData, tracks]);
 
   function customLabel({
     cx,
@@ -84,11 +74,15 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
     );
   }
 
+  useEffect(() => {
+    getData(() => getMapFullInterval(tracks));
+  }, [getData, tracks]);
+
   return (
     <>
-      <h3>Your Favorite Genres ({PERCENTILE * 100} Percentile)</h3>
+      <h3>Your Moods</h3>
       <p>
-        Showing your favorite genres from{" "}
+        Showing your mood distribution from{" "}
         <Text.green>
           {dropOption.toString().includes("'s")
             ? "the " + dropOption
@@ -204,42 +198,48 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
   );
 }
 
-const RADIAN = Math.PI / 180;
+
 
 const getMapFullInterval = (tracks: Track[]): [genreMapT, number] => {
-  const genreMap = new Map<string, number>();
+  const moodMap = new Map<string, number>();
   let totalAppearances = 0;
   for (const t of tracks) {
-    const genres = t.artists.flatMap((a) => a.spotifyGenres || []);
-    for (const genre of genres) {
-      const currentCount = genreMap.get(genre) || 0;
-      genreMap.set(genre, currentCount + 1);
+    const moods = (t.ludwigMoods || [])
+      .filter((m) => m.confidence > 0.5)
+      .flatMap((a) => a.label || []);
+    for (const genre of moods) {
+      const currentCount = moodMap.get(genre) || 0;
+      moodMap.set(genre, currentCount + 1);
       totalAppearances += 1;
     }
   }
 
-  return [genreMap, totalAppearances];
+  return [moodMap, totalAppearances];
 };
 
 const getMapYear = (tracks: Track[], year: number): [genreMapT, number] => {
-  const genreMap = new Map<string, number>();
+  const moodMap = new Map<string, number>();
   let totalAppearances = 0;
   for (const t of tracks) {
     if ((t.savedAt?.getFullYear() || 0) === year) {
-      const genres = t.artists.flatMap((a) => a.spotifyGenres || []);
-      for (const genre of genres) {
-        const currentCount = genreMap.get(genre) || 0;
-        genreMap.set(genre, currentCount + 1);
+      const moods = (t.ludwigMoods || [])
+        .filter((m) => m.confidence > 0.5)
+        .flatMap((a) => a.label || []);
+      for (const mood of moods) {
+        const currentCount = moodMap.get(mood) || 0;
+        moodMap.set(mood, currentCount + 1);
         totalAppearances += 1;
       }
     }
   }
 
-  return [genreMap, totalAppearances];
+  return [moodMap, totalAppearances];
 };
 
+type genreMapT = Map<string, number>;
+
 const getMapDecade = (tracks: Track[], decade: number): [genreMapT, number] => {
-  const genreMap = new Map<string, number>();
+  const moodMap = new Map<string, number>();
   let totalAppearances = 0;
   for (const t of tracks) {
     if (
@@ -247,15 +247,18 @@ const getMapDecade = (tracks: Track[], decade: number): [genreMapT, number] => {
         10 ===
       decade
     ) {
-      const genres = t.artists.flatMap((a) => a.spotifyGenres || []);
-      for (const genre of genres) {
-        const currentCount = genreMap.get(genre) || 0;
-        genreMap.set(genre, currentCount + 1);
+      const moods = (t.ludwigMoods || [])
+        .filter((m) => m.confidence > 0.5)
+        .flatMap((a) => a.label || []);
+      for (const genre of moods) {
+        const currentCount = moodMap.get(genre) || 0;
+        moodMap.set(genre, currentCount + 1);
         totalAppearances += 1;
       }
     }
   }
 
-  return [genreMap, totalAppearances];
+  return [moodMap, totalAppearances];
 };
-export default GenrePie;
+
+export default MoodPie;
