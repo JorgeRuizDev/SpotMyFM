@@ -5,7 +5,7 @@ import Switch from "../../atoms/Switch";
 import Styled from "./PillSearch.styles";
 
 interface IPillSearchProps {
-  type: "tag" | "genre" | "artist" | "MySpotifyFmTags";
+  type: "tag" | "genre" | "artist" | "MySpotifyFmTags" | "subgenre" | "mood";
   items: string[];
   title: ReactNode | ReactNode[];
   setFilteredItems: (i: IPillFilter | undefined) => void;
@@ -108,15 +108,18 @@ function PillSearch({
             ))
           )}
         </Styled.PillWrap>
-
-        <Styled.Input
-          // Search Box
-          list={type}
-          name="pills"
-          type="text"
-          placeholder="Select an item"
-          onChange={handleChange}
-        />
+        {items.length > 0 ? (
+          <Styled.Input
+            // Search Box
+            list={type}
+            name="pills"
+            type="text"
+            placeholder="Select an item"
+            onChange={handleChange}
+          />
+        ) : (
+          "No items available"
+        )}
 
         <datalist id={type}>
           {Array.from(availableItems.values()).map((i) => (

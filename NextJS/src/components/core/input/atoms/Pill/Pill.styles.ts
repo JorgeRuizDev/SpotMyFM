@@ -33,6 +33,28 @@ const Pill = styled(Buttons.BasicButton)<IPill>(({ typeColor }) => [
     hover:text-green-600
   
   `,
+
+  typeColor == "mood" && tw`
+  
+    bg-yellow-200
+    text-yellow-700
+    border
+    border-yellow-700
+    hover:bg-yellow-100
+    hover:text-yellow-600
+
+  `,
+
+  typeColor == "subgenre" && tw`
+  
+  bg-indigo-200
+  text-indigo-700
+  border
+  border-indigo-600
+  hover:bg-indigo-100
+  hover:text-indigo-600
+
+`
 ]);
 
 const Styled = { Pill };
