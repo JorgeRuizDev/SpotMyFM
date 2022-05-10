@@ -21,7 +21,6 @@ function HorizontalCardCarousell({ children }: IHorizontalCardCarousellProps) {
   const scrollRef = createRef<HTMLDivElement>();
 
   useEffect(() => {
-    console.log(scrollRef.current?.clientWidth);
   }, [scrollRef]);
 
   const scrollLeft = useCallback(() => {

@@ -93,7 +93,6 @@ function TrackCompleteDetails({
           track.ludwigGenres = res.genres;
           track.ludwigMoods = res.moods;
           track.ludwigSubgenres = res.subgenres;
-          console.log(track);
         } else {
           toast.error(
             `An error ocured while analyzing the track: ${error?.message}`

@@ -61,7 +61,6 @@ const track = async (
       subgenres: data.subgenres || [],
     });
   } catch (e: any) {
-    console.log(e);
     res.status(500).json({ error: "Error getting the track" });
   }
 };
