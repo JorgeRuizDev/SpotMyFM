@@ -42,7 +42,8 @@ function TrackPillFilters({
   // Stats to list in pills:
   const [lastTags, setLastTags] = useState<string[]>([]);
   const [customTags, setCustomTags] = useState<string[]>([]);
-  const [trackGenres, setTrackGenres] = useState<string[]>([]);
+  const [trackSubgenres, setTrackSubgenres] = useState<string[]>([]);
+  const [trackMoods, setTrackMoods] = useState<string[]>([]);
   const [artistGenres, setArtistGenres] = useState<string[]>([]);
 
   // Pill states - If undefined, no pills selected
@@ -51,17 +52,27 @@ function TrackPillFilters({
     useState<IPillFilter>();
   const [filteredArtists, setFilteredArtists] = useState<IPillFilter>();
   const [filteredMyAlbumTags, setFilteredMyAlbumTags] = useState<IPillFilter>();
-  const [filteredTrackGenres, setFilteredTrackGenres] = useState<IPillFilter>();
+  const [filteredTrackSubgenres, setFilteredTrackSubgenres] =
+    useState<IPillFilter>();
+  const [filteredTrackMoods, setFilteredTrackMoods] = useState<IPillFilter>();
 
   // Get the tracks genres:
   useEffect(() => {
-    tracks && setTrackGenres(tracks.flatMap((t) => t.genres || []));
+    tracks &&
+      setTrackSubgenres(
+        tracks.flatMap((t) => t.ludwigSubgenres?.map((s) => s.label) || [])
+      );
+
+    tracks &&
+      setTrackMoods(
+        tracks.flatMap((t) => t.ludwigMoods?.map((m) => m.label) || [])
+      );
 
     albums && setLastTags(albums.flatMap((a) => a.lastfmTagsNames));
     albums && setCustomTags(albums.flatMap((a) => a.albumTags));
     artists && setArtistGenres(artists.flatMap((a) => a.spotifyGenres || []));
   }, [albums, artists, tracks]);
-
+  
   /**
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
    */
@@ -91,19 +102,23 @@ function TrackPillFilters({
       .filter((t) =>
         filterByPill(t.album?.albumTags || [], filteredMyAlbumTags)
       )
-      // By Track Genres
-      .filter((t) => filterByPill(t.genres || [], filteredTrackGenres));
+      // By Track Subgenres
+      .filter((t) =>
+        filterByPill(
+          t.ludwigSubgenres?.map((s) => s.label) || [],
+          filteredTrackSubgenres
+        )
+      )
+      // By Track Moods
+      .filter((t) =>
+        filterByPill(
+          t.ludwigMoods?.filter(s => s.confidence > 0.5).map((s) => s.label) || [],
+          filteredTrackMoods
+        )
+      );
 
     setFilteredTracks(filtered);
-  }, [
-    filteredArtistGenres,
-    filteredArtists,
-    filteredLastTags,
-    filteredMyAlbumTags,
-    filteredTrackGenres,
-    setFilteredTracks,
-    tracks,
-  ]);
+  }, [filteredArtistGenres, filteredArtists, filteredLastTags, filteredMyAlbumTags, filteredTrackMoods, filteredTrackSubgenres, setFilteredTracks, tracks]);
 
   /**
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
@@ -176,13 +191,19 @@ function TrackPillFilters({
         {tracks && (
           <>
             <PillSearch
-              title={<h4>🎸Filter by Track Genres:</h4>}
-              type={"genre"}
-              examplePill={"Example: Ambient"}
-              items={trackGenres}
-              setFilteredItems={setFilteredTrackGenres}
+              title={<h4>🎸Filter by Track Subgenres:</h4>}
+              type={"subgenre"}
+              examplePill={"Example: Post Punk"}
+              items={trackSubgenres}
+              setFilteredItems={setFilteredTrackSubgenres}
             />
-            <p>Note: Includes at least one of the LastFM Tags or Genres.</p>
+            <PillSearch
+              title={<h4>🤗Filter by Track Moods:</h4>}
+              type={"mood"}
+              examplePill={"Example: Relaxed"}
+              items={trackMoods}
+              setFilteredItems={setFilteredTrackMoods}
+            />
           </>
         )}
         {albums && (
