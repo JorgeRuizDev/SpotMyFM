@@ -3,7 +3,6 @@ import { useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
 import Styled from "./LudwigResultsCard.styles";
 
-
 import { useThemeStore } from "store/useTheme";
 import { Theme } from "enums/Theme";
 import NewtonsCradle from "components/core/display/atoms/NewtonsCradle";
