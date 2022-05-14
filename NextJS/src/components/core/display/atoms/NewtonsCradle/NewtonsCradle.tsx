@@ -17,6 +17,7 @@ export default function NewtonsCradle({
     <div
       className="newtons-cradle"
       style={{
+        // @ts-ignore
         "--uib-size": `${size}px`,
         "--uib-color": color,
         "--uib-speed": speed + "s",
