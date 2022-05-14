@@ -257,31 +257,33 @@ export const useDataFacade = createStore(() => {
    * @param {Track[]} tracks - Track[]
    * @param ludwig - Promise<[Map<string, any> | null, any]>
    */
-  const addLudwigToTracks = useCallback(async (
-    tracks: Track[],
-    ludwig: Promise<[Map<string, any> | null, any]>
-  ) => {
-    setAsLoading();
-    const [ludwig_res, ludwig_error] = await ludwig;
-    
-    if (!ludwig_error && ludwig_res) {
-      for (const track of tracks) {
-        const details = ludwig_res.get(track.spotifyId);
+  const addLudwigToTracks = useCallback(
+    async (
+      tracks: Track[],
+      ludwig: Promise<[Map<string, any> | null, any]>
+    ) => {
+      setAsLoading();
+      const [ludwig_res, ludwig_error] = await ludwig;
 
-        if (details) {
-          track.ludwigGenres = details.genres;
-          track.ludwigMoods = details.moods;
-          track.ludwigSubgenres = details.subgenres;
+      if (!ludwig_error && ludwig_res) {
+        for (const track of tracks) {
+          const details = ludwig_res.get(track.spotifyId);
+
+          if (details) {
+            track.ludwigGenres = details.genres;
+            track.ludwigMoods = details.moods;
+            track.ludwigSubgenres = details.subgenres;
+          }
         }
+        toast.info("Track Analysis is ready! ");
+        unsetAsLoading();
+      } else {
+        toast.error(ludwig_error?.message);
+        unsetAsLoading();
       }
-      toast.info("Track Analysis is ready! ");
-      unsetAsLoading();
-    } else {
-      toast.error(ludwig_error?.message);
-      unsetAsLoading();
-    }
-    
-  }, [setAsLoading, unsetAsLoading])
+    },
+    [setAsLoading, unsetAsLoading]
+  );
 
   /**
    * Retrieves from the local cache or fetches a list of tracks
@@ -319,7 +321,17 @@ export const useDataFacade = createStore(() => {
       addLudwigToTracks(tracks, ludwig);
       return tracks;
     },
-    [addAlbumTags, addLudwigToTracks, cache, getAlbumsById, getArtistsById, ludwigApi, setAsLoading, spotifyApi, unsetAsLoading]
+    [
+      addAlbumTags,
+      addLudwigToTracks,
+      cache,
+      getAlbumsById,
+      getArtistsById,
+      ludwigApi,
+      setAsLoading,
+      spotifyApi,
+      unsetAsLoading,
+    ]
   );
 
   /* A function that is called when a user uploads a playlist. */
@@ -353,7 +365,14 @@ export const useDataFacade = createStore(() => {
       addLudwigToTracks(tracks, ludwig);
       return tracks;
     },
-    [addAlbumTags, cache, getAlbumsById, getArtistsById, ludwigApi, addLudwigToTracks]
+    [
+      addAlbumTags,
+      cache,
+      getAlbumsById,
+      getArtistsById,
+      ludwigApi,
+      addLudwigToTracks,
+    ]
   );
 
   /**

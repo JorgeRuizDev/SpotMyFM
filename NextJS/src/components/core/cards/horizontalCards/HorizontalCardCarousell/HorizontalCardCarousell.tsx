@@ -20,8 +20,7 @@ function HorizontalCardCarousell({ children }: IHorizontalCardCarousellProps) {
 
   const scrollRef = createRef<HTMLDivElement>();
 
-  useEffect(() => {
-  }, [scrollRef]);
+  useEffect(() => {}, [scrollRef]);
 
   const scrollLeft = useCallback(() => {
     scrollRef.current?.scrollTo({

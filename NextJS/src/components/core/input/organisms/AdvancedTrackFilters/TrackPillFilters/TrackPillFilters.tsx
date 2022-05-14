@@ -72,7 +72,7 @@ function TrackPillFilters({
     albums && setCustomTags(albums.flatMap((a) => a.albumTags));
     artists && setArtistGenres(artists.flatMap((a) => a.spotifyGenres || []));
   }, [albums, artists, tracks]);
-  
+
   /**
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
    */
@@ -112,13 +112,24 @@ function TrackPillFilters({
       // By Track Moods
       .filter((t) =>
         filterByPill(
-          t.ludwigMoods?.filter(s => s.confidence > 0.5).map((s) => s.label) || [],
+          t.ludwigMoods
+            ?.filter((s) => s.confidence > 0.5)
+            .map((s) => s.label) || [],
           filteredTrackMoods
         )
       );
 
     setFilteredTracks(filtered);
-  }, [filteredArtistGenres, filteredArtists, filteredLastTags, filteredMyAlbumTags, filteredTrackMoods, filteredTrackSubgenres, setFilteredTracks, tracks]);
+  }, [
+    filteredArtistGenres,
+    filteredArtists,
+    filteredLastTags,
+    filteredMyAlbumTags,
+    filteredTrackMoods,
+    filteredTrackSubgenres,
+    setFilteredTracks,
+    tracks,
+  ]);
 
   /**
    * Filter the tracks by using the pill selected items and storing the filtered tracks inside setFilteredTracks()
