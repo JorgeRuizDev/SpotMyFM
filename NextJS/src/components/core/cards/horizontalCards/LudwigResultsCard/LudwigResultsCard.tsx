@@ -3,9 +3,10 @@ import { useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
 import Styled from "./LudwigResultsCard.styles";
 
-import { NewtonsCradle } from "@uiball/loaders";
+
 import { useThemeStore } from "store/useTheme";
 import { Theme } from "enums/Theme";
+import NewtonsCradle from "components/core/display/atoms/NewtonsCradle";
 
 interface ILudwigResultsCardProps {
   isLoading: boolean;
