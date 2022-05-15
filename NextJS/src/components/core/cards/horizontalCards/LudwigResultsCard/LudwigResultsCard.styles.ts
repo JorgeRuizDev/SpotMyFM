@@ -5,15 +5,6 @@ const HorizontalCard = tw.article`
 	flex
   flex-col
   space-y-8
-  //scroll-snap-align[center]
-	//// Wrap
-	//2xl:(flex-nowrap justify-start)
-	//xl:(flex-wrap justify-center)
-	//md:(flex-nowrap justify-start)
-	//sm:(flex-wrap justify-center)
-  //justify-center
-  //content-start
-	//flex-wrap
 
 	// Colors
 	bg-lightCard-base
@@ -28,6 +19,15 @@ const HorizontalCard = tw.article`
 	shadow-xl
   p-4
 `;
+
+
+
+const Wrapper = tw.div`
+  flex
+  flex-col
+  space-y-3
+
+`
 
 const Row = tw.div`
   flex
@@ -112,6 +112,6 @@ const Pill = styled(Buttons.BasicButton)<IPill>(({ confidence }) => [
   css``,
 ]);
 
-const Styled = { HorizontalCard, Pill, Row, Title, Subtitle, ThreeCols, Col };
+const Styled = { HorizontalCard, Pill, Row, Title, Subtitle, ThreeCols, Col, Wrapper };
 
 export default Styled;

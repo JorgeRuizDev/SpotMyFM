@@ -3,7 +3,6 @@ import { useCallback, useMemo } from "react";
 import { toast } from "react-toastify";
 import Styled from "./LudwigResultsCard.styles";
 
-
 import { useThemeStore } from "store/useTheme";
 import { Theme } from "enums/Theme";
 import NewtonsCradle from "components/core/display/atoms/NewtonsCradle";
@@ -43,7 +42,7 @@ function LudwigResultsCard({
   }, []);
   const theme = useThemeStore((s) => s.currentTheme);
   return (
-    <Styled.HorizontalCard>
+    <Styled.Wrapper>
       <Styled.Title>🧪 Track Signal Analysis</Styled.Title>
       <Styled.ThreeCols>
         {isLoading ? (
@@ -99,7 +98,7 @@ function LudwigResultsCard({
           </>
         )}
       </Styled.ThreeCols>
-    </Styled.HorizontalCard>
+    </Styled.Wrapper>
   );
 }
 
