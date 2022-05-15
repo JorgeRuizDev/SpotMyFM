@@ -31,6 +31,7 @@ const config = {
       track_bulk: "ludwig/track/bulk",
 
       recommender: "ludwig/recommender/track",
+      recommender_bulk: "ludwig/recommender/bulk"
     },
 
     // NextJS Ludwig Endpoints
@@ -40,6 +41,7 @@ const config = {
       track_bulk: "api/ludwig/track/bulk",
 
       recommender: "api/ludwig/recommend",
+      recommender_bulk: "api/ludwig/recommend/bulk",
     },
   },
 

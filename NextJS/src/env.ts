@@ -9,6 +9,7 @@ const env = {
   AWS_REGION: process.env.AWS_REGION_ || "",
 
   DYNAMOSE_USER_TABLE: process.env.DYNAMOOSE_USER_TABLE || "",
+  DYNAMOOSE_TRACK_TABLE: process.env.DYNAMOOSE_TRACK_TABLE || "",
 
   LASTFM_KEY: process.env.NEXT_PUBLIC_LAST_KEY || "",
 
