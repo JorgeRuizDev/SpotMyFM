@@ -18,6 +18,7 @@ interface IListTrackCardProps {
   toggleFromPlaylist?: (track: Track) => void;
   inPlaylist?: boolean;
   isNested?: boolean;
+  small?: boolean;
 }
 
 function ListTrackCard({
@@ -26,6 +27,7 @@ function ListTrackCard({
   inPlaylist,
   toggleFromPlaylist,
   isNested = false,
+  small = false,
 }: IListTrackCardProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -36,6 +38,7 @@ function ListTrackCard({
           setIsModalOpen((s) => !s);
           e.preventDefault();
         }}
+        style={small ? { minHeight: "50px" } : {}}
       >
         <Styled.LeftSide>
           <Styled.FirstTwoCols>
@@ -64,27 +67,29 @@ function ListTrackCard({
               ))}
             </span>
           </Styled.E1>
+          {!small && (
+            <>
+              <Styled.E2>
+                <p>{track.album?.name}</p>
+              </Styled.E2>
 
-          <Styled.E2>
-            <p>{track.album?.name}</p>
-          </Styled.E2>
+              <Styled.E3>
+                <p>{track.album?.spotifyReleaseDate?.toLocaleDateString()}</p>
+              </Styled.E3>
 
-          <Styled.E3>
-            <p>{track.album?.spotifyReleaseDate?.toLocaleDateString()}</p>
-          </Styled.E3>
+              <Styled.E5>
+                <Styled.TrucateP>
+                  {track.artists[0]?.spotifyGenres?.slice(0, 2).join(", ") ||
+                    "No Genres"}
+                </Styled.TrucateP>
+              </Styled.E5>
 
-          <Styled.E5>
-            <Styled.TrucateP>
-              {track.artists[0]?.spotifyGenres?.slice(0, 2).join(", ") ||
-                "No Genres"}
-            </Styled.TrucateP>
-          </Styled.E5>
-
-          <Styled.E6>
-            <p>{formatPopularity(track.spotifyPopularity)}</p>
-          </Styled.E6>
+              <Styled.E6>
+                <p>{formatPopularity(track.spotifyPopularity)}</p>
+              </Styled.E6>
+            </>
+          )}
         </Styled.LeftSide>
-
         <Styled.RightSide onClick={(e) => e.stopPropagation()}>
           <Styled.Length>
             <p>{prettyMilliseconds(track.spotifyDurationMS)}</p>
