@@ -105,6 +105,29 @@ const NoDescLayout = tw.div`
 
 `;
 
+const Card = tw.div`
+  
+  flex
+  flex-col
+
+  // Colors
+  bg-lightCard-base
+  dark:bg-darkCard-base
+
+  // Shape:
+
+  min-width[90%]
+  height[fit-content]
+  rounded-2xl
+
+  shadow-xl
+  p-4
+  
+
+
+
+`;
+
 const Styled = {
   Wrapper,
   Image,
@@ -117,6 +140,7 @@ const Styled = {
   BouncyArrow,
   CenterElement,
   NoDescLayout,
+  Card
 };
 
 export default Styled;

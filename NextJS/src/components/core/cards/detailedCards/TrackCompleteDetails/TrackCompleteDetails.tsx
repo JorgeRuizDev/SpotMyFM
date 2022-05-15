@@ -38,6 +38,11 @@ import ModifyAlbumTags from "../../other/ModifyAlbumTags";
 import Twemoji from "components/util/Twemoji";
 import { BsFillPencilFill } from "react-icons/bs";
 import LudwigResultsCard from "../../horizontalCards/LudwigResultsCard";
+import { useDataFacade } from "hooks/dataFacade/useDataFacade";
+import { ListTrackCard } from "../../listCards/ListTrackCard";
+import NewtonsCradle from "components/core/display/atoms/NewtonsCradle";
+import { useThemeStore } from "store/useTheme";
+import { Theme } from "enums/Theme";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
@@ -55,9 +60,14 @@ function TrackCompleteDetails({
   const [isTrackLiked, setIsTrackLiked] = useState(false);
   const [isAlbumLiked, setIsAlbumLiked] = useState(false);
   const { lastfmApi, spotifyApi, ludwigApi } = useClientsStore();
+  const { getTracksByIds } = useDataFacade();
   const [showAlbumTracks, setShowAlbumTracks] = useState(false);
   const { t } = useTranslation();
   const [isMirLoading, setIsMirLoading] = useState(false);
+
+  const [recommendedTracks, setRecommendedTracks] = useState<
+    Track[] | undefined
+  >(undefined);
 
   const { play, pause, PreviewButton } = useTrackPreview(
     track?.spotifyPreviewURL || "",
@@ -80,6 +90,8 @@ function TrackCompleteDetails({
         setLastFMDetails(res[0]);
       });
   }, [artists, album, lastfmApi]);
+
+  // Get Ludwig Analysis
   useEffect(() => {
     if (
       track &&
@@ -104,6 +116,29 @@ function TrackCompleteDetails({
       fn();
     }
   }, [ludwigApi, setIsMirLoading, track]);
+
+  useEffect(() => {
+    const fn = async () => {
+      if (!track) {
+        return setRecommendedTracks([]);
+      }
+      const [res, error] = await ludwigApi.getRecommendation(track);
+
+      if (res == null || error != null) {
+        toast.error(
+          `An error ocured while getting recommendations: ${error?.message}`
+        );
+      } else {
+        const tracks = await getTracksByIds(
+          [...res.users, ...res.similar],
+          false
+        );
+        setRecommendedTracks(tracks);
+      }
+    };
+    fn();
+  }, [getTracksByIds, ludwigApi, track]);
+
   // Check if the album & tracks are liked or not
   useEffect(() => {
     album &&
@@ -174,6 +209,7 @@ function TrackCompleteDetails({
               isMirLoading={isMirLoading}
               artists={artists || []}
               lastFMDetails={lastFMDetails}
+              recommendedTracks={recommendedTracks}
             />
           </Styled.InfoGrid>
         </div>
@@ -284,12 +320,16 @@ function RightColumn({
   track,
   isMirLoading,
   lastFMDetails,
+  recommendedTracks,
 }: {
   artists: Artist[];
   lastFMDetails: ILastFMAlbum | null;
   track?: Track;
   isMirLoading: boolean;
+  recommendedTracks?: Track[];
 }): JSX.Element {
+  const theme = useThemeStore((s) => s.currentTheme);
+
   return (
     <Styled.Column>
       <HorizontalCardCarousell>
@@ -297,12 +337,34 @@ function RightColumn({
           <ArtistHorizontalCard artist={a} key={a.spotifyId} />
         )) || []}
       </HorizontalCardCarousell>
-      <LudwigResultsCard
-        isLoading={isMirLoading}
-        genres={track?.ludwigGenres}
-        moods={track?.ludwigMoods}
-        subgenres={track?.ludwigSubgenres}
-      />
+
+      <Styled.Card>
+        <LudwigResultsCard
+          isLoading={isMirLoading}
+          genres={track?.ludwigGenres}
+          moods={track?.ludwigMoods}
+          subgenres={track?.ludwigSubgenres}
+        />
+      </Styled.Card>
+      <Styled.Card>
+        <Styled.Column>
+          <h4>🔊 Similar Tracks</h4>
+          {recommendedTracks ? (
+            <div>
+            {recommendedTracks.map((t, i) => (
+              <ListTrackCard track={t} key={i} small={true} />
+            ))}
+            </div>
+
+          ) : (
+            <NewtonsCradle
+              size={40}
+              speed={1.4}
+              color={theme == Theme.DARK ? "white" : "black"}
+            />
+          )}
+        </Styled.Column>
+      </Styled.Card>
       {lastFMDetails?.lastfmDescription ? (
         <>
           <h4>Album Description</h4>
