@@ -1,3 +1,3 @@
-import NewtonsCradle from './NewtonsCradle'
+import NewtonsCradle from "./NewtonsCradle";
 
 export default NewtonsCradle;
