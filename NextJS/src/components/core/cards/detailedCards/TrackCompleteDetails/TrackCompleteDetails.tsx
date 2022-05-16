@@ -351,11 +351,10 @@ function RightColumn({
           <h4>🔊 Similar Tracks</h4>
           {recommendedTracks ? (
             <div>
-            {recommendedTracks.map((t, i) => (
-              <ListTrackCard track={t} key={i} small={true} />
-            ))}
+              {recommendedTracks.map((t, i) => (
+                <ListTrackCard track={t} key={i} small={true} />
+              ))}
             </div>
-
           ) : (
             <NewtonsCradle
               size={40}

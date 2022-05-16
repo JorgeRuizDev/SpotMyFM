@@ -2,7 +2,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 
 import { BsFillFileEarmarkMusicFill } from "react-icons/bs";
-interface IGetColor{
+interface IGetColor {
   isDragAccept: boolean;
   isDragReject: boolean;
   isFocused: boolean;
@@ -10,19 +10,18 @@ interface IGetColor{
 
 const getColor = (props: IGetColor) => {
   if (props.isDragAccept) {
-      return '#00e676';
+    return "#00e676";
   }
   if (props.isDragReject) {
-      return '#ff1744';
+    return "#ff1744";
   }
   if (props.isFocused) {
-      return '#2196f3';
+    return "#2196f3";
   }
-  return '#eeeeee';
-}
+  return "#eeeeee";
+};
 
 const Container = styled.div<IGetColor>`
-
   ${tw`
     flex
     flex-col
@@ -44,9 +43,9 @@ const Container = styled.div<IGetColor>`
     text-center
   `}
   flex: 1;
-  border-color: ${props => getColor(props)};
+  border-color: ${(props) => getColor(props)};
   outline: none;
-  transition: border .24s ease-in-out;
+  transition: border 0.24s ease-in-out;
 `;
 
 const BgIcon = tw(BsFillFileEarmarkMusicFill)`
@@ -55,9 +54,8 @@ const BgIcon = tw(BsFillFileEarmarkMusicFill)`
 
   absolute
   opacity-5
-`
+`;
 
-
-const Styled = {Container, BgIcon};
+const Styled = { Container, BgIcon };
 
 export default Styled;

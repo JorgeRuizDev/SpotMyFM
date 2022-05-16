@@ -1,3 +1,3 @@
-import LudwigDropZone from './LudwigDropZone'
+import LudwigDropZone from "./LudwigDropZone";
 
 export default LudwigDropZone;

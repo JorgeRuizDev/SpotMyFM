@@ -140,7 +140,7 @@ const Styled = {
   BouncyArrow,
   CenterElement,
   NoDescLayout,
-  Card
+  Card,
 };
 
 export default Styled;

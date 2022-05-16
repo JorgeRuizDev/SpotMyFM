@@ -20,14 +20,12 @@ const HorizontalCard = tw.article`
   p-4
 `;
 
-
-
 const Wrapper = tw.div`
   flex
   flex-col
   space-y-3
 
-`
+`;
 
 const Row = tw.div`
   flex
@@ -112,6 +110,15 @@ const Pill = styled(Buttons.BasicButton)<IPill>(({ confidence }) => [
   css``,
 ]);
 
-const Styled = { HorizontalCard, Pill, Row, Title, Subtitle, ThreeCols, Col, Wrapper };
+const Styled = {
+  HorizontalCard,
+  Pill,
+  Row,
+  Title,
+  Subtitle,
+  ThreeCols,
+  Col,
+  Wrapper,
+};
 
 export default Styled;

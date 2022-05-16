@@ -16,7 +16,6 @@ interface ILudwigResponse {
   subgenres: IMirResult[];
 }
 
-
 interface IRecommendation {
   similar: string[];
   users: string[];
@@ -128,21 +127,19 @@ export class LudwigClient implements IRestClient {
     }
   }
 
-
-
-
-/**
- * It takes a track object, and returns an array of two elements: the first element is an object
- * containing two arrays, and the second element is either null or an error object
- * 
- * A recommendation is an Spotify Track ID
- * 
- * @param {ILudwigTrack} track - ILudwigTrack
- * @returns An array of two elements. The first element is an object with two properties: similar and
- * users. The second element is null.
- */
-  async getRecommendation(track: ILudwigTrack): Promise<[IRecommendation | null,  RestError | null]>{
-
+  /**
+   * It takes a track object, and returns an array of two elements: the first element is an object
+   * containing two arrays, and the second element is either null or an error object
+   *
+   * A recommendation is an Spotify Track ID
+   *
+   * @param {ILudwigTrack} track - ILudwigTrack
+   * @returns An array of two elements. The first element is an object with two properties: similar and
+   * users. The second element is null.
+   */
+  async getRecommendation(
+    track: ILudwigTrack
+  ): Promise<[IRecommendation | null, RestError | null]> {
     try {
       const response = await axios.post(
         cfg.api_endpoints.ludwig_mir.recommender,
@@ -159,7 +156,7 @@ export class LudwigClient implements IRestClient {
       return [
         {
           similar: data.similar || [],
-          users: data.users || []
+          users: data.users || [],
         },
         null,
       ];
