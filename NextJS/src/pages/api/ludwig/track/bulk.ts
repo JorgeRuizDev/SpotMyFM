@@ -54,7 +54,7 @@ const bulk = async (
     const body: IBulkRequest = req.body;
 
     // Check that the body has an albums attribute
-    if (!body.tracks) {
+    if (!body.tracks || body.tracks.length == 0) {
         return res
             .status(400)
             .json({error: "There are no tracks in the request body"});
@@ -70,6 +70,7 @@ const bulk = async (
         moods: IMirResult[];
         subgenres: IMirResult[];
     }[] = []
+
 
     if (error || !database_res) {
         console.error("Error getting tracks from database", error)
@@ -89,7 +90,7 @@ const bulk = async (
         })
     }
 
-
+    
     const chunks = _.chunk(missingTracks, 25);
 
     let failures = 0;
@@ -115,7 +116,7 @@ const bulk = async (
             const [_, putError] = await backendDB.addTrackDetails(data.tracks)
 
             if (putError) {
-                console.error(putError);
+                console.error(putError)
             } else {
                 console.log("Successfully added tracks to DB");
             }
