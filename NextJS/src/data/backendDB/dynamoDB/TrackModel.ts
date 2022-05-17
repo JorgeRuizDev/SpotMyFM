@@ -2,10 +2,7 @@ import * as dynamoose from "dynamoose";
 import { Document } from "dynamoose/dist/Document";
 import env from "env";
 import { TrackSchema } from "./TrackSchema";
-import {IMirResult} from "../../../interfaces/ludwig";
-
-
-
+import { IMirResult } from "../../../interfaces/ludwig";
 
 export class TrackModel extends Document {
   PK: string = "";

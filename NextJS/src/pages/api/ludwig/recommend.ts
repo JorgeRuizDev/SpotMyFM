@@ -7,7 +7,6 @@ import cfg from "config";
 interface ITagPetition {
   url: string;
   id: string;
-
 }
 
 export interface ITagResponse {
@@ -25,7 +24,7 @@ const recommend = async (
   }
 
   // Get the body from the petition
-  const body: { url: string, id: string } = req.body;
+  const body: { url: string; id: string } = req.body;
 
   // Check that the body has an albums attribute
   if (!body.url || !body.id) {

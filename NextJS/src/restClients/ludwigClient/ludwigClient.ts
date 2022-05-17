@@ -140,7 +140,7 @@ export class LudwigClient implements IRestClient {
    */
   async getRecommendation(
     track: ILudwigTrack
-  ): Promise<[IRecommendation | null, RestError | null]> {
+  ): Promise<[any | null, RestError | null]> {
     try {
       const response = await axios.post(
         cfg.api_endpoints.ludwig_mir.recommender,
