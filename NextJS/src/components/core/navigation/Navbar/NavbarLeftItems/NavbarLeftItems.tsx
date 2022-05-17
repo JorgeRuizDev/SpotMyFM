@@ -46,7 +46,7 @@ function NavbarLeftItems(): JSX.Element {
         <NavItem
           isActive={activePage === ActivePage.UPLOAD}
           href="/upload"
-          item={<BiCloudUpload/>}
+          item={<BiCloudUpload />}
           label={"Upload"}
         />
 
@@ -56,8 +56,6 @@ function NavbarLeftItems(): JSX.Element {
           item={<BiSearch />}
           label={"Search"}
         />
-
-
       </>
     </Styled.Items>
   );

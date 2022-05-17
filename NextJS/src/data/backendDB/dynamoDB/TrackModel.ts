@@ -7,15 +7,15 @@ import { IMirResult } from "../../../interfaces/ludwig";
 export class TrackModel extends Document {
   PK: string = "";
   similar_ids?: string[] = [];
-  recommended_ids?: string[] = []
-  genres?: IMirResult[] = []
-  subgenres?: IMirResult[] = []
-  happy?: IMirResult
-  sad?: IMirResult
-  electronic?: IMirResult
-  acoustic?: IMirResult
-  aggressive?: IMirResult
-  relaxed?: IMirResult
+  recommended_ids?: string[] = [];
+  genres?: IMirResult[] = [];
+  subgenres?: IMirResult[] = [];
+  happy?: IMirResult;
+  sad?: IMirResult;
+  electronic?: IMirResult;
+  acoustic?: IMirResult;
+  aggressive?: IMirResult;
+  relaxed?: IMirResult;
   ludwig_version: number = -1;
 }
 

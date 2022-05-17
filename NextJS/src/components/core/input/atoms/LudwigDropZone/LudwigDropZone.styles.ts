@@ -54,7 +54,7 @@ const BgIcon = tw(BsFillFileEarmarkMusicFill)`
 
   absolute
   opacity-5
-`
+`;
 
 const Layout = tw.div`
   flex
@@ -62,7 +62,7 @@ const Layout = tw.div`
   items-center
   justify-center
   space-y-12
-`
-const Styled = {Container, BgIcon, Layout};
+`;
+const Styled = { Container, BgIcon, Layout };
 
 export default Styled;

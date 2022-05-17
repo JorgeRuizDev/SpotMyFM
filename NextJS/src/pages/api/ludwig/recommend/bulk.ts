@@ -6,8 +6,8 @@ import axios from "axios";
 import cfg from "config";
 import asyncPool from "tiny-async-pool";
 import _ from "lodash";
-import {BackendDBClient} from "../../../../restClients/backendDB/backendDBclient";
-import {backendDB} from "../../../../data/backendDB/BackendDB";
+import { BackendDBClient } from "../../../../restClients/backendDB/backendDBclient";
+import { backendDB } from "../../../../data/backendDB/BackendDB";
 interface IBulkRequest {
   tracks: { id: string; url: string }[];
 }
@@ -46,7 +46,6 @@ const bulk = async (
       .json({ error: "There are no tracks in the request body" });
   }
 
-
   const chunks = _.chunk(body.tracks, 25);
 
   const responseTracks: any[] = [];
@@ -70,17 +69,19 @@ const bulk = async (
 
       const data = response.data;
       responseTracks.push(...data.tracks);
-      console.log(data)
-
-
+      console.log(data);
     } catch (e) {
       failures++;
       console.error(e);
     }
   });
 
-  if (failures == chunks.length){
-    return res.status(400).json({ error: `Track recommendations for ${body.tracks.length} tracks failed` });
+  if (failures == chunks.length) {
+    return res
+      .status(400)
+      .json({
+        error: `Track recommendations for ${body.tracks.length} tracks failed`,
+      });
   }
 
   res.status(200).json({

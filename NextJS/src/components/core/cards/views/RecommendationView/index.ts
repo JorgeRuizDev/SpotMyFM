@@ -1,3 +1,3 @@
-import RecommendationView from './RecommendationView'
+import RecommendationView from "./RecommendationView";
 
 export default RecommendationView;

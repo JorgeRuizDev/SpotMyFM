@@ -47,7 +47,6 @@ const config = {
     },
   },
 
-
   ludwig_version: 1,
   //
   playlist_track_view_max_track_count: 600,
