@@ -26,12 +26,13 @@ const config = {
 
     // Python Ludwig Server
     ludwig: {
-      track_file: "ludwig/track/file",
+      analyze_file: "ludwig/track/file",
       track_single: "ludwig/track",
       track_bulk: "ludwig/track/bulk",
 
       recommender: "ludwig/recommender/track",
-      recommender_bulk: "ludwig/recommender/bulk"
+      recommender_bulk: "ludwig/recommender/bulk",
+      recommend_file: "ludwig/recommender/file",
     },
 
     // NextJS Ludwig Endpoints
@@ -42,9 +43,12 @@ const config = {
 
       recommender: "api/ludwig/recommend",
       recommender_bulk: "api/ludwig/recommend/bulk",
+      upload: "api/ludwig/upload",
     },
   },
 
+
+  ludwig_version: 1,
   //
   playlist_track_view_max_track_count: 600,
 

@@ -13,7 +13,9 @@ const env = {
 
   LASTFM_KEY: process.env.NEXT_PUBLIC_LAST_KEY || "",
 
-  LUDWIG_BASE_URL: process.env.LUDWIG_URL || "",
+  API_BASE_URL: process.env.API_BASE_URL ||"",
+
+  LUDWIG_BASE_URL: process.env.NEXT_PUBLIC_LUDWIG_URL || "",
   LUDWIG_SECRET: process.env.LUDWIG_SECRET || "",
 };
 
