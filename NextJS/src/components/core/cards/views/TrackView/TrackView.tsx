@@ -32,6 +32,9 @@ import CompleteStats from "components/stats/molecule/CompleteStats";
 import { IoStatsChart } from "react-icons/io5";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
+import { AiFillLike } from "react-icons/ai";
+import { toast } from "react-toastify";
+import RecommendationView from "../RecommendationView";
 interface ITrackViewProps {
   tracks: Track[];
   settings?: trackViewSettings;
@@ -68,6 +71,11 @@ function TrackView({
 
   const [showAdvancedFilter, setShowAdvancedFilter] = useState(false);
   const [showStats, setShowStats] = useState(false);
+  const [showRecommendations, setShowRecommendations] = useState(false);
+
+  const [selectedRecommendations, setSelectedRecommendations] = useState<
+    Track[]
+  >([]);
 
   // Sort Item:
   const {
@@ -88,6 +96,25 @@ function TrackView({
       setOptionState(s);
     },
   };
+
+  const [recWasSelected, setRecWasSelected] = useState(new Set<string>());
+  useEffect(() => {
+    setFilteredTracks([...selectedRecommendations, ...advancedFilteredTracks]);
+
+    if (selectManager) {
+      selectedRecommendations.forEach((t) => {
+        if (!selectManager.isSelected(t) && !recWasSelected.has(t.spotifyId)) {
+          selectManager.toggleSelected(t);
+          setRecWasSelected((s) => new Set([...s, t.spotifyId]));
+        }
+      });
+    }
+  }, [
+    advancedFilteredTracks,
+    recWasSelected,
+    selectManager,
+    selectedRecommendations,
+  ]);
 
   // Set the Advanced Filtered Tracks
   useEffect(() => {
@@ -140,6 +167,11 @@ function TrackView({
     return Array.from(artistMap.values());
   }, [tracks]);
 
+  const selectedTracks = useMemo(
+    () => tracks.filter((t) => selectManager?.isSelected(t)),
+    [selectManager, tracks]
+  );
+
   return (
     <>
       <Modal
@@ -156,6 +188,16 @@ function TrackView({
       <Modal isOpen={showStats} onClose={() => setShowStats(false)}>
         <CompleteStats tracks={tracks} albums={albums} />
       </Modal>
+      <Modal
+        isOpen={showRecommendations}
+        onClose={() => setShowRecommendations(false)}
+      >
+        <RecommendationView
+          setRecommendations={setSelectedRecommendations}
+          tracks={selectedTracks}
+          selectedTracks={selectedRecommendations}
+        />
+      </Modal>
       <CardLayoutButtons
         advancedFilteredTracks={advancedFilteredTracks}
         mute={mute}
@@ -169,6 +211,8 @@ function TrackView({
         tracks={tracks}
         selectManager={selectManager}
         setShowStats={setShowStats}
+        showRecommendations={showRecommendations}
+        setShowRecommendations={setShowRecommendations}
       />
       <GenericCardView
         filterInputProps={filter}
@@ -221,6 +265,9 @@ interface ICardLayoutButtons extends ITrackViewProps {
   setShowAdvancedFilter: (b: boolean) => void;
   setResetAdvFilter: (b: boolean) => void;
   setShowStats: (b: boolean) => void;
+
+  showRecommendations: boolean;
+  setShowRecommendations: (b: boolean) => void;
 }
 
 function CardLayoutButtons({
@@ -234,6 +281,8 @@ function CardLayoutButtons({
   mute,
   setResetAdvFilter,
   setShowAdvancedFilter,
+  showRecommendations,
+  setShowRecommendations,
   toggleMute,
   setShowStats,
 }: ICardLayoutButtons) {
@@ -271,7 +320,22 @@ function CardLayoutButtons({
         <IoStatsChart />
         <span>Show Stats</span>
       </Buttons.SecondaryGreenButton>
-
+      <span
+        onClick={() =>
+          selectManager?.selectedCount == 0 &&
+          toast.info(
+            "Select / Add tracks to a playlist to see recommendations!"
+          )
+        }
+      >
+        <Buttons.SecondaryGreenButton
+          onClick={() => setShowRecommendations(true)}
+          disabled={selectManager?.selectedCount == 0}
+        >
+          <AiFillLike />
+          <span>Recommended</span>
+        </Buttons.SecondaryGreenButton>
+      </span>
       <DropdownMenu
         items={[
           {

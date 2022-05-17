@@ -17,5 +17,19 @@ class UrlBulk(BaseModel):
     id: str
     url: str
 
+
 class LudwigTrackUrlBulk(LudwigTrackBase):
     tracks: List[UrlBulk]
+
+
+
+class TrackUrl(BaseModel):
+    url: str
+
+class RecommenderTrack(BaseModel):
+    id: str
+    url: str
+
+
+class RecommenderTrackBulk(BaseModel):
+    tracks: List[RecommenderTrack]

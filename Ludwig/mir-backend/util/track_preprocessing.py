@@ -94,9 +94,11 @@ def get_input_data(
         mfccs, track = mfcc.track2mfccs(track_path)
 
         if normalize:
-            track = mfcc.normalize_mfccs(mfccs)
+            mfccs = mfcc.normalize_mfccs(mfccs)
 
         return mfccs, track
+
+
     except Exception:
         print(f"Could not get mfccs for {track_path}: Trace: {traceback.format_exc()}")
         return None, None

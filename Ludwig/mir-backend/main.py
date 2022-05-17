@@ -8,15 +8,34 @@ import numpy as np
 from inference_engine.GenreEngine import GenreEngine
 from inference_engine.MoodEngine import MoodEngine
 from inference_engine.__genre_engine.json_spec import InferenceRequest
-from requests_sepecifications.body import LudwigTrackUrl, LudwigTrackUrlBulk
+from requests_sepecifications.body import (
+    LudwigTrackUrl,
+    LudwigTrackUrlBulk,
+    RecommenderTrack,
+    RecommenderTrackBulk,
+    TrackUrl,
+)
 from util import track_preprocessing as tp
 from time import time
 from fastapi import HTTPException, Depends
 from fastapi.security import HTTPBearer, HTTPBasicCredentials, OAuth2PasswordBearer
 from dotenv import load_dotenv
-
+from inference_engine.SimilarityEngine import similarity_recommender
+from fastapi.middleware.cors import CORSMiddleware
 load_dotenv(".env")
 app = FastAPI()
+
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 security = HTTPBearer()
 
@@ -76,7 +95,7 @@ async def spotify_mir_url(body: LudwigTrackUrl, _=Depends(authorize_token)):
 
     if input_data is None:
         raise HTTPException(status_code=400, detail="Could not process the track")
-        return 
+        return
     inference_request = [InferenceRequest("", input_data)]
 
     if body.moods:
@@ -122,7 +141,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
 
     # multiprocessing: Convert with multiple processes the different tracks to wav
     input_data: List[Union[np.ndarray, None]] = []
-    
+
     if len(track_paths) > 1:
         with Pool(3) as p:
             wav_tracks = p.map(tp.to_wav, track_paths)
@@ -131,7 +150,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
             wav_tracks = [t if t is not None else "" for t in wav_tracks]
 
             input_data = [data[0] for data in p.map(tp.get_input_data, wav_tracks)]
-        
+
     else:
         wav_track = tp.to_wav(track_paths[0])
         if wav_track is not None:
@@ -144,24 +163,24 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
         InferenceRequest(body.tracks[i].id, data) if data is not None else None
         for i, data in enumerate(input_data)
     ]
-    
+
     del input_data
     # remove nones from inference_requests
     inference_requests = [
         req for req in inference_requests_nullables if req is not None
     ]
-    
+
     del inference_requests_nullables
-    
+
     times.append(time())
     if body.moods:
         _ = __moodIE.infer(inference_requests)
-    
+
     times.append(time())
     if body.genres:
         _ = __genre_engine.infer(inference_requests)
     times.append(time())
-    
+
     response_list = [request.to_json() for request in inference_requests]
     del inference_requests
     return {
@@ -182,7 +201,6 @@ async def spotify_mir_file_upload(
     file: UploadFile,
     moods: Optional[bool] = True,
     genres: Optional[bool] = True,
-    _=Depends(authorize_token),
 ):
     """
     Sent a file, returns the Mood, Genre and subgenres of the file (if specified)
@@ -206,7 +224,7 @@ async def spotify_mir_file_upload(
 
         if input_data is None:
             raise HTTPException(status_code=400, detail="Could not process the track")
-        
+
         request = [InferenceRequest("", input_data)]
 
         times.append(time())
@@ -219,6 +237,7 @@ async def spotify_mir_file_upload(
         if genres:
             _ = __genre_engine.infer(request)
         times.append(time())
+
         return {
             **request[0].to_json(),
             "took": {
@@ -228,3 +247,76 @@ async def spotify_mir_file_upload(
                 "inference": times[4] - times[3],
             },
         }
+
+
+@app.post("/ludwig/recommender/track")
+async def spotify_mir_recommender_track(body: TrackUrl, _=Depends(authorize_token)):
+    """
+    It takes a track URL, downloads the track, converts it to a wav file, extracts the MFCCs and the
+    track signal, and then uses the similarity recommender to predict the most similar tracks
+
+    Args:
+    body (TrackUrl): TrackUrl
+    _: Depends(authorize_token)
+
+    Returns:
+    A list of spotify ids
+    """
+    track_path = tp.download_track_from_preview(body.url)
+    track_path = tp.to_wav(track_path)
+
+    mfccs, track_signal = tp.get_input_data(track_path or "")
+
+    similar_ids: List[str] = similarity_recommender.predict(mfccs, track_signal)  # type: ignore
+
+    return {"spotify_ids": similar_ids}
+
+
+@app.post("/ludwig/recommender/bulk")
+async def spotify_mir_recommender_track_bulk(
+    body: RecommenderTrackBulk, _=Depends(authorize_token)
+):
+    """
+    It takes a list of tracks, and returns a list of tracks with the same order, but with the added
+    information of the recommended tracks
+
+    Args:
+    body (RecommenderTrackBulk): RecommenderTrackBulk, _=Depends(authorize_token)
+    _: Depends(authorize_token)
+
+    Returns:
+    The response is a list of dictionaries. Each dictionary contains the track id and the response
+    from the spotify_mir_recommender_track function.
+    """
+    responses = [await spotify_mir_recommender_track(track) for track in body.tracks] #type: ignore
+
+    return {
+        "tracks": [
+            {"id": track.id, **respose}
+            for track, respose in zip(body.tracks, responses)
+        ]
+    }
+
+
+@app.post("/ludwig/recommender/file")
+async def spotify_mir_recommender_track_file(file: UploadFile):
+    """
+    It takes a file, converts it to a wav, extracts the mfccs and track signal, and then returns the
+    spotify ids of the most similar tracks
+
+    Args:
+    file (UploadFile): UploadFile - this is the file that is uploaded to the API
+
+    Returns:
+    A list of spotify ids
+    """
+    with tempfile.NamedTemporaryFile(delete=False) as tmp:
+
+        tmp.write(file.file.read())
+        track = tmp.name
+        track_path = tp.to_wav(track)
+        mfccs, track_signal = tp.get_input_data(track_path or "")
+
+        similar_ids: List[str] = similarity_recommender.predict(mfccs, track_signal)  # type: ignore
+
+        return {"spotify_ids": similar_ids}
