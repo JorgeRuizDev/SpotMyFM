@@ -25,13 +25,15 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
     useTrackToPlaylistSelector();
   const scrollRef = createRef<HTMLDivElement>();
   const toastId = useRef<React.ReactText>();
-    const {t} = useTranslation();
+  const { t } = useTranslation();
   const NotificationMsg = useMemo(
     () => (
       <>
         <div>
           <a onClick={() => scrollRef.current?.scrollIntoView()}>
-            {t('cards:selected_tracks_finish_playlist', {'%size%': trackSet.size})}
+            {t("cards:selected_tracks_finish_playlist", {
+              "%size%": trackSet.size,
+            })}
           </a>
         </div>
       </>

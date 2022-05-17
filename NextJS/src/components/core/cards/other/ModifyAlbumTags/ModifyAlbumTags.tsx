@@ -25,7 +25,7 @@ function ModifyAlbumTags({
     },
     [albumTags]
   );
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const updateAlbumTags = useCallback(async () => {
     const tags = Array.from(albumTags.values());
@@ -48,9 +48,9 @@ function ModifyAlbumTags({
 
   return (
     <Styled.Card>
-      <h3>{t('cards:modify_album_tags')}</h3>
+      <h3>{t("cards:modify_album_tags")}</h3>
       <Styled.Center>
-        <h5>{t('cards:current_tags')}</h5>
+        <h5>{t("cards:current_tags")}</h5>
         <PillWrap />
         <InputTags
           addTags={addTag}
@@ -69,10 +69,10 @@ function ModifyAlbumTags({
               closeModal();
             }}
           >
-            {t('cards:dont_save_and_close')}
+            {t("cards:dont_save_and_close")}
           </Buttons.SecondaryRedButton>
           <Buttons.SecondaryGreenButton onClick={updateAlbumTags}>
-            {t('cards:save_changes')}
+            {t("cards:save_changes")}
           </Buttons.SecondaryGreenButton>
         </Buttons.LayoutCenter>
       </Styled.Center>
@@ -120,7 +120,7 @@ function InputTags({
   selectedTags,
 }: IInputTags): JSX.Element {
   const [v, setV] = useState("");
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const availableTags = tagList.filter((t) => !selectedTags.has(t));
 
@@ -128,7 +128,7 @@ function InputTags({
     <form>
       <Styled.Center>
         <input
-          placeholder={t('cards:to_listen')}
+          placeholder={t("cards:to_listen")}
           onChange={handleChange}
           value={v}
           list="albumTags"
@@ -143,7 +143,7 @@ function InputTags({
           type="submit"
           onClick={handleSubmit}
         >
-          {t('cards:add_tag', {'%v%': v})}
+          {t("cards:add_tag", { "%v%": v })}
         </Buttons.PrimaryGreenButton>
       </Styled.Center>
     </form>
@@ -186,11 +186,11 @@ function SuggestedTags({
 
   // Remove the already saved Tags:
   const filtered = suggested.filter((s) => activeTags.indexOf(s) === -1);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <>
-      <h5>{t('cards:suggested_tags')}</h5>
+      <h5>{t("cards:suggested_tags")}</h5>
       <Buttons.LayoutCenter>
         {filtered.map((t, i) => (
           <Buttons.SecondaryGreenButton key={i} onClick={() => addTag(t)}>

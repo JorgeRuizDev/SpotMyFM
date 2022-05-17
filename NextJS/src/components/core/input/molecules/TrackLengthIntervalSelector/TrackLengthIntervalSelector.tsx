@@ -58,10 +58,10 @@ function TrackLengthIntervalSelector({
     setLowInterval(shortest || 0);
     setTopInterval(longest || Number.MAX_SAFE_INTEGER);
   }
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Wrap>
-      <h4>{t('cards:track_length_interval')}</h4>
+      <h4>{t("cards:track_length_interval")}</h4>
       {longest !== undefined && shortest !== undefined ? (
         <>
           <Styled.SliderWrap>
@@ -81,7 +81,7 @@ function TrackLengthIntervalSelector({
               {prettyMilliseconds(topInterval)}
             </p>
             <Buttons.PrimaryGreenButton onClick={resetSlider}>
-              {t('cards:reset_to_default2')}
+              {t("cards:reset_to_default2")}
             </Buttons.PrimaryGreenButton>
           </Styled.Center>
         </>

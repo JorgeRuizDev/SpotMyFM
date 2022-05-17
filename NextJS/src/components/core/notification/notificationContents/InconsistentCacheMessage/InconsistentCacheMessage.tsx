@@ -5,20 +5,22 @@ interface IInconsistentCacheMessageProps {
 }
 
 function InconsistentCacheMessage({ onClick }: IInconsistentCacheMessageProps) {
-    const {t} = useTranslation();
+  const { t } = useTranslation();
 
-    return (
+  return (
     <Styled.NotificationWrapper>
       <div>
-        <Styled.b>{t('cards:the_cache_seems_to_be_inconsistent')}</Styled.b>
+        <Styled.b>{t("cards:the_cache_seems_to_be_inconsistent")}</Styled.b>
 
         <br />
         <Styled.p>
-          {t('cards:there_was_an_error_while_caching_your_library_did')}
+          {t("cards:there_was_an_error_while_caching_your_library_did")}
         </Styled.p>
       </div>
 
-      <Styled.CacheButton onClick={onClick}>{t('cards:fix_now')}</Styled.CacheButton>
+      <Styled.CacheButton onClick={onClick}>
+        {t("cards:fix_now")}
+      </Styled.CacheButton>
     </Styled.NotificationWrapper>
   );
 }

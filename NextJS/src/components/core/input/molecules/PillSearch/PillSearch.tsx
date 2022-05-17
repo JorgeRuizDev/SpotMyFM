@@ -4,7 +4,7 @@ import Pill from "../../atoms/Pill";
 import Switch from "../../atoms/Switch";
 import Styled from "./PillSearch.styles";
 import useTranslation from "next-translate/useTranslation";
-import Trans from "next-translate/Trans"
+import Trans from "next-translate/Trans";
 interface IPillSearchProps {
   type: "tag" | "genre" | "artist" | "MySpotifyFmTags" | "subgenre" | "mood";
   items: string[];
@@ -79,7 +79,7 @@ function PillSearch({
       )
     );
   }, [availableItems, typedValue]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Card>
       {title}
@@ -115,7 +115,7 @@ function PillSearch({
             list={type}
             name="pills"
             type="text"
-            placeholder={t('cards:select_an_item')}
+            placeholder={t("cards:select_an_item")}
             onChange={handleChange}
           />
         ) : (
@@ -133,12 +133,12 @@ function PillSearch({
           onToggle={() => setIncludeAll((p) => !p)}
         >
           <p>
-              <Trans
-                  i18nKey="cards:must_include_all_of_the_items"
-                  components={{
-                      b: <b/>
-                  }}
-              />
+            <Trans
+              i18nKey="cards:must_include_all_of_the_items"
+              components={{
+                b: <b />,
+              }}
+            />
           </p>
         </Switch>
 
@@ -157,7 +157,7 @@ function PillSearch({
             disabled={pills.size == 0}
             onClick={reset}
           >
-            <span>{t('cards:reset_to_default')}</span>{" "}
+            <span>{t("cards:reset_to_default")}</span>{" "}
           </Buttons.PrimaryGreenButton>
         </Styled.Row>
       </Styled.Center>

@@ -57,21 +57,21 @@ function PlaylistManager(props: IPlaylistManagerProps): JSX.Element {
     showPersonal && playlists.push(...personalPlaylists);
     setDisplayPlaylists(playlists);
   }, [likedPlaylists, personalPlaylists, showLiked, showPersonal]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Wrap>
-      <Text.PageTitle>{t('cards:playlist_manager')}</Text.PageTitle>
+      <Text.PageTitle>{t("cards:playlist_manager")}</Text.PageTitle>
       <Styled.Center>
         <Styled.CardWrap>
           <Ms.Card>
-            <Styled.CardTitle>{t('settings:settings')}</Styled.CardTitle>
+            <Styled.CardTitle>{t("settings:settings")}</Styled.CardTitle>
             <Switch
               isChecked={showPersonal}
               onToggle={() => {
                 setShowPersonal((p) => !p);
               }}
             >
-              <p>{t('cards:show_personal_playlists')}</p>
+              <p>{t("cards:show_personal_playlists")}</p>
             </Switch>
 
             <Switch
@@ -80,7 +80,7 @@ function PlaylistManager(props: IPlaylistManagerProps): JSX.Element {
                 setShowLiked((p) => !p);
               }}
             >
-              <p>{t('cards:show_liked_playlists')}</p>
+              <p>{t("cards:show_liked_playlists")}</p>
             </Switch>
           </Ms.Card>
         </Styled.CardWrap>

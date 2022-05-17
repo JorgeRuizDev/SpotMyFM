@@ -43,7 +43,7 @@ function SpotifyPlayerButton({
       setTitleOverflows(false);
     }
   }, [parentW, titleRef]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const title = (
     <Styled.PlayingText>
       <Styled.Title>
@@ -52,7 +52,7 @@ function SpotifyPlayerButton({
             {playing.name} · {playing.album?.name || ""}
           </span>
         ) : (
-          <span>{t('cards:there_is_no_active_track')}</span>
+          <span>{t("cards:there_is_no_active_track")}</span>
         )}
       </Styled.Title>
     </Styled.PlayingText>

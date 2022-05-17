@@ -16,7 +16,7 @@ function SimplePlaylistCard({
   onDetailsClick,
   compact = false,
 }: ISmallPlaylistCardProps): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <Styled.CardLayout compact={compact}>
@@ -40,7 +40,11 @@ function SimplePlaylistCard({
                 <p>
                   <PlaylistPublicFormat playlist={playlist} />
                 </p>
-                <p>{t('cards:by', {'%display_name%': playlist.owner.display_name})}</p>
+                <p>
+                  {t("cards:by", {
+                    "%display_name%": playlist.owner.display_name,
+                  })}
+                </p>
               </li>
             </ul>
           </Styled.InfoLayout>
@@ -51,7 +55,7 @@ function SimplePlaylistCard({
                 onDetailsClick();
               }}
             >
-              {t('cards:show_details')}
+              {t("cards:show_details")}
             </Buttons.PrimaryGreenButton>
           </Buttons.LayoutCenter>
         </Styled.Content>

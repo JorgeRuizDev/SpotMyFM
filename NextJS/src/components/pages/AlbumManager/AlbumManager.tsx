@@ -111,21 +111,21 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
     savedAlbums,
     taggedAlbums,
   ]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Wrap>
-      <Text.PageTitle>{t('views:album_manager')}</Text.PageTitle>
+      <Text.PageTitle>{t("views:album_manager")}</Text.PageTitle>
       <Styled.Center>
         <Styled.CardWrap>
           <Ms.Card>
-            <Styled.CardTitle>{t('settings:settings')}</Styled.CardTitle>
+            <Styled.CardTitle>{t("settings:settings")}</Styled.CardTitle>
             <Switch
               isChecked={showSaved}
               onToggle={() => {
                 setShowSaved((p) => !p);
               }}
             >
-              <p>{t('views:show_saved_albums')}</p>
+              <p>{t("views:show_saved_albums")}</p>
             </Switch>
             <Switch
               isChecked={showTagged}
@@ -133,7 +133,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
                 setShowTagged((p) => !p);
               }}
             >
-              <p>{t('views:show_tagged_albums')}</p>
+              <p>{t("views:show_tagged_albums")}</p>
             </Switch>
             <Switch
               isChecked={showCached}
@@ -141,7 +141,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
                 setShowCached((p) => !p);
               }}
             >
-              <p>{t('views:show_cached_albums')}</p>
+              <p>{t("views:show_cached_albums")}</p>
             </Switch>
           </Ms.Card>
         </Styled.CardWrap>

@@ -117,7 +117,7 @@ function DownloadPreview({ track }: { track: Track }): JSX.Element {
       toast.error(`${err?.message}`);
     }
   }, [track.artists, track.name, track.spotifyPreviewURL]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return url && url.length > 0 ? (
     <>
@@ -130,7 +130,7 @@ function DownloadPreview({ track }: { track: Track }): JSX.Element {
       >
         <Buttons.SecondaryGreenButton onClick={download}>
           <FaDownload />
-          <span>{t('cards:preview')}</span>
+          <span>{t("cards:preview")}</span>
         </Buttons.SecondaryGreenButton>
       </a>
     </>

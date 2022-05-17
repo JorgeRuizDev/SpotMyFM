@@ -80,24 +80,24 @@ function DateIntervalSelector({
     setMin(min);
     setMax(max);
   }, [albums, oldestDate, newestDate]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <div style={{ width: "100%" }}>
-      <h4>{t('cards:select_the_release_date_interval')}</h4>
+      <h4>{t("cards:select_the_release_date_interval")}</h4>
 
       {oldestDate !== null && newestDate !== null ? (
         <div>
           <Tabs defaultTabId={"1"}>
             <TabWrap>
               <Tab id={"1"}>
-                <p>{t('cards:year_interval')}</p>
+                <p>{t("cards:year_interval")}</p>
               </Tab>
               <Tab id={"2"}>
-                <p>{t('cards:decade_interval')}</p>
+                <p>{t("cards:decade_interval")}</p>
               </Tab>
               <Tab id={"3"}>
-                <p>{t('cards:any_interval')}</p>
+                <p>{t("cards:any_interval")}</p>
               </Tab>
               <Tab id={"4"}>
                 <p>
@@ -140,16 +140,24 @@ function DateIntervalSelector({
                 />
               </TabContent>
               <TabContent id={"4"}>
-                <h4>{t('cards:album_date_stats')}</h4>
+                <h4>{t("cards:album_date_stats")}</h4>
                 {dateStats !== null ? (
                   <>
                     <p>
-                      {t('cards:oldest_album_by', {'%name%': dateStats.oldest.name, '%expr%': " ", '%name_2%': dateStats.oldest.artists[0]?.name})}{" "}
+                      {t("cards:oldest_album_by", {
+                        "%name%": dateStats.oldest.name,
+                        "%expr%": " ",
+                        "%name_2%": dateStats.oldest.artists[0]?.name,
+                      })}{" "}
                       {dateStats.oldest.spotifyReleaseDate?.toLocaleDateString()}
                     </p>
 
                     <p>
-                      {t('cards:oldest_album_by', {'%name%': dateStats.newest.name, '%expr%': " ", '%name_2%': dateStats.newest.artists[0]?.name})}{" "}
+                      {t("cards:oldest_album_by", {
+                        "%name%": dateStats.newest.name,
+                        "%expr%": " ",
+                        "%name_2%": dateStats.newest.artists[0]?.name,
+                      })}{" "}
                       {dateStats.newest.spotifyReleaseDate?.toLocaleDateString()}
                     </p>
                   </>
@@ -158,7 +166,7 @@ function DateIntervalSelector({
             </TabContentWrap>
           </Tabs>
           <Styled.Center>
-            <p>{t('cards:selected_interval')}</p>
+            <p>{t("cards:selected_interval")}</p>
             <p>
               {min?.toLocaleDateString() || 0} -{" "}
               {max?.toLocaleDateString() || 0}
@@ -169,7 +177,7 @@ function DateIntervalSelector({
                 setMax(newestDate);
               }}
             >
-              {t('cards:full_interval')}
+              {t("cards:full_interval")}
             </Buttons.PrimaryGreenButton>
           </Styled.Center>
         </div>

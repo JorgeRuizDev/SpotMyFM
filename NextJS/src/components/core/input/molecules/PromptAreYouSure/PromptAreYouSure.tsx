@@ -30,11 +30,11 @@ function PromptAreYouSure({
   onSure,
   onCancel,
 }: IPromptAreYouSureProps): JSX.Element {
-    const {t} = useTranslation();
-    return (
+  const { t } = useTranslation();
+  return (
     <Styled.Col>
       <Text.Center>
-        <h3>{t('cards:are_you_sure')}</h3>
+        <h3>{t("cards:are_you_sure")}</h3>
       </Text.Center>
       <Text.Center>
         <h4>{message}</h4>
@@ -49,7 +49,7 @@ function PromptAreYouSure({
             onClose();
           }}
         >
-          {t('cards:yes_im_sure')}
+          {t("cards:yes_im_sure")}
         </Buttons.PrimaryRedButton>
         <Buttons.SecondaryRedButton
           onClick={() => {
@@ -57,7 +57,7 @@ function PromptAreYouSure({
             onClose();
           }}
         >
-          {t('cards:im_not_sure')}
+          {t("cards:im_not_sure")}
         </Buttons.SecondaryRedButton>
       </Styled.BtnRow>
     </Styled.Col>

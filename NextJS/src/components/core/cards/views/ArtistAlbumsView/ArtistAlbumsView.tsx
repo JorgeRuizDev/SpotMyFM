@@ -101,19 +101,19 @@ function ArtistAlbumsView({
 }
 
 function AlbumHead() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Head>
-      <h3>{t('cards:albums')}</h3>
+      <h3>{t("cards:albums")}</h3>
     </Styled.Head>
   );
 }
 
 function SingleHead() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Head>
-      <h3>{t('cards:singles')}</h3>
+      <h3>{t("cards:singles")}</h3>
     </Styled.Head>
   );
 }

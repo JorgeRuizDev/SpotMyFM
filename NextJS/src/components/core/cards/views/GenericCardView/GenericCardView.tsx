@@ -138,9 +138,9 @@ function GenericCardView<T>({
   }
 
   function SortRow(): JSX.Element {
-      const {t} = useTranslation();
+    const { t } = useTranslation();
 
-      const sortOptions = useMemo(
+    const sortOptions = useMemo(
       () =>
         sorting
           ? [
@@ -153,7 +153,8 @@ function GenericCardView<T>({
                       <FaSortAmountUpAlt />
                     )}
                     <span>
-                      {t('cards:set')} {sorting.isAscendant ? "Descending" : "Ascending"}
+                      {t("cards:set")}{" "}
+                      {sorting.isAscendant ? "Descending" : "Ascending"}
                     </span>
                   </>
                 ),
@@ -223,10 +224,9 @@ function ItemLayout({
   scrollItems: ReactNode[];
   isLoading: boolean;
 }): JSX.Element {
-    const {t} = useTranslation();
+  const { t } = useTranslation();
 
-    return (
-
+  return (
     <Styled.CardLayout addSpace={view.type == "GRID"}>
       {view.type == "LIST" && view.ListHeader}
       {scrollItems.length > 0 ? (
@@ -238,7 +238,7 @@ function ItemLayout({
           <MultipleSkeletonList key={2} />
         )
       ) : (
-        <h3>{t('cards:no_items_found')}</h3>
+        <h3>{t("cards:no_items_found")}</h3>
       )}
     </Styled.CardLayout>
   );

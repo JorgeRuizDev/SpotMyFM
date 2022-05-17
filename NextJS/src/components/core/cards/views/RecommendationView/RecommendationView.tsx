@@ -36,7 +36,7 @@ function RecommendationView({
   const [currentView, setCurrentView] = useState<ViewTypeOption>(
     isMobile ? "LIST" : "GRID"
   );
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   useEffect(() => {
     toast.info("Add tracks to your playlist!");
@@ -92,9 +92,9 @@ function RecommendationView({
 
   return (
     <Styled.Wrapper>
-      <h1>{t('cards:recommended_tracks')}</h1>
+      <h1>{t("cards:recommended_tracks")}</h1>
 
-      <h3>{t('cards:tracks_selected2', {'%size%': trackSet.size})}</h3>
+      <h3>{t("cards:tracks_selected2", { "%size%": trackSet.size })}</h3>
       <GenericCardView
         setView={setCurrentView}
         view={

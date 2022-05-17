@@ -69,17 +69,19 @@ function AdvancedTrackFilters({
     setFilteredAlbums,
     filteredIntervalAlbums,
   ]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Spacing>
       <Text.Column centered>
         <h3>
           <Text.Inline>
-            <FaMusic /> <span>{t('cards:filter_by_exact_features')}</span>
+            <FaMusic /> <span>{t("cards:filter_by_exact_features")}</span>
           </Text.Inline>
         </h3>
         <p>
-          {t('cards:show_the_items_that')} <Text.pGreen>{t('cards:contain_one_or_more')}</Text.pGreen> {t('cards:of_the_following_features')}
+          {t("cards:show_the_items_that")}{" "}
+          <Text.pGreen>{t("cards:contain_one_or_more")}</Text.pGreen>{" "}
+          {t("cards:of_the_following_features")}
         </p>
       </Text.Column>
 
@@ -96,12 +98,14 @@ function AdvancedTrackFilters({
         <h3>
           <Text.Inline>
             {" "}
-            <BsSliders /> <span>{t('cards:filter_by_interval_features')}</span>
+            <BsSliders /> <span>{t("cards:filter_by_interval_features")}</span>
           </Text.Inline>
         </h3>
         <p>
-          {t('cards:show_the_items_whose')}{" "}
-          <Text.pGreen>{t('cards:features_fall_inside_the_selected_interval')}</Text.pGreen>
+          {t("cards:show_the_items_whose")}{" "}
+          <Text.pGreen>
+            {t("cards:features_fall_inside_the_selected_interval")}
+          </Text.pGreen>
         </p>
       </Text.Column>
 

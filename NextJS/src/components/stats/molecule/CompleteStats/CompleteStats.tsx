@@ -75,7 +75,7 @@ function CompleteStats({
     <>
       <Styled.Layout>
         <h1 style={{ width: "100%", textAlign: "center" }}>
-          {t('cards:your_personal_stats')}
+          {t("cards:your_personal_stats")}
         </h1>
         {!!tracks.length && (
           <Styled.OverScroll>
@@ -118,7 +118,9 @@ function CompleteStats({
         )}
 
         <h3 style={{ width: "100%", textAlign: "center" }}>
-          {t('cards:these_albums_are_celebrating_their_birthday', {'%toLocaleDateString%': birthDate.toLocaleDateString(lang)})}
+          {t("cards:these_albums_are_celebrating_their_birthday", {
+            "%toLocaleDateString%": birthDate.toLocaleDateString(lang),
+          })}
         </h3>
         <Styled.Inline>
           <Buttons.PrimaryGreenButton
@@ -142,7 +144,9 @@ function CompleteStats({
           {birthday.length ? (
             <AlbumView albums={birthday} />
           ) : (
-            <h4>{t('cards:no_album_in_your_view_was_released_on_a_day_like_t')}</h4>
+            <h4>
+              {t("cards:no_album_in_your_view_was_released_on_a_day_like_t")}
+            </h4>
           )}
         </Styled.AlbumViewMinH>
       </Styled.Layout>

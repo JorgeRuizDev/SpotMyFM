@@ -10,7 +10,7 @@ import useTranslation from "next-translate/useTranslation";
 
 export default function Callback() {
   const router = useRef(useRouter());
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const { isLogged, logIn } = useLoginStore();
   const handleLogin = useCallback(async () => {
@@ -46,7 +46,7 @@ export default function Callback() {
 
   return (
     <>
-      <Head title={t('cards:redirecting')}></Head>
+      <Head title={t("cards:redirecting")}></Head>
     </>
   );
 }
