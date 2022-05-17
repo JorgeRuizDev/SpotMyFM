@@ -2,7 +2,7 @@ import { ActivePage } from "enums/ActivePage";
 import React from "react";
 import { useState } from "react";
 import { AiFillHome } from "react-icons/ai";
-import { BiSearch } from "react-icons/bi";
+import { BiCloudUpload, BiSearch } from "react-icons/bi";
 import { BsVinylFill } from "react-icons/bs";
 import { MdLibraryMusic } from "react-icons/md";
 import { RiPlayListFill } from "react-icons/ri";
@@ -43,6 +43,12 @@ function NavbarLeftItems(): JSX.Element {
           item={<RiPlayListFill />}
           label={"Playlist Manager"}
         />
+        <NavItem
+          isActive={activePage === ActivePage.UPLOAD}
+          href="/upload"
+          item={<BiCloudUpload/>}
+          label={"Upload"}
+        />
 
         <NavItem
           isActive={activePage === ActivePage.SEARCH}
@@ -50,6 +56,8 @@ function NavbarLeftItems(): JSX.Element {
           item={<BiSearch />}
           label={"Search"}
         />
+
+
       </>
     </Styled.Items>
   );
