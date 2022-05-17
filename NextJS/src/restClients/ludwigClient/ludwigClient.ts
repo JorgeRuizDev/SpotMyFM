@@ -16,11 +16,11 @@ interface ILudwigResponse {
   subgenres: IMirResult[];
 }
 
-
-interface IRecommendation {
-  similar: string[];
-  users: string[];
+interface IRecItem {
+  id: string;
+  spotify_ids: string[];
 }
+
 /**
  * Ludwig Backend Rest client
  */
@@ -128,21 +128,19 @@ export class LudwigClient implements IRestClient {
     }
   }
 
-
-
-
-/**
- * It takes a track object, and returns an array of two elements: the first element is an object
- * containing two arrays, and the second element is either null or an error object
- * 
- * A recommendation is an Spotify Track ID
- * 
- * @param {ILudwigTrack} track - ILudwigTrack
- * @returns An array of two elements. The first element is an object with two properties: similar and
- * users. The second element is null.
- */
-  async getRecommendation(track: ILudwigTrack): Promise<[IRecommendation | null,  RestError | null]>{
-
+  /**
+   * It takes a track object, and returns an array of two elements: the first element is an object
+   * containing two arrays, and the second element is either null or an error object
+   *
+   * A recommendation is an Spotify Track ID
+   *
+   * @param {ILudwigTrack} track - ILudwigTrack
+   * @returns An array of two elements. The first element is an object with two properties: similar and
+   * users. The second element is null.
+   */
+  async getRecommendation(
+    track: ILudwigTrack
+  ): Promise<[IRecommendation | null, RestError | null]> {
     try {
       const response = await axios.post(
         cfg.api_endpoints.ludwig_mir.recommender,
@@ -159,10 +157,57 @@ export class LudwigClient implements IRestClient {
       return [
         {
           similar: data.similar || [],
-          users: data.users || []
+          users: data.users || [],
         },
         null,
       ];
+    } catch (e: any) {
+      return [null, this.parse(e)];
+    }
+  }
+
+  /**
+   * It takes a track object, and returns an array of two elements: the first element is an object
+   * containing two arrays, and the second element is either null or an error object
+   *
+   * A recommendation is an Spotify Track ID
+   *
+   * @param {ILudwigTrack} track - ILudwigTrack
+   * @returns An array of two elements. The first element is an object with two properties: similar and
+   * users. The second element is null.
+   */
+  async getRecommendationsBulk(
+    tracks: ILudwigTrack[]
+  ): Promise<[Map<string, string[]> | null, RestError | null]> {
+    const ids = tracks.map((t) => t.spotifyId);
+
+    try {
+      const response = await axios.post(
+        cfg.api_endpoints.ludwig_mir.recommender_bulk,
+        {
+          tracks: tracks.map((t) => ({
+            id: t.spotifyId,
+            url: t.spotifyPreviewURL,
+          })),
+        },
+        {
+          headers: this.getHeaders(),
+        }
+      );
+      const data: { tracks: { id: string; spotify_ids: string[] }[] } =
+        response.data;
+
+      const track_recommendations = new Map<string, string[]>();
+
+      for (const track of data.tracks) {
+        track_recommendations.set(
+          track.id,
+          track.spotify_ids.filter((id) => !ids.includes(id))
+        );
+      }
+
+      console.log(track_recommendations);
+      return [track_recommendations, null];
     } catch (e: any) {
       return [null, this.parse(e)];
     }

@@ -19,6 +19,7 @@ export class TrackModel extends Document {
   acoustic?: IMirResult
   aggressive?: IMirResult
   relaxed?: IMirResult
+  ludwig_version: number = -1;
 }
 
 export const Track = dynamoose.model<TrackModel>(

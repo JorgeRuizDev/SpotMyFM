@@ -9,6 +9,7 @@ import {QueryResponse} from "dynamoose/dist/DocumentRetriever";
 import {BiErrorAlt} from "react-icons/bi";
 import {Track, TrackModel} from "./TrackModel";
 import {IMirResult} from "../../../interfaces/ludwig";
+import config from "config";
 
 export class DynamoDB implements IBackendDB {
     /**
@@ -203,7 +204,6 @@ export class DynamoDB implements IBackendDB {
 
         try {
             const tracks = await Track.batchGet(trackIds);
-            console.log(tracks)
             const fullTracks = tracks.filter(
                 (t) =>
                     t.genres?.length &&
@@ -256,6 +256,7 @@ export class DynamoDB implements IBackendDB {
                 acoustic: t.moods.filter(m => m.label === "acoustic")?.[0],
                 aggressive: t.moods.filter(m => m.label === "aggressive")?.[0],
                 electronic: t.moods.filter(m => m.label === "electronic")?.[0],
+                ludwig_version: config.ludwig_version
             }
         })
 
