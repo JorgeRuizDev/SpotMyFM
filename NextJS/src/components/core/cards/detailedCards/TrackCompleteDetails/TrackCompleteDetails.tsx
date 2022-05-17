@@ -74,7 +74,7 @@ function TrackCompleteDetails({
     false,
     true
   );
-  
+
   // On Unmount, puase the music:
   useEffect(() => {
     return () => {

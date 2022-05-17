@@ -23,8 +23,8 @@ interface IRecommendationViewProps {
 /* A React component that is rendering a list of tracks. */
 function RecommendationView({
   tracks,
-  setRecommendations, 
-                              selectedTracks
+  setRecommendations,
+  selectedTracks,
 }: IRecommendationViewProps): JSX.Element {
   const [recommended, setRecommended] = useState<Track[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -36,10 +36,9 @@ function RecommendationView({
     isMobile ? "LIST" : "GRID"
   );
 
-
-  useEffect(() =>  {
-    toast.info("Add tracks to your playlist!")
-  })
+  useEffect(() => {
+    toast.info("Add tracks to your playlist!");
+  });
 
   useEffect(() => {
     const fn = async () => {
@@ -51,18 +50,17 @@ function RecommendationView({
       if (!recommended || error) {
         return toast.error("Error getting recommendations " + error?.message);
       }
-      
+
       const ids: string[] = [];
-      
+
       for (const [id, recommendations] of recommended) {
         ids.push(recommendations[0]);
         //ids.push(...recommendations.users.flatMap(r => r.spotify_ids))
       }
-      
 
       if (ids.length === 0) {
-        setIsLoading(false)
-        toast.warn("No Recommendations Found")
+        setIsLoading(false);
+        toast.warn("No Recommendations Found");
         return;
       }
       const recTracks = await getTracksByIds(ids);
@@ -74,16 +72,14 @@ function RecommendationView({
     fn();
   }, [getTracksByIds, ludwigApi, tracks]);
 
-
   const { addAll, contains, removeAll, toggleFromPlaylist, trackSet } =
     useTrackToPlaylistSelector();
 
   useEffect(() => {
-    selectedTracks.forEach(( t) => {
-      !contains(t ) && toggleFromPlaylist(t)
-    })
-  }, [selectedTracks, toggleFromPlaylist])
-
+    selectedTracks.forEach((t) => {
+      !contains(t) && toggleFromPlaylist(t);
+    });
+  }, [selectedTracks, toggleFromPlaylist]);
 
   // on component unmount:
   useEffect(() => {
@@ -91,7 +87,7 @@ function RecommendationView({
       setRecommendations(Array.from(trackSet.values()));
     };
   }, [setRecommendations, trackSet]);
-  
+
   return (
     <Styled.Wrapper>
       <h1>Recommended Tracks</h1>

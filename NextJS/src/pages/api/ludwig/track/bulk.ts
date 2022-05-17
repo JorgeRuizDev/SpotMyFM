@@ -137,11 +137,9 @@ const bulk = async (
   });
 
   if (failures > 0 && failures == chunks.length) {
-    return res
-      .status(400)
-      .json({
-        error: `Track analysis for ${body.tracks.length} tracks failed`,
-      });
+    return res.status(400).json({
+      error: `Track analysis for ${body.tracks.length} tracks failed`,
+    });
   }
 
   res.status(200).json({
