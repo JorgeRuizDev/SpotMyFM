@@ -5,11 +5,8 @@ import env from "env";
 import { User, UserModel } from "data/backendDB/dynamoDB/UserModel";
 import { ITaggedAlbum } from "pages/api/database/albums/tagAlbums";
 import * as DynamoErr from "./errors/errorHandler";
-import {QueryResponse} from "dynamoose/dist/DocumentRetriever";
-import {BiErrorAlt} from "react-icons/bi";
-import {Track, TrackModel} from "./TrackModel";
-import {IMirResult} from "../../../interfaces/ludwig";
-import config from "config";
+import { Track, TrackModel } from "./TrackModel";
+import { IMirResult } from "../../../interfaces/ludwig";
 
 export class DynamoDB implements IBackendDB {
   /**
@@ -182,86 +179,93 @@ export class DynamoDB implements IBackendDB {
           return [null, "There was a problem while creating the user"];
         }
 
-    /**
-     * It takes an array of trackIds, and returns an array of two arrays: the first array contains the full tracks (tracks
-     * that have all the required attributes), and the second array contains the ids of the tracks that are missing some
-     * attributes
-     * @param {string[]} trackIds - an array of trackIds to get the details for.
-     * @returns [[fullTracks.filter(t => t), missingTracks], null]
-     */
-    async getTracksDetails(trackIds: string[]): Promise<[[TrackModel[], string[]] | null, any]> {
-
-        // remove trackIds duplicates:
-        trackIds = [...new Set(trackIds)];
-
-        try {
-            const tracks = await Track.batchGet(trackIds);
-            const fullTracks = tracks.filter(
-                (t) =>
-                    t.genres?.length &&
-                    t.subgenres?.length &&
-                    t.relaxed &&
-                    t.happy &&
-                    t.sad &&
-                    t.acoustic &&
-                    t.aggressive &&
-                    t.electronic
-            );
-
-            // get the ids of the tracks that are not in fullTracks
-            const missingTracks = trackIds.filter(t => !fullTracks.find(ft => ft.PK === t));
-
-            return [[fullTracks.filter(t => t), missingTracks], null];
-        } catch (err: any) {
-            return [null, err];
-        }
+        return ["ok", null];
+      } else {
+        return [null, err];
+      }
     }
+  }
 
+  /**
+   * It takes an array of trackIds, and returns an array of two arrays: the first array contains the full tracks (tracks
+   * that have all the required attributes), and the second array contains the ids of the tracks that are missing some
+   * attributes
+   * @param {string[]} trackIds - an array of trackIds to get the details for.
+   * @returns [[fullTracks.filter(t => t), missingTracks], null]
+   */
+  async getTracksDetails(
+    trackIds: string[]
+  ): Promise<[[TrackModel[], string[]] | null, any]> {
+    // remove trackIds duplicates:
+    trackIds = [...new Set(trackIds)];
 
-    /**
-     * It takes an array of tracks, and adds or updates them in the database
-     * @param {{
-     *         id: string;
-     *         genres: IMirResult[];
-     *         moods: IMirResult[];
-     *         subgenres: IMirResult[];
-     *     }[]} tracks - {
-     * @returns An array of two elements. The first element is an array of track ids. The second element is an error
-     * object.
-     */
-    async addTrackDetails(tracks: {
-        id: string;
-        genres: IMirResult[];
-        moods: IMirResult[];
-        subgenres: IMirResult[];
-    }[]): Promise<[string[] | null, any]> {
+    try {
+      const tracks = await Track.batchGet(trackIds);
+      console.log(tracks);
+      const fullTracks = tracks.filter(
+        (t) =>
+          t.genres?.length &&
+          t.subgenres?.length &&
+          t.relaxed &&
+          t.happy &&
+          t.sad &&
+          t.acoustic &&
+          t.aggressive &&
+          t.electronic
+      );
 
-        //@ts-ignore
-        const tracksRequest: TrackModel[] = tracks.map(t => {
-            return {
-                PK: t.id,
-                genres: t.genres,
-                subgenres: t.subgenres,
-                happy: t.moods.filter(m => m.label === "happy")[0],
-                relaxed: t.moods.filter(m => m.label === "relaxed")?.[0],
-                sad: t.moods.filter(m => m.label === "sad")?.[0],
-                acoustic: t.moods.filter(m => m.label === "acoustic")?.[0],
-                aggressive: t.moods.filter(m => m.label === "aggressive")?.[0],
-                electronic: t.moods.filter(m => m.label === "electronic")?.[0],
-                ludwig_version: config.ludwig_version
-            }
-        })
+      // get the ids of the tracks that are not in fullTracks
+      const missingTracks = trackIds.filter(
+        (t) => !fullTracks.find((ft) => ft.PK === t)
+      );
 
+      return [[fullTracks.filter((t) => t), missingTracks], null];
+    } catch (err: any) {
+      return [null, err];
+    }
+  }
 
+  /**
+   * It takes an array of tracks, and adds or updates them in the database
+   * @param {{
+   *         id: string;
+   *         genres: IMirResult[];
+   *         moods: IMirResult[];
+   *         subgenres: IMirResult[];
+   *     }[]} tracks - {
+   * @returns An array of two elements. The first element is an array of track ids. The second element is an error
+   * object.
+   */
+  async addTrackDetails(
+    tracks: {
+      id: string;
+      genres: IMirResult[];
+      moods: IMirResult[];
+      subgenres: IMirResult[];
+    }[]
+  ): Promise<[string[] | null, any]> {
+    //@ts-ignore
+    const tracksRequest: TrackModel[] = tracks.map((t) => {
+      return {
+        PK: t.id,
+        genres: t.genres,
+        subgenres: t.subgenres,
+        happy: t.moods.filter((m) => m.label === "happy")[0],
+        relaxed: t.moods.filter((m) => m.label === "relaxed")?.[0],
+        sad: t.moods.filter((m) => m.label === "sad")?.[0],
+        acoustic: t.moods.filter((m) => m.label === "acoustic")?.[0],
+        aggressive: t.moods.filter((m) => m.label === "aggressive")?.[0],
+        electronic: t.moods.filter((m) => m.label === "electronic")?.[0],
+      };
+    });
 
-        try{
-            // add or update all the tracksRequest to the database
-            const tracksResponse = await Track.batchPut(tracksRequest);
+    try {
+      // add or update all the tracksRequest to the database
+      const tracksResponse = await Track.batchPut(tracksRequest);
 
-            return [tracks.map(t => t.id), null];
-        }catch(err){
-            return [null, err];
-        }
+      return [tracks.map((t) => t.id), null];
+    } catch (err) {
+      return [null, err];
     }
   }
 }
