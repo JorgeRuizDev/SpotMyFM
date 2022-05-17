@@ -6,6 +6,7 @@ import Styled from "./LudwigResultsCard.styles";
 import { useThemeStore } from "store/useTheme";
 import { Theme } from "enums/Theme";
 import NewtonsCradle from "components/core/display/atoms/NewtonsCradle";
+import useTranslation from "next-translate/useTranslation";
 
 interface ILudwigResultsCardProps {
   isLoading: boolean;
@@ -41,9 +42,11 @@ function LudwigResultsCard({
     return translate[label] || label;
   }, []);
   const theme = useThemeStore((s) => s.currentTheme);
+  const {t} = useTranslation();
+
   return (
     <Styled.Wrapper>
-      <Styled.Title>🧪 Track Signal Analysis</Styled.Title>
+      <Styled.Title>{t('cards:track_signal_analysis')}</Styled.Title>
       <Styled.ThreeCols>
         {isLoading ? (
           <NewtonsCradle

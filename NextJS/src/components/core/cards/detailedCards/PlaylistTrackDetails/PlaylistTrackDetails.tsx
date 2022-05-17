@@ -12,6 +12,7 @@ import PlaylistCompleteDetails from "../PlaylistCompleteDetails";
 import ViewHeading from "components/core/display/atoms/ViewHeading";
 import parse from "html-react-parser";
 import PlaylistPublicFormat from "components/core/display/atoms/PlaylistPublicFormat";
+import useTranslation from "next-translate/useTranslation";
 
 interface IPlaylistTrackDetailsProps {
   playlist?: SpotifyApi.PlaylistObjectSimplified;
@@ -72,7 +73,7 @@ function PlaylistTrackDetails({
     () => playlist?.images?.[playlist?.images.length - 1],
     [playlist?.images]
   );
-
+  const {t} = useTranslation();
   return (
     <>
       <Modal
@@ -111,7 +112,7 @@ function PlaylistTrackDetails({
                   <PlaylistPublicFormat playlist={playlist} />
                 </h5>
                 <h5>
-                  <Text.green>{playlist.tracks.total} Tracks</Text.green>
+                  <Text.green>{t('cards:tracks2', {'%total%': playlist.tracks.total})}</Text.green>
                 </h5>
                 {playlist.description && (
                   <div>
@@ -145,7 +146,7 @@ function PlaylistTrackDetails({
         ) : (
           <></>
         )}
-        <p style={{ opacity: "30%" }}>URI: {playlist?.uri}</p>
+        <p style={{ opacity: "30%" }}>{t('cards:uri', {'%uri%': playlist?.uri})}</p>
       </Modal>
     </>
   );

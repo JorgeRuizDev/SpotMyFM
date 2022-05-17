@@ -5,6 +5,7 @@ import { useClientsStore } from "store/useClients";
 import Buttons from "styles/Buttons";
 import cookieManager from "util/cookies/loginCookieManager";
 import Styled from "./ModifyAlbumTags.styles";
+import useTranslation from "next-translate/useTranslation";
 
 interface IModifyAlbumTagsProps {
   album: Album;
@@ -24,6 +25,7 @@ function ModifyAlbumTags({
     },
     [albumTags]
   );
+  const {t} = useTranslation();
 
   const updateAlbumTags = useCallback(async () => {
     const tags = Array.from(albumTags.values());
@@ -46,9 +48,9 @@ function ModifyAlbumTags({
 
   return (
     <Styled.Card>
-      <h3>🏷 Modify Album Tags</h3>
+      <h3>{t('cards:modify_album_tags')}</h3>
       <Styled.Center>
-        <h5>Current Tags:</h5>
+        <h5>{t('cards:current_tags')}</h5>
         <PillWrap />
         <InputTags
           addTags={addTag}
@@ -67,10 +69,10 @@ function ModifyAlbumTags({
               closeModal();
             }}
           >
-            Don't Save and Close
+            {t('cards:dont_save_and_close')}
           </Buttons.SecondaryRedButton>
           <Buttons.SecondaryGreenButton onClick={updateAlbumTags}>
-            Save Changes
+            {t('cards:save_changes')}
           </Buttons.SecondaryGreenButton>
         </Buttons.LayoutCenter>
       </Styled.Center>
@@ -118,6 +120,7 @@ function InputTags({
   selectedTags,
 }: IInputTags): JSX.Element {
   const [v, setV] = useState("");
+  const {t} = useTranslation();
 
   const availableTags = tagList.filter((t) => !selectedTags.has(t));
 
@@ -125,7 +128,7 @@ function InputTags({
     <form>
       <Styled.Center>
         <input
-          placeholder="To Listen"
+          placeholder={t('cards:to_listen')}
           onChange={handleChange}
           value={v}
           list="albumTags"
@@ -140,7 +143,7 @@ function InputTags({
           type="submit"
           onClick={handleSubmit}
         >
-          Add {v} Tag
+          {t('cards:add_tag', {'%v%': v})}
         </Buttons.PrimaryGreenButton>
       </Styled.Center>
     </form>
@@ -183,10 +186,11 @@ function SuggestedTags({
 
   // Remove the already saved Tags:
   const filtered = suggested.filter((s) => activeTags.indexOf(s) === -1);
+  const {t} = useTranslation();
 
   return (
     <>
-      <h5>Suggested Tags</h5>
+      <h5>{t('cards:suggested_tags')}</h5>
       <Buttons.LayoutCenter>
         {filtered.map((t, i) => (
           <Buttons.SecondaryGreenButton key={i} onClick={() => addTag(t)}>

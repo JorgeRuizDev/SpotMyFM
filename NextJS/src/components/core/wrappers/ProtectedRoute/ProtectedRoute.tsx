@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { cacheStatusType, useLibraryCache } from "hooks/cache/useLibraryCache";
 import Buttons from "styles/Buttons";
 import router from "next/router";
+import useTranslation from "next-translate/useTranslation";
 interface IProtectedRouteProps {
   children?: ReactNode | ReactNode[];
   onlyLogged?: boolean;
@@ -27,7 +28,7 @@ function ProtectedRoute({
   const { isLogged } = useLoginStore();
   const [isAdmin, setIsAdmin] = useState<boolean | undefined>(undefined);
   const { cacheStatus, cacheTrackLibrary } = useLibraryCache();
-
+  const {t} = useTranslation();
   // REDIRECTS:
   useEffect(() => {
     if (onlyLogged && isLogged === false) {
@@ -57,8 +58,8 @@ function ProtectedRoute({
       return (
         <Styled.FullPageCenter>
           <Styled.Card>
-            <h3>The Library Is Being Cached</h3>
-            <p>Please Wait</p>
+            <h3>{t('cards:the_library_is_being_cached')}</h3>
+            <p>{t('cards:please_wait')}</p>
           </Styled.Card>
         </Styled.FullPageCenter>
       );
@@ -70,10 +71,10 @@ function ProtectedRoute({
         <>
           <Styled.FullPageCenter>
             <Styled.Card>
-              <h3>Forbidden Action</h3>
-              <h5>This page requires your library to be cached</h5>
+              <h3>{t('cards:forbidden_action')}</h3>
+              <h5>{t('cards:this_page_requires_your_library_to_be_cached')}</h5>
               <Buttons.PrimaryGreenButton onClick={cacheTrackLibrary}>
-                Cache My Library!
+                {t('cards:cache_my_library')}
               </Buttons.PrimaryGreenButton>
             </Styled.Card>
           </Styled.FullPageCenter>

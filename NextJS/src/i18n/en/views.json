@@ -15,5 +15,9 @@
   "unselect-all-selecte": "Unselect all selected elements",
   "unmute": "Unmute",
   "mute": "Mute",
-  "more": "More"
+  "more": "More",
+  "show_cached_albums": "Show Cached Albums",
+  "show_tagged_albums": "Show Tagged Albums",
+  "show_saved_albums": "Show Saved Albums",
+  "album_manager": "Album Manager"
 }

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { usePopper } from "react-popper";
 import NavDropItems from "../../NavDropItems";
 import Styled from "./NavDropDown.styles";
+import useTranslation from "next-translate/useTranslation";
 interface INavDropDownProps {
   username?: string;
 }
@@ -66,11 +67,12 @@ function NavDropDown({ username }: INavDropDownProps): JSX.Element {
 }
 
 function Button({ username }: { username: string }) {
+  const {t} = useTranslation();
   return (
     <Styled.Row>
       <Styled.Arrow />
       <Styled.BtnLayout>
-        <Styled.Message>Welcome Back</Styled.Message>
+        <Styled.Message>{t('cards:welcome_back')}</Styled.Message>
         <Styled.Username>{username}</Styled.Username>
       </Styled.BtnLayout>
     </Styled.Row>

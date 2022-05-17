@@ -6,6 +6,7 @@ import { useClientsStore } from "store/useClients";
 import { useLoginStore } from "store/useLogin";
 import NavDropDown from "../NavDropDown";
 import Styled from "./NavbarRightSide.styles";
+import useTranslation from "next-translate/useTranslation";
 
 function NavbarRightSide(): JSX.Element {
   const { isLogged, logOut } = useLoginStore();
@@ -16,7 +17,7 @@ function NavbarRightSide(): JSX.Element {
   function toggleLogOut() {
     setShowLogOut(!showLogOut);
   }
-
+  const {t} = useTranslation();
   return isLogged ? (
     <>
       <AnimatePresence>
@@ -58,7 +59,7 @@ function NavbarRightSide(): JSX.Element {
             exit={{ x: "150%" }}
             transition={{ style: "linear", duration: 0.4 }}
           >
-            Log Out
+            {t('cards:log_out')}
           </Styled.LogOutButton>
         </Styled.LogOutDiv>
       </AnimatePresence>

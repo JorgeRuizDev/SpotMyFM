@@ -5,10 +5,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import GroupedGreenButton from "components/core/input/atoms/GroupedGreenButton";
 import { HiFilter } from "react-icons/hi";
 import { BiReset } from "react-icons/bi";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Prueba() {
   const [isActive, setIsActive] = useState(true);
-
+    const {t} = useTranslation();
   return (
     <>
       <GroupedGreenButton
@@ -16,7 +17,7 @@ export default function Prueba() {
           {
             body: (
               <>
-                <HiFilter /> <span>Filtrame</span>
+                <HiFilter /> <span>Filter</span>
               </>
             ),
             onClick: () => {

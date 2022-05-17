@@ -5,6 +5,7 @@ import Styled from "./PlaylistManager.styles";
 import Text from "styles/Text";
 import Ms from "styles/Miscellaneous";
 import Switch from "components/core/input/atoms/Switch";
+import useTranslation from "next-translate/useTranslation";
 interface IPlaylistManagerProps {}
 
 function PlaylistManager(props: IPlaylistManagerProps): JSX.Element {
@@ -56,21 +57,21 @@ function PlaylistManager(props: IPlaylistManagerProps): JSX.Element {
     showPersonal && playlists.push(...personalPlaylists);
     setDisplayPlaylists(playlists);
   }, [likedPlaylists, personalPlaylists, showLiked, showPersonal]);
-
+  const {t} = useTranslation();
   return (
     <Styled.Wrap>
-      <Text.PageTitle>Playlist Manager</Text.PageTitle>
+      <Text.PageTitle>{t('cards:playlist_manager')}</Text.PageTitle>
       <Styled.Center>
         <Styled.CardWrap>
           <Ms.Card>
-            <Styled.CardTitle>Settings</Styled.CardTitle>
+            <Styled.CardTitle>{t('settings:settings')}</Styled.CardTitle>
             <Switch
               isChecked={showPersonal}
               onToggle={() => {
                 setShowPersonal((p) => !p);
               }}
             >
-              <p>Show Personal Playlists</p>
+              <p>{t('cards:show_personal_playlists')}</p>
             </Switch>
 
             <Switch
@@ -79,7 +80,7 @@ function PlaylistManager(props: IPlaylistManagerProps): JSX.Element {
                 setShowLiked((p) => !p);
               }}
             >
-              <p>Show Liked Playlists</p>
+              <p>{t('cards:show_liked_playlists')}</p>
             </Switch>
           </Ms.Card>
         </Styled.CardWrap>

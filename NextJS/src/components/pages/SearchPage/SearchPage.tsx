@@ -11,6 +11,7 @@ import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import SearchResultsView from "components/core/cards/views/SearchResultsView";
 import InputWithSelector from "components/core/input/molecules/InputWithSelector";
+import useTranslation from "next-translate/useTranslation";
 interface ISearchPageProps {}
 
 type searchType = "tracks" | "albums" | "artists" | "playlists";
@@ -99,11 +100,11 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
       search(searchStr);
     }
   }, [prevSearchType, search, searchStr, searchTypeSel]);
-
+    const {t} = useTranslation();
   return (
     <Styled.Col>
       <Text.PageTitle>
-        <span>Spotify Search</span>
+        <span>{t('cards:spotify_search')}</span>
       </Text.PageTitle>
 
       <Styled.Center>
@@ -124,7 +125,7 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
                   }}
                   dropTitle={
                     <span style={{ whiteSpace: "nowrap" }}>
-                      Number Of Results
+                      {t('cards:number_of_results')}
                     </span>
                   }
                   dropItems={[5, 10, 15, 25, 35, 50].map((n, i) => ({
@@ -135,7 +136,7 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
                             n === maxRes ? "underline" : "none",
                         }}
                       >
-                        {n} results
+                        {t('cards:results', {'%n%': n})}
                       </span>
                     ),
                     onClick: () => setMaxRes(n),
@@ -160,25 +161,25 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
               isChecked={searchTypeSel === "tracks"}
               onClick={() => setSearchTypeSel("tracks")}
             >
-              Tracks
+              {t('home:tracks')}
             </Buttons.CheckableGreenButton>
             <Buttons.CheckableGreenButton
               isChecked={searchTypeSel === "albums"}
               onClick={() => setSearchTypeSel("albums")}
             >
-              Albums
+              {t('cards:albums')}
             </Buttons.CheckableGreenButton>
             <Buttons.CheckableGreenButton
               isChecked={searchTypeSel === "artists"}
               onClick={() => setSearchTypeSel("artists")}
             >
-              Artists
+              {t('cards:artists')}
             </Buttons.CheckableGreenButton>
             <Buttons.CheckableGreenButton
               onClick={() => setSearchTypeSel("playlists")}
               isChecked={searchTypeSel === "playlists"}
             >
-              Playlists
+              {t('cards:playlists')}
             </Buttons.CheckableGreenButton>
           </Styled.Card>
         </Styled.CardWrap>

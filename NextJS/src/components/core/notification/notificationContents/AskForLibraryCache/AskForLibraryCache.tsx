@@ -1,28 +1,32 @@
 import { useLibraryCache } from "hooks/cache/useLibraryCache";
 import Styled from "./AskForLibraryCache.styles";
-
+import useTranslation from "next-translate/useTranslation";
+import Trans from "next-translate/Trans"
 interface IAskForLibraryCacheProps {
   onClick: () => void;
 }
 
+
 function AskForLibraryCache({ onClick }: IAskForLibraryCacheProps) {
+    const {t} = useTranslation();
   return (
     <Styled.Flex>
       <div>
         <Styled.b>
-          ¿Do you want to store your Spotify Library in this browser?
+          {t('cards:do_you_want_to_store_your_spotify_library_in_this')}
         </Styled.b>
         <br />
         <Styled.p>
-          Some features like "Library Manager" or "Real Shuffle" need to know
-          all your favorite songs in order to work properly.
-          <br />
-          This process can take a long time depending on the number of songs you
-          have marked as favorite.
+            <Trans
+                i18nKey="cards:some_features_like_library_manager_or_real_shuffle"
+                components={{
+                    b: <br/>
+                }}
+            />
         </Styled.p>
       </div>
       <Styled.CacheButton onClick={onClick}>
-        Download My Library
+        {t('cards:download_my_library')}
       </Styled.CacheButton>
     </Styled.Flex>
   );

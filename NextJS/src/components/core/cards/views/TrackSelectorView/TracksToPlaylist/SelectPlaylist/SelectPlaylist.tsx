@@ -12,6 +12,7 @@ import SimplePlaylistCard from "components/core/cards/simpleCards/SimplePlaylist
 import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import filterSpotifyPlaylist from "util/filters/filterSpotifyPlaylist";
 import { useCardSelector } from "hooks/cardSelector/useCardSelector";
+import useTranslation from "next-translate/useTranslation";
 interface ISelectPlaylistProps {
   playlists?: SpotifyApi.PlaylistObjectSimplified[];
   trackUris: string[];
@@ -114,7 +115,7 @@ function ButtonRow({ selPlaylist, trackUris, unselectAll }: IButtonRow) {
 
   const { addTracksToPlaylist, replacePlaylistTracksWith } =
     usePlaylistManager();
-
+    const {t} = useTranslation();
   return (
     <Styled.Center>
       <Buttons.PrimaryGreenButton
@@ -122,29 +123,29 @@ function ButtonRow({ selPlaylist, trackUris, unselectAll }: IButtonRow) {
         onClick={addTracks}
       >
         <MdPlaylistAdd />
-        <span>Append To Playlist</span>
+        <span>{t('cards:append_to_playlist')}</span>
       </Buttons.PrimaryGreenButton>
       <Buttons.SecondaryGreenButton
         disabled={selPlaylist === undefined}
         onClick={() => setShowModal(true)}
       >
         <MdDeleteForever />
-        <span>Replace Playlist With Selected</span>
+        <span>{t('cards:replace_playlist_with_selected')}</span>
       </Buttons.SecondaryGreenButton>
       <Buttons.SecondaryGreenButton
         disabled={selPlaylist === undefined}
         onClick={unselectAll}
       >
         <MdCancel />
-        <span>Unselect</span>
+        <span>{t('cards:unselect')}</span>
       </Buttons.SecondaryGreenButton>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <h3>
-          Are you sure you want to delete {selPlaylist?.tracks.total} tracks?
+          {t('cards:are_you_sure_you_want_to_delete_tracks', {'%total%': selPlaylist?.tracks.total})}
         </h3>
         <Styled.Center>
           <Buttons.PrimaryRedButton onClick={replaceTracks}>
-            I'm Sure
+            {t('cards:im_sure')}
           </Buttons.PrimaryRedButton>
         </Styled.Center>
       </Modal>

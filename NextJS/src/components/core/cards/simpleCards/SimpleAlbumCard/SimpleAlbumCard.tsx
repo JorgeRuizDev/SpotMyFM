@@ -10,6 +10,7 @@ import TrackCompleteDetails from "../../detailedCards/TrackCompleteDetails";
 import ModifyAlbumTags from "../../other/ModifyAlbumTags";
 import { SaveAlbum } from "../../buttons/CardButtons/CardButtons";
 import { useClientsStore } from "store/useClients";
+import useTranslation from "next-translate/useTranslation";
 
 interface ISimpleAlbumCardProps {
   album: Album;
@@ -26,7 +27,7 @@ function SimpleAlbumCard({
   // Modal States:
   const [showDetails, setShowDetails] = useState(false);
   const [showTagManager, setShowTagManager] = useState(false);
-
+    const {t} = useTranslation();
   return (
     <>
       <Styled.Layout compact={compact}>
@@ -43,7 +44,7 @@ function SimpleAlbumCard({
             <p>Released on {album.spotifyReleaseDate?.toLocaleDateString()}</p>
           )}
           <hr />
-          <p>Popularity: {formatPopularity(pop)}</p>
+          <p>{t('cards:popularity2')} {formatPopularity(pop)}</p>
           <ul>
             {album.artists?.map((x, i) => (
               <li key={i}>
@@ -87,7 +88,7 @@ function SimpleAlbumCard({
             setShowTagManager(true);
           }}
         >
-          <FaTags /> <span>Tag Manager</span>
+          <FaTags /> <span>{t('cards:tag_manager')}</span>
         </Buttons.SecondaryGreenButton>
 
         <Buttons.SecondaryGreenButton

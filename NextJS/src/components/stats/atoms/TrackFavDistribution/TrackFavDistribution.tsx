@@ -17,6 +17,7 @@ import {
 } from "recharts";
 import Styled from "./TrackFavDistribution.styles";
 import DropdownMenu from "components/core/input/atoms/DropdownMenu";
+import useTranslation from "next-translate/useTranslation";
 interface ITrackFavDistributionProps {
   tracks: Track[];
   years: number[];
@@ -85,7 +86,7 @@ function TrackFavDistribution({
   useEffect(() => {
     __load();
   }, [__load]);
-
+  const {t} = useTranslation();
   useEffect(() => {
     if (typeof dropSel == "number") {
       const map = new Map<number, number>();
@@ -107,8 +108,8 @@ function TrackFavDistribution({
 
   return savedTracks.length > tracks.length * 0.2 ? (
     <>
-      <h3>📈Saved Tracks Per Month:</h3>
-      <p>There are {savedTracks.length} saved tracks.</p>
+      <h3>{t('cards:saved_tracks_per_month')}</h3>
+      <p>{t('cards:there_are_saved_tracks', {'%length%': savedTracks.length})}</p>
       <Styled.Center>
         <DropdownMenu
           items={[
@@ -119,7 +120,7 @@ function TrackFavDistribution({
                     textDecoration: dropSel == "year" ? "underline" : "",
                   }}
                 >
-                  Per Year
+                  {t('cards:per_year')}
                 </span>
               ),
               onClick: () => {
@@ -133,7 +134,7 @@ function TrackFavDistribution({
                     textDecoration: dropSel == "acc" ? "underline" : "",
                   }}
                 >
-                  Accumulated Months
+                  {t('cards:accumulated_months')}
                 </span>
               ),
               onClick: () => {
@@ -147,7 +148,7 @@ function TrackFavDistribution({
                     textDecoration: dropSel == y ? "underline" : "",
                   }}
                 >
-                  Saved On {y}
+                  {t('cards:saved_on', {'%y%': y})}
                 </span>
               ),
               onClick: () => {
@@ -156,7 +157,7 @@ function TrackFavDistribution({
             })),
           ]}
         >
-          Activity Interval
+          {t('cards:activity_interval')}
         </DropdownMenu>
       </Styled.Center>
       <ResponsiveContainer height={height} width={width}>

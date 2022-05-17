@@ -318,7 +318,7 @@ function CardLayoutButtons({
         disabled={!tracks.length}
       >
         <IoStatsChart />
-        <span>Show Stats</span>
+        <span>{t('cards:show_stats')}</span>
       </Buttons.SecondaryGreenButton>
       <span
         onClick={() =>
@@ -333,7 +333,7 @@ function CardLayoutButtons({
           disabled={selectManager?.selectedCount == 0}
         >
           <AiFillLike />
-          <span>Recommended</span>
+          <span>{t('cards:recommended')}</span>
         </Buttons.SecondaryGreenButton>
       </span>
       <DropdownMenu

@@ -6,6 +6,7 @@ import { useCallback, useMemo, useState } from "react";
 import Text from "styles/Text";
 import _ from "lodash";
 import { ImShuffle } from "react-icons/im";
+import useTranslation from "next-translate/useTranslation";
 interface ILibraryManagerTopTabProps {
   setTracks: (t: Track[]) => void;
   cachedTracks: Track[];
@@ -20,6 +21,7 @@ function LibraryManagerTopTab({
   resetTrackSel,
 }: ILibraryManagerTopTabProps): JSX.Element {
   const trackCount = useMemo(() => cachedTracks.length, [cachedTracks]);
+  const {t} = useTranslation();
 
   const [numberTracks, setNumberTracks] = useState(trackCount);
 
@@ -41,12 +43,12 @@ function LibraryManagerTopTab({
         <Tab.Tabs defaultTabId="1">
           <Tab.TabWrap>
             <Tab.Tab id={"1"}>
-              <p>Track Manager</p>
+              <p>{t('cards:track_manager')}</p>
             </Tab.Tab>
             <Tab.Tab id={"2"}>
               <p>
                 <Text.Inline>
-                  <span>Random Shuffle</span>
+                  <span>{t('cards:random_shuffle')}</span>
                   <ImShuffle />
                 </Text.Inline>
               </p>
@@ -57,18 +59,16 @@ function LibraryManagerTopTab({
             <Tab.TabContent id={"1"}>
               <Text.Column centered>
                 <h5>
-                  <Text.green>Explore Your Library!</Text.green>
+                  <Text.green>{t('cards:explore_your_library')}</Text.green>
                 </h5>
                 <p>
-                  Browse, filter, create personalized playlists and check your
-                  personal stats of{" "}
-                  <Text.green>{cachedTracks.length}</Text.green> saved songs.
+                  {t('cards:browse_filter_create_personalized_playlists_and_ch')}{" "}
+                  <Text.green>{cachedTracks.length}</Text.green> {t('cards:saved_songs')}
                 </p>
                 <br />
                 <p>
-                  Generate a <Text.green>shuffled sample</Text.green> of your
-                  saved tracks in the{" "}
-                  <Text.green>Random Shuffle Tab</Text.green>
+                  {t('cards:generate_a')} <Text.green>{t('cards:shuffled_sample')}</Text.green> {t('cards:of_your_saved_tracks_in_the')}{" "}
+                  <Text.green>{t('cards:random_shuffle_tab')}</Text.green>
                 </p>
                 <br />
               </Text.Column>
@@ -78,7 +78,7 @@ function LibraryManagerTopTab({
                 <h4>
                   <Text.Inline>
                     <ImShuffle />
-                    <span>Random Shuffle</span>
+                    <span>{t('cards:random_shuffle')}</span>
                   </Text.Inline>
                 </h4>
                 <Styled.SliderContainer>
@@ -90,17 +90,16 @@ function LibraryManagerTopTab({
                   />
                 </Styled.SliderContainer>
                 <p>
-                  Select a <Text.green>random amount of tracks</Text.green> from
-                  your library
+                  {t('cards:select_a')} <Text.green>{t('cards:random_amount_of_tracks')}</Text.green> {t('cards:from_your_library')}
                 </p>
                 <p>
-                  {numberTracks} Tracks Selected! (
+                  {t('cards:tracks_selected', {'%numberTracks%': numberTracks})}
                   <Styled.ClickText
                     onClick={() => {
                       resetTrackSel();
                     }}
                   >
-                    Reset Selection
+                    {t('cards:reset_selection')}
                   </Styled.ClickText>
                   )
                 </p>

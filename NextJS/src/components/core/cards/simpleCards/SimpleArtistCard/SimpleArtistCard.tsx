@@ -6,6 +6,7 @@ import Buttons from "styles/Buttons";
 import formatPopularity from "util/spotify/formatPopularity";
 import ArtistCompleteDetails from "../../detailedCards/ArtistCompleteDetails";
 import Styled from "./SimpleArtistCard.styles";
+import useTranslation from "next-translate/useTranslation";
 interface ISimpleArtistCardProps {
   artist: Artist;
 }
@@ -17,6 +18,7 @@ interface ISimpleArtistCardProps {
 function SimpleArtistCard({ artist }: ISimpleArtistCardProps): JSX.Element {
   const pop = artist.spotifyPopularity || 0;
   const [showDet, setShowDet] = useState(false);
+  const {t} = useTranslation();
   return (
     <>
       <Modal isOpen={showDet} onClose={() => setShowDet(false)}>
@@ -31,10 +33,10 @@ function SimpleArtistCard({ artist }: ISimpleArtistCardProps): JSX.Element {
         />
         <Styled.Content>
           <h4>{artist.name}</h4>
-          <p>Popularity: {formatPopularity(pop)}</p>
+          <p>{t('cards:popularity2')} {formatPopularity(pop)}</p>
           <Buttons.PrimaryGreenButton onClick={() => setShowDet(true)}>
             <FaPlus />
-            <span>Show Details</span>
+            <span>{t('cards:show_details')}</span>
           </Buttons.PrimaryGreenButton>
           <ArtistGenres />
         </Styled.Content>
@@ -47,7 +49,7 @@ function SimpleArtistCard({ artist }: ISimpleArtistCardProps): JSX.Element {
       artist.spotifyGenres.length > 0 ? (
       <>
         <hr />
-        <h5>Genres:</h5>
+        <h5>{t('cards:genres2')}</h5>
         <ul>
           {artist.spotifyGenres?.map((g, i) => (
             <li key={i}>
@@ -57,7 +59,7 @@ function SimpleArtistCard({ artist }: ISimpleArtistCardProps): JSX.Element {
         </ul>
       </>
     ) : (
-      <h6>No Genres</h6>
+      <h6>{t('cards:no_genres')}</h6>
     );
   }
 }

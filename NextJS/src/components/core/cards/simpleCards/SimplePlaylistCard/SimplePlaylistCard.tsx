@@ -4,6 +4,7 @@ import { useState } from "react";
 import Text from "styles/Text";
 import { MdGroup, MdLock, MdPublic } from "react-icons/md";
 import PlaylistPublicFormat from "components/core/display/atoms/PlaylistPublicFormat";
+import useTranslation from "next-translate/useTranslation";
 interface ISmallPlaylistCardProps {
   playlist: SpotifyApi.PlaylistObjectSimplified;
   onDetailsClick: () => void;
@@ -15,6 +16,7 @@ function SimplePlaylistCard({
   onDetailsClick,
   compact = false,
 }: ISmallPlaylistCardProps): JSX.Element {
+  const {t} = useTranslation();
   return (
     <>
       <Styled.CardLayout compact={compact}>
@@ -38,7 +40,7 @@ function SimplePlaylistCard({
                 <p>
                   <PlaylistPublicFormat playlist={playlist} />
                 </p>
-                <p>By {playlist.owner.display_name}</p>
+                <p>{t('cards:by', {'%display_name%': playlist.owner.display_name})}</p>
               </li>
             </ul>
           </Styled.InfoLayout>
@@ -49,7 +51,7 @@ function SimplePlaylistCard({
                 onDetailsClick();
               }}
             >
-              Show Details
+              {t('cards:show_details')}
             </Buttons.PrimaryGreenButton>
           </Buttons.LayoutCenter>
         </Styled.Content>

@@ -1,6 +1,7 @@
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { createRef, useEffect, useState } from "react";
 import Styled from "./SpotifyPlayerButton.styles";
+import useTranslation from "next-translate/useTranslation";
 interface ISpotifyPlayerButtonProps {
   playing?: Track;
 }
@@ -42,7 +43,7 @@ function SpotifyPlayerButton({
       setTitleOverflows(false);
     }
   }, [parentW, titleRef]);
-
+  const {t} = useTranslation();
   const title = (
     <Styled.PlayingText>
       <Styled.Title>
@@ -51,7 +52,7 @@ function SpotifyPlayerButton({
             {playing.name} · {playing.album?.name || ""}
           </span>
         ) : (
-          <span>There is No Active Track</span>
+          <span>{t('cards:there_is_no_active_track')}</span>
         )}
       </Styled.Title>
     </Styled.PlayingText>

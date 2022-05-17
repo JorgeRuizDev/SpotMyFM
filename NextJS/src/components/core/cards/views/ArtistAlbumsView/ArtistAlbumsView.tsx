@@ -11,6 +11,7 @@ import SimpleAlbumCard from "../../simpleCards/SimpleAlbumCard";
 import GenericCardView from "../GenericCardView";
 import { ViewTypeOption } from "../GenericCardView/GenericCardView";
 import Styled from "./ArtistAlbumsView.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IArtistAlbumsViewProps {
   artist: Artist;
   scrollableTarget?: string;
@@ -100,17 +101,19 @@ function ArtistAlbumsView({
 }
 
 function AlbumHead() {
+  const {t} = useTranslation();
   return (
     <Styled.Head>
-      <h3>Albums</h3>
+      <h3>{t('cards:albums')}</h3>
     </Styled.Head>
   );
 }
 
 function SingleHead() {
+  const {t} = useTranslation();
   return (
     <Styled.Head>
-      <h3>Singles</h3>
+      <h3>{t('cards:singles')}</h3>
     </Styled.Head>
   );
 }

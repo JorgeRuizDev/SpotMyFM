@@ -11,6 +11,7 @@ import Styled from "./ListTrackCard.styles";
 import { IGenericCardViewSortProps } from "../../views/GenericCardView/GenericCardView";
 import Buttons from "styles/Buttons";
 import { FaPlus } from "react-icons/fa";
+import useTranslation from "next-translate/useTranslation";
 interface IListTrackCardProps {
   track: Track;
   pos?: number;
@@ -30,6 +31,7 @@ function ListTrackCard({
   small = false,
 }: IListTrackCardProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const {t} = useTranslation();
 
   return (
     <>
@@ -130,6 +132,8 @@ function ListTrackCardHeader({
   pos?: boolean;
   sorting?: IGenericCardViewSortProps;
 }): JSX.Element {
+  const {t} = useTranslation();
+
   return (
     <Styled.Header>
       <Styled.LeftSide>
@@ -138,23 +142,23 @@ function ListTrackCardHeader({
         </Styled.FirstTwoCols>
 
         <Styled.E1>
-          <Styled.GreenP>Name</Styled.GreenP>
+          <Styled.GreenP>{t('cards:name')}</Styled.GreenP>
         </Styled.E1>
 
         <Styled.E2>
-          <Styled.GreenP>Album</Styled.GreenP>
+          <Styled.GreenP>{t('cards:album')}</Styled.GreenP>
         </Styled.E2>
 
         <Styled.E3>
-          <Styled.GreenP>Release Date</Styled.GreenP>
+          <Styled.GreenP>{t('cards:release_date')}</Styled.GreenP>
         </Styled.E3>
 
         <Styled.E5>
-          <Styled.GreenP>Genres</Styled.GreenP>
+          <Styled.GreenP>{t('cards:genres')}</Styled.GreenP>
         </Styled.E5>
 
         <Styled.E6>
-          <Styled.GreenP>Popularity</Styled.GreenP>
+          <Styled.GreenP>{t('cards:popularity')}</Styled.GreenP>
         </Styled.E6>
       </Styled.LeftSide>
 

@@ -15,6 +15,7 @@ import {
   YAxis,
 } from "recharts";
 import Styled from "./FavDecades.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IFavDecadesProps {
   tracks: Track[];
   albums: Album[];
@@ -75,11 +76,11 @@ function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
   useEffect(() => {
     __setDecades(tracksToShow);
   }, [__setDecades, tracksToShow]);
-
+  const {t} = useTranslation();
   return (
     <>
-      <h3>📆 Your Favorite Decades:</h3>
-      <p>Distribution of your favorite albums and songs in each decade .</p>
+      <h3>{t('cards:your_favorite_decades')}</h3>
+      <p>{t('cards:distribution_of_your_favorite_albums_and_songs_in')}</p>
       <Styled.CenterInline>
         <DropdownMenu
           items={[
@@ -91,7 +92,7 @@ function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
                       tracks.length === tracksToShow.length ? "underline" : "",
                   }}
                 >
-                  All Tracks
+                  {t('cards:all_tracks')}
                 </span>
               ),
               onClick: () => {
@@ -106,7 +107,7 @@ function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
                     textDecoration: dropSelection === y ? "underline" : "",
                   }}
                 >
-                  Saved On {y}
+                  {t('cards:saved_on', {'%y%': y})}
                 </span>
               ),
               onClick: () => {
@@ -118,7 +119,7 @@ function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
             })),
           ]}
         >
-          Saved Interval
+          {t('cards:saved_interval')}
         </DropdownMenu>
       </Styled.CenterInline>
       <ResponsiveContainer width={width} height={height}>

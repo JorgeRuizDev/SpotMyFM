@@ -5,6 +5,7 @@ import { FaPlus } from "react-icons/fa";
 import Buttons from "styles/Buttons";
 import PlaylistCompleteDetails from "../../detailedCards/PlaylistCompleteDetails";
 import Styled from "./ListPlaylistCard.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IListPlaylistCardProps {
   playlist: SpotifyApi.PlaylistObjectSimplified;
   pos?: number;
@@ -12,6 +13,8 @@ interface IListPlaylistCardProps {
 }
 
 function ListPlaylistCardHeader({ pos }: { pos?: boolean }): JSX.Element {
+  const {t} = useTranslation();
+
   return (
     <Styled.Header>
       <Styled.LeftSide>
@@ -20,24 +23,24 @@ function ListPlaylistCardHeader({ pos }: { pos?: boolean }): JSX.Element {
         </Styled.FirstTwoCols>
 
         <Styled.E1>
-          <Styled.GreenP>Title</Styled.GreenP>
+          <Styled.GreenP>{t('cards:title')}</Styled.GreenP>
         </Styled.E1>
 
         <Styled.E2>
-          <Styled.GreenP>Owner</Styled.GreenP>
+          <Styled.GreenP>{t('cards:owner')}</Styled.GreenP>
         </Styled.E2>
         <Styled.E3>
-          <Styled.GreenP>Status</Styled.GreenP>
+          <Styled.GreenP>{t('cards:status')}</Styled.GreenP>
         </Styled.E3>
         <Styled.E4>
-          <Styled.GreenP>Description</Styled.GreenP>
+          <Styled.GreenP>{t('cards:description')}</Styled.GreenP>
         </Styled.E4>
       </Styled.LeftSide>
 
       <Styled.RightSide>
         <Styled.RightSideSpacing>
           <Styled.E4>
-            <Styled.GreenP>Track Count</Styled.GreenP>
+            <Styled.GreenP>{t('cards:track_count')}</Styled.GreenP>
           </Styled.E4>
         </Styled.RightSideSpacing>
       </Styled.RightSide>

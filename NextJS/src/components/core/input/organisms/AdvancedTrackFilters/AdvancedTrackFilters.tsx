@@ -10,6 +10,7 @@ import Styled from "./AdvancedTrackFilters.styles";
 import TrackIntervalFilters from "./TrackIntervalFilters";
 import TrackPillFilters from "./TrackPillFilters";
 import { FaMusic } from "react-icons/fa";
+import useTranslation from "next-translate/useTranslation";
 interface IAdvancedTrackFiltersProps {
   tracks?: Track[];
   albums?: Album[];
@@ -68,18 +69,17 @@ function AdvancedTrackFilters({
     setFilteredAlbums,
     filteredIntervalAlbums,
   ]);
-
+  const {t} = useTranslation();
   return (
     <Styled.Spacing>
       <Text.Column centered>
         <h3>
           <Text.Inline>
-            <FaMusic /> <span>Filter by Exact Features</span>
+            <FaMusic /> <span>{t('cards:filter_by_exact_features')}</span>
           </Text.Inline>
         </h3>
         <p>
-          Show the items that <Text.pGreen>contain one or more</Text.pGreen> of
-          the following features
+          {t('cards:show_the_items_that')} <Text.pGreen>{t('cards:contain_one_or_more')}</Text.pGreen> {t('cards:of_the_following_features')}
         </p>
       </Text.Column>
 
@@ -96,12 +96,12 @@ function AdvancedTrackFilters({
         <h3>
           <Text.Inline>
             {" "}
-            <BsSliders /> <span>Filter by Interval Features</span>
+            <BsSliders /> <span>{t('cards:filter_by_interval_features')}</span>
           </Text.Inline>
         </h3>
         <p>
-          Show the items whose{" "}
-          <Text.pGreen>features fall inside the selected interval</Text.pGreen>
+          {t('cards:show_the_items_whose')}{" "}
+          <Text.pGreen>{t('cards:features_fall_inside_the_selected_interval')}</Text.pGreen>
         </p>
       </Text.Column>
 

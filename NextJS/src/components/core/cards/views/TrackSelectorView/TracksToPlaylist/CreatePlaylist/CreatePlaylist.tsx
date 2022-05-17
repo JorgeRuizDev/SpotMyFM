@@ -9,7 +9,8 @@ import spotifyResponseCodes from "restClients/spotify/spotifyResponseCodes";
 import { useClientsStore } from "store/useClients";
 import Buttons from "styles/Buttons";
 import Styled from "./CreatePlaylist.styles";
-
+import useTranslation from "next-translate/useTranslation";
+import Trans from "next-translate/Trans"
 interface ICreatePlaylistProps {
   tracks: string[];
   unselectAll: () => void;
@@ -33,6 +34,7 @@ function CreatePlaylist({
   function savePlaylistName(e: React.ChangeEvent<HTMLInputElement>) {
     setPlaylistName(e?.target?.value);
   }
+  const {t} = useTranslation();
 
   return (
     <Styled.TwoCols>
@@ -46,16 +48,16 @@ function CreatePlaylist({
           }}
         >
           <Styled.Box>
-            <p>Playlist Name:</p>
+            <p>{t('cards:playlist_name')}</p>
             <input
-              type={"text"}
-              minLength={1}
-              required={true}
-              placeholder={"MySpotifyFM Playlist"}
-              onChange={savePlaylistName}
-            ></input>
+    type={"text"}
+    minLength={1}
+    required={true}
+    placeholder={"MySpotifyFM Playlist"}
+    onChange={savePlaylistName}
+    />
             <Buttons.PrimaryGreenButton onClick={createPlaylistsHandler}>
-              Create Playlist
+              {t('cards:create_playlist')}
             </Buttons.PrimaryGreenButton>
           </Styled.Box>
         </Styled.Form>
@@ -64,8 +66,7 @@ function CreatePlaylist({
         <ul>
           <li>
             <p>
-              Divide in {numberOfPlaylists}{" "}
-              {numberOfPlaylists > 1 ? "playlists" : "playlist"}.
+              {t('cards:divide_in', {'%numberOfPlaylists%': numberOfPlaylists, '%expr%': " ", '%expr_2%': numberOfPlaylists > 1 ? "playlists" : "playlist"})}
             </p>
             <input
               type="number"
@@ -89,7 +90,12 @@ function CreatePlaylist({
               disabled={isCollaborative}
             >
               <p>
-                ¿Make the playlist <b>public</b>?
+                  <Trans
+                      i18nKey="cards:make_the_playlist_public"
+                      components={{
+                          b: <b/>
+                      }}
+                  />
               </p>
             </Switch>
           </li>
@@ -101,7 +107,12 @@ function CreatePlaylist({
               isChecked={isCollaborative}
             >
               <p>
-                ¿Make the playlist <b>collaborative</b>?
+                  <Trans
+                      i18nKey="cards:make_the_playlist_collaborative"
+                      components={{
+                          b: <b/>
+                      }}
+                  />
               </p>
             </Switch>
           </li>

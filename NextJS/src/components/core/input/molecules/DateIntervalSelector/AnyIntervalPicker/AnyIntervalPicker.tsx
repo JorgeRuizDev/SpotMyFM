@@ -1,6 +1,7 @@
 import DatePicker from "components/core/input/atoms/DatePicker";
 import React from "react";
 import Styled from "./AnyIntervalPicker.styles";
+import useTranslation from "next-translate/useTranslation";
 
 interface IAnyIntervalPickerProps {
   oldestDate: Date;
@@ -14,11 +15,12 @@ function AnyIntervalPicker({
   setMin,
   setMax,
 }: IAnyIntervalPickerProps) {
+  const {t} = useTranslation();
   return (
     <>
       <Styled.CenterRow>
         <Styled.Col>
-          <p>Start Date</p>
+          <p>{t('cards:start_date')}</p>
           <DatePicker
             onDayChange={(d) => setMin(d)}
             defaultDate={oldestDate}
@@ -31,7 +33,7 @@ function AnyIntervalPicker({
         </Styled.Col>
 
         <Styled.Col>
-          <p>End Date</p>
+          <p>{t('cards:end_date')}</p>
           <DatePicker
             onDayChange={(d) => setMax(d)}
             defaultDate={newestDate}

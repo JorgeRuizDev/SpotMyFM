@@ -1,22 +1,24 @@
 import Styled from "./InconsistentCacheMessage.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IInconsistentCacheMessageProps {
   onClick: () => void;
 }
 
 function InconsistentCacheMessage({ onClick }: IInconsistentCacheMessageProps) {
-  return (
+    const {t} = useTranslation();
+
+    return (
     <Styled.NotificationWrapper>
       <div>
-        <Styled.b>The Cache seems to be inconsistent!</Styled.b>
+        <Styled.b>{t('cards:the_cache_seems_to_be_inconsistent')}</Styled.b>
 
         <br />
         <Styled.p>
-          There was an error while caching your library ¿Did you close the page
-          before the the caching process was completed?
+          {t('cards:there_was_an_error_while_caching_your_library_did')}
         </Styled.p>
       </div>
 
-      <Styled.CacheButton onClick={onClick}>Fix Now</Styled.CacheButton>
+      <Styled.CacheButton onClick={onClick}>{t('cards:fix_now')}</Styled.CacheButton>
     </Styled.NotificationWrapper>
   );
 }

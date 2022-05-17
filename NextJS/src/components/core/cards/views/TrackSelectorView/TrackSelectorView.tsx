@@ -14,6 +14,7 @@ import { toast } from "react-toastify";
 import TrackView from "../TrackView";
 import Styled from "./TrackSelectorView.styles";
 import TracksToPlaylist from "./TracksToPlaylist";
+import useTranslation from "next-translate/useTranslation";
 interface ITrackSelectorViewProps {
   tracks: Track[];
   settings?: trackViewSettings;
@@ -24,13 +25,13 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
     useTrackToPlaylistSelector();
   const scrollRef = createRef<HTMLDivElement>();
   const toastId = useRef<React.ReactText>();
-
+    const {t} = useTranslation();
   const NotificationMsg = useMemo(
     () => (
       <>
         <div>
           <a onClick={() => scrollRef.current?.scrollIntoView()}>
-            {trackSet.size} Selected Tracks. Finish Playlist
+            {t('cards:selected_tracks_finish_playlist', {'%size%': trackSet.size})}
           </a>
         </div>
       </>

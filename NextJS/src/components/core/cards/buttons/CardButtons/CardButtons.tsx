@@ -22,6 +22,7 @@ import { useClientsStore } from "store/useClients";
 import Buttons from "styles/Buttons";
 import LikeIcon from "../LikeIcon";
 import Styled from "./CardButtons.styles";
+import useTranslation from "next-translate/useTranslation";
 
 interface ITrackArtist {
   track: Track;
@@ -116,6 +117,7 @@ function DownloadPreview({ track }: { track: Track }): JSX.Element {
       toast.error(`${err?.message}`);
     }
   }, [track.artists, track.name, track.spotifyPreviewURL]);
+  const {t} = useTranslation();
 
   return url && url.length > 0 ? (
     <>
@@ -128,7 +130,7 @@ function DownloadPreview({ track }: { track: Track }): JSX.Element {
       >
         <Buttons.SecondaryGreenButton onClick={download}>
           <FaDownload />
-          <span>Preview</span>
+          <span>{t('cards:preview')}</span>
         </Buttons.SecondaryGreenButton>
       </a>
     </>

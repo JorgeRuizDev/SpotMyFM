@@ -8,6 +8,7 @@ import Text from "styles/Text";
 import DropdownMenu from "components/core/input/atoms/DropdownMenu";
 import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { isMobile } from "react-device-detect";
+import useTranslation from "next-translate/useTranslation";
 
 interface IMoodPieProps {
   tracks: Track[];
@@ -26,7 +27,7 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
   const { currentTheme } = useThemeStore();
   const { width, height, CustomTooltip, colors } = useRechartsHelper();
   const [dropOption, setDropOption] = useState<number | string>("full");
-
+  const {t} = useTranslation();
   const getData = useCallback(
     (getMoodMap: () => [map: Map<string, number>, total: number]) => {
       // k: genre, v: number of appearances
@@ -79,9 +80,9 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
 
   return (
     <>
-      <h3>Your Moods</h3>
+      <h3>{t('cards:your_moods')}</h3>
       <p>
-        Showing your mood distribution from{" "}
+        {t('cards:showing_your_mood_distribution_from')}{" "}
         <Text.green>
           {dropOption.toString().includes("'s")
             ? "the " + dropOption
@@ -100,7 +101,7 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
                     textDecoration: dropOption == "full" ? "underline" : "",
                   }}
                 >
-                  All Tracks
+                  {t('cards:all_tracks')}
                 </span>
               ),
               onClick: () => {
@@ -116,7 +117,7 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
                     textDecoration: dropOption == y ? "underline" : "",
                   }}
                 >
-                  Saved On {y}
+                  {t('cards:saved_on', {'%y%': y})}
                 </span>
               ),
               onClick: () => {
@@ -126,7 +127,7 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
             })),
           ]}
         >
-          <span>Genre Interval (Saved Year)</span>
+          <span>{t('cards:genre_interval_saved_year')}</span>
         </DropdownMenu>
         <DropdownMenu
           items={[
@@ -137,7 +138,7 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
                     textDecoration: dropOption == "full" ? "underline" : "",
                   }}
                 >
-                  All Tracks
+                  {t('cards:all_tracks')}
                 </span>
               ),
               onClick: () => {
@@ -153,7 +154,7 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
                     textDecoration: dropOption == d + "'s" ? "underline" : "",
                   }}
                 >
-                  Released On {d}
+                  {t('cards:released_on', {'%d%': d})}
                 </span>
               ),
               onClick: () => {
@@ -163,7 +164,7 @@ function MoodPie({ tracks, years, decades }: IMoodPieProps): JSX.Element {
             })),
           ]}
         >
-          <span>Genre Interval (Decade)</span>
+          <span>{t('cards:genre_interval_decade')}</span>
         </DropdownMenu>
       </Styled.Inline>
       <ResponsiveContainer width={width} height={height * 1.4}>

@@ -1,5 +1,6 @@
 import { MdGroup, MdLock, MdPublic } from "react-icons/md";
 import Text from "styles/Text";
+import useTranslation from "next-translate/useTranslation";
 interface IPlaylistPublicFormatProps {
   playlist?: SpotifyApi.PlaylistObjectSimplified;
 }
@@ -7,20 +8,21 @@ interface IPlaylistPublicFormatProps {
 function PlaylistPublicFormat({
   playlist,
 }: IPlaylistPublicFormatProps): JSX.Element {
+  const {t} = useTranslation();
   return playlist ? (
     <Text.Inline>
       {playlist.collaborative ? (
         <>
-          <span>Collaborative</span> <MdGroup />
+          <span>{t('cards:collaborative')}</span> <MdGroup />
         </>
       ) : playlist.public ? (
         <>
-          <span>Public</span>
+          <span>{t('cards:public')}</span>
           <MdPublic />
         </>
       ) : (
         <>
-          <span>Private</span>
+          <span>{t('cards:private')}</span>
           <MdLock />
         </>
       )}

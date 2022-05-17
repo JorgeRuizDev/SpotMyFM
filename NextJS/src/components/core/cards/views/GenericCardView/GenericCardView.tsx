@@ -13,6 +13,7 @@ import FilterInput from "components/core/input/atoms/FilterInput";
 import { BsFillGrid3X2GapFill, BsListUl } from "react-icons/bs";
 import MultipleSkeletonList from "../../listCards/MultipleSkeletonList";
 import { FaSortAmountDownAlt, FaSortAmountUpAlt } from "react-icons/fa";
+import useTranslation from "next-translate/useTranslation";
 export interface IGenericCardViewSortProps {
   sortTitle?: string;
   options: Record<string, string>;
@@ -137,7 +138,9 @@ function GenericCardView<T>({
   }
 
   function SortRow(): JSX.Element {
-    const sortOptions = useMemo(
+      const {t} = useTranslation();
+
+      const sortOptions = useMemo(
       () =>
         sorting
           ? [
@@ -150,7 +153,7 @@ function GenericCardView<T>({
                       <FaSortAmountUpAlt />
                     )}
                     <span>
-                      Set {sorting.isAscendant ? "Descending" : "Ascending"}
+                      {t('cards:set')} {sorting.isAscendant ? "Descending" : "Ascending"}
                     </span>
                   </>
                 ),
@@ -220,7 +223,10 @@ function ItemLayout({
   scrollItems: ReactNode[];
   isLoading: boolean;
 }): JSX.Element {
-  return (
+    const {t} = useTranslation();
+
+    return (
+
     <Styled.CardLayout addSpace={view.type == "GRID"}>
       {view.type == "LIST" && view.ListHeader}
       {scrollItems.length > 0 ? (
@@ -232,7 +238,7 @@ function ItemLayout({
           <MultipleSkeletonList key={2} />
         )
       ) : (
-        <h3>No Items Found</h3>
+        <h3>{t('cards:no_items_found')}</h3>
       )}
     </Styled.CardLayout>
   );

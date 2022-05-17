@@ -8,6 +8,7 @@ import { sortByName } from "util/sorters/commonSoters";
 import Styled from "./LibraryManager.styles";
 import LibraryManagerTopTab from "./LibraryManagerTopTab";
 import Text from "styles/Text";
+import useTranslation from "next-translate/useTranslation";
 interface ILibraryManagerProps {}
 
 function LibraryManager(props: ILibraryManagerProps): JSX.Element {
@@ -17,6 +18,7 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
   const [selectedTracks, setSelectedTracks] = useState<Track[]>([]);
   const [selTracksBack, setSelTracksBack] = useState<Track[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const {t} = useTranslation();
 
   useEffect(() => {
     const fn = async () => {
@@ -34,7 +36,7 @@ function LibraryManager(props: ILibraryManagerProps): JSX.Element {
 
   return (
     <Styled.SpaceY>
-      <Text.PageTitle>Library Manager</Text.PageTitle>
+      <Text.PageTitle>{t('cards:library_manager')}</Text.PageTitle>
 
       <Styled.Center>
         <Styled.Card>

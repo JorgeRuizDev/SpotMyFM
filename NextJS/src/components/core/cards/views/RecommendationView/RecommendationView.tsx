@@ -14,6 +14,7 @@ import GenericCardView from "../GenericCardView";
 import { ViewTypeOption } from "../GenericCardView/GenericCardView";
 import TrackView from "../TrackView";
 import Styled from "./RecommendationView.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IRecommendationViewProps {
   tracks: Track[];
   selectedTracks: Track[];
@@ -35,6 +36,7 @@ function RecommendationView({
   const [currentView, setCurrentView] = useState<ViewTypeOption>(
     isMobile ? "LIST" : "GRID"
   );
+  const {t} = useTranslation();
 
   useEffect(() => {
     toast.info("Add tracks to your playlist!");
@@ -90,9 +92,9 @@ function RecommendationView({
 
   return (
     <Styled.Wrapper>
-      <h1>Recommended Tracks</h1>
+      <h1>{t('cards:recommended_tracks')}</h1>
 
-      <h3>{trackSet.size} tracks selected</h3>
+      <h3>{t('cards:tracks_selected2', {'%size%': trackSet.size})}</h3>
       <GenericCardView
         setView={setCurrentView}
         view={

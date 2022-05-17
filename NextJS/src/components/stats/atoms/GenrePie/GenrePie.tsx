@@ -8,6 +8,7 @@ import { Cell, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { useThemeStore } from "store/useTheme";
 import Text from "styles/Text";
 import Styled from "./GenrePie.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IGenrePieProps {
   tracks: Track[];
   years: number[];
@@ -28,6 +29,7 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
   const { width, height, CustomTooltip, colors } = useRechartsHelper();
 
   const [dropOption, setDropOption] = useState<number | string>("full");
+    const {t} = useTranslation();
 
   const getData = useCallback(
     (getGenreMap: () => [map: Map<string, number>, total: number]) => {
@@ -86,9 +88,9 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
 
   return (
     <>
-      <h3>Your Favorite Genres ({PERCENTILE * 100} Percentile)</h3>
+      <h3>{t('cards:your_favorite_genres')}{PERCENTILE * 100} Percentile)</h3>
       <p>
-        Showing your favorite genres from{" "}
+        {t('cards:showing_your_favorite_genres_from')}{" "}
         <Text.green>
           {dropOption.toString().includes("'s")
             ? "the " + dropOption
@@ -107,7 +109,7 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
                     textDecoration: dropOption == "full" ? "underline" : "",
                   }}
                 >
-                  All Tracks
+                  {t('cards:all_tracks')}
                 </span>
               ),
               onClick: () => {
@@ -123,7 +125,7 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
                     textDecoration: dropOption == y ? "underline" : "",
                   }}
                 >
-                  Saved On {y}
+                  {t('cards:saved_on', {'%y%': y})}
                 </span>
               ),
               onClick: () => {
@@ -133,7 +135,7 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
             })),
           ]}
         >
-          <span>Genre Interval (Saved Year)</span>
+          <span>{t('cards:genre_interval_saved_year')}</span>
         </DropdownMenu>
         <DropdownMenu
           items={[
@@ -144,7 +146,7 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
                     textDecoration: dropOption == "full" ? "underline" : "",
                   }}
                 >
-                  All Tracks
+                  {t('cards:all_tracks')}
                 </span>
               ),
               onClick: () => {
@@ -160,7 +162,7 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
                     textDecoration: dropOption == d + "'s" ? "underline" : "",
                   }}
                 >
-                  Released On {d}
+                  {t('cards:released_on', {'%d%': d})}
                 </span>
               ),
               onClick: () => {
@@ -170,7 +172,7 @@ function GenrePie({ tracks, years, decades }: IGenrePieProps): JSX.Element {
             })),
           ]}
         >
-          <span>Genre Interval (Decade)</span>
+          <span>{t('cards:genre_interval_decade')}</span>
         </DropdownMenu>
       </Styled.Inline>
       <ResponsiveContainer width={width} height={height * 1.4}>

@@ -7,6 +7,7 @@ import Styled from "./ArtistHorizontalCard.styles";
 import { FaPlus } from "react-icons/fa";
 import Modal from "components/core/display/molecules/Modal";
 import ArtistCompleteDetails from "../../detailedCards/ArtistCompleteDetails";
+import useTranslation from "next-translate/useTranslation";
 interface IArtistHorizontalCardProps {
   artist: Artist;
 }
@@ -15,6 +16,7 @@ function ArtistHorizontalCard({
   artist,
 }: IArtistHorizontalCardProps): JSX.Element {
   const [showDet, setShowDet] = useState(false);
+  const {t} = useTranslation();
 
   return (
     <>
@@ -38,15 +40,15 @@ function ArtistHorizontalCard({
             <h4>{artist?.name}</h4>
             <Buttons.PrimaryGreenButton onClick={() => setShowDet(true)}>
               <FaPlus />
-              <span>Show Details</span>
+              <span>{t('cards:show_details')}</span>
             </Buttons.PrimaryGreenButton>
             <OpenSpotifyButton url={artist.spotifyUrl || ""} />
           </Styled.Inline>
-          <p>Popularity: {formatPopularity(artist?.spotifyPopularity || 0)}</p>
+          <p>{t('cards:popularity2')} {formatPopularity(artist?.spotifyPopularity || 0)}</p>
           {artist.spotifyGenres?.length || 0 > 0 ? (
-            <b>Artist Genres:</b>
+            <b>{t('cards:artist_genres')}</b>
           ) : (
-            <b>No Genres</b>
+            <b>{t('cards:no_genres')}</b>
           )}
           <Styled.GenrePillWrap>
             {artist.spotifyGenres?.map((g) => (

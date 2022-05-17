@@ -8,6 +8,7 @@ import React, {
 import { isMobile } from "react-device-detect";
 import { FaPause, FaPlay } from "react-icons/fa";
 import Buttons from "styles/Buttons";
+import useTranslation from "next-translate/useTranslation";
 
 /**
  * Small hook that allows the control of a track.
@@ -57,7 +58,7 @@ function useTrackPreview(
   function toggleAudio() {
     isPlaying ? pause() : play();
   }
-
+  const {t} = useTranslation();
   const PreviewButton = () => (
     <>
       {isPlayable && (isMobile || enablePreviewButton) ? (
@@ -65,12 +66,12 @@ function useTrackPreview(
           {isPlaying ? (
             <>
               <FaPause />
-              <span>Pause</span>
+              <span>{t('cards:pause')}</span>
             </>
           ) : (
             <>
               <FaPlay />
-              <span>Preview</span>
+              <span>{t('cards:preview')}</span>
             </>
           )}
         </Buttons.PrimaryGreenButton>

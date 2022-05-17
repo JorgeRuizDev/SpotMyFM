@@ -11,6 +11,7 @@ import { useMemo } from "react";
 import { useLoginStore } from "store/useLogin";
 import LocaleSelector from "components/util/LocaleSelector";
 import { AiFillApi } from "react-icons/ai";
+import useTranslation from "next-translate/useTranslation";
 interface INavDropItemsProps {
   closeMe?: () => void;
 }
@@ -22,7 +23,7 @@ function NavDropItems({ closeMe = () => {} }: INavDropItemsProps): JSX.Element {
   const avatar = useMemo(
     () => user.spotifyUser?.images?.[0].url,
     [user.spotifyUser?.images]
-  );
+  );const {t} = useTranslation();
 
   return (
     <Styled.Col>
@@ -57,30 +58,30 @@ function NavDropItems({ closeMe = () => {} }: INavDropItemsProps): JSX.Element {
 
       <Link href="/settings" style={{ height: "auto" }}>
         <Styled.RowItem onClick={closeMe}>
-          <FaCog /> <span>Settings</span>
+          <FaCog /> <span>{t('settings:settings')}</span>
         </Styled.RowItem>
       </Link>
 
       <Styled.RowItem onClick={toggleTheme}>
         {currentTheme === Theme.DARK ? (
           <>
-            <ThemeStyles.Sun /> <span>Set Light Theme</span>
+            <ThemeStyles.Sun /> <span>{t('cards:set_light_theme')}</span>
           </>
         ) : (
           <>
-            <ThemeStyles.Moon /> <span>Set Dark Theme</span>
+            <ThemeStyles.Moon /> <span>{t('cards:set_dark_theme')}</span>
           </>
         )}
       </Styled.RowItem>
       <Link style={{ height: "auto" }} href="/openapi-ui">
         <Styled.RowItem>
           <AiFillApi />
-          <span>OpenAPI Specification</span>
+          <span>{t('cards:openapi_specification')}</span>
         </Styled.RowItem>
       </Link>
       <Styled.Center>
         <Buttons.PrimaryBlueButton style={{ width: "70%" }} onClick={logOut}>
-          Log Out
+          {t('cards:log_out')}
         </Buttons.PrimaryBlueButton>
       </Styled.Center>
     </Styled.Col>

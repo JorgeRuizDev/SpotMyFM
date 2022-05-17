@@ -6,6 +6,7 @@ import Buttons from "styles/Buttons";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { IInterval } from "util/filters/intervalFilters";
 import DoubleSlider from "../../atoms/Sliders/DoubleSlider";
+import useTranslation from "next-translate/useTranslation";
 
 interface ITrackLengthIntervalSelectorProps {
   tracks: Track[];
@@ -57,10 +58,10 @@ function TrackLengthIntervalSelector({
     setLowInterval(shortest || 0);
     setTopInterval(longest || Number.MAX_SAFE_INTEGER);
   }
-
+  const {t} = useTranslation();
   return (
     <Styled.Wrap>
-      <h4>⌛ Track Length Interval</h4>
+      <h4>{t('cards:track_length_interval')}</h4>
       {longest !== undefined && shortest !== undefined ? (
         <>
           <Styled.SliderWrap>
@@ -80,7 +81,7 @@ function TrackLengthIntervalSelector({
               {prettyMilliseconds(topInterval)}
             </p>
             <Buttons.PrimaryGreenButton onClick={resetSlider}>
-              Reset to Default
+              {t('cards:reset_to_default2')}
             </Buttons.PrimaryGreenButton>
           </Styled.Center>
         </>

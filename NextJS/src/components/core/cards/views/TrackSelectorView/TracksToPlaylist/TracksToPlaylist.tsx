@@ -14,6 +14,7 @@ import { useSessionStore } from "store/useSession";
 import CreatePlaylist from "./CreatePlaylist";
 import SelectPlaylist from "./SelectPlaylist";
 import Styled from "./TracksToPlaylist.styles";
+import useTranslation from "next-translate/useTranslation";
 interface ITracksToPlaylistProps {
   tracks: string[];
   unselectAll: () => void;
@@ -36,7 +37,7 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
         .then((p) => setUserPlaylists(p));
     }
   }, [api, user]);
-
+  const {t} = useTranslation();
   return (
     <AnimatePresence>
       <motion.div
@@ -47,7 +48,7 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
       >
         <Styled.CenterContent>
           <Styled.ItemBox>
-            <h5>Save the {tracks.length} selected tracks into a Playlist</h5>
+            <h5>{t('cards:save_the_selected_tracks_into_a_playlist', {'%length%': tracks.length})}</h5>
             <TabComponent
               tracks={tracks}
               playlists={userPlaylists}
@@ -70,10 +71,10 @@ function TabComponent({ tracks, playlists, unselectAll }: ITabComponent) {
     <Tabs defaultTabId={"1"}>
       <TabWrap>
         <Tab id="1">
-          <p>Create a New Playlist</p>
+          <p>{t('cards:create_a_new_playlist')}</p>
         </Tab>
         <Tab id="2">
-          <p>Use An Existing Playlist</p>
+          <p>{t('cards:use_an_existing_playlist')}</p>
         </Tab>
       </TabWrap>
       <TabContentWrap>

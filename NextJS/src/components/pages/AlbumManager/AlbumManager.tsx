@@ -9,6 +9,7 @@ import Ms from "styles/Miscellaneous";
 import Switch from "components/core/input/atoms/Switch";
 import AlbumView from "components/core/cards/views/AlbumView";
 import Text from "styles/Text";
+import useTranslation from "next-translate/useTranslation";
 interface IAlbumManagerProps {}
 
 function AlbumManager(props: IAlbumManagerProps): JSX.Element {
@@ -110,21 +111,21 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
     savedAlbums,
     taggedAlbums,
   ]);
-
+  const {t} = useTranslation();
   return (
     <Styled.Wrap>
-      <Text.PageTitle>Album Manager</Text.PageTitle>
+      <Text.PageTitle>{t('views:album_manager')}</Text.PageTitle>
       <Styled.Center>
         <Styled.CardWrap>
           <Ms.Card>
-            <Styled.CardTitle>Settings</Styled.CardTitle>
+            <Styled.CardTitle>{t('settings:settings')}</Styled.CardTitle>
             <Switch
               isChecked={showSaved}
               onToggle={() => {
                 setShowSaved((p) => !p);
               }}
             >
-              <p>Show Saved Albums</p>
+              <p>{t('views:show_saved_albums')}</p>
             </Switch>
             <Switch
               isChecked={showTagged}
@@ -132,7 +133,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
                 setShowTagged((p) => !p);
               }}
             >
-              <p>Show Tagged Albums</p>
+              <p>{t('views:show_tagged_albums')}</p>
             </Switch>
             <Switch
               isChecked={showCached}
@@ -140,7 +141,7 @@ function AlbumManager(props: IAlbumManagerProps): JSX.Element {
                 setShowCached((p) => !p);
               }}
             >
-              <p>Show Cached Albums</p>
+              <p>{t('views:show_cached_albums')}</p>
             </Switch>
           </Ms.Card>
         </Styled.CardWrap>

@@ -8,6 +8,7 @@ import {
 } from "react-icons/md";
 
 import Styled from "./Paginate.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IPaginateProps {
   currentPage: number;
   total: number;
@@ -49,7 +50,7 @@ function Paginate(props: IPaginateProps): JSX.Element {
       </Styled.Page>
     );
   }
-
+  const {t} = useTranslation();
   return totalPages > 1 ? (
     <>
       <Styled.InlineCenter>
@@ -91,7 +92,7 @@ function Paginate(props: IPaginateProps): JSX.Element {
 
       <Styled.InlineCenter>
         <p>
-          {totalPages} pages ({props.total} items)
+          {t('cards:pages_items', {'%totalPages%': totalPages, '%total%': props.total})}
         </p>
       </Styled.InlineCenter>
     </>
