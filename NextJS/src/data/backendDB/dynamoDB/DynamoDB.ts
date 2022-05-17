@@ -5,18 +5,11 @@ import env from "env";
 import { User, UserModel } from "data/backendDB/dynamoDB/UserModel";
 import { ITaggedAlbum } from "pages/api/database/albums/tagAlbums";
 import * as DynamoErr from "./errors/errorHandler";
-<<<<<<< HEAD
 import {QueryResponse} from "dynamoose/dist/DocumentRetriever";
 import {BiErrorAlt} from "react-icons/bi";
 import {Track, TrackModel} from "./TrackModel";
 import {IMirResult} from "../../../interfaces/ludwig";
 import config from "config";
-=======
-import { QueryResponse } from "dynamoose/dist/DocumentRetriever";
-import { BiErrorAlt } from "react-icons/bi";
-import { Track, TrackModel } from "./TrackModel";
-import { IMirResult } from "../../../interfaces/ludwig";
->>>>>>> 31586219f27376e62def388470821afb59f33c70
 
 export class DynamoDB implements IBackendDB {
   /**
