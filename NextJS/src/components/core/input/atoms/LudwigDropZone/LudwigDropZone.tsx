@@ -103,8 +103,7 @@ function LudwigDropZone(props: ILudwigDropZoneProps): JSX.Element {
 
   useEffect(() => {
     if (isLogged) {
-
-      if (ids.length == 0){
+      if (ids.length == 0) {
         return;
       }
       const fn = async () => {
