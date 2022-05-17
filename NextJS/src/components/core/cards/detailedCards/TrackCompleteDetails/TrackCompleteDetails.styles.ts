@@ -113,13 +113,15 @@ const Card = tw.div`
   // Colors
   bg-lightCard-base
   dark:bg-darkCard-base
+  
 
   // Shape:
 
-  min-width[90%]
+  
   height[fit-content]
   rounded-2xl
-
+  md:w-9/12
+  w-full
   shadow-xl
   p-4
   

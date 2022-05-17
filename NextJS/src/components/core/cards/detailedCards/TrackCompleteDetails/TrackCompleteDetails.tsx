@@ -74,7 +74,7 @@ function TrackCompleteDetails({
     false,
     true
   );
-
+  
   // On Unmount, puase the music:
   useEffect(() => {
     return () => {
@@ -95,6 +95,7 @@ function TrackCompleteDetails({
   useEffect(() => {
     if (
       track &&
+      track.spotifyPreviewURL &&
       (track?.ludwigMoods == undefined || track.ludwigGenres == undefined)
     ) {
       setIsMirLoading(true);
@@ -119,7 +120,7 @@ function TrackCompleteDetails({
 
   useEffect(() => {
     const fn = async () => {
-      if (!track) {
+      if (!track || !track.spotifyPreviewURL) {
         return setRecommendedTracks([]);
       }
       const [res, error] = await ludwigApi.getRecommendation(track);
@@ -338,33 +339,38 @@ function RightColumn({
         )) || []}
       </HorizontalCardCarousell>
 
-      <Styled.Card>
-        <LudwigResultsCard
-          isLoading={isMirLoading}
-          genres={track?.ludwigGenres}
-          moods={track?.ludwigMoods}
-          subgenres={track?.ludwigSubgenres}
-        />
-      </Styled.Card>
-      <Styled.Card>
-        <Styled.Column>
-          <h4>🔊 Similar Tracks</h4>
-          {recommendedTracks ? (
-            <div>
-            {recommendedTracks.map((t, i) => (
-              <ListTrackCard track={t} key={i} small={true} />
-            ))}
-            </div>
-
-          ) : (
-            <NewtonsCradle
-              size={40}
-              speed={1.4}
-              color={theme == Theme.DARK ? "white" : "black"}
+      {track?.spotifyUrl ? (
+        <>
+          {" "}
+          <Styled.Card>
+            <LudwigResultsCard
+              isLoading={isMirLoading}
+              genres={track?.ludwigGenres}
+              moods={track?.ludwigMoods}
+              subgenres={track?.ludwigSubgenres}
             />
-          )}
-        </Styled.Column>
-      </Styled.Card>
+          </Styled.Card>
+          <Styled.Card>
+            <Styled.Column>
+              <h4>🔊 Similar Tracks</h4>
+              {recommendedTracks ? (
+                <div>
+                  {recommendedTracks.map((t, i) => (
+                    <ListTrackCard track={t} key={i} small={true} />
+                  ))}
+                </div>
+              ) : (
+                <NewtonsCradle
+                  size={40}
+                  speed={1.4}
+                  color={theme == Theme.DARK ? "white" : "black"}
+                />
+              )}
+            </Styled.Column>
+          </Styled.Card>
+        </>
+      ) : null}
+
       {lastFMDetails?.lastfmDescription ? (
         <>
           <h4>Album Description</h4>
