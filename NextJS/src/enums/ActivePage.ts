@@ -5,5 +5,5 @@ export enum ActivePage {
   SETTINGS,
   SEARCH,
   PLAYLIST_MGR,
-  DATASET_MGR,
+  UPLOAD,
 }

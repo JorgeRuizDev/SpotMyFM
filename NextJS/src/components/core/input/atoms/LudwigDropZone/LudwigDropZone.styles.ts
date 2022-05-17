@@ -57,7 +57,13 @@ const BgIcon = tw(BsFillFileEarmarkMusicFill)`
   opacity-5
 `
 
-
-const Styled = {Container, BgIcon};
+const Layout = tw.div`
+  flex
+  flex-col
+  items-center
+  justify-center
+  space-y-12
+`
+const Styled = {Container, BgIcon, Layout};
 
 export default Styled;
