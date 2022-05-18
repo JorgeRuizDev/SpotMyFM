@@ -64,7 +64,7 @@ function AlbumView({
 
   const sorting: IGenericCardViewSortProps = useMemo(
     () => ({
-      sortTitle: t('cards:sort_albums'),
+      sortTitle: t("cards:sort_albums"),
       options: sortOptions,
       isAscendant: isAscendentState,
       selected: optionState,
