@@ -5,7 +5,7 @@
   "users-top-type": "{{0}} Más Escuchados",
   "30s_preview": "{{name}} - {{name_2}} (Previsualización 30s)",
   "getmytopselector-could-not-fetch-your-selection-code-status-or-code-message": "[GetMyTopSelector] No se ha podido obtener su selección: {0} | {1}",
-  "last-played": "Última vez que se jugó",
+  "last-played": "Última vez que se escuchó",
   "long-term-since-the-beginning": "A largo plazo (desde el principio)",
   "medium-term-6-months": "A medio plazo (6 meses)",
   "my-top-artists": "Mis mejores artistas",

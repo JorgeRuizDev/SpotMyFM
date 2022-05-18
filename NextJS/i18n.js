@@ -3,7 +3,7 @@ module.exports = {
   defaultLocale: "en",
   localeDetection: true,
   pages: {
-    "*": ["cards", "views"],
+    "*": ["cards", "views", "settings", "home"],
     "/": ["home"],
     "/settings": ["settings"],
   },

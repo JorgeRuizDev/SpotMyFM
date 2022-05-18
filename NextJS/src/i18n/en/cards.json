@@ -182,5 +182,17 @@
   "upload_your_track_file": "Upload Your Track File!",
   "pause": "Pause",
   "sort_albums": "Sort Albums",
-  "30s_preview": "{{name}} - {{name_2}} (30s Preview)"
+  "30s_preview": "{{name}} - {{name_2}} (30s Preview)",
+  "add-to-playlist": "Add to Playlist",
+  "remove-from-playlist": "Remove From Playlist",
+  "more": "More",
+  "open-spotify": "Open Spotify",
+  "open-lastfm": "Open LastFM",
+  "play-full-album": "Play Full Album",
+  "save-track": "Save Track",
+  "remove-track": "Remove Track",
+  "save-album": "Save Album",
+  "remove-album": "Remove Album",
+  "add-to-queue": "Add to Queue",
+  "play-now": "Play Now"
 }
