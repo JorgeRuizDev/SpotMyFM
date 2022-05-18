@@ -1,1 +1,24 @@
-{}
+{
+  "30s_preview": "",
+  "add-new-tags": "Añadir nuevas etiquetas",
+  "album-tags": "Etiquetas del álbum",
+  "album_manager": "Gestor de álbumes",
+  "disable-hover": "Desactivar Hover",
+  "enable-hover": "Activar Hover",
+  "filter": "Filtro",
+  "more": "Más",
+  "mute": "Silencio",
+  "open-advance-filter": "Abrir el filtro de avance",
+  "reset-advanced-filte": "Restablecer el filtro avanzado",
+  "reset-filter": "Restablecer filtro",
+  "select-all": "Seleccionar todo",
+  "select-all-elements-": "Seleccionar todos los elementos de la pantalla",
+  "show_cached_albums": "Mostrar álbumes en caché",
+  "show_saved_albums": "Mostrar álbumes guardados",
+  "show_tagged_albums": "Mostrar álbumes etiquetados",
+  "sort-playlists": "Ordenar listas de reproducción",
+  "sort-tracks": "Ordenar las pistas",
+  "unmute": "Desactivar",
+  "unselect-all": "Deseleccionar todo",
+  "unselect-all-selecte": "Desmarcar todos los elementos seleccionados"
+}
