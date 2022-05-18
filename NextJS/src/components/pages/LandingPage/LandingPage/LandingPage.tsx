@@ -10,8 +10,9 @@ import {useThemeStore} from "../../../../store/useTheme";
 import FullPage from "./FullPage";
 import AndMoreDemo from "./Demos/AndMoreDemo";
 import LoginPage from "./LoginPage";
+import FilterDemo from "./Demos/FilterDemo";
 
-export default function LandingPage(): JSX.Element {
+export default function (): JSX.Element {
     const theme = useThemeStore((s) => s.currentTheme);
     return (
         <div>
@@ -53,6 +54,7 @@ export default function LandingPage(): JSX.Element {
                         <h3>Use Advanced Filters!</h3>
                         <h5>Create Specific Playlists</h5>
                         <hr/>
+                        <FilterDemo/>
                     </Styled.CenterCol>
                     <Styled.CenterCol>
                         <h1>. . .</h1>

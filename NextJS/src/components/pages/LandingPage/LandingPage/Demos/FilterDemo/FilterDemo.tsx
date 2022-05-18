@@ -1,16 +1,21 @@
-import PillSearch from "components/atoms/PillSearch";
-import DateIntervalSelector from "components/molecules/DateIntervalSelector";
-import { getGenres } from "components/organisms/LibraryFilter/LibraryFilter";
-import { Album } from "models/Album";
-import { Track } from "models/Track";
 import React, { useCallback } from "react";
 import demoTracks from "../TrackDemo/tracks";
 import Styled from "./FilterDemo.styles";
+import { Album } from "../../../../../../data/cacheDB/dexieDB/models/Album";
+import { Track } from "../../../../../../data/cacheDB/dexieDB/models/Track";
+import PillSearch from "../../../../../core/input/molecules/PillSearch";
+import DateIntervalSelector from "../../../../../core/input/molecules/DateIntervalSelector";
+import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 interface IFilterDemoProps {}
 
 function FilterDemo(props: IFilterDemoProps) {
-  const genres = getGenres(demoTracks.map(a => a.artists?.[0]));
-  const albums = demoTracks.map(t => t.album).filter(a => a !== undefined);
+  //@ts-ignore
+  const genres = demoTracks
+    .flatMap((a) => a.artists?.flatMap((art: Artist) => art.spotifyGenres))
+    .filter((g) => g !== undefined);
+
+  // remove undefined from genres:
+  const albums = demoTracks.map((t) => t.album).filter((a) => a !== undefined);
   return (
     <Styled.Col>
       <Styled.Card>
@@ -18,8 +23,9 @@ function FilterDemo(props: IFilterDemoProps) {
           title={<h4>🎸Filter by Artist Genres:</h4>}
           type={"genre"}
           examplePill={"Example: Minecraft Ambient"}
+          // @ts-ignore
           items={genres}
-          setFilteredItems={useCallback((items, isAnd) => {}, [])}
+          setFilteredItems={() => {}}
         />
       </Styled.Card>
       <Styled.Card>

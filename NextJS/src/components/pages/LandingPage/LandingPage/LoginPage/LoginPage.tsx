@@ -28,11 +28,12 @@ function LoginPage(props: ILoginPageProps) {
               <FaSpotify />
             </Styled.Green>
           </h1>
-          <hr />
+
 
           <h4 style={{ textAlign: "center" }}>
             <Styled.Green>Manage your Spotify Library</Styled.Green>
           </h4>
+          <hr />
           <br />
           <P>
             Log In with your Spotify Account to{" "}
@@ -57,10 +58,10 @@ function LoginPage(props: ILoginPageProps) {
               <FaLastfm />
             </Styled.Red>
           </h1>
-          <hr />
           <h4 style={{ textAlign: "center" }}>
             <Styled.Red>LastFM Community</Styled.Red>
           </h4>
+          <hr />
           <br />
           <P>
             MySpotifyFm <Styled.Red>mixes your spotify library</Styled.Red> with
@@ -71,7 +72,8 @@ function LoginPage(props: ILoginPageProps) {
             Filter by <Styled.Red>Community Tags</Styled.Red> or get individual
             details for each track!
           </P>
-          <br />
+          <hr />
+
           <P>
             Create and Share your custom{" "}
             <Styled.Red>LastFM profile Collages</Styled.Red>!
@@ -101,8 +103,7 @@ function LoginPage(props: ILoginPageProps) {
           <br />
           <P>
             Extend your <Styled.Green>library</Styled.Green> with similar tracks!
-            to some data only available in the API, such as{" "}
-            <Styled.Green>Artist Popularity, Genres</Styled.Green>, etc.
+            SpotMyFM provides content base recommendations to extend your playlist / library.
           </P>
         </Styled.Card>
       </Styled.CardWrap>
