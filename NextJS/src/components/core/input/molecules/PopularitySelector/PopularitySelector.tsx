@@ -30,7 +30,7 @@ function PopularitySelector({
     setLowInterval(0);
     setTopInterval(100);
   }
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Wrap>
       {title}
@@ -47,10 +47,10 @@ function PopularitySelector({
 
         <Styled.Center>
           <p>
-            {t('cards:between')} {100 - lowInterval}% - {100 - topInterval}%
+            {t("cards:between")} {100 - lowInterval} - {100 - topInterval}
           </p>
           <Buttons.PrimaryGreenButton onClick={resetSlider}>
-            {t('cards:reset_to_default2')}
+            {t("cards:reset_to_default2")}
           </Buttons.PrimaryGreenButton>
         </Styled.Center>
       </>
@@ -59,7 +59,6 @@ function PopularitySelector({
 }
 
 function formatOutput(d: number) {
-
   return <span style={{ whiteSpace: "nowrap" }}>Top {100 - d}%</span>;
 }
 

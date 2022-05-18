@@ -94,7 +94,7 @@ function RecommendationView({
     <Styled.Wrapper>
       <h1>{t('cards:recommended_tracks')}</h1>
 
-      <h3>{t('cards:tracks_selected2', {'%size%': trackSet.size})}</h3>
+      <h3>{t('cards:tracks_selected2', {'size': trackSet.size})}</h3>
       <GenericCardView
         setView={setCurrentView}
         view={

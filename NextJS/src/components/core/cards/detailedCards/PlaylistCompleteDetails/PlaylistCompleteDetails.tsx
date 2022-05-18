@@ -37,7 +37,7 @@ function PlaylistCompleteDetails({ playlist }: IPlaylistCompleteDetailsProps) {
         />
         <Styled.JustifyLeft>
           <h3>{playlist?.name}</h3>
-          <h4>{t('cards:tracks2', {'%total%': playlist?.tracks.total})}</h4>
+          <h4>{t('cards:tracks2', {'total': playlist?.tracks.total})}</h4>
         </Styled.JustifyLeft>
       </Styled.Col>
     );
@@ -57,7 +57,7 @@ function PlaylistCompleteDetails({ playlist }: IPlaylistCompleteDetailsProps) {
             </>
           ) : null}
           <a href={playlist?.owner.uri}>
-            <p>{t('cards:owner2', {'%display_name%': playlist?.owner.display_name})}</p>
+            <p>{t('cards:owner2', {'display_name': playlist?.owner.display_name})}</p>
           </a>
 
           <p>{playlist?.public ? "Public" : "Private"}</p>

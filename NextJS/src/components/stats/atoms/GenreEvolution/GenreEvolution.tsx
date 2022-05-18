@@ -97,30 +97,34 @@ function GenreEvolution({ tracks, years }: IGenreEvolutionProps): JSX.Element {
   useEffect(() => {
     groupFn(interval);
   }, [groupFn, interval]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <>
-      <h3>{t('cards:artist_genres_evolution')}</h3>
+      <h3>{t("cards:artist_genres_evolution")}</h3>
       <Styled.Inline>
         <DropdownMenu
           items={[
             {
               component: (
-                <span style={underlineIfTrue(interval[1] === 5)}>{t('cards:top_5')}</span>
+                <span style={underlineIfTrue(interval[1] === 5)}>
+                  {t("cards:top_5")}
+                </span>
               ),
               onClick: () => setInterval([0, 5]),
             },
             {
               component: (
-                <span style={underlineIfTrue(interval[1] === 8)}>{t('cards:top_8')}</span>
+                <span style={underlineIfTrue(interval[1] === 8)}>
+                  {t("cards:top_8")}
+                </span>
               ),
               onClick: () => setInterval([0, 8]),
             },
             {
               component: (
                 <span style={underlineIfTrue(interval[1] === 10)}>
-                  {t('cards:top_610')}
+                  {t("cards:top_610")}
                 </span>
               ),
               onClick: () => setInterval([6, 10]),
@@ -128,21 +132,21 @@ function GenreEvolution({ tracks, years }: IGenreEvolutionProps): JSX.Element {
             {
               component: (
                 <span style={underlineIfTrue(interval[1] === 15)}>
-                  {t('cards:top_1115')}
+                  {t("cards:top_1115")}
                 </span>
               ),
               onClick: () => setInterval([11, 15]),
             },
           ]}
         >
-          <span>{t('cards:top_interval')}</span>
+          <span>{t("cards:top_interval")}</span>
         </DropdownMenu>
         <DropdownMenu
           items={[
             {
               component: (
                 <span style={underlineIfTrue("decade" === dropGroupSel)}>
-                  {t('cards:track_release_decades')}
+                  {t("cards:track_release_decades")}
                 </span>
               ),
               onClick: () => {
@@ -156,7 +160,7 @@ function GenreEvolution({ tracks, years }: IGenreEvolutionProps): JSX.Element {
             ...years.map((y) => ({
               component: (
                 <span style={underlineIfTrue(y === dropGroupSel)}>
-                  {t('cards:saved_on', {'%y%': y})}
+                  {t("cards:saved_on", { y: y })}
                 </span>
               ),
               onClick: () => {
@@ -173,18 +177,19 @@ function GenreEvolution({ tracks, years }: IGenreEvolutionProps): JSX.Element {
             })),
           ]}
         >
-          <span>{t('cards:group_by')}</span>
+          <span>{t("cards:group_by")}</span>
         </DropdownMenu>
         <Switch isChecked={connect} onToggle={() => setConnect((c) => !c)}>
-          <span>{t('cards:connect_genre_skips')}</span>
+          <span>{t("cards:connect_genre_skips")}</span>
         </Switch>
       </Styled.Inline>
       <p>
-        {t('cards:showing')}{" "}
+        {t("cards:showing")}{" "}
         <Text.green>
-          {t('cards:top')} {interval[0] === 0 ? interval[1] : interval.join(" - ")}
+          {t("cards:top")}{" "}
+          {interval[0] === 0 ? interval[1] : interval.join(" - ")}
         </Text.green>{" "}
-        {t('cards:artist_genres_found_in_your_saved_tracks')}{" "}
+        {t("cards:artist_genres_found_in_your_saved_tracks")}{" "}
         <Text.green>
           {" "}
           {dropGroupSel === "decade"

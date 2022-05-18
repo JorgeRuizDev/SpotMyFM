@@ -12,7 +12,7 @@ const Center = tw.div`
 `;
 
 const Card = tw(Ms.Card)`
-  width[clamp(50%, 700px, 95%)]
+  width[clamp(50, 700px, 95)]
 
 
 `;

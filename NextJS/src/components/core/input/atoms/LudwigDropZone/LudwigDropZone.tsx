@@ -31,7 +31,7 @@ function LudwigDropZone(props: ILudwigDropZoneProps): JSX.Element {
   const [ids, setIds] = useState<string[]>([]);
   const [tracks, setTracks] = useState<Track[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const { getTracksByIds } = useDataFacade();
 
@@ -138,10 +138,12 @@ function LudwigDropZone(props: ILudwigDropZoneProps): JSX.Element {
               <Styled.BgIcon />
               <input {...getInputProps()} />
               {isDragActive ? (
-                <p>{t('cards:drop_the_files_here')}</p>
+                <p>{t("cards:drop_the_files_here")}</p>
               ) : (
                 <p>
-                  {t('cards:drag_n_drop_one_audio_file_here_or_click_to_select')}
+                  {t(
+                    "cards:drag_n_drop_one_audio_file_here_or_click_to_select"
+                  )}
                 </p>
               )}
             </>
@@ -159,14 +161,16 @@ function LudwigDropZone(props: ILudwigDropZoneProps): JSX.Element {
             subgenres={subgenres}
           />
           <hr />
-          <h3>{t('cards:track_recommendations')}</h3>
+          <h3>{t("cards:track_recommendations")}</h3>
           {isLogged ? (
             <TrackView tracks={tracks} />
           ) : (
             <>
               {ids.map((t_, i) => (
                 <li key={i}>
-                  <a href={`https://open.spotify.com/track/${t_}`}>{t('cards:track', {'%t%': t_})}</a>
+                  <a href={`https://open.spotify.com/track/${t_}`}>
+                    {t("cards:track", { t: t_ })}
+                  </a>
                 </li>
               ))}
             </>

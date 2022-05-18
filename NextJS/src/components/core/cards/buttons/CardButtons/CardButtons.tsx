@@ -107,7 +107,7 @@ function DownloadPreview({ track }: { track: Track }): JSX.Element {
       const a = document.createElement("a");
       a.style.display = "none";
 
-      a.download = `${track.artists[0]?.name} - ${track.name} (30s Preview)`;
+      a.download = t('cards:30s_preview', {'{{name}}': track.artists[0]?.name, '{{name_2}}': track.name});
       document.body.appendChild(a);
 
       a.href = URL.createObjectURL(res.data);

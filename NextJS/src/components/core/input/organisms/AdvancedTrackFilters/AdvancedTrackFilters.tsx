@@ -1,16 +1,16 @@
-import Collapsible from "components/core/display/atoms/Collapsible";
-import { Album } from "data/cacheDB/dexieDB/models/Album";
-import { Artist } from "data/cacheDB/dexieDB/models/Artist";
-import { Track } from "data/cacheDB/dexieDB/models/Track";
-import React, { useEffect, useState } from "react";
+import {Album} from "data/cacheDB/dexieDB/models/Album";
+import {Artist} from "data/cacheDB/dexieDB/models/Artist";
+import {Track} from "data/cacheDB/dexieDB/models/Track";
+import React, {useEffect, useState} from "react";
 
 import Text from "styles/Text";
-import { BsSliders } from "react-icons/bs";
+import {BsSliders} from "react-icons/bs";
 import Styled from "./AdvancedTrackFilters.styles";
 import TrackIntervalFilters from "./TrackIntervalFilters";
 import TrackPillFilters from "./TrackPillFilters";
-import { FaMusic } from "react-icons/fa";
+import {FaMusic} from "react-icons/fa";
 import useTranslation from "next-translate/useTranslation";
+
 interface IAdvancedTrackFiltersProps {
   tracks?: Track[];
   albums?: Album[];

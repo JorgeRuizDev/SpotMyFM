@@ -50,7 +50,7 @@ function Paginate(props: IPaginateProps): JSX.Element {
       </Styled.Page>
     );
   }
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return totalPages > 1 ? (
     <>
       <Styled.InlineCenter>
@@ -92,7 +92,10 @@ function Paginate(props: IPaginateProps): JSX.Element {
 
       <Styled.InlineCenter>
         <p>
-          {t('cards:pages_items', {'%totalPages%': totalPages, '%total%': props.total})}
+          {t("cards:pages_items", {
+            totalPages: totalPages,
+            total: props.total,
+          })}
         </p>
       </Styled.InlineCenter>
     </>

@@ -86,7 +86,7 @@ function TrackFavDistribution({
   useEffect(() => {
     __load();
   }, [__load]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   useEffect(() => {
     if (typeof dropSel == "number") {
       const map = new Map<number, number>();
@@ -108,8 +108,8 @@ function TrackFavDistribution({
 
   return savedTracks.length > tracks.length * 0.2 ? (
     <>
-      <h3>{t('cards:saved_tracks_per_month')}</h3>
-      <p>{t('cards:there_are_saved_tracks', {'%length%': savedTracks.length})}</p>
+      <h3>{t("cards:saved_tracks_per_month")}</h3>
+      <p>{t("cards:there_are_saved_tracks", { length: savedTracks.length })}</p>
       <Styled.Center>
         <DropdownMenu
           items={[
@@ -120,7 +120,7 @@ function TrackFavDistribution({
                     textDecoration: dropSel == "year" ? "underline" : "",
                   }}
                 >
-                  {t('cards:per_year')}
+                  {t("cards:per_year")}
                 </span>
               ),
               onClick: () => {
@@ -134,7 +134,7 @@ function TrackFavDistribution({
                     textDecoration: dropSel == "acc" ? "underline" : "",
                   }}
                 >
-                  {t('cards:accumulated_months')}
+                  {t("cards:accumulated_months")}
                 </span>
               ),
               onClick: () => {
@@ -148,7 +148,7 @@ function TrackFavDistribution({
                     textDecoration: dropSel == y ? "underline" : "",
                   }}
                 >
-                  {t('cards:saved_on', {'%y%': y})}
+                  {t("cards:saved_on", { y: y })}
                 </span>
               ),
               onClick: () => {
@@ -157,7 +157,7 @@ function TrackFavDistribution({
             })),
           ]}
         >
-          {t('cards:activity_interval')}
+          {t("cards:activity_interval")}
         </DropdownMenu>
       </Styled.Center>
       <ResponsiveContainer height={height} width={width}>

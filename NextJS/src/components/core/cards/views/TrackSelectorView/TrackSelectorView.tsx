@@ -31,7 +31,7 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
       <>
         <div>
           <a onClick={() => scrollRef.current?.scrollIntoView()}>
-            {t('cards:selected_tracks_finish_playlist', {'%size%': trackSet.size})}
+            {t('cards:selected_tracks_finish_playlist', {'size': trackSet.size})}
           </a>
         </div>
       </>

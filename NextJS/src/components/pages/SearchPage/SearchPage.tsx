@@ -100,11 +100,11 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
       search(searchStr);
     }
   }, [prevSearchType, search, searchStr, searchTypeSel]);
-    const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Col>
       <Text.PageTitle>
-        <span>{t('cards:spotify_search')}</span>
+        <span>{t("cards:spotify_search")}</span>
       </Text.PageTitle>
 
       <Styled.Center>
@@ -125,7 +125,7 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
                   }}
                   dropTitle={
                     <span style={{ whiteSpace: "nowrap" }}>
-                      {t('cards:number_of_results')}
+                      {t("cards:number_of_results")}
                     </span>
                   }
                   dropItems={[5, 10, 15, 25, 35, 50].map((n, i) => ({
@@ -136,7 +136,7 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
                             n === maxRes ? "underline" : "none",
                         }}
                       >
-                        {t('cards:results', {'%n%': n})}
+                        {t("cards:results", { n: n })}
                       </span>
                     ),
                     onClick: () => setMaxRes(n),
@@ -161,25 +161,25 @@ function SearchPage(props: ISearchPageProps): JSX.Element {
               isChecked={searchTypeSel === "tracks"}
               onClick={() => setSearchTypeSel("tracks")}
             >
-              {t('home:tracks')}
+              {t("home:tracks")}
             </Buttons.CheckableGreenButton>
             <Buttons.CheckableGreenButton
               isChecked={searchTypeSel === "albums"}
               onClick={() => setSearchTypeSel("albums")}
             >
-              {t('cards:albums')}
+              {t("cards:albums")}
             </Buttons.CheckableGreenButton>
             <Buttons.CheckableGreenButton
               isChecked={searchTypeSel === "artists"}
               onClick={() => setSearchTypeSel("artists")}
             >
-              {t('cards:artists')}
+              {t("cards:artists")}
             </Buttons.CheckableGreenButton>
             <Buttons.CheckableGreenButton
               onClick={() => setSearchTypeSel("playlists")}
               isChecked={searchTypeSel === "playlists"}
             >
-              {t('cards:playlists')}
+              {t("cards:playlists")}
             </Buttons.CheckableGreenButton>
           </Styled.Card>
         </Styled.CardWrap>

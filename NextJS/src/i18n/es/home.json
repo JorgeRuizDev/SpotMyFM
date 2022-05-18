@@ -3,7 +3,7 @@
   "top-type": "Top {{0}}",
   "tracks": "Canciones",
   "users-top-type": "{{0}} Más Escuchados",
-  "30s_preview": "%name% - %name_2% (Previsualización 30s)",
+  "30s_preview": "{{name}} - {{name_2}} (Previsualización 30s)",
   "getmytopselector-could-not-fetch-your-selection-code-status-or-code-message": "[GetMyTopSelector] No se ha podido obtener su selección: {0} | {1}",
   "last-played": "Última vez que se jugó",
   "long-term-since-the-beginning": "A largo plazo (desde el principio)",

@@ -76,11 +76,11 @@ function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
   useEffect(() => {
     __setDecades(tracksToShow);
   }, [__setDecades, tracksToShow]);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
-      <h3>{t('cards:your_favorite_decades')}</h3>
-      <p>{t('cards:distribution_of_your_favorite_albums_and_songs_in')}</p>
+      <h3>{t("cards:your_favorite_decades")}</h3>
+      <p>{t("cards:distribution_of_your_favorite_albums_and_songs_in")}</p>
       <Styled.CenterInline>
         <DropdownMenu
           items={[
@@ -92,7 +92,7 @@ function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
                       tracks.length === tracksToShow.length ? "underline" : "",
                   }}
                 >
-                  {t('cards:all_tracks')}
+                  {t("cards:all_tracks")}
                 </span>
               ),
               onClick: () => {
@@ -107,7 +107,7 @@ function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
                     textDecoration: dropSelection === y ? "underline" : "",
                   }}
                 >
-                  {t('cards:saved_on', {'%y%': y})}
+                  {t("cards:saved_on", { y: y })}
                 </span>
               ),
               onClick: () => {
@@ -119,7 +119,7 @@ function FavDecades({ tracks, albums, years }: IFavDecadesProps): JSX.Element {
             })),
           ]}
         >
-          {t('cards:saved_interval')}
+          {t("cards:saved_interval")}
         </DropdownMenu>
       </Styled.CenterInline>
       <ResponsiveContainer width={width} height={height}>
