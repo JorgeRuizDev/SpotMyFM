@@ -1,4 +1,3 @@
-
 import { AnimatePresence, motion } from "framer-motion";
 
 import React, {
@@ -7,7 +6,7 @@ import React, {
   createRef,
   useEffect,
   useRef,
-  useState
+  useState,
 } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { CSSProperties } from "styled-components";
@@ -30,7 +29,7 @@ function FullPage({
   children,
   styles,
   topButton,
-  showTip = true
+  showTip = true,
 }: IFullPageProps): JSX.Element {
   const refs = useRef<RefObject<HTMLDivElement>[]>(createRefs(children.length));
 
