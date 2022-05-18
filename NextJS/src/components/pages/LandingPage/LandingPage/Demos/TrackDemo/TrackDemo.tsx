@@ -29,7 +29,7 @@ function TrackDemo(props: ITrackDemoProps): JSX.Element {
     setOptionState,
     isAscendentState,
     setIsAscendentState,
-    sortOptions
+    sortOptions,
   } = useTrackSorter(demoTracks);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function TrackDemo(props: ITrackDemoProps): JSX.Element {
   const {
     activePageItems: pageTracks,
     currentPage,
-    setCurrentPage
+    setCurrentPage,
   } = usePaginatedArray<Track>(filteredTracks, pageSize, 0);
 
   return (
@@ -122,19 +122,19 @@ function TrackDemo(props: ITrackDemoProps): JSX.Element {
     return (
       <Styled.LayoutButtonsWrap>
         <DropdownMenu
-          items={Object.entries(sortOptions).map(o => {
+          items={Object.entries(sortOptions).map((o) => {
             return {
               component: o[1],
               onClick: () => {
                 setOptionState(o[1]);
-              }
+              },
             };
           })}
         >
           <span>Sort Tracks</span>
         </DropdownMenu>
         <Buttons.SecondaryGreenButton
-          onClick={() => setIsAscendentState(p => !p)}
+          onClick={() => setIsAscendentState((p) => !p)}
         >
           <span>
             {optionState} {isAscendentState ? "Ascending" : "Descending"}
@@ -175,11 +175,10 @@ function filterFunction(t: Track, value: string) {
   return (
     t.name.toUpperCase().includes(value) ||
     t.album?.name.toUpperCase().includes(value) ||
-    t?.artists?.map(a => a.name.toUpperCase().includes(value)).includes(true) ||
-    t.album?.spotifyReleaseDate
-      ?.getFullYear()
-      .toString()
-      .includes(value) ||
+    t?.artists
+      ?.map((a) => a.name.toUpperCase().includes(value))
+      .includes(true) ||
+    t.album?.spotifyReleaseDate?.getFullYear().toString().includes(value) ||
     false
   );
 }

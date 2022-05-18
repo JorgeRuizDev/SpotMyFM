@@ -21,7 +21,7 @@ const trackBeat: Track = {
     spotifyCoverUrl: [
       "https://i.scdn.co/image/ab67616d0000b2734ce8b4e42588bf18182a1ad2",
       "https://i.scdn.co/image/ab67616d00001e024ce8b4e42588bf18182a1ad2",
-      "https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2"
+      "https://i.scdn.co/image/ab67616d000048514ce8b4e42588bf18182a1ad2",
     ],
     spotifyUrl: "https://open.spotify.com/album/1klALx0u4AavZNEvC4LrTL",
     spotifyReleaseDate: new Date(-34995600000),
@@ -32,52 +32,52 @@ const trackBeat: Track = {
     lastfmTagsFull: [
       {
         name: "rock",
-        url: "https://www.last.fm/tag/rock"
+        url: "https://www.last.fm/tag/rock",
       },
       {
         name: "pop",
-        url: "https://www.last.fm/tag/pop"
+        url: "https://www.last.fm/tag/pop",
       },
       {
         name: "Psychedelic Rock",
-        url: "https://www.last.fm/tag/Psychedelic+Rock"
+        url: "https://www.last.fm/tag/Psychedelic+Rock",
       },
       {
         name: "1960s",
-        url: "https://www.last.fm/tag/1960s"
+        url: "https://www.last.fm/tag/1960s",
       },
       {
         name: "1968",
-        url: "https://www.last.fm/tag/1968"
+        url: "https://www.last.fm/tag/1968",
       },
       {
         name: "60s",
-        url: "https://www.last.fm/tag/60s"
+        url: "https://www.last.fm/tag/60s",
       },
       {
         name: "pop rock",
-        url: "https://www.last.fm/tag/pop+rock"
+        url: "https://www.last.fm/tag/pop+rock",
       },
       {
         name: "psychedelic",
-        url: "https://www.last.fm/tag/psychedelic"
+        url: "https://www.last.fm/tag/psychedelic",
       },
       {
         name: "classic rock",
-        url: "https://www.last.fm/tag/classic+rock"
+        url: "https://www.last.fm/tag/classic+rock",
       },
       {
         name: "british",
-        url: "https://www.last.fm/tag/british"
+        url: "https://www.last.fm/tag/british",
       },
       {
         name: "experimental",
-        url: "https://www.last.fm/tag/experimental"
+        url: "https://www.last.fm/tag/experimental",
       },
       {
         name: "hard rock",
-        url: "https://www.last.fm/tag/hard+rock"
-      }
+        url: "https://www.last.fm/tag/hard+rock",
+      },
     ],
     lastfmTagsNames: [
       "rock",
@@ -91,7 +91,7 @@ const trackBeat: Track = {
       "classic rock",
       "british",
       "experimental",
-      "hard rock"
+      "hard rock",
     ],
     artists: [
       {
@@ -105,18 +105,18 @@ const trackBeat: Track = {
           "classic rock",
           "merseybeat",
           "psychedelic rock",
-          "rock"
+          "rock",
         ],
         spotifyPopularity: 89,
         spotifyImgs: [
           "https://i.scdn.co/image/ab6761610000e5ebe9348cc01ff5d55971b22433",
           "https://i.scdn.co/image/ab67616100005174e9348cc01ff5d55971b22433",
-          "https://i.scdn.co/image/ab6761610000f178e9348cc01ff5d55971b22433"
+          "https://i.scdn.co/image/ab6761610000f178e9348cc01ff5d55971b22433",
         ],
-        id: 311
-      }
+        id: 311,
+      },
     ],
-    id: 700
+    id: 700,
   },
   artists: [
     {
@@ -130,18 +130,18 @@ const trackBeat: Track = {
         "classic rock",
         "merseybeat",
         "psychedelic rock",
-        "rock"
+        "rock",
       ],
       spotifyPopularity: 89,
       spotifyImgs: [
         "https://i.scdn.co/image/ab6761610000e5ebe9348cc01ff5d55971b22433",
         "https://i.scdn.co/image/ab67616100005174e9348cc01ff5d55971b22433",
-        "https://i.scdn.co/image/ab6761610000f178e9348cc01ff5d55971b22433"
+        "https://i.scdn.co/image/ab6761610000f178e9348cc01ff5d55971b22433",
       ],
-      id: 311
-    }
+      id: 311,
+    },
   ],
-  id: 836
+  id: 836,
 };
 
 const trackMine = {
@@ -164,7 +164,7 @@ const trackMine = {
     spotifyCoverUrl: [
       "https://i.scdn.co/image/ab67616d0000b273aaeb5c9fb6131977995b7f0e",
       "https://i.scdn.co/image/ab67616d00001e02aaeb5c9fb6131977995b7f0e",
-      "https://i.scdn.co/image/ab67616d00004851aaeb5c9fb6131977995b7f0e"
+      "https://i.scdn.co/image/ab67616d00004851aaeb5c9fb6131977995b7f0e",
     ],
     spotifyUrl: "https://open.spotify.com/album/3Gt7rOjcZQoHCfnKl5AkK7",
     spotifyReleaseDate: new Date(1299193200000),
@@ -175,52 +175,52 @@ const trackMine = {
     lastfmTagsFull: [
       {
         name: "ambient",
-        url: "https://www.last.fm/tag/ambient"
+        url: "https://www.last.fm/tag/ambient",
       },
       {
         name: "Soundtrack",
-        url: "https://www.last.fm/tag/Soundtrack"
+        url: "https://www.last.fm/tag/Soundtrack",
       },
       {
         name: "electronic",
-        url: "https://www.last.fm/tag/electronic"
+        url: "https://www.last.fm/tag/electronic",
       },
       {
         name: "2011",
-        url: "https://www.last.fm/tag/2011"
+        url: "https://www.last.fm/tag/2011",
       },
       {
         name: "minecraft",
-        url: "https://www.last.fm/tag/minecraft"
+        url: "https://www.last.fm/tag/minecraft",
       },
       {
         name: "chillout",
-        url: "https://www.last.fm/tag/chillout"
+        url: "https://www.last.fm/tag/chillout",
       },
       {
         name: "video game music",
-        url: "https://www.last.fm/tag/video+game+music"
+        url: "https://www.last.fm/tag/video+game+music",
       },
       {
         name: "10s",
-        url: "https://www.last.fm/tag/10s"
+        url: "https://www.last.fm/tag/10s",
       },
       {
         name: "Impressionism",
-        url: "https://www.last.fm/tag/Impressionism"
+        url: "https://www.last.fm/tag/Impressionism",
       },
       {
         name: "electronica",
-        url: "https://www.last.fm/tag/electronica"
+        url: "https://www.last.fm/tag/electronica",
       },
       {
         name: "indie",
-        url: "https://www.last.fm/tag/indie"
+        url: "https://www.last.fm/tag/indie",
       },
       {
         name: "chill",
-        url: "https://www.last.fm/tag/chill"
-      }
+        url: "https://www.last.fm/tag/chill",
+      },
     ],
     lastfmTagsNames: [
       "ambient",
@@ -234,7 +234,7 @@ const trackMine = {
       "Impressionism",
       "electronica",
       "indie",
-      "chill"
+      "chill",
     ],
     artists: [
       {
@@ -247,12 +247,12 @@ const trackMine = {
         spotifyImgs: [
           "https://i.scdn.co/image/ab6761610000e5eba9b8234e3071836212561d19",
           "https://i.scdn.co/image/ab67616100005174a9b8234e3071836212561d19",
-          "https://i.scdn.co/image/ab6761610000f178a9b8234e3071836212561d19"
+          "https://i.scdn.co/image/ab6761610000f178a9b8234e3071836212561d19",
         ],
-        id: 23
-      }
+        id: 23,
+      },
     ],
-    id: 33
+    id: 33,
   },
   artists: [
     {
@@ -265,12 +265,12 @@ const trackMine = {
       spotifyImgs: [
         "https://i.scdn.co/image/ab6761610000e5eba9b8234e3071836212561d19",
         "https://i.scdn.co/image/ab67616100005174a9b8234e3071836212561d19",
-        "https://i.scdn.co/image/ab6761610000f178a9b8234e3071836212561d19"
+        "https://i.scdn.co/image/ab6761610000f178a9b8234e3071836212561d19",
       ],
-      id: 23
-    }
+      id: 23,
+    },
   ],
-  id: 24
+  id: 24,
 };
 
 const trackBowie = {
@@ -293,7 +293,7 @@ const trackBowie = {
     spotifyCoverUrl: [
       "https://i.scdn.co/image/ab67616d0000b273bc1c63a5b66ab9ac3ea21672",
       "https://i.scdn.co/image/ab67616d00001e02bc1c63a5b66ab9ac3ea21672",
-      "https://i.scdn.co/image/ab67616d00004851bc1c63a5b66ab9ac3ea21672"
+      "https://i.scdn.co/image/ab67616d00004851bc1c63a5b66ab9ac3ea21672",
     ],
     spotifyUrl: "https://open.spotify.com/album/4I5zzKYd2SKDgZ9DRf5LVk",
     spotifyReleaseDate: new Date(220921200000),
@@ -304,28 +304,28 @@ const trackBowie = {
     lastfmTagsFull: [
       {
         name: "electronic",
-        url: "https://www.last.fm/tag/electronic"
+        url: "https://www.last.fm/tag/electronic",
       },
       {
         name: "70s",
-        url: "https://www.last.fm/tag/70s"
+        url: "https://www.last.fm/tag/70s",
       },
       {
         name: "ambient",
-        url: "https://www.last.fm/tag/ambient"
+        url: "https://www.last.fm/tag/ambient",
       },
       {
         name: "art rock",
-        url: "https://www.last.fm/tag/art+rock"
+        url: "https://www.last.fm/tag/art+rock",
       },
       {
         name: "1977",
-        url: "https://www.last.fm/tag/1977"
+        url: "https://www.last.fm/tag/1977",
       },
       {
         name: "art pop",
-        url: "https://www.last.fm/tag/art+pop"
-      }
+        url: "https://www.last.fm/tag/art+pop",
+      },
     ],
     lastfmTagsNames: [
       "electronic",
@@ -333,7 +333,7 @@ const trackBowie = {
       "ambient",
       "art rock",
       "1977",
-      "art pop"
+      "art pop",
     ],
     artists: [
       {
@@ -346,18 +346,18 @@ const trackBowie = {
           "classic rock",
           "glam rock",
           "permanent wave",
-          "rock"
+          "rock",
         ],
         spotifyPopularity: 82,
         spotifyImgs: [
           "https://i.scdn.co/image/ab6761610000e5eb0db3b11972a84207f256769b",
           "https://i.scdn.co/image/ab676161000051740db3b11972a84207f256769b",
-          "https://i.scdn.co/image/ab6761610000f1780db3b11972a84207f256769b"
+          "https://i.scdn.co/image/ab6761610000f1780db3b11972a84207f256769b",
         ],
-        id: 50
-      }
+        id: 50,
+      },
     ],
-    id: 13
+    id: 13,
   },
   artists: [
     {
@@ -370,18 +370,18 @@ const trackBowie = {
         "classic rock",
         "glam rock",
         "permanent wave",
-        "rock"
+        "rock",
       ],
       spotifyPopularity: 82,
       spotifyImgs: [
         "https://i.scdn.co/image/ab6761610000e5eb0db3b11972a84207f256769b",
         "https://i.scdn.co/image/ab676161000051740db3b11972a84207f256769b",
-        "https://i.scdn.co/image/ab6761610000f1780db3b11972a84207f256769b"
+        "https://i.scdn.co/image/ab6761610000f1780db3b11972a84207f256769b",
       ],
-      id: 50
-    }
+      id: 50,
+    },
   ],
-  id: 1037
+  id: 1037,
 };
 
 const trackCash = {
@@ -404,7 +404,7 @@ const trackCash = {
     spotifyCoverUrl: [
       "https://i.scdn.co/image/ab67616d0000b27379d1be381026d9bbd0de591b",
       "https://i.scdn.co/image/ab67616d00001e0279d1be381026d9bbd0de591b",
-      "https://i.scdn.co/image/ab67616d0000485179d1be381026d9bbd0de591b"
+      "https://i.scdn.co/image/ab67616d0000485179d1be381026d9bbd0de591b",
     ],
     spotifyUrl: "https://open.spotify.com/album/5LWsHgqyGqhd6HNBYLb6W7",
     spotifyReleaseDate: new Date(294357600000),
@@ -415,12 +415,12 @@ const trackCash = {
     lastfmTagsFull: [
       {
         name: "vinyl",
-        url: "https://www.last.fm/tag/vinyl"
+        url: "https://www.last.fm/tag/vinyl",
       },
       {
         name: "dads vinyl",
-        url: "https://www.last.fm/tag/dads+vinyl"
-      }
+        url: "https://www.last.fm/tag/dads+vinyl",
+      },
     ],
     lastfmTagsNames: ["vinyl", "dads vinyl"],
     artists: [
@@ -434,12 +434,12 @@ const trackCash = {
         spotifyImgs: [
           "https://i.scdn.co/image/ab6761610000e5eb152cf48cf9541c7061570857",
           "https://i.scdn.co/image/ab67616100005174152cf48cf9541c7061570857",
-          "https://i.scdn.co/image/ab6761610000f178152cf48cf9541c7061570857"
+          "https://i.scdn.co/image/ab6761610000f178152cf48cf9541c7061570857",
         ],
-        id: 323
-      }
+        id: 323,
+      },
     ],
-    id: 442
+    id: 442,
   },
   artists: [
     {
@@ -452,12 +452,12 @@ const trackCash = {
       spotifyImgs: [
         "https://i.scdn.co/image/ab6761610000e5eb152cf48cf9541c7061570857",
         "https://i.scdn.co/image/ab67616100005174152cf48cf9541c7061570857",
-        "https://i.scdn.co/image/ab6761610000f178152cf48cf9541c7061570857"
+        "https://i.scdn.co/image/ab6761610000f178152cf48cf9541c7061570857",
       ],
-      id: 323
-    }
+      id: 323,
+    },
   ],
-  id: 419
+  id: 419,
 };
 
 const trackFleet = {
@@ -480,7 +480,7 @@ const trackFleet = {
     spotifyCoverUrl: [
       "https://i.scdn.co/image/ab67616d0000b2730001af4f80be77069fc8fd41",
       "https://i.scdn.co/image/ab67616d00001e020001af4f80be77069fc8fd41",
-      "https://i.scdn.co/image/ab67616d000048510001af4f80be77069fc8fd41"
+      "https://i.scdn.co/image/ab67616d000048510001af4f80be77069fc8fd41",
     ],
     spotifyUrl: "https://open.spotify.com/album/1bt6q2SruMsBtcerNVtpZB",
     spotifyReleaseDate: new Date(223858800000),
@@ -491,52 +491,52 @@ const trackFleet = {
     lastfmTagsFull: [
       {
         name: "classic rock",
-        url: "https://www.last.fm/tag/classic+rock"
+        url: "https://www.last.fm/tag/classic+rock",
       },
       {
         name: "70s",
-        url: "https://www.last.fm/tag/70s"
+        url: "https://www.last.fm/tag/70s",
       },
       {
         name: "rock",
-        url: "https://www.last.fm/tag/rock"
+        url: "https://www.last.fm/tag/rock",
       },
       {
         name: "albums I own",
-        url: "https://www.last.fm/tag/albums+I+own"
+        url: "https://www.last.fm/tag/albums+I+own",
       },
       {
         name: "1977",
-        url: "https://www.last.fm/tag/1977"
+        url: "https://www.last.fm/tag/1977",
       },
       {
         name: "Fleetwood Mac",
-        url: "https://www.last.fm/tag/Fleetwood+Mac"
+        url: "https://www.last.fm/tag/Fleetwood+Mac",
       },
       {
         name: "soft rock",
-        url: "https://www.last.fm/tag/soft+rock"
+        url: "https://www.last.fm/tag/soft+rock",
       },
       {
         name: "favourite albums",
-        url: "https://www.last.fm/tag/favourite+albums"
+        url: "https://www.last.fm/tag/favourite+albums",
       },
       {
         name: "pop",
-        url: "https://www.last.fm/tag/pop"
+        url: "https://www.last.fm/tag/pop",
       },
       {
         name: "pop rock",
-        url: "https://www.last.fm/tag/pop+rock"
+        url: "https://www.last.fm/tag/pop+rock",
       },
       {
         name: "favorite albums",
-        url: "https://www.last.fm/tag/favorite+albums"
+        url: "https://www.last.fm/tag/favorite+albums",
       },
       {
         name: "1001 Albums You Must Hear Before You Die",
-        url: "https://www.last.fm/tag/1001+Albums+You+Must+Hear+Before+You+Die"
-      }
+        url: "https://www.last.fm/tag/1001+Albums+You+Must+Hear+Before+You+Die",
+      },
     ],
     lastfmTagsNames: [
       "classic rock",
@@ -550,7 +550,7 @@ const trackFleet = {
       "pop",
       "pop rock",
       "favorite albums",
-      "1001 Albums You Must Hear Before You Die"
+      "1001 Albums You Must Hear Before You Die",
     ],
     artists: [
       {
@@ -564,18 +564,18 @@ const trackFleet = {
           "mellow gold",
           "rock",
           "soft rock",
-          "yacht rock"
+          "yacht rock",
         ],
         spotifyPopularity: 85,
         spotifyImgs: [
           "https://i.scdn.co/image/ab6761610000e5eb249d55f2d68a44637905c57e",
           "https://i.scdn.co/image/ab67616100005174249d55f2d68a44637905c57e",
-          "https://i.scdn.co/image/ab6761610000f178249d55f2d68a44637905c57e"
+          "https://i.scdn.co/image/ab6761610000f178249d55f2d68a44637905c57e",
         ],
-        id: 370
-      }
+        id: 370,
+      },
     ],
-    id: 506
+    id: 506,
   },
   artists: [
     {
@@ -589,18 +589,18 @@ const trackFleet = {
         "mellow gold",
         "rock",
         "soft rock",
-        "yacht rock"
+        "yacht rock",
       ],
       spotifyPopularity: 85,
       spotifyImgs: [
         "https://i.scdn.co/image/ab6761610000e5eb249d55f2d68a44637905c57e",
         "https://i.scdn.co/image/ab67616100005174249d55f2d68a44637905c57e",
-        "https://i.scdn.co/image/ab6761610000f178249d55f2d68a44637905c57e"
+        "https://i.scdn.co/image/ab6761610000f178249d55f2d68a44637905c57e",
       ],
-      id: 370
-    }
+      id: 370,
+    },
   ],
-  id: 528
+  id: 528,
 };
 
 const trackMich = {
@@ -623,7 +623,7 @@ const trackMich = {
     spotifyCoverUrl: [
       "https://i.scdn.co/image/ab67616d0000b2734121faee8df82c526cbab2be",
       "https://i.scdn.co/image/ab67616d00001e024121faee8df82c526cbab2be",
-      "https://i.scdn.co/image/ab67616d000048514121faee8df82c526cbab2be"
+      "https://i.scdn.co/image/ab67616d000048514121faee8df82c526cbab2be",
     ],
     spotifyUrl: "https://open.spotify.com/album/1C2h7mLntPSeVYciMRTF4a",
     spotifyReleaseDate: new Date(407458800000),
@@ -634,52 +634,52 @@ const trackMich = {
     lastfmTagsFull: [
       {
         name: "pop",
-        url: "https://www.last.fm/tag/pop"
+        url: "https://www.last.fm/tag/pop",
       },
       {
         name: "80s",
-        url: "https://www.last.fm/tag/80s"
+        url: "https://www.last.fm/tag/80s",
       },
       {
         name: "soul",
-        url: "https://www.last.fm/tag/soul"
+        url: "https://www.last.fm/tag/soul",
       },
       {
         name: "albums I own",
-        url: "https://www.last.fm/tag/albums+I+own"
+        url: "https://www.last.fm/tag/albums+I+own",
       },
       {
         name: "funk",
-        url: "https://www.last.fm/tag/funk"
+        url: "https://www.last.fm/tag/funk",
       },
       {
         name: "old school",
-        url: "https://www.last.fm/tag/old+school"
+        url: "https://www.last.fm/tag/old+school",
       },
       {
         name: "michael jackson",
-        url: "https://www.last.fm/tag/michael+jackson"
+        url: "https://www.last.fm/tag/michael+jackson",
       },
       {
         name: "king of pop",
-        url: "https://www.last.fm/tag/king+of+pop"
+        url: "https://www.last.fm/tag/king+of+pop",
       },
       {
         name: "dance",
-        url: "https://www.last.fm/tag/dance"
+        url: "https://www.last.fm/tag/dance",
       },
       {
         name: "r&b",
-        url: "https://www.last.fm/tag/r&b"
+        url: "https://www.last.fm/tag/r&b",
       },
       {
         name: "male vocalists",
-        url: "https://www.last.fm/tag/male+vocalists"
+        url: "https://www.last.fm/tag/male+vocalists",
       },
       {
         name: "d",
-        url: "https://www.last.fm/tag/d"
-      }
+        url: "https://www.last.fm/tag/d",
+      },
     ],
     lastfmTagsNames: [
       "pop",
@@ -693,7 +693,7 @@ const trackMich = {
       "dance",
       "r&b",
       "male vocalists",
-      "d"
+      "d",
     ],
     artists: [
       {
@@ -706,12 +706,12 @@ const trackMich = {
         spotifyImgs: [
           "https://i.scdn.co/image/ab6761610000e5eba2a0b9e3448c1e702de9dc90",
           "https://i.scdn.co/image/ab67616100005174a2a0b9e3448c1e702de9dc90",
-          "https://i.scdn.co/image/ab6761610000f178a2a0b9e3448c1e702de9dc90"
+          "https://i.scdn.co/image/ab6761610000f178a2a0b9e3448c1e702de9dc90",
         ],
-        id: 596
-      }
+        id: 596,
+      },
     ],
-    id: 929
+    id: 929,
   },
   artists: [
     {
@@ -724,12 +724,12 @@ const trackMich = {
       spotifyImgs: [
         "https://i.scdn.co/image/ab6761610000e5eba2a0b9e3448c1e702de9dc90",
         "https://i.scdn.co/image/ab67616100005174a2a0b9e3448c1e702de9dc90",
-        "https://i.scdn.co/image/ab6761610000f178a2a0b9e3448c1e702de9dc90"
+        "https://i.scdn.co/image/ab6761610000f178a2a0b9e3448c1e702de9dc90",
       ],
-      id: 596
-    }
+      id: 596,
+    },
   ],
-  id: 1814
+  id: 1814,
 };
 
 const trackPearl = {
@@ -752,7 +752,7 @@ const trackPearl = {
     spotifyCoverUrl: [
       "https://i.scdn.co/image/ab67616d0000b273d400d27cba05bb0545533864",
       "https://i.scdn.co/image/ab67616d00001e02d400d27cba05bb0545533864",
-      "https://i.scdn.co/image/ab67616d00004851d400d27cba05bb0545533864"
+      "https://i.scdn.co/image/ab67616d00004851d400d27cba05bb0545533864",
     ],
     spotifyUrl: "https://open.spotify.com/album/5B4PYA7wNN4WdEXdIJu58a",
     spotifyReleaseDate: new Date(683244000000),
@@ -763,52 +763,52 @@ const trackPearl = {
     lastfmTagsFull: [
       {
         name: "Grunge",
-        url: "https://www.last.fm/tag/Grunge"
+        url: "https://www.last.fm/tag/Grunge",
       },
       {
         name: "albums I own",
-        url: "https://www.last.fm/tag/albums+I+own"
+        url: "https://www.last.fm/tag/albums+I+own",
       },
       {
         name: "rock",
-        url: "https://www.last.fm/tag/rock"
+        url: "https://www.last.fm/tag/rock",
       },
       {
         name: "alternative rock",
-        url: "https://www.last.fm/tag/alternative+rock"
+        url: "https://www.last.fm/tag/alternative+rock",
       },
       {
         name: "90s",
-        url: "https://www.last.fm/tag/90s"
+        url: "https://www.last.fm/tag/90s",
       },
       {
         name: "favorite albums",
-        url: "https://www.last.fm/tag/favorite+albums"
+        url: "https://www.last.fm/tag/favorite+albums",
       },
       {
         name: "1991",
-        url: "https://www.last.fm/tag/1991"
+        url: "https://www.last.fm/tag/1991",
       },
       {
         name: "alternative",
-        url: "https://www.last.fm/tag/alternative"
+        url: "https://www.last.fm/tag/alternative",
       },
       {
         name: "pearl jam",
-        url: "https://www.last.fm/tag/pearl+jam"
+        url: "https://www.last.fm/tag/pearl+jam",
       },
       {
         name: "favourite albums",
-        url: "https://www.last.fm/tag/favourite+albums"
+        url: "https://www.last.fm/tag/favourite+albums",
       },
       {
         name: "hard rock",
-        url: "https://www.last.fm/tag/hard+rock"
+        url: "https://www.last.fm/tag/hard+rock",
       },
       {
         name: "seattle",
-        url: "https://www.last.fm/tag/seattle"
-      }
+        url: "https://www.last.fm/tag/seattle",
+      },
     ],
     lastfmTagsNames: [
       "Grunge",
@@ -822,7 +822,7 @@ const trackPearl = {
       "pearl jam",
       "favourite albums",
       "hard rock",
-      "seattle"
+      "seattle",
     ],
     artists: [
       {
@@ -835,12 +835,12 @@ const trackPearl = {
         spotifyImgs: [
           "https://i.scdn.co/image/ab6761610000e5eb122d1145d880736383742ebc",
           "https://i.scdn.co/image/ab67616100005174122d1145d880736383742ebc",
-          "https://i.scdn.co/image/ab6761610000f178122d1145d880736383742ebc"
+          "https://i.scdn.co/image/ab6761610000f178122d1145d880736383742ebc",
         ],
-        id: 102
-      }
+        id: 102,
+      },
     ],
-    id: 175
+    id: 175,
   },
   artists: [
     {
@@ -853,12 +853,12 @@ const trackPearl = {
       spotifyImgs: [
         "https://i.scdn.co/image/ab6761610000e5eb122d1145d880736383742ebc",
         "https://i.scdn.co/image/ab67616100005174122d1145d880736383742ebc",
-        "https://i.scdn.co/image/ab6761610000f178122d1145d880736383742ebc"
+        "https://i.scdn.co/image/ab6761610000f178122d1145d880736383742ebc",
       ],
-      id: 102
-    }
+      id: 102,
+    },
   ],
-  id: 1405
+  id: 1405,
 };
 
 const trackDaft = {
@@ -881,7 +881,7 @@ const trackDaft = {
     spotifyCoverUrl: [
       "https://i.scdn.co/image/ab67616d0000b273b33d46dfa2635a47eebf63b2",
       "https://i.scdn.co/image/ab67616d00001e02b33d46dfa2635a47eebf63b2",
-      "https://i.scdn.co/image/ab67616d00004851b33d46dfa2635a47eebf63b2"
+      "https://i.scdn.co/image/ab67616d00004851b33d46dfa2635a47eebf63b2",
     ],
     spotifyUrl: "https://open.spotify.com/album/2noRn2Aes5aoNVsU6iWThc",
     spotifyReleaseDate: new Date(984351600000),
@@ -892,52 +892,52 @@ const trackDaft = {
     lastfmTagsFull: [
       {
         name: "electronic",
-        url: "https://www.last.fm/tag/electronic"
+        url: "https://www.last.fm/tag/electronic",
       },
       {
         name: "House",
-        url: "https://www.last.fm/tag/House"
+        url: "https://www.last.fm/tag/House",
       },
       {
         name: "albums I own",
-        url: "https://www.last.fm/tag/albums+I+own"
+        url: "https://www.last.fm/tag/albums+I+own",
       },
       {
         name: "dance",
-        url: "https://www.last.fm/tag/dance"
+        url: "https://www.last.fm/tag/dance",
       },
       {
         name: "electronica",
-        url: "https://www.last.fm/tag/electronica"
+        url: "https://www.last.fm/tag/electronica",
       },
       {
         name: "2001",
-        url: "https://www.last.fm/tag/2001"
+        url: "https://www.last.fm/tag/2001",
       },
       {
         name: "french",
-        url: "https://www.last.fm/tag/french"
+        url: "https://www.last.fm/tag/french",
       },
       {
         name: "favourite albums",
-        url: "https://www.last.fm/tag/favourite+albums"
+        url: "https://www.last.fm/tag/favourite+albums",
       },
       {
         name: "Daft Punk",
-        url: "https://www.last.fm/tag/Daft+Punk"
+        url: "https://www.last.fm/tag/Daft+Punk",
       },
       {
         name: "french house",
-        url: "https://www.last.fm/tag/french+house"
+        url: "https://www.last.fm/tag/french+house",
       },
       {
         name: "techno",
-        url: "https://www.last.fm/tag/techno"
+        url: "https://www.last.fm/tag/techno",
       },
       {
         name: "favorite albums",
-        url: "https://www.last.fm/tag/favorite+albums"
-      }
+        url: "https://www.last.fm/tag/favorite+albums",
+      },
     ],
     lastfmTagsNames: [
       "electronic",
@@ -951,7 +951,7 @@ const trackDaft = {
       "Daft Punk",
       "french house",
       "techno",
-      "favorite albums"
+      "favorite albums",
     ],
     artists: [
       {
@@ -964,12 +964,12 @@ const trackDaft = {
         spotifyImgs: [
           "https://i.scdn.co/image/ab6761610000e5ebca77d763703a93930c363a39",
           "https://i.scdn.co/image/ab67616100005174ca77d763703a93930c363a39",
-          "https://i.scdn.co/image/ab6761610000f178ca77d763703a93930c363a39"
+          "https://i.scdn.co/image/ab6761610000f178ca77d763703a93930c363a39",
         ],
-        id: 79
-      }
+        id: 79,
+      },
     ],
-    id: 87
+    id: 87,
   },
   artists: [
     {
@@ -982,12 +982,12 @@ const trackDaft = {
       spotifyImgs: [
         "https://i.scdn.co/image/ab6761610000e5ebca77d763703a93930c363a39",
         "https://i.scdn.co/image/ab67616100005174ca77d763703a93930c363a39",
-        "https://i.scdn.co/image/ab6761610000f178ca77d763703a93930c363a39"
+        "https://i.scdn.co/image/ab6761610000f178ca77d763703a93930c363a39",
       ],
-      id: 79
-    }
+      id: 79,
+    },
   ],
-  id: 385
+  id: 385,
 };
 
 const demoTracks: Track[] = shuffle([
@@ -998,7 +998,7 @@ const demoTracks: Track[] = shuffle([
   trackMich,
   trackMine,
   trackPearl,
-  trackFleet
+  trackFleet,
 ]);
 
 export default demoTracks;

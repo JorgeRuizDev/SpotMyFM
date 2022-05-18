@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 
 import Styled from "./FullPageElement.styles";
-import {useInView} from "react-intersection-observer";
+import { useInView } from "react-intersection-observer";
 interface IFullPageElementProps {
   children?: React.ReactNode | React.ReactNode[];
   style?: React.CSSProperties;
@@ -13,11 +13,11 @@ interface IFullPageElementProps {
 const variants = {
   open: {
     opacity: 1,
-    transition: { ease: "easeInOut", duration: 0.5 }
+    transition: { ease: "easeInOut", duration: 0.5 },
   },
   closed: {
-    opacity: 0
-  }
+    opacity: 0,
+  },
 };
 
 const FullPageElement = React.forwardRef<HTMLDivElement, IFullPageElementProps>(
@@ -26,7 +26,7 @@ const FullPageElement = React.forwardRef<HTMLDivElement, IFullPageElementProps>(
 
     const [inViewTopRef, inViewTop] = useInView({
       threshold: 0,
-      rootMargin: "30px"
+      rootMargin: "30px",
     });
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const FullPageElement = React.forwardRef<HTMLDivElement, IFullPageElementProps>(
           variants={variants}
           animate={wasOpen ? "open" : "closed"}
         >
-          <Styled.Observer ref={inViewTopRef}/>
+          <Styled.Observer ref={inViewTopRef} />
           <Styled.FullPage ref={ref}>
             <Styled.CenterItem>{children}</Styled.CenterItem>
           </Styled.FullPage>

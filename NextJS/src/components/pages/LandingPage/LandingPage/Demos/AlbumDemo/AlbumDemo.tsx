@@ -28,7 +28,7 @@ function AlbumDemo(props: IAlbumDemoProps) {
     setIsAscendentState,
     sortOptions,
     setOptionState,
-    optionState
+    optionState,
   } = useAlbumSorter(
     advancedFilteredAlbums.length === 0 ? demoAlbums : advancedFilteredAlbums
   );
@@ -41,7 +41,7 @@ function AlbumDemo(props: IAlbumDemoProps) {
   const {
     activePageItems: pageAlbums,
     currentPage,
-    setCurrentPage
+    setCurrentPage,
   } = usePaginatedArray<Album>(filteredAlbums, pageSize, 0);
 
   return (
@@ -101,19 +101,19 @@ function AlbumDemo(props: IAlbumDemoProps) {
     return (
       <Buttons.LayoutCenter>
         <DropdownMenu
-          items={Object.entries(sortOptions).map(o => {
+          items={Object.entries(sortOptions).map((o) => {
             return {
               component: o[1],
               onClick: () => {
                 setOptionState(o[1]);
-              }
+              },
             };
           })}
         >
           <span>Sort Albums</span>
         </DropdownMenu>
         <Buttons.SecondaryGreenButton
-          onClick={() => setIsAscendentState(p => !p)}
+          onClick={() => setIsAscendentState((p) => !p)}
         >
           <span>
             {optionState} {isAscendentState ? "Ascending" : "Descending"}
@@ -127,11 +127,10 @@ function AlbumDemo(props: IAlbumDemoProps) {
 function filterFunction(a: Album, value: string): boolean {
   return (
     a.name.toUpperCase().includes(value) ||
-    a.artists?.map(a => a.name.toUpperCase().includes(value)).includes(true) ||
-    a.spotifyReleaseDate
-      ?.getFullYear()
-      .toString()
-      .includes(value) ||
+    a.artists
+      ?.map((a) => a.name.toUpperCase().includes(value))
+      .includes(true) ||
+    a.spotifyReleaseDate?.getFullYear().toString().includes(value) ||
     false
   );
 }

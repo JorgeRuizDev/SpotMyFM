@@ -3,7 +3,7 @@ import { FaLastfm, FaSpotify } from "react-icons/fa";
 import { AiFillApi } from "react-icons/ai";
 import Buttons from "styles/Buttons";
 import Styled, { P } from "./LoginPage.styles";
-import {getOauth} from "../../../../../util/spotify/oauthFrontend";
+import { getOauth } from "../../../../../util/spotify/oauthFrontend";
 
 interface ILoginPageProps {}
 
@@ -90,18 +90,19 @@ function LoginPage(props: ILoginPageProps) {
           </h4>
           <br />
           <P>
-            <Styled.Green>MySpotifyFm</Styled.Green> uses {" "}
-            <Styled.Green>deeplearning</Styled.Green> techniques to analyze your favourite tracks audio signal.
-
+            <Styled.Green>MySpotifyFm</Styled.Green> uses{" "}
+            <Styled.Green>deeplearning</Styled.Green> techniques to analyze your
+            favourite tracks audio signal.
           </P>
           <br />
           <P>
-            <Styled.Green>Check your Stats!</Styled.Green> With Ludwig Backend you can explore track features such as Track Mood or Subgenre.
+            <Styled.Green>Check your Stats!</Styled.Green> With Ludwig Backend
+            you can explore track features such as Track Mood or Subgenre.
           </P>
           <br />
           <P>
-            Extend your <Styled.Green>library</Styled.Green> with similar tracks!
-            to some data only available in the API, such as{" "}
+            Extend your <Styled.Green>library</Styled.Green> with similar
+            tracks! to some data only available in the API, such as{" "}
             <Styled.Green>Artist Popularity, Genres</Styled.Green>, etc.
           </P>
         </Styled.Card>

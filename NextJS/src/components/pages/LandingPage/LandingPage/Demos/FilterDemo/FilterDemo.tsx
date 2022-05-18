@@ -9,8 +9,8 @@ import Styled from "./FilterDemo.styles";
 interface IFilterDemoProps {}
 
 function FilterDemo(props: IFilterDemoProps) {
-  const genres = getGenres(demoTracks.map(a => a.artists?.[0]));
-  const albums = demoTracks.map(t => t.album).filter(a => a !== undefined);
+  const genres = getGenres(demoTracks.map((a) => a.artists?.[0]));
+  const albums = demoTracks.map((t) => t.album).filter((a) => a !== undefined);
   return (
     <Styled.Col>
       <Styled.Card>
