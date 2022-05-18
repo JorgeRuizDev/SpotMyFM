@@ -181,5 +181,7 @@
   "recommended": "Recommended",
   "show_stats": "Show Stats",
   "upload_your_track_file": "Upload Your Track File!",
-  "pause": "Pause"
+  "pause": "Pause",
+  "sort_albums": "Sort Albums",
+  "30s_preview": "%name% - %name_2% (30s Preview)"
 }
