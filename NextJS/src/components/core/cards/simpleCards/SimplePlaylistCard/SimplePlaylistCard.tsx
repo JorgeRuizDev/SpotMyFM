@@ -16,7 +16,7 @@ function SimplePlaylistCard({
   onDetailsClick,
   compact = false,
 }: ISmallPlaylistCardProps): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <Styled.CardLayout compact={compact}>
@@ -51,7 +51,7 @@ function SimplePlaylistCard({
                 onDetailsClick();
               }}
             >
-              {t('cards:show_details')}
+              {t("cards:show_details")}
             </Buttons.PrimaryGreenButton>
           </Buttons.LayoutCenter>
         </Styled.Content>

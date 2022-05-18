@@ -115,7 +115,7 @@ function ButtonRow({ selPlaylist, trackUris, unselectAll }: IButtonRow) {
 
   const { addTracksToPlaylist, replacePlaylistTracksWith } =
     usePlaylistManager();
-    const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Center>
       <Buttons.PrimaryGreenButton
@@ -123,29 +123,31 @@ function ButtonRow({ selPlaylist, trackUris, unselectAll }: IButtonRow) {
         onClick={addTracks}
       >
         <MdPlaylistAdd />
-        <span>{t('cards:append_to_playlist')}</span>
+        <span>{t("cards:append_to_playlist")}</span>
       </Buttons.PrimaryGreenButton>
       <Buttons.SecondaryGreenButton
         disabled={selPlaylist === undefined}
         onClick={() => setShowModal(true)}
       >
         <MdDeleteForever />
-        <span>{t('cards:replace_playlist_with_selected')}</span>
+        <span>{t("cards:replace_playlist_with_selected")}</span>
       </Buttons.SecondaryGreenButton>
       <Buttons.SecondaryGreenButton
         disabled={selPlaylist === undefined}
         onClick={unselectAll}
       >
         <MdCancel />
-        <span>{t('cards:unselect')}</span>
+        <span>{t("cards:unselect")}</span>
       </Buttons.SecondaryGreenButton>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <h3>
-          {t('cards:are_you_sure_you_want_to_delete_tracks', {'%total%': selPlaylist?.tracks.total})}
+          {t("cards:are_you_sure_you_want_to_delete_tracks", {
+            "%total%": selPlaylist?.tracks.total,
+          })}
         </h3>
         <Styled.Center>
           <Buttons.PrimaryRedButton onClick={replaceTracks}>
-            {t('cards:im_sure')}
+            {t("cards:im_sure")}
           </Buttons.PrimaryRedButton>
         </Styled.Center>
       </Modal>

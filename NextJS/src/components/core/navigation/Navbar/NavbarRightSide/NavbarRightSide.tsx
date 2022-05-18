@@ -17,7 +17,7 @@ function NavbarRightSide(): JSX.Element {
   function toggleLogOut() {
     setShowLogOut(!showLogOut);
   }
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return isLogged ? (
     <>
       <AnimatePresence>
@@ -59,7 +59,7 @@ function NavbarRightSide(): JSX.Element {
             exit={{ x: "150%" }}
             transition={{ style: "linear", duration: 0.4 }}
           >
-            {t('cards:log_out')}
+            {t("cards:log_out")}
           </Styled.LogOutButton>
         </Styled.LogOutDiv>
       </AnimatePresence>

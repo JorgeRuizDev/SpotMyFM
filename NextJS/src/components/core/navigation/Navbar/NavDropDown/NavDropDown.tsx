@@ -67,12 +67,12 @@ function NavDropDown({ username }: INavDropDownProps): JSX.Element {
 }
 
 function Button({ username }: { username: string }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Row>
       <Styled.Arrow />
       <Styled.BtnLayout>
-        <Styled.Message>{t('cards:welcome_back')}</Styled.Message>
+        <Styled.Message>{t("cards:welcome_back")}</Styled.Message>
         <Styled.Username>{username}</Styled.Username>
       </Styled.BtnLayout>
     </Styled.Row>

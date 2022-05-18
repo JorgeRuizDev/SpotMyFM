@@ -15,12 +15,12 @@ function AnyIntervalPicker({
   setMin,
   setMax,
 }: IAnyIntervalPickerProps) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <Styled.CenterRow>
         <Styled.Col>
-          <p>{t('cards:start_date')}</p>
+          <p>{t("cards:start_date")}</p>
           <DatePicker
             onDayChange={(d) => setMin(d)}
             defaultDate={oldestDate}
@@ -33,7 +33,7 @@ function AnyIntervalPicker({
         </Styled.Col>
 
         <Styled.Col>
-          <p>{t('cards:end_date')}</p>
+          <p>{t("cards:end_date")}</p>
           <DatePicker
             onDayChange={(d) => setMax(d)}
             defaultDate={newestDate}

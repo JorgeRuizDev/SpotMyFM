@@ -58,7 +58,7 @@ function useTrackPreview(
   function toggleAudio() {
     isPlaying ? pause() : play();
   }
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const PreviewButton = () => (
     <>
       {isPlayable && (isMobile || enablePreviewButton) ? (
@@ -66,12 +66,12 @@ function useTrackPreview(
           {isPlaying ? (
             <>
               <FaPause />
-              <span>{t('cards:pause')}</span>
+              <span>{t("cards:pause")}</span>
             </>
           ) : (
             <>
               <FaPlay />
-              <span>{t('cards:preview')}</span>
+              <span>{t("cards:preview")}</span>
             </>
           )}
         </Buttons.PrimaryGreenButton>

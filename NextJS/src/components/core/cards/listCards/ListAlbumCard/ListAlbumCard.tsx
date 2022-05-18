@@ -14,7 +14,7 @@ interface IListAlbumCardProps {
 }
 
 function ListAlbumCardHeader({ pos }: { pos?: boolean }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Styled.Header>
@@ -24,27 +24,27 @@ function ListAlbumCardHeader({ pos }: { pos?: boolean }) {
         </Styled.FirstTwoCols>
 
         <Styled.E1>
-          <Styled.GreenP>{t('cards:name')}</Styled.GreenP>
+          <Styled.GreenP>{t("cards:name")}</Styled.GreenP>
         </Styled.E1>
 
         <Styled.E2>
-          <Styled.GreenP>{t('cards:released_on2')}</Styled.GreenP>
+          <Styled.GreenP>{t("cards:released_on2")}</Styled.GreenP>
         </Styled.E2>
 
         <Styled.E3>
-          <Styled.GreenP>{t('cards:popularity')}</Styled.GreenP>
+          <Styled.GreenP>{t("cards:popularity")}</Styled.GreenP>
         </Styled.E3>
 
         <Styled.E5>
-          <Styled.GreenP>{t('views:album-tags')}</Styled.GreenP>
+          <Styled.GreenP>{t("views:album-tags")}</Styled.GreenP>
         </Styled.E5>
 
         <Styled.E6>
-          <Styled.GreenP>{t('cards:lastfm_tags')}</Styled.GreenP>
+          <Styled.GreenP>{t("cards:lastfm_tags")}</Styled.GreenP>
         </Styled.E6>
       </Styled.LeftSide>
 
-      <Styled.RightSide/>
+      <Styled.RightSide />
     </Styled.Header>
   );
 }
@@ -66,9 +66,9 @@ function ListAlbumCard({ album, pos }: IListAlbumCardProps): JSX.Element {
           <Styled.FirstTwoCols>
             <Styled.Pos>{pos != undefined && <p>{pos}</p>}</Styled.Pos>
             <Styled.Cover
-    src={album.spotifyCoverUrl?.[album.spotifyCoverUrl.length - 1]}
-    alt={"Album Cover"}
-    />
+              src={album.spotifyCoverUrl?.[album.spotifyCoverUrl.length - 1]}
+              alt={"Album Cover"}
+            />
           </Styled.FirstTwoCols>
 
           <Styled.E1>

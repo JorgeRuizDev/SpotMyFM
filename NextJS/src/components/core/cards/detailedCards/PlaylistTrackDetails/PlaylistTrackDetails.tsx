@@ -73,7 +73,7 @@ function PlaylistTrackDetails({
     () => playlist?.images?.[playlist?.images.length - 1],
     [playlist?.images]
   );
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <Modal

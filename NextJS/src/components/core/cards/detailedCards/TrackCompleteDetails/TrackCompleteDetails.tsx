@@ -223,7 +223,7 @@ function TrackCompleteDetails({
             onClick={() => setShowAlbumTracks(true)}
             style={{ marginTop: "80px" }}
           >
-            {t('cards:show-album-tracks')}
+            {t("cards:show-album-tracks")}
           </Buttons.PrimaryGreenButton>
         </Styled.CenterElement>
       )}
@@ -330,7 +330,7 @@ function RightColumn({
   recommendedTracks?: Track[];
 }): JSX.Element {
   const theme = useThemeStore((s) => s.currentTheme);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.Column>
       <HorizontalCardCarousell>
@@ -352,7 +352,7 @@ function RightColumn({
           </Styled.Card>
           <Styled.Card>
             <Styled.Column>
-              <h4>{t('cards:similar_tracks')}</h4>
+              <h4>{t("cards:similar_tracks")}</h4>
               {recommendedTracks ? (
                 <div>
                   {recommendedTracks.map((t, i) => (
@@ -373,14 +373,14 @@ function RightColumn({
 
       {lastFMDetails?.lastfmDescription ? (
         <>
-          <h4>{t('cards:album_description')}</h4>
+          <h4>{t("cards:album_description")}</h4>
           <Styled.DescriptionBox>
             <p>{parse(lastFMDetails?.lastfmDescription || "")}</p>
           </Styled.DescriptionBox>
         </>
       ) : (
         <>
-          <h4>{t('cards:this_album_does_not_have_a_description')}</h4>
+          <h4>{t("cards:this_album_does_not_have_a_description")}</h4>
         </>
       )}
     </Styled.Column>

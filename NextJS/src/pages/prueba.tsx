@@ -9,7 +9,7 @@ import useTranslation from "next-translate/useTranslation";
 
 export default function Prueba() {
   const [isActive, setIsActive] = useState(true);
-    const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <GroupedGreenButton

@@ -26,7 +26,7 @@ function PlaylistCompleteDetails({ playlist }: IPlaylistCompleteDetailsProps) {
   );
 
   function Col1() {
-      const {t} = useTranslation();
+    const { t } = useTranslation();
     return (
       <Styled.Col>
         <Styled.Img
@@ -37,27 +37,31 @@ function PlaylistCompleteDetails({ playlist }: IPlaylistCompleteDetailsProps) {
         />
         <Styled.JustifyLeft>
           <h3>{playlist?.name}</h3>
-          <h4>{t('cards:tracks2', {'total': playlist?.tracks.total})}</h4>
+          <h4>{t("cards:tracks2", { total: playlist?.tracks.total })}</h4>
         </Styled.JustifyLeft>
       </Styled.Col>
     );
   }
 
   function Col2() {
-      const {t} = useTranslation();
+    const { t } = useTranslation();
     return (
       <Styled.Col>
-        <h3>{t('cards:details')}</h3>
+        <h3>{t("cards:details")}</h3>
         <Styled.JustifyLeft>
           {playlist?.description ? (
             <>
-              <b>{t('cards:description2')}</b>
+              <b>{t("cards:description2")}</b>
               <p>{playlist?.description}</p>
               <hr />
             </>
           ) : null}
           <a href={playlist?.owner.uri}>
-            <p>{t('cards:owner2', {'display_name': playlist?.owner.display_name})}</p>
+            <p>
+              {t("cards:owner2", {
+                display_name: playlist?.owner.display_name,
+              })}
+            </p>
           </a>
 
           <p>{playlist?.public ? "Public" : "Private"}</p>
@@ -66,7 +70,7 @@ function PlaylistCompleteDetails({ playlist }: IPlaylistCompleteDetailsProps) {
           </p>
         </Styled.JustifyLeft>
         <Buttons.PrimaryGreenButton onClick={() => window.open(playlist?.uri)}>
-          {t('cards:open')}
+          {t("cards:open")}
         </Buttons.PrimaryGreenButton>
       </Styled.Col>
     );

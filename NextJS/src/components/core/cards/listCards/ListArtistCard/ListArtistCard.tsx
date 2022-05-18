@@ -15,7 +15,7 @@ interface IListArtistCardProps {
 
 function ListArtistCard({ artist, pos }: IListArtistCardProps): JSX.Element {
   const [showDet, setShowDet] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -70,7 +70,7 @@ function ListArtistCardHeader({
   pos?: boolean;
   sorting?: IGenericCardViewSortProps;
 }): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Styled.Header>
@@ -80,15 +80,15 @@ function ListArtistCardHeader({
         </Styled.FirstTwoCols>
 
         <Styled.E1>
-          <Styled.GreenP>{t('cards:name')}</Styled.GreenP>
+          <Styled.GreenP>{t("cards:name")}</Styled.GreenP>
         </Styled.E1>
 
         <Styled.E2>
-          <Styled.GreenP>{t('cards:popularity')}</Styled.GreenP>
+          <Styled.GreenP>{t("cards:popularity")}</Styled.GreenP>
         </Styled.E2>
 
         <Styled.E3>
-          <Styled.GreenP>{t('cards:genres')}</Styled.GreenP>
+          <Styled.GreenP>{t("cards:genres")}</Styled.GreenP>
         </Styled.E3>
       </Styled.LeftSide>
     </Styled.Header>

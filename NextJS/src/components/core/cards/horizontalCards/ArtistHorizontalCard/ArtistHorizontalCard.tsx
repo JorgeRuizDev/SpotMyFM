@@ -16,7 +16,7 @@ function ArtistHorizontalCard({
   artist,
 }: IArtistHorizontalCardProps): JSX.Element {
   const [showDet, setShowDet] = useState(false);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -40,15 +40,18 @@ function ArtistHorizontalCard({
             <h4>{artist?.name}</h4>
             <Buttons.PrimaryGreenButton onClick={() => setShowDet(true)}>
               <FaPlus />
-              <span>{t('cards:show_details')}</span>
+              <span>{t("cards:show_details")}</span>
             </Buttons.PrimaryGreenButton>
             <OpenSpotifyButton url={artist.spotifyUrl || ""} />
           </Styled.Inline>
-          <p>{t('cards:popularity2')} {formatPopularity(artist?.spotifyPopularity || 0)}</p>
+          <p>
+            {t("cards:popularity2")}{" "}
+            {formatPopularity(artist?.spotifyPopularity || 0)}
+          </p>
           {artist.spotifyGenres?.length || 0 > 0 ? (
-            <b>{t('cards:artist_genres')}</b>
+            <b>{t("cards:artist_genres")}</b>
           ) : (
-            <b>{t('cards:no_genres')}</b>
+            <b>{t("cards:no_genres")}</b>
           )}
           <Styled.GenrePillWrap>
             {artist.spotifyGenres?.map((g) => (

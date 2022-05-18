@@ -42,11 +42,11 @@ function LudwigResultsCard({
     return translate[label] || label;
   }, []);
   const theme = useThemeStore((s) => s.currentTheme);
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Styled.Wrapper>
-      <Styled.Title>{t('cards:track_signal_analysis')}</Styled.Title>
+      <Styled.Title>{t("cards:track_signal_analysis")}</Styled.Title>
       <Styled.ThreeCols>
         {isLoading ? (
           <NewtonsCradle

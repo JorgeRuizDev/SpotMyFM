@@ -27,7 +27,7 @@ function SimpleAlbumCard({
   // Modal States:
   const [showDetails, setShowDetails] = useState(false);
   const [showTagManager, setShowTagManager] = useState(false);
-    const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <Styled.Layout compact={compact}>
@@ -44,7 +44,9 @@ function SimpleAlbumCard({
             <p>Released on {album.spotifyReleaseDate?.toLocaleDateString()}</p>
           )}
           <hr />
-          <p>{t('cards:popularity2')} {formatPopularity(pop)}</p>
+          <p>
+            {t("cards:popularity2")} {formatPopularity(pop)}
+          </p>
           <ul>
             {album.artists?.map((x, i) => (
               <li key={i}>
@@ -88,7 +90,7 @@ function SimpleAlbumCard({
             setShowTagManager(true);
           }}
         >
-          <FaTags /> <span>{t('cards:tag_manager')}</span>
+          <FaTags /> <span>{t("cards:tag_manager")}</span>
         </Buttons.SecondaryGreenButton>
 
         <Buttons.SecondaryGreenButton

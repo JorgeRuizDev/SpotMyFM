@@ -25,7 +25,7 @@ function TrackSelectorView({ tracks, settings }: ITrackSelectorViewProps) {
     useTrackToPlaylistSelector();
   const scrollRef = createRef<HTMLDivElement>();
   const toastId = useRef<React.ReactText>();
-    const {t} = useTranslation();
+  const { t } = useTranslation();
   const NotificationMsg = useMemo(
     () => (
       <>

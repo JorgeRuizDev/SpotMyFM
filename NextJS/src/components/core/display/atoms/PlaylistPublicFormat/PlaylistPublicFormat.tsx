@@ -8,21 +8,21 @@ interface IPlaylistPublicFormatProps {
 function PlaylistPublicFormat({
   playlist,
 }: IPlaylistPublicFormatProps): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return playlist ? (
     <Text.Inline>
       {playlist.collaborative ? (
         <>
-          <span>{t('cards:collaborative')}</span> <MdGroup />
+          <span>{t("cards:collaborative")}</span> <MdGroup />
         </>
       ) : playlist.public ? (
         <>
-          <span>{t('cards:public')}</span>
+          <span>{t("cards:public")}</span>
           <MdPublic />
         </>
       ) : (
         <>
-          <span>{t('cards:private')}</span>
+          <span>{t("cards:private")}</span>
           <MdLock />
         </>
       )}

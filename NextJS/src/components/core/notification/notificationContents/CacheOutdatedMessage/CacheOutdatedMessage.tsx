@@ -15,22 +15,24 @@ function CacheOutdatedMessage({
     [lastCacheUpdate]
   );
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Styled.NotificationWrapper>
       <div>
         <Styled.b>
-          {t('cards:the_local_library_cache_seems_to_be_outdated')}{" "}
+          {t("cards:the_local_library_cache_seems_to_be_outdated")}{" "}
           {update && `(Last Update ${update})`}{" "}
         </Styled.b>
 
         <br />
         <Styled.p>
-          {t('cards:do_you_want_to_refresh_the_cache_this_process_will')}
+          {t("cards:do_you_want_to_refresh_the_cache_this_process_will")}
         </Styled.p>
       </div>
 
-      <Styled.CacheButton onClick={onClick}>{t('cards:refresh_cache')}</Styled.CacheButton>
+      <Styled.CacheButton onClick={onClick}>
+        {t("cards:refresh_cache")}
+      </Styled.CacheButton>
     </Styled.NotificationWrapper>
   );
 }
