@@ -52,7 +52,7 @@ interface ISave {
 function SpotifyButton({ track, artist }: ITrackArtist): JSX.Element {
   const isPremium = useClientsStore((s) => s.user.isPremium);
   const { playTrack } = useSpotifyPlayer();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       {isPremium && (
@@ -62,7 +62,7 @@ function SpotifyButton({ track, artist }: ITrackArtist): JSX.Element {
           }}
         >
           <FaSpotify />
-          <span>{t('cards:play-now')}</span>
+          <span>{t("cards:play-now")}</span>
         </Buttons.PrimaryGreenButton>
       )}
     </>
@@ -72,7 +72,7 @@ function SpotifyButton({ track, artist }: ITrackArtist): JSX.Element {
 function EnqueueButton({ track }: ITrackArtist): JSX.Element {
   const isPremium = useClientsStore((s) => s.user.isPremium);
   const { enqueue } = useSpotifyPlayer();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       {isPremium && (
@@ -82,7 +82,7 @@ function EnqueueButton({ track }: ITrackArtist): JSX.Element {
           }}
         >
           <MdQueueMusic />
-          <span>{t('cards:add-to-queue')}</span>
+          <span>{t("cards:add-to-queue")}</span>
         </Buttons.SecondaryGreenButton>
       )}
     </>
@@ -109,7 +109,10 @@ function DownloadPreview({ track }: { track: Track }): JSX.Element {
       const a = document.createElement("a");
       a.style.display = "none";
 
-      a.download = t('cards:30s_preview', {'name': track.artists[0]?.name, 'name_2': track.name});
+      a.download = t("cards:30s_preview", {
+        name: track.artists[0]?.name,
+        name_2: track.name,
+      });
       document.body.appendChild(a);
 
       a.href = URL.createObjectURL(res.data);
@@ -142,7 +145,7 @@ function DownloadPreview({ track }: { track: Track }): JSX.Element {
 }
 
 function SaveAlbum({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Buttons.SecondaryGreenButton
       onClick={() => {
@@ -160,13 +163,17 @@ function SaveAlbum({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
       }}
     >
       <LikeIcon isLiked={isSaved} />
-      {isSaved ? <span>{t('cards:remove-album')}</span> : <span>{t('cards:save-album')}</span>}
+      {isSaved ? (
+        <span>{t("cards:remove-album")}</span>
+      ) : (
+        <span>{t("cards:save-album")}</span>
+      )}
     </Buttons.SecondaryGreenButton>
   );
 }
 
 function SaveTrack({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Buttons.SecondaryGreenButton
       onClick={() => {
@@ -184,7 +191,11 @@ function SaveTrack({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
       }}
     >
       <LikeIcon isLiked={isSaved} />
-      {isSaved ? <span>t('cards:remove-track')</span> : <span>t('cards:save-track')</span>}
+      {isSaved ? (
+        <span>t('cards:remove-track')</span>
+      ) : (
+        <span>t('cards:save-track')</span>
+      )}
     </Buttons.SecondaryGreenButton>
   );
 }
@@ -192,7 +203,7 @@ function SaveTrack({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
 function PlayAlbum({ album }: IAlbum): JSX.Element {
   const isPremium = useClientsStore((s) => s.user.isPremium);
   const { playAlbum } = useSpotifyPlayer();
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       {isPremium && album && (
@@ -202,7 +213,7 @@ function PlayAlbum({ album }: IAlbum): JSX.Element {
           }}
         >
           <MdAlbum />
-          <span>{t('cards:play-full-album')}</span>
+          <span>{t("cards:play-full-album")}</span>
         </Buttons.SecondaryGreenButton>
       )}
     </>
@@ -222,7 +233,7 @@ function TagButton({ name, url }: ILastTag): JSX.Element {
 }
 
 function OpenLastFMButton({ url }: IUrl): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Buttons.SecondaryRedButton
       rounded
@@ -237,11 +248,11 @@ function OpenLastFMButton({ url }: IUrl): JSX.Element {
 }
 
 function OpenSpotifyButton({ url }: IUrl): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Buttons.SecondaryGreenButton
       rounded
-      aria-label={t('cards:open-spotify')}
+      aria-label={t("cards:open-spotify")}
       onClick={() => {
         window.open(url, "_blank");
       }}
@@ -260,7 +271,7 @@ function LikeButton({ isLiked }: { isLiked: boolean }): JSX.Element {
 }
 
 function PlusButton({ onClick }: { onClick: () => void }): JSX.Element {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Buttons.SecondaryGreenButton rounded onClick={onClick} aria-label="more">
       <FaPlus />
@@ -280,7 +291,7 @@ function PlaylistButton({
   track,
   showLabels = true,
 }: IPlaylistButton): JSX.Element | null {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   return (
     (toggleFromPlaylist !== undefined && (
       <>
@@ -290,12 +301,13 @@ function PlaylistButton({
         >
           {inPlaylist ? (
             <>
-              <FaMinus /> {showLabels && <span>{t('cards:remove-from-playlist')}</span>}
+              <FaMinus />{" "}
+              {showLabels && <span>{t("cards:remove-from-playlist")}</span>}
             </>
           ) : (
             <>
               <BiAddToQueue />
-              {showLabels && <span>{t('cards:add-to-playlist')}</span>}
+              {showLabels && <span>{t("cards:add-to-playlist")}</span>}
             </>
           )}
         </Buttons.SecondaryGreenButton>
