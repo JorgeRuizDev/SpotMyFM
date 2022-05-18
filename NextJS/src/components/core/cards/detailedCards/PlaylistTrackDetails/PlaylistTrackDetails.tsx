@@ -112,7 +112,9 @@ function PlaylistTrackDetails({
                   <PlaylistPublicFormat playlist={playlist} />
                 </h5>
                 <h5>
-                  <Text.green>{t('cards:tracks2', {'total': playlist.tracks.total})}</Text.green>
+                  <Text.green>
+                    {t("cards:tracks2", { total: playlist.tracks.total })}
+                  </Text.green>
                 </h5>
                 {playlist.description && (
                   <div>
@@ -146,7 +148,9 @@ function PlaylistTrackDetails({
         ) : (
           <></>
         )}
-        <p style={{ opacity: "30" }}>{t('cards:uri', {'uri%': playlist?.uri})}</p>
+        <p style={{ opacity: "30" }}>
+          {t("cards:uri", { "uri%": playlist?.uri })}
+        </p>
       </Modal>
     </>
   );

@@ -66,7 +66,11 @@ function CreatePlaylist({
         <ul>
           <li>
             <p>
-              {t('cards:divide_in', {'numberOfPlaylists': numberOfPlaylists, 'expr': " ", 'expr_2': numberOfPlaylists > 1 ? "playlists" : "playlist"})}
+              {t("cards:divide_in", {
+                numberOfPlaylists: numberOfPlaylists,
+                expr: " ",
+                expr_2: numberOfPlaylists > 1 ? "playlists" : "playlist",
+              })}
             </p>
             <input
               type="number"

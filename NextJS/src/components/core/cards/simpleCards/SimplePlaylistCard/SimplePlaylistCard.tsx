@@ -40,7 +40,9 @@ function SimplePlaylistCard({
                 <p>
                   <PlaylistPublicFormat playlist={playlist} />
                 </p>
-                <p>{t('cards:by', {'display_name': playlist.owner.display_name})}</p>
+                <p>
+                  {t("cards:by", { display_name: playlist.owner.display_name })}
+                </p>
               </li>
             </ul>
           </Styled.InfoLayout>

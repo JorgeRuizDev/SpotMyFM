@@ -143,7 +143,7 @@ function InputTags({
           type="submit"
           onClick={handleSubmit}
         >
-          {t('cards:add_tag', {'v': v})}
+          {t("cards:add_tag", { v: v })}
         </Buttons.PrimaryGreenButton>
       </Styled.Center>
     </form>
