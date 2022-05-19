@@ -29,7 +29,6 @@ function LoginPage(props: ILoginPageProps) {
             </Styled.Green>
           </h1>
 
-
           <h4 style={{ textAlign: "center" }}>
             <Styled.Green>Manage your Spotify Library</Styled.Green>
           </h4>
@@ -103,8 +102,9 @@ function LoginPage(props: ILoginPageProps) {
           </P>
           <br />
           <P>
-            Extend your <Styled.Green>library</Styled.Green> with similar tracks!
-            SpotMyFM provides content base recommendations to extend your playlist / library.
+            Extend your <Styled.Green>library</Styled.Green> with similar
+            tracks! SpotMyFM provides content base recommendations to extend
+            your playlist / library.
           </P>
         </Styled.Card>
       </Styled.CardWrap>
