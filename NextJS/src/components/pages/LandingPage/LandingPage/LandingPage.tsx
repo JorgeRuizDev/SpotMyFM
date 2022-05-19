@@ -13,10 +13,10 @@ import LoginPage from "./LoginPage";
 import FilterDemo from "./Demos/FilterDemo";
 
 export default function (): JSX.Element {
-    const theme = useThemeStore((s) => s.currentTheme);
-    return (
-        <div>
-            <Head/>
+  const theme = useThemeStore((s) => s.currentTheme);
+  return (
+    <div>
+      <Head />
 
       <FullPage
         styles={generateBackgrounds(6, theme == Theme.DARK)}
@@ -43,35 +43,33 @@ export default function (): JSX.Element {
           </Styled.CenterCol>
         </Styled.DemoWrapper>
 
-                <Styled.DemoWrapper>
-                    <Styled.CenterCol>
-                        <h3>Explore and Tag your Albums!</h3>
-                        <hr/>
-                    </Styled.CenterCol>
-                </Styled.DemoWrapper>
-                <Styled.DemoWrapper>
-                    <Styled.CenterCol>
-                        <h3>Use Advanced Filters!</h3>
-                        <h5>Create Specific Playlists</h5>
-                        <hr/>
-                        <FilterDemo/>
-                    </Styled.CenterCol>
-                    <Styled.CenterCol>
-                        <h1>. . .</h1>
-                        <h5>And many more</h5>
-                    </Styled.CenterCol>
-                </Styled.DemoWrapper>
-                <div>
-                    <Styled.DemoWrapper>
-                        <Styled.CenterCol>
-                            <h3>And Many More!</h3>
-                            <hr/>
-                        </Styled.CenterCol>
-                        <AndMoreDemo/>
-                    </Styled.DemoWrapper>
-                    <DivBottom/>
-                </div>
-            </FullPage>
+        <Styled.DemoWrapper>
+          <Styled.CenterCol>
+            <h3>Explore and Tag your Albums!</h3>
+            <hr />
+          </Styled.CenterCol>
+        </Styled.DemoWrapper>
+        <Styled.DemoWrapper>
+          <Styled.CenterCol>
+            <h3>Use Advanced Filters!</h3>
+            <h5>Create Specific Playlists</h5>
+            <hr />
+            <FilterDemo />
+          </Styled.CenterCol>
+          <Styled.CenterCol>
+            <h1>. . .</h1>
+            <h5>And many more</h5>
+          </Styled.CenterCol>
+        </Styled.DemoWrapper>
+        <div>
+          <Styled.DemoWrapper>
+            <Styled.CenterCol>
+              <h3>And Many More!</h3>
+              <hr />
+            </Styled.CenterCol>
+            <AndMoreDemo />
+          </Styled.DemoWrapper>
+          <DivBottom />
         </div>
       </FullPage>
     </div>
