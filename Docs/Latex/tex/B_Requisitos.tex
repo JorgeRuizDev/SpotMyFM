@@ -218,21 +218,20 @@
 \centering
 \begin{tabular}{r|p{0.6\textwidth}}
 \hline
-\textbf{CU-02}         & \textbf{Gestionar Tema}                                 \\ \hline
+\textbf{CU-02}         & \textbf{Gestionar Estadísticas}                                 \\ \hline
 \textbf{Versión}       & 1.0                                                     \\
 \textbf{Autor}         & Jorge Ruiz Gómez                                        \\
-\textbf{Requisitos}    & RF-4                                         \\
-\textbf{Descripción}   & Permite al usuario cambiar el tema general de la página \\ \hline
-\textbf{Precondición}  & La página ha cargado                                                 \\
+\textbf{Requisitos}    & RF-5                                         \\
+\textbf{Descripción}   & Permite al usuario conocer de manera visual estadísticas calculadas a partir de su biblioteca \\ \hline
+\textbf{Precondición}  & El usuasrio ha iniciado sesión.                                              \\
 \textbf{Acciones}      &    \begin{itemize}
                                 \item El Usuario entra en la página.
-                                \item La web carga el tema almacenado o selecciona un por defecto.
-                                \item El usuario pulsa el botón de cambio de tema.
-                                \item El Tema se alterna.
-                                \item La selección del tema se almacena de forma local.
+                                \item El usuario accede a la sección de estadísticas desde la barra de navegación.
+                                \item La página muestra distintas gráficas con las estadísticas del usuario. 
+
                             \end{itemize}\\
                                                                           
-\textbf{Postcondición} & El tema ha cambiado                                     \\
+\textbf{Postcondición} & Ninguna                              \\
 \textbf{Excepciones}   & Ninguna                                                 \\
 \textbf{Importancia}   & Baja                                                    \\ \hline
 \end{tabular}
@@ -240,6 +239,57 @@
 \label{tab:my-table}
 \end{table}
 
+\begin{table}[]
+\centering
+\begin{tabular}{r|p{0.6\textwidth}}
+\hline
+\textbf{CU-03}         & \textbf{Gestionar Caché}                                 \\ \hline
+\textbf{Versión}       & 1.0                                                     \\
+\textbf{Autor}         & Jorge Ruiz Gómez                                        \\
+\textbf{Requisitos}    & RF-4                                         \\
+\textbf{Descripción}   & Permite al usuario tener control sobre la caché local \\ \hline
+\textbf{Precondición}  & El usuario ha iniciado sesión                                                 \\
+\textbf{Acciones}      &    \begin{itemize}
+                                \item El Usuario entra en la página.
+                                \item El usuario entra a la página de opciones mediante la barra de navegación.
+                                \item El usuario accede al apartado "Caché Local".
+                                \item El usuario selecciona entre "Borrar" o "Refrescar Caché". 
+                            \end{itemize}\\
+                                                                          
+\textbf{Postcondición} & Aparece una notificación con el estado de la operación.\\
+\textbf{Excepciones}   & Ninguna                                                 \\
+\textbf{Importancia}   & Baja                                                    \\ \hline
+\end{tabular}
+\caption{CU-03}
+\label{tab:my-table}
+\end{table}
+
+
+
+\begin{table}[]
+\centering
+\begin{tabular}{r|p{0.6\textwidth}}
+\hline
+\textbf{CU-04}         & \textbf{Gestionar Dataset}                                 \\ \hline
+\textbf{Versión}       & 1.0                                                     \\
+\textbf{Autor}         & Jorge Ruiz Gómez                                        \\
+\textbf{Requisitos}    & RF-4                                         \\
+\textbf{Descripción}   & Permite a un administrador añadir o eliminar elementos del Dataset de canciones \\ \hline
+\textbf{Precondición}  & El usuario ha iniciado sesión y es administrador                                                \\
+\textbf{Acciones}      &    \begin{itemize}
+                                \item El Usuario entra en la página.
+                                \item El usuario entra a la página de gestión mediante la barra de navegación.
+                                \item El usuario selecciona un grupo a modificar y decide si desea expandirlo o reducirlo.
+                                \item El usuario decide si desea persistir los cambios o descartarlos
+                            \end{itemize}\\
+                                                                          
+\textbf{Postcondición} & Aparece una notificación con el estado de la operación.\\
+\textbf{Excepciones}   & Ninguna                                                 \\
+\textbf{Importancia}   & Baja                                                    \\ \hline
+\end{tabular}
+\caption{CU-04}
+\label{tab:my-table}
+\end{table}
 
 
 
