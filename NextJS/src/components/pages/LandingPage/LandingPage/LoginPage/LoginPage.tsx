@@ -4,21 +4,25 @@ import { AiFillApi } from "react-icons/ai";
 import Buttons from "styles/Buttons";
 import Styled, { P } from "./LoginPage.styles";
 import { getOauth } from "../../../../../util/spotify/oauthFrontend";
+import LocaleSelector from "components/util/LocaleSelector";
+import useTranslation from "next-translate/useTranslation";
 
 interface ILoginPageProps {}
 
 function LoginPage(props: ILoginPageProps) {
+  const {t} = useTranslation()
   return (
     <Styled.ContentWrapper>
       <Styled.ColCenter>
         <Styled.Title>
-          Welcome to <Styled.Green>MySpotifyFM</Styled.Green>!
+          {t('cards:welcome_to')} <Styled.Green>SpotMyFM</Styled.Green>!
         </Styled.Title>
-        <Styled.Subtitle>A Spotify Library Manager</Styled.Subtitle>
+        <Styled.Subtitle>{t('cards:a_spotify_library_manager')}</Styled.Subtitle>
+        <LocaleSelector />
       </Styled.ColCenter>
-
       <Styled.TopButtonWrap>
         <SpotifyLoginBtn />
+        
       </Styled.TopButtonWrap>
 
       <Styled.CardWrap>
@@ -30,24 +34,22 @@ function LoginPage(props: ILoginPageProps) {
           </h1>
 
           <h4 style={{ textAlign: "center" }}>
-            <Styled.Green>Manage your Spotify Library</Styled.Green>
+            <Styled.Green>{t('cards:manage_your_spotify_library')}</Styled.Green>
           </h4>
           <hr />
           <br />
           <P>
-            Log In with your Spotify Account to{" "}
-            <Styled.Green>Explore, Play</Styled.Green> and{" "}
-            <Styled.Green>Filter</Styled.Green> your favorite songs!
+            {t('cards:log_in_with_your_spotify_account_to')}{" "}
+            <Styled.Green>{t('cards:explore_play')}</Styled.Green> {t('cards:and')}{" "}
+            <Styled.Green>{t('cards:filtra')}</Styled.Green> {t('cards:your_favorite_songs')}
           </P>
           <br />
           <P>
-            <Styled.Green>Create or Replace</Styled.Green> your playlists with
-            your personalized track selection!
+            <Styled.Green>{t('cards:create_or_replace')}</Styled.Green> {t('cards:your_playlists_with_your_personalized_track_select')}
           </P>
           <br />
           <P>
-            <Styled.Green>Tag Your Albums!</Styled.Green> Use custom tags to
-            increase your album organization.
+            <Styled.Green>{t('cards:tag_your_albums')}</Styled.Green> {t('cards:use_custom_tags_to_increase_your_album_organizatio')}
           </P>
         </Styled.Card>
 
@@ -58,25 +60,18 @@ function LoginPage(props: ILoginPageProps) {
             </Styled.Red>
           </h1>
           <h4 style={{ textAlign: "center" }}>
-            <Styled.Red>LastFM Community</Styled.Red>
+            <Styled.Red>{t('cards:lastfm_community')}</Styled.Red>
           </h4>
           <hr />
           <br />
           <P>
-            MySpotifyFm <Styled.Red>mixes your spotify library</Styled.Red> with
-            the awesome <Styled.Red>LastFM Community</Styled.Red>.
+            SpotMyFM <Styled.Red>{t('cards:mixes_your_spotify_library')}</Styled.Red> {t('cards:with_the_awesome')} <Styled.Red>{t('cards:lastfm_community')}</Styled.Red>.
           </P>
           <br />
           <P>
-            Filter by <Styled.Red>Community Tags</Styled.Red> or get individual
-            details for each track!
+            {t('cards:filter_by')} <Styled.Red>{t('cards:community_tags')}</Styled.Red> {t('cards:or_get_individual_details_for_each_track')}
           </P>
           <hr />
-
-          <P>
-            Create and Share your custom{" "}
-            <Styled.Red>LastFM profile Collages</Styled.Red>!
-          </P>
         </Styled.Card>
 
         <Styled.Card>
@@ -85,40 +80,38 @@ function LoginPage(props: ILoginPageProps) {
               <AiFillApi />
             </Styled.Green>
           </h1>
-          <hr />
           <h4 style={{ textAlign: "center" }}>
-            <Styled.Green>DeepLearning Backend</Styled.Green>
+            <Styled.Green>{t('cards:deeplearning_backend')}</Styled.Green>
+            <hr />
           </h4>
           <br />
           <P>
-            <Styled.Green>MySpotifyFm</Styled.Green> uses{" "}
-            <Styled.Green>deeplearning</Styled.Green> techniques to analyze your
-            favourite tracks audio signal.
+            <Styled.Green>SpotMyFM</Styled.Green> {t('cards:uses')}{" "}
+            <Styled.Green>{t('cards:deep_learning')}</Styled.Green> {t('cards:techniques_to_analyze_your_favorite_tracks_audio_s')}
           </P>
           <br />
           <P>
-            <Styled.Green>Check your Stats!</Styled.Green> With Ludwig Backend
-            you can explore track features such as Track Mood or Subgenre.
+            <Styled.Green>{t('cards:check_your_stats')}</Styled.Green> {t('cards:with_ludwig_backend_you_can_explore_track_features')}
           </P>
           <br />
           <P>
-            Extend your <Styled.Green>library</Styled.Green> with similar
-            tracks! SpotMyFM provides content base recommendations to extend
-            your playlist / library.
+            {t('cards:extend_your')} <Styled.Green>{t('cards:library')}</Styled.Green> {t('cards:with_similar_tracks_spotmyfm_provides_content_base')}
           </P>
         </Styled.Card>
       </Styled.CardWrap>
       <Styled.ButtonWrap>
         <SpotifyLoginBtn />
       </Styled.ButtonWrap>
+      
     </Styled.ContentWrapper>
   );
 }
 
 function SpotifyLoginBtn() {
+  const t = useTranslation().t
   return (
-    <Buttons.LoginButton onClick={getOauth().promptCredentials}>
-      Log In With Spotify
+    <Buttons.LoginButton onClick={() => getOauth().promptCredentials()}>
+      {t('cards:log_in_with_spotify')}
     </Buttons.LoginButton>
   );
 }

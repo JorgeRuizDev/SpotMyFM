@@ -61,6 +61,9 @@ const ButtonWrap = tw.div`
 const TopButtonWrap = tw(ButtonWrap)`
 
   xl:display[none]
+  flex
+  flex-col
+  space-y-2
 
 `;
 

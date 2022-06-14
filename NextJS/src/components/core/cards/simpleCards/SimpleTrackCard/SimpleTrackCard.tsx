@@ -23,6 +23,7 @@ interface ISimpleTrackCardProps {
   isNested?: boolean;
   toggleFromPlaylist?: (track: Track) => void;
   inPlaylist?: boolean;
+  isDemo?: boolean;
 }
 
 function SimpleTrackCard({
@@ -32,6 +33,7 @@ function SimpleTrackCard({
   toggleFromPlaylist,
   inPlaylist = false,
   isNested = false,
+  isDemo = false
 }: ISimpleTrackCardProps) {
   const [showDetails, setShowDetails] = useState(false);
 
@@ -120,6 +122,7 @@ function SimpleTrackCard({
             artists={artists}
             album={album}
             isNested={isNested}
+            isDemo={isDemo}
           />
         </>
       </Modal>

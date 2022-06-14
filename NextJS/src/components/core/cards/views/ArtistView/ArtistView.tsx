@@ -17,6 +17,7 @@ import GenericCardView, {
   ViewTypeOption,
 } from "../GenericCardView/GenericCardView";
 import Styled from "./ArtistView.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IArtistViewProps {
   artists: Artist[];
   settings?: IArtistViewSettings;
@@ -44,9 +45,9 @@ function ArtistView({
     optionState,
     setOptionState,
   } = useArtistSorter(artists, settings.defaultArtistSort);
-
+  const {t} = useTranslation()
   const sorting: IGenericCardViewSortProps = {
-    sortTitle: "Sort Artists",
+    sortTitle: t('cards:sort_artists'),
     options: artistSortingOptions,
     isAscendant: isAscendentState,
     selected: optionState,

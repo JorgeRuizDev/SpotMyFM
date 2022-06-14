@@ -53,7 +53,7 @@ function CreatePlaylist({
               type={"text"}
               minLength={1}
               required={true}
-              placeholder={"MySpotifyFM Playlist"}
+              placeholder={"SpotMyFM Playlist"}
               onChange={savePlaylistName}
             />
             <Buttons.PrimaryGreenButton onClick={createPlaylistsHandler}>

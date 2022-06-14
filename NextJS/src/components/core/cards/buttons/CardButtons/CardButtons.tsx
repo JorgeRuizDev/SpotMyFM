@@ -192,9 +192,9 @@ function SaveTrack({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
     >
       <LikeIcon isLiked={isSaved} />
       {isSaved ? (
-        <span>t('cards:remove-track')</span>
+        <span>{t('cards:remove-track')}</span>
       ) : (
-        <span>t('cards:save-track')</span>
+        <span>{t('cards:save-track')}</span>
       )}
     </Buttons.SecondaryGreenButton>
   );

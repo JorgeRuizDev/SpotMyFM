@@ -20,6 +20,7 @@ interface IListTrackCardProps {
   inPlaylist?: boolean;
   isNested?: boolean;
   small?: boolean;
+  isDemo?: boolean
 }
 
 function ListTrackCard({
@@ -29,6 +30,7 @@ function ListTrackCard({
   toggleFromPlaylist,
   isNested = false,
   small = false,
+  isDemo = false,
 }: IListTrackCardProps): JSX.Element {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { t } = useTranslation();
@@ -115,6 +117,7 @@ function ListTrackCard({
       </Styled.ListItem>
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <TrackCompleteDetails
+          isDemo={isDemo}
           track={track}
           album={track.album}
           artists={track.artists}

@@ -6,9 +6,13 @@ import { Track } from "../../../../../../data/cacheDB/dexieDB/models/Track";
 import PillSearch from "../../../../../core/input/molecules/PillSearch";
 import DateIntervalSelector from "../../../../../core/input/molecules/DateIntervalSelector";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
+import useTranslation from "next-translate/useTranslation";
 interface IFilterDemoProps {}
 
 function FilterDemo(props: IFilterDemoProps) {
+
+    const {t} = useTranslation()
+
   //@ts-ignore
   const genres = demoTracks
     .flatMap((a) => a.artists?.flatMap((art: Artist) => art.spotifyGenres))
@@ -20,7 +24,7 @@ function FilterDemo(props: IFilterDemoProps) {
     <Styled.Col>
       <Styled.Card>
         <PillSearch
-          title={<h4>🎸Filter by Artist Genres:</h4>}
+          title={<h4>{t('cards:filter_by_artist_genres')}</h4>}
           type={"genre"}
           examplePill={"Example: Minecraft Ambient"}
           // @ts-ignore

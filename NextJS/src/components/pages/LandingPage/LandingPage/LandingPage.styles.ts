@@ -8,8 +8,8 @@ const DemoWrapper = tw.div`
   
   w-full
 
-  md:p-20
-  p-5
+  md:p-5
+  p-2
 
   space-y-12
 `;

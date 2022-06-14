@@ -39,6 +39,7 @@ interface ITrackViewProps {
   tracks: Track[];
   settings?: trackViewSettings;
   selectManager?: selectManager;
+  isDemo?: boolean;
 }
 
 /**
@@ -56,6 +57,7 @@ function TrackView({
     isNested: false,
   },
   selectManager,
+  isDemo = false,
 }: ITrackViewProps): JSX.Element {
   const { t } = useTranslation();
   const [mute, setMute] = useState(false);
@@ -213,6 +215,7 @@ function TrackView({
         setShowStats={setShowStats}
         showRecommendations={showRecommendations}
         setShowRecommendations={setShowRecommendations}
+        isDemo={isDemo}
       />
       <GenericCardView
         filterInputProps={filter}
@@ -225,6 +228,7 @@ function TrackView({
         }
         isLoading={settings.isLoading}
         scrollableTargetId={settings.scrollableTargetId}
+        defaultPageSize={isDemo ? 4: undefined}
       >
         {currentView === "GRID"
           ? filteredTracks.map((t, i) => (
@@ -235,6 +239,7 @@ function TrackView({
                 toggleFromPlaylist={
                   selectManager ? selectManager.toggleSelected : emptyToggle
                 }
+                isDemo={isDemo}
                 isMuted={mute}
                 playOnHover={hover}
               />
@@ -246,6 +251,7 @@ function TrackView({
                 key={i}
                 inPlaylist={selectManager?.isSelected(t)}
                 toggleFromPlaylist={() => selectManager?.toggleSelected(t)}
+                isDemo={isDemo}
               />
             ))}
       </GenericCardView>
@@ -268,6 +274,7 @@ interface ICardLayoutButtons extends ITrackViewProps {
 
   showRecommendations: boolean;
   setShowRecommendations: (b: boolean) => void;
+  isDemo: boolean;
 }
 
 function CardLayoutButtons({
@@ -285,6 +292,7 @@ function CardLayoutButtons({
   setShowRecommendations,
   toggleMute,
   setShowStats,
+  isDemo,
 }: ICardLayoutButtons) {
   const { t } = useTranslation();
   return (
@@ -320,22 +328,24 @@ function CardLayoutButtons({
         <IoStatsChart />
         <span>{t("cards:show_stats")}</span>
       </Buttons.SecondaryGreenButton>
-      <span
-        onClick={() =>
-          selectManager?.selectedCount == 0 &&
-          toast.info(
-            "Select / Add tracks to a playlist to see recommendations!"
-          )
-        }
-      >
-        <Buttons.SecondaryGreenButton
-          onClick={() => setShowRecommendations(true)}
-          disabled={selectManager?.selectedCount == 0}
+      {!isDemo && (
+        <span
+          onClick={() =>
+            selectManager?.selectedCount == 0 &&
+            toast.info(
+              "Select / Add tracks to a playlist to see recommendations!"
+            )
+          }
         >
-          <AiFillLike />
-          <span>{t("cards:recommended")}</span>
-        </Buttons.SecondaryGreenButton>
-      </span>
+          <Buttons.SecondaryGreenButton
+            onClick={() => setShowRecommendations(true)}
+            disabled={selectManager?.selectedCount == 0}
+          >
+            <AiFillLike />
+            <span>{t("cards:recommended")}</span>
+          </Buttons.SecondaryGreenButton>
+        </span>
+      )}
       <DropdownMenu
         items={[
           {

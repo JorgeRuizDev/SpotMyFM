@@ -48,6 +48,7 @@ interface ITrackCompleteDetailsProps {
   album?: Album;
   artists?: Artist[];
   isNested?: boolean;
+  isDemo?: boolean;
 }
 
 function TrackCompleteDetails({
@@ -55,6 +56,7 @@ function TrackCompleteDetails({
   album,
   artists,
   isNested = false,
+  isDemo = false,
 }: ITrackCompleteDetailsProps): JSX.Element {
   const [lastFMDetails, setLastFMDetails] = useState<ILastFMAlbum | null>(null);
   const [isTrackLiked, setIsTrackLiked] = useState(false);
@@ -68,7 +70,6 @@ function TrackCompleteDetails({
   const [recommendedTracks, setRecommendedTracks] = useState<
     Track[] | undefined
   >(undefined);
-
   const { play, pause, PreviewButton } = useTrackPreview(
     track?.spotifyPreviewURL || "",
     false,
@@ -94,7 +95,7 @@ function TrackCompleteDetails({
   // Get Ludwig Analysis
   useEffect(() => {
     if (
-      track &&
+      !isDemo && track &&
       track.spotifyPreviewURL &&
       (track?.ludwigMoods == undefined || track.ludwigGenres == undefined)
     ) {
@@ -116,11 +117,11 @@ function TrackCompleteDetails({
 
       fn();
     }
-  }, [ludwigApi, setIsMirLoading, track]);
+  }, [isDemo, ludwigApi, setIsMirLoading, track]);
 
   useEffect(() => {
     const fn = async () => {
-      if (!track || !track.spotifyPreviewURL) {
+      if (!track || !track.spotifyPreviewURL || isDemo) {
         return setRecommendedTracks([]);
       }
       const [res, error] = await ludwigApi.getRecommendation(track);
@@ -138,10 +139,15 @@ function TrackCompleteDetails({
       }
     };
     fn();
-  }, [getTracksByIds, ludwigApi, track]);
+  }, [getTracksByIds, isDemo, ludwigApi, track]);
 
   // Check if the album & tracks are liked or not
   useEffect(() => {
+
+    if (isDemo){
+      return
+    }
+
     album &&
       spotifyApi
         .containsMySavedAlbums([album.spotifyId])
@@ -153,7 +159,7 @@ function TrackCompleteDetails({
         .containsMySavedTracks([track.spotifyId])
         .then((res) => setIsTrackLiked(res?.[0]))
         .catch((e) => toast.error(spotifyApi.parse(e)?.message));
-  }, [album, track, spotifyApi]);
+  }, [album, track, spotifyApi, isDemo]);
 
   return (
     <div>
@@ -215,7 +221,7 @@ function TrackCompleteDetails({
           </Styled.InfoGrid>
         </div>
       </Styled.Wrapper>
-      {album && !isNested && showAlbumTracks ? (
+      {album && !isNested && showAlbumTracks && !isDemo ? (
         <AlbumTracksView album={album} />
       ) : (
         <Styled.CenterElement>
@@ -358,6 +364,7 @@ function RightColumn({
                   {recommendedTracks.map((t, i) => (
                     <ListTrackCard track={t} key={i} small={true} />
                   ))}
+                  {recommendedTracks.length == 0 && <h3>No Track Recommendations</h3>}
                 </div>
               ) : (
                 <NewtonsCradle

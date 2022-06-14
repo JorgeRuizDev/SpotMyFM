@@ -52,7 +52,7 @@ const ListItem = tw.li`
 	hover:bg-green-200
 
   dark:(text-green-700)
-	
+	z-index[31]
 `;
 
 const ActiveListItem = tw(ListItem)`
@@ -70,7 +70,7 @@ const SideListPos = tw.div`
   lg:right-8
   md:right-4
   right-2
-  z-index[21]
+  
 `;
 
 const SideList = tw.ul`
@@ -78,7 +78,7 @@ const SideList = tw.ul`
   flex-col
   items-center
   justify-center
-
+  relative
   h-full
   w-full
   select-none

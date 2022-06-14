@@ -16,11 +16,13 @@ interface ISimpleAlbumCardProps {
   album: Album;
   // Style:
   compact?: boolean;
+  isDemo?: boolean
 }
 
 function SimpleAlbumCard({
   album,
   compact = false,
+  isDemo = false
 }: ISimpleAlbumCardProps): JSX.Element {
   const pop = album.spotifyPopularity;
   const api = useClientsStore((s) => s.spotifyApi);
@@ -65,6 +67,7 @@ function SimpleAlbumCard({
         setShowTagManager={setShowTagManager}
         showDetails={showDetails}
         showTagManager={showTagManager}
+        isDemo={isDemo}
       />
     </>
   );
@@ -137,6 +140,7 @@ interface IModals {
   setShowTagManager: (x: boolean) => void;
 
   album: Album;
+  isDemo: boolean
 }
 
 function Modals({
@@ -145,6 +149,7 @@ function Modals({
   setShowDetails,
   setShowTagManager,
   album,
+  isDemo
 }: IModals): JSX.Element {
   return (
     <>
@@ -153,7 +158,7 @@ function Modals({
         onClose={useCallback(() => setShowDetails(false), [setShowDetails])}
       >
         <>
-          <TrackCompleteDetails artists={album.artists} album={album} />
+          <TrackCompleteDetails artists={album.artists} album={album} isDemo={isDemo}/>
         </>
       </Modal>
       <Modal

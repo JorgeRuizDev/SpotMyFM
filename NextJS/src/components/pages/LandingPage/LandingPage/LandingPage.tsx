@@ -11,16 +11,21 @@ import FullPage from "./FullPage";
 import AndMoreDemo from "./Demos/AndMoreDemo";
 import LoginPage from "./LoginPage";
 import FilterDemo from "./Demos/FilterDemo";
+import TrackDemo from "./Demos/TrackDemo";
+import AlbumView from "components/core/cards/views/AlbumView";
+import AlbumDemo from "./Demos/AlbumDemo";
+import useTranslation from "next-translate/useTranslation";
 
 export default function (): JSX.Element {
   const theme = useThemeStore((s) => s.currentTheme);
+  const t = useTranslation().t
   return (
     <div>
       <Head />
 
       <FullPage
         styles={generateBackgrounds(6, theme == Theme.DARK)}
-        topButton={"Try Now! 👋"}
+        topButton={t('cards:try-now')}
       >
         <Styled.CenterCol>
           <DivTop />
@@ -29,15 +34,16 @@ export default function (): JSX.Element {
 
         <Styled.DemoWrapper>
           <Styled.CenterCol>
-            <h3>Explore Your Library!</h3>
-            <p>Click anywhere in order to enable hover preview!</p>
+            <h3>{t('cards:explore_your_library')}</h3>
+            <p>{t('cards:click_anywhere_in_order_to_enable_hover_preview')}</p>
             <hr />
+            <TrackDemo />
           </Styled.CenterCol>
         </Styled.DemoWrapper>
         <Styled.DemoWrapper>
           <Styled.CenterCol>
-            <h3>Analyze Your Tracks!</h3>
-            <p>Upload an .mp3 / .wav file</p>
+            <h3>{t('cards:analyze_your_tracks')}</h3>
+            <p>{t('cards:upload_an_mp3_wav_file')}</p>
             <hr />
             <LudwigDropZone />
           </Styled.CenterCol>
@@ -45,26 +51,24 @@ export default function (): JSX.Element {
 
         <Styled.DemoWrapper>
           <Styled.CenterCol>
-            <h3>Explore and Tag your Albums!</h3>
+            <h3>{t('cards:explore_and_tag_your_albums')}</h3>
             <hr />
+            <AlbumDemo/>
           </Styled.CenterCol>
         </Styled.DemoWrapper>
         <Styled.DemoWrapper>
           <Styled.CenterCol>
-            <h3>Use Advanced Filters!</h3>
-            <h5>Create Specific Playlists</h5>
+            <h3>{t('cards:use_advanced_filters')}</h3>
+            <h5>{t('cards:create_specific_playlists')}</h5>
             <hr />
             <FilterDemo />
           </Styled.CenterCol>
-          <Styled.CenterCol>
-            <h1>. . .</h1>
-            <h5>And many more</h5>
-          </Styled.CenterCol>
+
         </Styled.DemoWrapper>
         <div>
           <Styled.DemoWrapper>
             <Styled.CenterCol>
-              <h3>And Many More!</h3>
+              <h3>{t('cards:and_many_more')}</h3>
               <hr />
             </Styled.CenterCol>
             <AndMoreDemo />

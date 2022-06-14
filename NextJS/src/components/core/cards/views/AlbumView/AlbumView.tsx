@@ -34,6 +34,7 @@ function AlbumView({
     defaultView: isMobile ? "LIST" : "GRID",
     isLoading: false,
     isNested: false,
+    isDemo: false,
   },
 }: IAlbumViewProps): JSX.Element {
   const [filteredAlbums, setFilteredAlbums] = useState<Album[]>([]);
@@ -125,13 +126,14 @@ function AlbumView({
             : { type: currentView, ListHeader: <ListAlbumCardHeader pos /> }
         }
         setView={setCurrentView}
+        defaultPageSize={settings.pageSize}
       >
         {currentView === "GRID"
           ? filteredAlbums.map((a, i) => (
-              <SimpleAlbumCard album={a} key={i + 1} />
+              <SimpleAlbumCard album={a} key={i + 1} isDemo={settings.isDemo}/>
             ))
           : filteredAlbums.map((a, i) => (
-              <ListAlbumCard album={a} pos={i + 1} key={i} />
+              <ListAlbumCard album={a} pos={i + 1} key={i} isDemo={settings.isDemo}/>
             ))}
         {}
       </GenericCardView>

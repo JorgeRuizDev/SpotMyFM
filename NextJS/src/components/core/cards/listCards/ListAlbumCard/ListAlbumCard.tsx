@@ -11,6 +11,7 @@ import ModifyAlbumTags from "../../other/ModifyAlbumTags";
 interface IListAlbumCardProps {
   album: Album;
   pos?: number;
+  isDemo?: boolean
 }
 
 function ListAlbumCardHeader({ pos }: { pos?: boolean }) {
@@ -49,7 +50,7 @@ function ListAlbumCardHeader({ pos }: { pos?: boolean }) {
   );
 }
 
-function ListAlbumCard({ album, pos }: IListAlbumCardProps): JSX.Element {
+function ListAlbumCard({ album, pos, isDemo = false }: IListAlbumCardProps): JSX.Element {
   const { t, lang } = useTranslation();
   const [showDet, setShowDet] = useState(false);
   const [showTagMgr, setShowTagMgr] = useState(false);
@@ -123,7 +124,7 @@ function ListAlbumCard({ album, pos }: IListAlbumCardProps): JSX.Element {
         </Styled.RightSide>
       </Styled.ListItem>
       <Modal isOpen={showDet} onClose={() => setShowDet(false)}>
-        <TrackCompleteDetails album={album} artists={album.artists} />
+        <TrackCompleteDetails album={album} artists={album.artists} isDemo={isDemo}/>
       </Modal>
       <Modal isOpen={showTagMgr} onClose={() => setShowTagMgr(false)}>
         <ModifyAlbumTags

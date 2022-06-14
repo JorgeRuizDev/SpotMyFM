@@ -14,6 +14,7 @@ import parse from "html-react-parser";
 import Modal from "components/core/display/molecules/Modal";
 import { last } from "lodash";
 import useTranslation from "next-translate/useTranslation";
+import { useLoginStore } from "store/useLogin";
 
 interface IArtistCompleteDetailsProps {
   artist: Artist;
@@ -25,7 +26,7 @@ function ArtistCompleteDetails({
   isNested,
 }: IArtistCompleteDetailsProps): JSX.Element {
   const { lastfmApi } = useClientsStore();
-
+  const {isLogged} = useLoginStore()
   const [lastDet, setLastDet] = useState<ILastFMArtist>();
   const [showDesc, setShowDesc] = useState(false);
   const [showAlbums, setShowAlbums] = useState(false);
@@ -115,7 +116,7 @@ function ArtistCompleteDetails({
           </Styled.PillCol>
         )}
       </Styled.PillCols>
-      {showAlbums ? (
+      {showAlbums && isLogged ? (
         <ArtistAlbumsView artist={artist} />
       ) : (
         <Text.Center>

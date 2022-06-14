@@ -113,7 +113,7 @@ function LudwigDropZone(props: ILudwigDropZoneProps): JSX.Element {
         setTracks(tracks);
       };
       fn();
-    } else {
+    } else if (ids.length) {
       toast.info("Log In to enjoy the full features of SpotMyFM and Ludwig");
     }
   }, [getTracksByIds, ids, isLogged]);
