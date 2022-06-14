@@ -13,7 +13,7 @@ const env = {
 
   LASTFM_KEY: process.env.NEXT_PUBLIC_LAST_KEY || "",
 
-  API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || "/",
+  API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || "https://spotmyfm-sg54uwdr7a-no.a.run.app",
 
   LUDWIG_BASE_URL: process.env.NEXT_PUBLIC_LUDWIG_URL || "",
   LUDWIG_SECRET: process.env.LUDWIG_SECRET || "",

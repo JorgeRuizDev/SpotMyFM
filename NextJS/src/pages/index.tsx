@@ -11,6 +11,7 @@ import {
 import { useSessionStore } from "store/useSession";
 import { ActivePage } from "enums/ActivePage";
 import useTranslation from "next-translate/useTranslation";
+import LandingPage from "components/pages/LandingPage/LandingPage";
 
 export default function Home(): JSX.Element {
   useLibraryCache();
@@ -24,7 +25,6 @@ export default function Home(): JSX.Element {
     setActivePage(ActivePage.HOME);
   }, [setActivePage]);
 
-  const { t, lang } = useTranslation();
 
   return (
     <>
@@ -32,13 +32,7 @@ export default function Home(): JSX.Element {
         isLogged === undefined ? (
           <></>
         ) : (
-          <Buttons.PrimaryGreenButton
-            onClick={() => {
-              getOauth().promptCredentials();
-            }}
-          >
-            {t("home:log-in")}
-          </Buttons.PrimaryGreenButton>
+          <LandingPage/>
         )
       ) : (
         <HomeTopTracks />

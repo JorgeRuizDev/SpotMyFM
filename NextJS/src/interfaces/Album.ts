@@ -4,4 +4,6 @@ export interface albumViewSettings {
   isNested?: boolean;
   scrollableTargetId?: string;
   defaultView?: "GRID" | "LIST";
+  pageSize?: 4
+  isDemo?: boolean
 }

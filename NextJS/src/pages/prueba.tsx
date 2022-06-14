@@ -6,38 +6,14 @@ import GroupedGreenButton from "components/core/input/atoms/GroupedGreenButton";
 import { HiFilter } from "react-icons/hi";
 import { BiReset } from "react-icons/bi";
 import useTranslation from "next-translate/useTranslation";
+import LandingPage from "../components/pages/LandingPage/LandingPage";
 
 export default function Prueba() {
   const [isActive, setIsActive] = useState(true);
   const { t } = useTranslation();
   return (
     <>
-      <GroupedGreenButton
-        buttons={[
-          {
-            body: (
-              <>
-                <HiFilter /> <span>Filter</span>
-              </>
-            ),
-            onClick: () => {
-              setIsActive(false);
-            },
-          },
-          {
-            body: (
-              <>
-                <BiReset />
-              </>
-            ),
-            onClick: () => {
-              setIsActive(true);
-            },
-            disabled: isActive,
-            secondary: true,
-          },
-        ]}
-      />
+        <LandingPage></LandingPage>
     </>
   );
 }

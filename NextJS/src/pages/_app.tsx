@@ -33,7 +33,15 @@ function MyApp({ Component, pageProps }: AppProps) {
         <ToggleThemeButtonFlip isLogged={isLogged} />
         <GlobalStyle />
 
-        <div id="main" style={{ minHeight: "100%", padding: "7px" }}>
+        <div
+          id="main"
+          style={{
+            minHeight: "100%",
+            padding: isLogged ? "7px" : "0px",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
           <Component {...pageProps} />
         </div>
         <BottomNavbar isLogged={isLogged} />
