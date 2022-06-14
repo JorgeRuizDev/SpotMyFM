@@ -33,7 +33,7 @@ function SimpleTrackCard({
   toggleFromPlaylist,
   inPlaylist = false,
   isNested = false,
-  isDemo = false
+  isDemo = false,
 }: ISimpleTrackCardProps) {
   const [showDetails, setShowDetails] = useState(false);
 

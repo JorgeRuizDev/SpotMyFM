@@ -130,10 +130,15 @@ function AlbumView({
       >
         {currentView === "GRID"
           ? filteredAlbums.map((a, i) => (
-              <SimpleAlbumCard album={a} key={i + 1} isDemo={settings.isDemo}/>
+              <SimpleAlbumCard album={a} key={i + 1} isDemo={settings.isDemo} />
             ))
           : filteredAlbums.map((a, i) => (
-              <ListAlbumCard album={a} pos={i + 1} key={i} isDemo={settings.isDemo}/>
+              <ListAlbumCard
+                album={a}
+                pos={i + 1}
+                key={i}
+                isDemo={settings.isDemo}
+              />
             ))}
         {}
       </GenericCardView>

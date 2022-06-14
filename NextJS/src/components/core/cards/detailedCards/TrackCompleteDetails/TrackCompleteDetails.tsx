@@ -95,7 +95,8 @@ function TrackCompleteDetails({
   // Get Ludwig Analysis
   useEffect(() => {
     if (
-      !isDemo && track &&
+      !isDemo &&
+      track &&
       track.spotifyPreviewURL &&
       (track?.ludwigMoods == undefined || track.ludwigGenres == undefined)
     ) {
@@ -143,9 +144,8 @@ function TrackCompleteDetails({
 
   // Check if the album & tracks are liked or not
   useEffect(() => {
-
-    if (isDemo){
-      return
+    if (isDemo) {
+      return;
     }
 
     album &&
@@ -364,7 +364,9 @@ function RightColumn({
                   {recommendedTracks.map((t, i) => (
                     <ListTrackCard track={t} key={i} small={true} />
                   ))}
-                  {recommendedTracks.length == 0 && <h3>No Track Recommendations</h3>}
+                  {recommendedTracks.length == 0 && (
+                    <h3>No Track Recommendations</h3>
+                  )}
                 </div>
               ) : (
                 <NewtonsCradle

@@ -42,7 +42,7 @@ interface IGenericCardViewProps<T> {
   setView?: (s: ViewTypeOption) => void;
   filterInputProps?: IFilterInputProps<T>;
   scrollableTargetId?: string;
-  defaultPageSize?: number
+  defaultPageSize?: number;
 }
 
 /**
@@ -64,10 +64,10 @@ function GenericCardView<T>({
   filterInputProps,
   isLoading = false,
   scrollableTargetId,
-  defaultPageSize
+  defaultPageSize,
 }: IGenericCardViewProps<T>): JSX.Element {
   // Paginate the current children
-  const pageSize = defaultPageSize ? defaultPageSize : (isMobile ? 20 : 35);
+  const pageSize = defaultPageSize ? defaultPageSize : isMobile ? 20 : 35;
 
   const { activePageItems, currentPage, setCurrentPage } = usePaginatedArray(
     children || [],

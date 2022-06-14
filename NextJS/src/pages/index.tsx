@@ -25,14 +25,13 @@ export default function Home(): JSX.Element {
     setActivePage(ActivePage.HOME);
   }, [setActivePage]);
 
-
   return (
     <>
       {!isLogged ? (
         isLogged === undefined ? (
           <></>
         ) : (
-          <LandingPage/>
+          <LandingPage />
         )
       ) : (
         <HomeTopTracks />
