@@ -84,7 +84,7 @@ function generateBackgrounds(count: number, isDark: boolean) {
   function darkPalette() {
     const p: string[] = [];
     for (let i = 0; i < count; i++) {
-      p.push(`hsl(0, 0%, ${13 + 4 * i}%)`);
+      p.push(`hsl(0, 0%, ${13 + 1 * i}%)`);
     }
 
     return p;
