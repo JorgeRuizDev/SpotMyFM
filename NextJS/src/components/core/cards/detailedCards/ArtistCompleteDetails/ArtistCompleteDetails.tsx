@@ -26,7 +26,7 @@ function ArtistCompleteDetails({
   isNested,
 }: IArtistCompleteDetailsProps): JSX.Element {
   const { lastfmApi } = useClientsStore();
-  const {isLogged} = useLoginStore()
+  const { isLogged } = useLoginStore();
   const [lastDet, setLastDet] = useState<ILastFMArtist>();
   const [showDesc, setShowDesc] = useState(false);
   const [showAlbums, setShowAlbums] = useState(false);

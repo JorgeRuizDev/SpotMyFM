@@ -45,9 +45,9 @@ function ArtistView({
     optionState,
     setOptionState,
   } = useArtistSorter(artists, settings.defaultArtistSort);
-  const {t} = useTranslation()
+  const { t } = useTranslation();
   const sorting: IGenericCardViewSortProps = {
-    sortTitle: t('cards:sort_artists'),
+    sortTitle: t("cards:sort_artists"),
     options: artistSortingOptions,
     isAscendant: isAscendentState,
     selected: optionState,

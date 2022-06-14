@@ -20,7 +20,7 @@ interface IListTrackCardProps {
   inPlaylist?: boolean;
   isNested?: boolean;
   small?: boolean;
-  isDemo?: boolean
+  isDemo?: boolean;
 }
 
 function ListTrackCard({

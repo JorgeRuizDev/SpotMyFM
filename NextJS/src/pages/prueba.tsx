@@ -13,7 +13,7 @@ export default function Prueba() {
   const { t } = useTranslation();
   return (
     <>
-        <LandingPage></LandingPage>
+      <LandingPage></LandingPage>
     </>
   );
 }

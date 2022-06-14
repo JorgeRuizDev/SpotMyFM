@@ -228,7 +228,7 @@ function TrackView({
         }
         isLoading={settings.isLoading}
         scrollableTargetId={settings.scrollableTargetId}
-        defaultPageSize={isDemo ? 4: undefined}
+        defaultPageSize={isDemo ? 4 : undefined}
       >
         {currentView === "GRID"
           ? filteredTracks.map((t, i) => (

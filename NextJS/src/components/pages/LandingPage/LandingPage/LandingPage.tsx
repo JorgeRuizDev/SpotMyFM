@@ -18,14 +18,14 @@ import useTranslation from "next-translate/useTranslation";
 
 export default function (): JSX.Element {
   const theme = useThemeStore((s) => s.currentTheme);
-  const t = useTranslation().t
+  const t = useTranslation().t;
   return (
     <div>
       <Head />
 
       <FullPage
         styles={generateBackgrounds(6, theme == Theme.DARK)}
-        topButton={t('cards:try-now')}
+        topButton={t("cards:try-now")}
       >
         <Styled.CenterCol>
           <DivTop />
@@ -34,16 +34,16 @@ export default function (): JSX.Element {
 
         <Styled.DemoWrapper>
           <Styled.CenterCol>
-            <h3>{t('cards:explore_your_library')}</h3>
-            <p>{t('cards:click_anywhere_in_order_to_enable_hover_preview')}</p>
+            <h3>{t("cards:explore_your_library")}</h3>
+            <p>{t("cards:click_anywhere_in_order_to_enable_hover_preview")}</p>
             <hr />
             <TrackDemo />
           </Styled.CenterCol>
         </Styled.DemoWrapper>
         <Styled.DemoWrapper>
           <Styled.CenterCol>
-            <h3>{t('cards:analyze_your_tracks')}</h3>
-            <p>{t('cards:upload_an_mp3_wav_file')}</p>
+            <h3>{t("cards:analyze_your_tracks")}</h3>
+            <p>{t("cards:upload_an_mp3_wav_file")}</p>
             <hr />
             <LudwigDropZone />
           </Styled.CenterCol>
@@ -51,24 +51,23 @@ export default function (): JSX.Element {
 
         <Styled.DemoWrapper>
           <Styled.CenterCol>
-            <h3>{t('cards:explore_and_tag_your_albums')}</h3>
+            <h3>{t("cards:explore_and_tag_your_albums")}</h3>
             <hr />
-            <AlbumDemo/>
+            <AlbumDemo />
           </Styled.CenterCol>
         </Styled.DemoWrapper>
         <Styled.DemoWrapper>
           <Styled.CenterCol>
-            <h3>{t('cards:use_advanced_filters')}</h3>
-            <h5>{t('cards:create_specific_playlists')}</h5>
+            <h3>{t("cards:use_advanced_filters")}</h3>
+            <h5>{t("cards:create_specific_playlists")}</h5>
             <hr />
             <FilterDemo />
           </Styled.CenterCol>
-
         </Styled.DemoWrapper>
         <div>
           <Styled.DemoWrapper>
             <Styled.CenterCol>
-              <h3>{t('cards:and_many_more')}</h3>
+              <h3>{t("cards:and_many_more")}</h3>
               <hr />
             </Styled.CenterCol>
             <AndMoreDemo />
