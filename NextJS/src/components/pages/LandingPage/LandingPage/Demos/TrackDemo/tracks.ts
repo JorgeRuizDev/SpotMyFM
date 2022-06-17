@@ -558,7 +558,7 @@ const trackMich = {
   id: 607,
   ludwigGenres: [
     {
-      label: "funk / soul",
+      label: "pop",
       confidence: 0.2620595693588257,
     },
   ],
@@ -594,11 +594,11 @@ const trackMich = {
   ],
   ludwigSubgenres: [
     {
-      label: "funk / soul---rhythm & blues",
+      label: "pop---rhythm & blues",
       confidence: 0.525751531124115,
     },
     {
-      label: "funk / soul---soul",
+      label: "pop---soul",
       confidence: 0.47152602672576904,
     },
   ],
@@ -1731,8 +1731,8 @@ const trackBowie = {
   id: 656,
   ludwigGenres: [
     {
-      label: "blues",
-      confidence: 0.32777518033981323,
+      label: "rock",
+      confidence: 0.62777518033981323,
     },
   ],
   ludwigMoods: [
@@ -1763,7 +1763,7 @@ const trackBowie = {
   ],
   ludwigSubgenres: [
     {
-      label: "blues---electric blues",
+      label: "rock---blues",
       confidence: 0.8167906999588013,
     },
   ],
@@ -2277,6 +2277,10 @@ const trackCash = {
       label: "rock-sub",
       confidence: 0.6229233145713806,
     },
+    {
+      label: "blues",
+      confidence: 0.5229245713806,
+    },
   ],
   ludwigMoods: [
     {
@@ -2310,7 +2314,11 @@ const trackCash = {
   ],
   ludwigSubgenres: [
     {
-      label: "rock---pop rock",
+      label: "rock---classic rock",
+      confidence: 0.3049823045730591,
+    },
+    {
+      label: "blues---electric blues",
       confidence: 0.3049823045730591,
     },
   ],
@@ -2862,7 +2870,7 @@ const trackFleet = {
   id: 726,
   ludwigGenres: [
     {
-      label: "electronic",
+      label: "rock-sub",
       confidence: 0.39742475748062134,
     },
   ],
@@ -2898,7 +2906,7 @@ const trackFleet = {
   ],
   ludwigSubgenres: [
     {
-      label: "electronic---new wave",
+      label: "rock---classic rock",
       confidence: 0.392123818397522,
     },
   ],
@@ -3415,8 +3423,8 @@ const trackBeat = {
   id: 800,
   ludwigGenres: [
     {
-      label: "jazz",
-      confidence: 0.2958716154098511,
+      label: "rock-sub",
+      confidence: 0.4958716154098511,
     },
   ],
   ludwigMoods: [
@@ -3451,7 +3459,7 @@ const trackBeat = {
   ],
   ludwigSubgenres: [
     {
-      label: "jazz---soul-jazz",
+      label: "rock---progressive",
       confidence: 0.46698248386383057,
     },
   ],
@@ -3950,6 +3958,10 @@ const trackPearl = {
       label: "rock---pop rock",
       confidence: 0.3029489815235138,
     },
+    {
+      label: "rock---grunge",
+      confidence: 0.6029489815235138,
+    },
   ],
 };
 
@@ -4410,6 +4422,10 @@ const trackDaft = {
       label: "funk / soul",
       confidence: 0.515007495880127,
     },
+    {
+      label: "electronic",
+      confidence: 0.715007495880127,
+    },
   ],
   ludwigMoods: [
     {
@@ -4450,6 +4466,11 @@ const trackDaft = {
       label: "funk / soul---soul",
       confidence: 0.6533706784248352,
     },
+    {
+      label: "electronic---house",
+      confidence: 0.6533706784248352,
+    },
+
   ],
 };
 
