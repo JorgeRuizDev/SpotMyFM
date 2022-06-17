@@ -18,7 +18,7 @@ module.exports = nextTranslate({
     return [
       {
         source: "/api/:path*",
-        destination: `https://spotmyfm-sg54uwdr7a-no.a.run.app:path*`,
+        destination: `http://localhost:3001/api:path*`,
       },
     ];
   },
@@ -32,7 +32,7 @@ module.exports = nextTranslate({
           { key: "Access-Control-Allow-Credentials", value: "true" },
           {
             key: "Access-Control-Allow-Origin",
-            value: "https://spotmyfm-sg54uwdr7a-no.a.run.app",
+            value: "http://localhost:3000",
           },
           {
             key: "Access-Control-Allow-Methods",
@@ -40,8 +40,7 @@ module.exports = nextTranslate({
           },
           {
             key: "Access-Control-Allow-Headers",
-            value:
-              "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
+            value: "*",
           },
         ],
       },
