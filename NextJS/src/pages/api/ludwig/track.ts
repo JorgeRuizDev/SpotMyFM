@@ -23,7 +23,7 @@ const track = async (
 ) => {
   // Check the method
   if (req.method !== "POST") {
-    res.status(405).json({ error: "POST is the only method allowed" });
+    return res.status(405).json({ error: "POST is the only method allowed" });
   }
 
   // Get the body from the petition
@@ -55,7 +55,7 @@ const track = async (
     );
 
     const data = response.data;
-    res.status(200).json({
+    return res.status(200).json({
       moods: data.moods || [],
       genres: data.genres || [],
       subgenres: data.subgenres || [],

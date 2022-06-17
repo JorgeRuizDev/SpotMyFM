@@ -27,7 +27,7 @@ const auth = async (
 ) => {
   // Check the method
   if (req.method !== "POST") {
-    res.status(405).json({ error: "POST is the only method allowed" });
+    return res.status(405).json({ error: "POST is the only method allowed" });
   }
 
   // Verify the Header Token
@@ -53,7 +53,7 @@ const auth = async (
 
   // Check that the ammount of albums does not exceed the limmit
   if (body.albums.length > MAX_ALBUMS_PER_REQ) {
-    res.status(400).json({
+    return res.status(400).json({
       error: `The number of albums exceeds the limit (${MAX_ALBUMS_PER_REQ})`,
     });
   }
@@ -61,13 +61,13 @@ const auth = async (
   const tagged: ITagResponse[] = [];
 
   await asyncPool(4, body.albums, async (album) => {
-    const [res, err] = await api.getAlbumTags(
+    const [res_, err] = await api.getAlbumTags(
       album.artist_name,
       album.album_name
     );
 
-    if (res) {
-      tagged.push({ tags: res, album_id: album.album_id });
+    if (res_) {
+      tagged.push({ tags: res_, album_id: album.album_id });
     } else {
       console.error(err?.message);
     }
