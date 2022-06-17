@@ -275,7 +275,7 @@ export const useDataFacade = createStore(() => {
             track.ludwigSubgenres = details.subgenres;
           }
         }
-        toast.info("Track Analysis is ready! ");
+        tracks.length > 20 && toast.info("Track Analysis is ready! ");
         unsetAsLoading();
       } else {
         toast.error(ludwig_error?.message);

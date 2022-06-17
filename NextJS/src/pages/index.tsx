@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 
 import { useLoginStore } from "store/useLogin";
-import Buttons from "styles/Buttons";
-import { getOauth } from "util/spotify/oauthFrontend";
-import HomeTopTracks from "components/pages/HomeTopTracks";
+
+
 import {
   useLibraryCache,
   useLibraryCacheStore,
 } from "hooks/cache/useLibraryCache";
 import { useSessionStore } from "store/useSession";
 import { ActivePage } from "enums/ActivePage";
-import useTranslation from "next-translate/useTranslation";
-import LandingPage from "components/pages/LandingPage/LandingPage";
+import dynamic from "next/dynamic";
+
+
+const DynamicHome = dynamic(() => import("components/pages/HomeTopTracks"))
+const DynamicLanding = dynamic(() => import("components/pages/LandingPage/LandingPage"))
+
 
 export default function Home(): JSX.Element {
   useLibraryCache();
@@ -25,16 +28,17 @@ export default function Home(): JSX.Element {
     setActivePage(ActivePage.HOME);
   }, [setActivePage]);
 
+
+  if (isLogged == undefined){
+    return <></>
+  }
+  
   return (
     <>
       {!isLogged ? (
-        isLogged === undefined ? (
-          <></>
-        ) : (
-          <LandingPage />
-        )
+        <DynamicLanding />
       ) : (
-        <HomeTopTracks />
+        <DynamicHome />
       )}
     </>
   );
