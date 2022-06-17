@@ -11,11 +11,11 @@ const env = {
   DYNAMOSE_USER_TABLE: process.env.DYNAMOOSE_USER_TABLE || "TEST_TABLE",
   DYNAMOOSE_TRACK_TABLE: process.env.DYNAMOOSE_TRACK_TABLE || "TEST_TABLE",
 
-  LASTFM_KEY: process.env.NEXT_PUBLIC_LAST_KEY || "",
+  LASTFM_KEY: process.env.NEXT_PUBLIC_LAST_KEY || "PLACEHOLDER",
 
   API_BASE_URL:
     process.env.NEXT_PUBLIC_API_BASE_URL ||
-    "https://spotmyfm-sg54uwdr7a-no.a.run.app",
+    "http://localhost:3001",
 
   LUDWIG_BASE_URL: process.env.NEXT_PUBLIC_LUDWIG_URL || "",
   LUDWIG_SECRET: process.env.LUDWIG_SECRET || "",
