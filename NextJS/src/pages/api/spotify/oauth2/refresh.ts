@@ -11,9 +11,14 @@ import { backendDB } from "data/backendDB/BackendDB";
 
 const refresh = async (
   req: NextApiRequest,
-  res: NextApiResponse<AuthTokenJWTResponse | ApiError>
+  res: NextApiResponse<AuthTokenJWTResponse | ApiError | {}>
 ) => {
   const { refreshToken } = req.body;
+
+  if (req.method == "OPTIONS") {
+    return res.status(200).json({});
+  }
+
 
   if (!refreshToken || refreshToken.length === 0) {
     res.status(400).json({ error: "Empty Refresh Token" });

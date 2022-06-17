@@ -23,8 +23,13 @@ export interface ITagResponse {
 
 const auth = async (
   req: NextApiRequest,
-  res: NextApiResponse<ApiError | ITagResponse[]>
+  res: NextApiResponse<ApiError | ITagResponse[] | {}>
 ) => {
+
+  if (req.method == "OPTIONS") {
+    return res.status(200).json({});
+  }
+
   // Check the method
   if (req.method !== "POST") {
     return res.status(405).json({ error: "POST is the only method allowed" });

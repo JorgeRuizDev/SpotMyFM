@@ -18,8 +18,13 @@ interface IPutResponse {
 
 const tagAlbums = async (
   req: NextApiRequest,
-  res: NextApiResponse<ApiError | ITagAlbumsResponse | IPutResponse>
+  res: NextApiResponse<ApiError | ITagAlbumsResponse | IPutResponse | {}>
 ) => {
+  if (req.method == "OPTIONS") {
+    return res.status(200).json({});
+  }
+
+
   // Verify the Header Token
   const [jwt, jwtErr] = jwtFromHeader(req.headers);
 

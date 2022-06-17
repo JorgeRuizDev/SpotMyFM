@@ -42,12 +42,19 @@ export interface IResponse {
 
 const bulk = async (
   req: NextApiRequest,
-  res: NextApiResponse<ApiError | IResponse>
+  res: NextApiResponse<ApiError | IResponse | {}>
 ) => {
+
+  if (req.method == "OPTIONS") {
+    return res.status(200).json({});
+  }
+
   // Check the method
   if (req.method !== "POST") {
     return res.status(405).json({ error: "POST is the only method allowed" });
   }
+
+
 
   // Get the body from the petition
   const body: IBulkRequest = req.body;

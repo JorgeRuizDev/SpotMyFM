@@ -9,8 +9,14 @@ interface IRes {
 
 const tagAlbums = async (
   req: NextApiRequest,
-  res: NextApiResponse<ApiError | IRes>
+  res: NextApiResponse<ApiError | IRes | {}>
 ) => {
+
+  if (req.method == "OPTIONS") {
+    return res.status(200).json({});
+  }
+
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "POST is the only method allowed" });
   }
