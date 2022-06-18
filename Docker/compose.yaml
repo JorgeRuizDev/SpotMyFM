@@ -1,0 +1,60 @@
+version: "3"
+services:
+  spotmyfm:
+    build: 
+      context: ../NextJS
+      args:
+        - NEXT_PUBLIC_LAST_KEY=${NEXT_PUBLIC_LAST_KEY} # LastFM API Key
+        - NEXT_PUBLIC_SPOTIFY_ID=${NEXT_PUBLIC_SPOTIFY_ID} # Spotify API Public
+        - NEXT_PUBLIC_LUDWIG_URL=ludwig:8000
+
+    hostname: spotmyfm
+    container_name: spotmyfm_compose
+    ports:
+      - 3000:3000
+    volumes:
+      - ../Nextjs:/src
+    environment:
+      - SECURITY_TOKEN=123
+      - SPOTIFY_SECRET=${SPOTIFY_SECRET} # Spotify API Secret
+      - JWT_SIGN_KEY=1234
+      - AWS_REGION_=us-east-1
+      - AWS_ACCESS_KEY_ID_=${AWS_ACCESS_KEY_ID_}
+      - AWS_SECRET_ACCESS_KEY_=${AWS_SECRET_ACCESS_KEY_}
+      - DYNAMOOSE_LOCAL="dynamodb:8000"
+      - DYNAMOOSE_USER_TABLE=SpotMyFM_user_DEV
+      - DYNAMOOSE_TRACK_TABLE=SpotMyFM_track_DEV
+      - LUDWIG_SECRET=1234
+
+
+    networks:
+      net:
+        aliases:
+          - spotmyfm      
+
+  ludwig:
+    build: ../Ludwig/mir-backend
+    hostname: ludwig
+    container_name: ludwig_compose
+    environment:
+      - SECURITY_TOKEN:1234
+    networks:
+      net:
+        aliases:
+          - ludwig
+    volumes:
+      - ../Ludwig/mir-backend:/src
+
+  dynamodb:
+    image: amazon/dynamodb-local
+    container_name: spotmyfm-db_compose
+    hostname: dynamodb
+    volumes:
+      -  ./db:/home/dynamodblocal/data
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath /home/dynamodblocal/data/"
+    networks:
+      net:
+        aliases:
+          - dynamodb
+networks:
+  net:

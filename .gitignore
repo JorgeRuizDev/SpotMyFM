@@ -18,3 +18,5 @@ NextJS/cypress/integration/2-advanced-examples_/utilities.spec.js
 NextJS/cypress/integration/2-advanced-examples_/viewport.spec.js
 NextJS/cypress/integration/2-advanced-examples_/waiting.spec.js
 NextJS/cypress/integration/2-advanced-examples_/window.spec.js
+Docker/spotmyfm.env
+Docker/.env
