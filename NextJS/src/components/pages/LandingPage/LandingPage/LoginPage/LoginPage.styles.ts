@@ -96,6 +96,14 @@ const Subtitle = tw.h3`
   //md:text-4xl
 `;
 
+const LoginRow = tw.div`
+  flex
+  flex-row
+  items-center
+  justify-center
+  space-x-3
+`
+
 const Styled = {
   Card,
   CardWrap,
@@ -107,6 +115,7 @@ const Styled = {
   TopButtonWrap,
   Title,
   Subtitle,
+  LoginRow
 };
 
 export default Styled;

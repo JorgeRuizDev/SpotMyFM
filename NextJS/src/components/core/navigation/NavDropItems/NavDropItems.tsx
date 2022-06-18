@@ -37,7 +37,7 @@ function NavDropItems({ closeMe = () => {} }: INavDropItemsProps): JSX.Element {
           </Link>
         </Styled.LinkWrap>
         <Styled.LinkWrap>
-          <Link href="https://github.com/JorgeRuizDev/SpotMyFM">
+          <Link href="https://github.com/JorgeRuizDev/SpotMyFM/tree/main/Manual/es">
             <FaQuestionCircle style={{ height: "40px", width: "40px" }} />
             <Styled.IconWrap></Styled.IconWrap>
           </Link>

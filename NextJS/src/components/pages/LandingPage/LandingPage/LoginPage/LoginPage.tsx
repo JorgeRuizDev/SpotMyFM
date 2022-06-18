@@ -6,6 +6,8 @@ import Styled, { P } from "./LoginPage.styles";
 import { getOauth } from "../../../../../util/spotify/oauthFrontend";
 import LocaleSelector from "components/util/LocaleSelector";
 import useTranslation from "next-translate/useTranslation";
+import { BsGithub } from "react-icons/bs";
+import { BiHelpCircle } from "react-icons/bi";
 
 interface ILoginPageProps {}
 
@@ -124,9 +126,21 @@ function LoginPage(props: ILoginPageProps) {
 function SpotifyLoginBtn() {
   const t = useTranslation().t;
   return (
-    <Buttons.LoginButton onClick={() => getOauth().promptCredentials()}>
-      {t("cards:log_in_with_spotify")}
-    </Buttons.LoginButton>
+    <Styled.LoginRow>
+      <a href="https://github.com/JorgeRuizDev/SpotMyFM">
+        <h3>
+          <BsGithub />
+        </h3>
+      </a>
+      <Buttons.LoginButton onClick={() => getOauth().promptCredentials()}>
+        {t("cards:log_in_with_spotify")}
+      </Buttons.LoginButton>
+      <a href="https://github.com/JorgeRuizDev/SpotMyFM/tree/main/Manual/es">
+        <h3>
+          <BiHelpCircle/>
+        </h3>
+      </a>
+    </Styled.LoginRow>
   );
 }
 
