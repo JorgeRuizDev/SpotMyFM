@@ -137,7 +137,7 @@ function SpotifyLoginBtn() {
       </Buttons.LoginButton>
       <a href="https://github.com/JorgeRuizDev/SpotMyFM/tree/main/Manual/es">
         <h3>
-          <BiHelpCircle/>
+          <BiHelpCircle />
         </h3>
       </a>
     </Styled.LoginRow>
