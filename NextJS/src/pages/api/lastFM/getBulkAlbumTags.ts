@@ -25,7 +25,6 @@ const auth = async (
   req: NextApiRequest,
   res: NextApiResponse<ApiError | ITagResponse[] | {}>
 ) => {
-
   if (req.method == "OPTIONS") {
     return res.status(200).json({});
   }

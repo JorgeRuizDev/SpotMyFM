@@ -24,7 +24,6 @@ const tagAlbums = async (
     return res.status(200).json({});
   }
 
-
   // Verify the Header Token
   const [jwt, jwtErr] = jwtFromHeader(req.headers);
 

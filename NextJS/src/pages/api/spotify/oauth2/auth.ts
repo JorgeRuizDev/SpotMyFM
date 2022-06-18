@@ -10,11 +10,9 @@ const auth = async (
   req: NextApiRequest,
   res: NextApiResponse<AuthTokenJWTResponse | ApiError | {}>
 ) => {
-
   if (req.method == "OPTIONS") {
     return res.status(200).json({});
   }
-
 
   const { redirectUri, responseCode } = req.body;
 

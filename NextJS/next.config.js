@@ -44,8 +44,8 @@ module.exports = nextTranslate({
           },
           {
             key: "Vary",
-            value: "origin"
-          }
+            value: "origin",
+          },
         ],
       },
     ];

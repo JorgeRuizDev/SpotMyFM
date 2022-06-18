@@ -19,7 +19,6 @@ const refresh = async (
     return res.status(200).json({});
   }
 
-
   if (!refreshToken || refreshToken.length === 0) {
     res.status(400).json({ error: "Empty Refresh Token" });
   }

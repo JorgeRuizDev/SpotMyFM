@@ -31,7 +31,6 @@ const bulk = async (
   req: NextApiRequest,
   res: NextApiResponse<ApiError | IResponse | {}>
 ) => {
-
   if (req.method == "OPTIONS") {
     return res.status(200).json({});
   }
