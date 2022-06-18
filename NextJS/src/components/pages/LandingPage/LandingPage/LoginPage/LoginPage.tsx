@@ -1,13 +1,16 @@
 import React from "react";
-import { FaLastfm, FaSpotify } from "react-icons/fa";
+import {
+  FaGithub,
+  FaLastfm,
+  FaQuestionCircle,
+  FaSpotify,
+} from "react-icons/fa";
 import { AiFillApi } from "react-icons/ai";
 import Buttons from "styles/Buttons";
 import Styled, { P } from "./LoginPage.styles";
 import { getOauth } from "../../../../../util/spotify/oauthFrontend";
 import LocaleSelector from "components/util/LocaleSelector";
 import useTranslation from "next-translate/useTranslation";
-import { BsGithub } from "react-icons/bs";
-import { BiHelpCircle } from "react-icons/bi";
 
 interface ILoginPageProps {}
 
@@ -129,7 +132,7 @@ function SpotifyLoginBtn() {
     <Styled.LoginRow>
       <a href="https://github.com/JorgeRuizDev/SpotMyFM">
         <h3>
-          <BsGithub />
+          <FaGithub />
         </h3>
       </a>
       <Buttons.LoginButton onClick={() => getOauth().promptCredentials()}>
@@ -137,7 +140,7 @@ function SpotifyLoginBtn() {
       </Buttons.LoginButton>
       <a href="https://github.com/JorgeRuizDev/SpotMyFM/tree/main/Manual/es">
         <h3>
-          <BiHelpCircle/>
+          <FaQuestionCircle />
         </h3>
       </a>
     </Styled.LoginRow>
