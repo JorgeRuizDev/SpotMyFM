@@ -102,7 +102,7 @@ const LoginRow = tw.div`
   items-center
   justify-center
   space-x-3
-`
+`;
 
 const Styled = {
   Card,
@@ -115,7 +115,7 @@ const Styled = {
   TopButtonWrap,
   Title,
   Subtitle,
-  LoginRow
+  LoginRow,
 };
 
 export default Styled;
