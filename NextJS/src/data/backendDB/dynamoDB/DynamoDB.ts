@@ -18,6 +18,9 @@ export class DynamoDB implements IBackendDB {
       secretAccessKey: env.AWS_SECRET_ACCESS_KEY,
       region: env.AWS_REGION,
     });
+    if (env.DYNAMOOSE_LOCAL) {
+      dynamoose.aws.ddb.local(env.DYNAMOOSE_LOCAL);
+    }
   }
 
   updateLastLogin(userId: string): Promise<Date> {
