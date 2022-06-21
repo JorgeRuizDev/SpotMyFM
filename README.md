@@ -7,6 +7,8 @@
 
 ## A Spotify Library Manager
 
+<hr/>
+
 ### Datasets
 
 [Ludwig Dataset - Genres, Subgenred & Moods - 13k+ Songs (Kaggle)](https://www.kaggle.com/datasets/jorgeruizdev/ludwig-music-dataset-moods-and-subgenres)
@@ -14,7 +16,10 @@
 This is the main dataset that has been used to train all the neural networks
 
 [Gtzan Extended Dataset - 3k Songs Dataset (Kagggle)](https://www.kaggle.com/datasets/jorgeruizdev/gtzan-extended-wav)
+
 This dataset has been used to initialize the weights of the main neural network.
+
+<hr/>
 
 Planning: [Table](https://jorgestar29.notion.site/jorgestar29/39629233e1824399b3ff825da5c1544b?v=7e9c9da54d1c411bad51fd974f30d75d) o [Chart](https://jorgestar29.notion.site/jorgestar29/39629233e1824399b3ff825da5c1544b?v=ad75fd8de0594bb9944612161bb03c77)
 
