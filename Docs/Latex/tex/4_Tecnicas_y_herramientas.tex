@@ -1,6 +1,6 @@
 \capitulo{4}{Técnicas y herramientas}
 
-Este capítulo tiene la finalidad de resaltar las distintas tecnologías, técnicas y herramientas que han sido utilizadas a lo largo del desarrollo del proyecto. 
+%Este capítulo tiene la finalidad de resaltar las distintas tecnologías, técnicas y herramientas que han sido utilizadas a lo largo del desarrollo del proyecto. 
 \vspace{-0.35cm}
 
 
@@ -23,8 +23,7 @@ inclusión de un sistema de tipado estático fuerte.
 
 Para el desarrollo de los componentes se ha utilizado TSX (Typescript
 Syntax Extensions), esta extensión de Typescript permite generar HTML
-junto con Typescript, facilitando la generación de HTML dinámico.
-
+junto con Typescript, facilitando la generación de HTML dinámico.\\
 Estas extensiones de lenguaje no están reflejadas en el estándar de
 ECMAscript, por lo que es necesario utilizar un transpilador que
 convierta estas extensiones en código Javascript.
@@ -39,6 +38,7 @@ permite construir interfaces. NextJS está construido sobre la biblioteca
 ReactJS, y añade una gran variedad de características como:
 
 \begin{itemize}
+\itemsep0em 
 \item
   Rutas o Páginas (/home, /about, etc)
 \item
@@ -75,6 +75,7 @@ algunos condicionales
 Algunas de estas variantes de estado pueden ser:
 
 \begin{itemize}
+\itemsep0em 
 \item
   hover:\textless clases de utilidad\textgreater{} estilo cuando el
   ratón está encima de un elemento
@@ -138,7 +139,7 @@ aplicación.
 \hypertarget{dexiedb}{%
 \subsubsection{DexieDB}\label{dexiedb}}
 
-DexieDB es un wrapper de IndexedDB, una \textbf{base de datos} NO-SQL
+DexieDB o DexieJS es un wrapper de IndexedDB, una \textbf{base de datos} NO-SQL
 que se encuentra en todos los navegadores modernos.
 
 Este wrapper, a parte de contener toda la funcionalidad de DexieDB, nos
@@ -217,7 +218,7 @@ funcionamiento del cliente en dos situaciones.
 
 \begin{itemize}
 \item
-  Renderizar en el servidor (SSR) elementos dinámicos de la web. Como
+  Renderizar en el servidor (SSR)\footnote{Server Side Rendering} elementos dinámicos de la web. Como
   por el ejemplo vistas individuales para usuarios registrados.
 \item
   Trabajar con peticiones que requieran autenticación.
@@ -272,7 +273,7 @@ Algunas características de esta base de datos son:
   por lo que es apta para ser accedida por la arquitectura sin servidor,
   como CaaS o FaaS.
 \item
-  Compatibilidad con AWS OpenSearch (ElasticSearch)
+  Compatibilidad con AWS OpenSearch (E lasticSearch)
 \item
   Copias de seguridad
 \item
@@ -318,7 +319,7 @@ validados por Dynamoose antes de crear, modificar o leer documentos.
 \subsection{Backend MIR}\label{backend-mir}}
 
 El backend de \textbf{Music Information Retrieval (MIR)} está basando en
-Python 3.10
+Python 3.8
 
 \hypertarget{fastapi}{%
 \subsubsection{FASTAPI}\label{fastapi}}
@@ -364,7 +365,7 @@ directamente desde un endpoint de FastAPI.
 \hypertarget{onnx-runtime-python}{%
 \subsubsection{ONNX Runtime Python}\label{onnx-runtime-python}}
 
-\textbf{ONNX Runtime} es una biblioteca de código abierto mantenida por
+\textbf{ONNX Runtime} \cite{onnxruntime} es una biblioteca de código abierto mantenida por
 Facebook y Microsoft. Esta biblioteca implementa múltiples motores de
 inferencias compatibles con el estándar \textbf{Open Neural Network
 eXchange (ONNX)}, un estándar que busca la interoperabilidad de modelos
@@ -378,6 +379,7 @@ basados en Pytorch, Keras, Caffé, etc en representación intermedia.
 Un modelo IR puede ser utilizado en múltiples \textbf{plataformas}
 
 \begin{itemize}
+\itemsep0em 
 \item
   Windows
 \item
@@ -395,6 +397,7 @@ Un modelo IR puede ser utilizado en múltiples \textbf{plataformas}
 Independientemente de la \textbf{arquitectura}
 
 \begin{itemize}
+\itemsep0em 
 \item
   X86
 \item
@@ -409,6 +412,7 @@ Desde múltiples \textbf{lenguajes de programación} o \textbf{entornos de
 ejcución}
 
 \begin{itemize}
+\itemsep0em 
 \item
   Python
 \item
@@ -425,6 +429,7 @@ Y compatible con una gran variedad de APIs para la aceleración por
 Hardware
 
 \begin{itemize}
+\itemsep0em 
 \item
   CPU
 \item
@@ -455,6 +460,7 @@ En este apartado del proyecto utilizamos librosa para leer ficheros wav
 y extraer algunos datos como:
 
 \begin{itemize}
+\itemsep0em 
 \item
   MFCCs
 \item
@@ -476,17 +482,16 @@ permiten trabajar con datos multimedia (ficheros y streams de vídeo,
 audio, imágenes, etc). FFMPEG permite grabar, editar, convertir,
 transcodificar o escalar datos multimedia.
 
-Este backend utiliza FFMPEG para convertir y muestrear ficheros .mp3 a
-.wav en 22050HZ rápidamente. Esto es debido a que Librosa no es
-compatible de forma nativa con ficheros .mp3.
-
+Luwdwig utiliza FFMPEG para convertir y muestrear ficheros .mp3 a
+.wav en 22050HZ, ya que es la representación de onda en formato .wav es la misma con la que trabaja Librosa. 
+Librosa es compatible con formatos .mp3, pero su implementación no es tan eficiente como la de FFMPEG. 
 \hypertarget{section-2}{%
 \subsubsection{}\label{section-2}}
 
 \hypertarget{sklearn}{%
 \subsubsection{Sklearn}\label{sklearn}}
 
-Sklearn es una biblioteca basada en scipy diseñada para tareas de
+Sklearn \cite{scikit-learn} es una biblioteca basada en SciPy \cite{2020SciPy-NMeth} diseñada para tareas de
 aprendizaje automático.
 
 Incluye una gran variedad de algoritmos para tareas de clasificación,
@@ -496,6 +501,7 @@ o preprocesado.
 Este backend utiliza dos componentes de Sklearn:
 
 \begin{itemize}
+\itemsep0em 
 \item
   \textbf{BallTree}: Utilizado para encontrar los vecinos más cercanos a
   un dato.
@@ -504,16 +510,21 @@ Este backend utiliza dos componentes de Sklearn:
   BallTree
 \end{itemize}
 
+\subsection{Knime}\label{knime}
+Knime o Konstanz Information Miner es una herramienta de código abierto usada en minería de datos y aprendizaje automático. Esta herramienta permite construir de manera visual mediante nodos interconectados flujos de trabajo para visualizar, modificar y analizar datos.
+Se ha utilizado KNime para el análisis de los distintos conjuntos de datos. 
+
 \hypertarget{scikit-surprise}{%
 \subsubsection{Scikit Surprise}\label{scikit-surprise}}
 
-Surprise es una biblioteca de código abierto especializada en sistemas
+Surprise \cite{supriselib} es una biblioteca de código abierto especializada en sistemas
 de recomendación colaborativos.
 
 El funcionamiento de esta biblioteca es muy simple, ya que permite
 generar la matriz de recomendación a partir de una lista formada por:
 
 \begin{itemize}
+\itemsep0em 
 \item
   Id Usuario
 \item
@@ -545,6 +556,7 @@ ejecución se realiza en unos contenedores virtuales con las siguientes
 características:
 
 \begin{itemize}
+\itemsep0em 
 \item
   4 Núcleos
 \item
@@ -564,7 +576,7 @@ entrenamiento de los modelos.
 \hypertarget{tensorflow-keras}{%
 \subsection{Tensorflow Keras}\label{tensorflow-keras}}
 
-Tensorflow es una biblioteca de código abierto destinada a el
+Tensorflow \cite{tensorflow2015-whitepaper} es una biblioteca de código abierto destinada a el
 entrenamiento e inferencia de modelos neuronales. Tensorflow está
 pensada para ser usada con Python, pero es compatible con otros
 lenguajes como C++ o incluso JavaScript.
@@ -581,7 +593,7 @@ Se ha planteado el uso de Pytorch como alternativa a Tensorflow Keras.
 \subsection{ONNX Tensorflow Converter y ONNX
 Quantizer}\label{onnx-tensorflow-converter-y-onnx-quantizer}}
 
-ONNX Tensorflow Converter es una herramienta de línea de comandos que
+ONNX Tensorflow Converter \cite{onnxruntime} es una herramienta de línea de comandos que
 permite convertir un modelo de Tensorflow en un modelo del estándar
 ONNX.
 
@@ -592,7 +604,7 @@ dinámica como con la estática.
 Ambas herramientas forman parte del proyecto de código abierto ONNX,
 mantenido por Microsoft y Facebook.
 
-Se tuvo en cuenta el uso de TFLITE para cuantizar e inferir los modelos,
+Se ha tenido en cuenta el uso de TFLITE para cuantizar e inferir los modelos,
 pero este motor únicamente está optimizado para dispositivos móviles
 (ARM).
 
@@ -623,12 +635,10 @@ con el que podemos gestionar proyectos utilizando la metodología Scrum.
 }{Dependabot }}\label{dependabot}}
 
 Dependabot es un servicio integrado en Github que permite analizar un
-respositorio en busca de brechas de seguridad.
-
+respositorio en busca de brechas de seguridad.\\
 Este servicio analiza el código en busca de \textbf{filtraciones de
 claves o tokens secretos}, y como su propio nombre indica, analiza las
-\textbf{dependencias del proyecto} en busca de dependencias vulnerables.
-
+\textbf{dependencias del proyecto} en busca de dependencias vulnerables.\\
 Si Dependabot detecta una vulnerabilidad en el proyecto, este intentará
 corregirla y publicará una \textbf{Pull Request} con la vulnerabilidad
 solucionada.
@@ -672,6 +682,7 @@ En este caso, se han programado las siguientes acciones para cada push
 al repositorio:
 
 \begin{itemize}
+\itemsep0em 
 \item
   \textbf{Prettier}: Aplica el formateador de código Prettier a todos
   los ficheros compatibles (Typescript, Javascript, JSON, CSS, etc)
@@ -684,19 +695,20 @@ al repositorio:
   despliegue de la aplicación.
 \end{itemize}
 
-Se ha considerado el uso de los servicios TravisCI y CircleCI
+Se ha considerado el uso de los servicios TravisCI y CircleCI.
 
 \hypertarget{vercel-plataforma}{%
 \subsection{Vercel (Plataforma)}\label{vercel-plataforma}}
 
 Vercel es una plataforma para publicar proyectos de frontend y webs
 estáticas. Está desarrollado por la empresa Vercel, la misma empresa que
-desarrolla NextJS, por lo que es compatible con todas las
+desarrolla NextJS \ref{nextjs}, por lo que es compatible con todas las
 funcionalidades de NextJS.
 
 Vercel ofrece muchas otras características como:
 
 \begin{itemize}
+\itemsep0em 
 \item
   Compatibilidad con \textbf{Edge Functions} (FaaS)
 \item
@@ -707,14 +719,13 @@ Vercel ofrece muchas otras características como:
   Dominios Personalizados
 \end{itemize}
 
-Se ha planteado el uso de la plataforma Netlify pero se ha escogido
-Vercel por su integración con NextJS.
+Se ha planteado el uso de la plataforma Netlify pero se ha escogido Vercel por su integración con NextJS.
 
 \hypertarget{google-cloud-run}{%
 \subsection{Google Cloud Run}\label{google-cloud-run}}
 
 Google Cloud Run es un servicio de Google Cloud que permite el
-despliegue de contenedores (CaaS) de forma escalable.\\
+despliegue de contenedores (CaaS)\footnote{Containers as a Service / Contenedore como Servicio} de forma escalable.\\
 Su funcionamiento es muy simple, a partir de un contenedor con un puerto
 expuesto, Cloud Run creará un proxy para dicho puerto y dependiendo del
 tráfico el orquestador instanciará o mantendrá activos un número
@@ -738,8 +749,7 @@ del editor para cada uno de los casos de uso.
 \subsection{OpenAPI}\label{openapi}}
 
 La especificación OpenAPI es una especificación para definir la interfaz
-de un servicio REST. Esta interfaz puede declararse mediante un fichero.
-json o .yaml, y permite declarar los distintos endpoints de un servidor,
+de un servicio REST. Esta interfaz puede declararse mediante un fichero .json o .yaml, y permite declarar los distintos endpoints de un servidor,
 así como las peticiones y respuestas esperados.
 
 La principal ventaja de OpenAPI es que puede ser integrada con un
@@ -748,4 +758,31 @@ middleware para ofrecer validación de la API.
 Por otro lado, la especificación OpenAPI permite generar una interfaz
 interactiva con la que poder generar automáticamente peticiones de
 muestra a partir de la especificación de peticiones.
+
+\subsection{Lucidchart}
+Lucidchart es una aplicación web progresiva diseñada para la creación y exportación de diagramas. Su principal característica es su gran cantidad de herramientas, así como la posibilidad de editar un diagrama de forma colaborativa.
+Lucidchart dispone de un plan gratuito que incluye hasta tres proyectos, cada uno puede albergar infinitos diagramas.
+
+Se ha planteado el uso de draw.io, pero se ha preferido usar Lucidchart por su servicio en la nube. 
+
+
+\subsection{Overleaf y \LaTeX}
+Overleaf es un editor web de documentos \LaTeX. \LaTeX es una extensión de \TeX, un sistema de composición de textos orientado al ámbito científico y matemático, es ampliamente utilizado debido a su estilo y a su procesador de expresiones matemáticas. \LaTeX, a diferencia de otros sistemas como DOCX, está pensado para que los textos sean editados directamente en texto plano, sin necesidad de un editor específico. Esto es posible gracias al sistema de macros y comandos que permiten estilar y organizar un documento. 
+
+\subsection{Figma}
+Figma es una aplicación web progresiva destinada a la edición de imágenes vectoriales. Su caso de uso principal es de prototipado de interfaces de usuario, pero puede usarse para muchos otros casos de uso, como creación de esquemas, creación de logos o incluso para la edición de diagramas UML. 
+
+
+\section{Técnicas y Metodologías}
+
+\subsection{Test Driven Development}\label{test_driven_dev}
+Test Driven Development es una metodología de desarrollo agile en la que se implementan antes los tests unitarios que la funcionalidad de la aplicación. Sigue el esquema de tres fases \textbf{red}, \textbf{green}, \textbf{refactor}. La fase red indica que los tests deben fallar. La fase green indica que se debe implementar de forma correcta la utilidad para que los tests se ejecuten satisfactoriamente, y por último la fase refactor indica que implementación debe ser refactorizada para mejorar la mantenibilidad. 
+
+
+\subsection{Metodología Scrum}
+Scrum es una metodología de gestión de proyectos a nivel de equipo. Scrum se centra en dividir las tareas del equipo en pequeñas tareas que puedan ser cumplidas durante un sprint.\\
+No se ha seguido esta metodología al pie de la letra debido a que solo ha participado un único desarrollador en el proyecto, por lo que algunos conceptos como los roles de miembros o las reuniones diarias no se aplican.\\
+En este caso, se han realiza sprints con una duración de 2 semanas y reuniones para revisar los sprints al final de cada sprint. Se ha acompañado esta metodología con Zenhub \ref{zenhub} para definir las pilas de sprint y producto, estas pilas contienen las tareas que se van a realizar en el sprint actual y a lo largo del proyecto ordenadas por prioridad. 
+
+
 

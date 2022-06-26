@@ -8,11 +8,14 @@
 \usepackage{lmodern} % Scalable font
 \usepackage{microtype}
 \usepackage{placeins}
-
+\usepackage{lipsum}
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
 \RequirePackage{xtab}
 \RequirePackage{multirow}
+\usepackage{hyperref}
+
+\def\code#1{\texttt{#1}}
 
 % Links
 \PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
@@ -319,7 +322,8 @@
       \vspace{.5cm}\Large
       \begin{center}
       \textbf{TFG del Grado en Ingeniería Informática}\vspace{.6cm}\\
-      \textbf{\LARGE\@title{}}
+      \textbf{\LARGE\@title{}}\\
+      \small{\href{https://spotmyfm.jorgeruizdev.com}{spotmyfm.jorgeruizdev.com}}
       \end{center}
       \vspace{.2cm}
     \end{minipage}
@@ -328,8 +332,11 @@
   \hfill\begin{minipage}{.20\textwidth}
     \includegraphics[width=\textwidth]{escudoInfor}
   \end{minipage}
+  
+  
   \vfill
   % Datos de alumno, curso y tutores ------------------
+  
   \begin{center}%
   {%
     \noindent\LARGE
@@ -348,6 +355,7 @@
 % Datos de portada
 \title{SpotMyFM}
 \author{\nombre}
+
 \tutor{Bruno Baruque Zanón}
 \date{\today}
 
@@ -413,12 +421,17 @@ D. nombre co-tutor
 % Abstract en castellano
 \renewcommand*\abstractname{Resumen}
 \begin{abstract}
-En este primer apartado se hace una \textbf{breve} presentación del tema que se aborda en el proyecto.
+Spotify es una de las plataformas de música en streaming más importantes del mundo. Se propone aumentar las funcionalidades de Spotify a partir de su API pública y otros servicios. 
+
+Se plantea el desarrollo y despliegue de una plataforma web que permita a los usuarios de Spotify explorar y gestionar su biblioteca de una manera más avanzada y transparente a la que ofrece Spotify por defecto. 
+
+La plataforma estará acompañada por una base de datos y un servicio de recuperación de información musical, que extraerá características de la señal de sonido de la canción y permitirá asociar géneros, subgéneros y estados de ánimo musicales a las distintas pistas; se utilizarán tres fuentes de datos, la API pública de Spotify, la API pública de LastFM y la API de SpotMyFM.
+
 \end{abstract}
 
 \renewcommand*\abstractname{Descriptores}
 \begin{abstract}
-Palabras separadas por comas que identifiquen el contenido del proyecto Ej: servidor web, buscador de vuelos, android \ldots
+Recuperación de información musical, CNN, Spotify, plataforma web, sistema de recomendación.
 \end{abstract}
 
 \clearpage
@@ -426,12 +439,17 @@ Palabras separadas por comas que identifiquen el contenido del proyecto Ej: serv
 % Abstract en inglés
 \renewcommand*\abstractname{Abstract}
 \begin{abstract}
-A \textbf{brief} presentation of the topic addressed in the project.
+Globally, Spotify is one of the most important music streaming platforms. This project aims to improve Spotify's functionalities based on its public API and other services.
+
+This project explores the development and deployment of a web platform that allows Spotify users to explore and manage their library in a more advanced and transparent way than the one offered by Spotify.
+
+The platform will be supported by a database and a music information retrieval service (MIR), which will extract features from the sound signal of the song and associate genres, subgenres, and musical moods to the different tracks; three data sources will be used, Spotify's public API, LastFM's public API, and SpotMyFM API.
+
 \end{abstract}
 
 \renewcommand*\abstractname{Keywords}
 \begin{abstract}
-keywords separated by commas.
+Music information retrieval, CNN, Spotify, web platform, recommender system.
 \end{abstract}
 
 \clearpage
@@ -459,7 +477,7 @@ keywords separated by commas.
 \include{./tex/7_Conclusiones_Lineas_de_trabajo_futuras}
 
 
-\bibliographystyle{plain}
+\bibliographystyle{ieeetr}
 \bibliography{bibliografia}
 
 \end{document}

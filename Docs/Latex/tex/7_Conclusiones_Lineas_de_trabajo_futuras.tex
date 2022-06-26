@@ -1,4 +1,55 @@
 \capitulo{7}{Conclusiones y Líneas de trabajo futuras}
 
-Todo proyecto debe incluir las conclusiones que se derivan de su desarrollo. Éstas pueden ser de diferente índole, dependiendo de la tipología del proyecto, pero normalmente van a estar presentes un conjunto de conclusiones relacionadas con los resultados del proyecto y un conjunto de conclusiones técnicas. 
-Además, resulta muy útil realizar un informe crítico indicando cómo se puede mejorar el proyecto, o cómo se puede continuar trabajando en la línea del proyecto realizado. 
+\section{Conclusiones}
+
+\subsection{Rendimiento de los clasificadores}
+La clasificación de música es un problema muy complejo, ya que cada artista tiene un estilo muy concreto, que puede estar influenciado por otros estilos y géneros, dificultado la tarea de clasificación de una pieza concreta. Por otro lado, las representación del audio, así como las técnicas para clasificarlo llevan varios años estancadas.
+
+La OVA dedicada a la clasificación de estado de ánimo tiene una precisión media del 80\%, siendo esta una precisión muy similar a la que podemos encontrarnos en la literatura \cite{moods_classification}.
+Por otro lado, el clasificador principal de géneros alcanza un 78\% de precisión en el conjunto de entrenamiento GTZAN Extended, superando a la precisión del ser humano, pero apenas alcanza el 59\% con el Ludwig Dataset, un conjunto de datos mucho más variado.\\
+
+
+\subsection{Limitaciones de depender de APIs}
+Si bien el uso de APIs pública es el único método para disponer de todos los datos y recursos del servicio, el no disponer de una base de la base de datos completa ha causado un gran número de inconvenientes.\\\\
+\textbf{Diseño de Datos}, tal y como se ha expuesto en el punto \ref{unificacion-de-las-fuentes-de-datos}, ha sido necesario unificar los datos y diseñar una caché local debido al elevado número de peticiones y heterogeneidad de las fuentes de datos.\\\\
+\textbf{Desconocimiento de Datos}, debido a no tener acceso a todos los datos, no podemos disponer de conjuntos de datos más completos para los sistemas de recomendación, ya sea basada en contenido (etiquetas y similitud) o colaborativa.\\\\
+\textbf{Estabilidad del Sistema}, debido a la elevada dependencia de tantas fuentes de datos ajenas al proyecto, si alguna de ellas falla, por ejemplo el inicio de sesión de Spotify, el frontend no se podrá utilizar.
+
+\subsection{Sistema de Recomendación Colaborativo basado en Playlists}
+Se ha implementado un prototipo de sistema de recomendación colaborativo basado en los contenidos de 200.000 playlists. Estas playlists de Spotify han sido recopiladas y anonimizadas por la promia compañía en \cite{million_playlist_dataset}. Para la creación y evaluación de las recomendaciones se ha utilizado la biblioteca Scikit Suprise \cite{supriselib}.\\
+Este sistema de recomendación está basado en una puntuación a cada uno de los elementos de la playlist con una nota del 0 al 5, calculada a partir de la popularidad de la playlist, frecuencia de actualización, \% de canciones del mismo artista o álbum, etc.\\
+Las recomendaciones iban a integrarse con la plataforma como un sistema para completar la playlist de un usuario a partir de canciones ya existentes. Se ha descartado la idea por el elevado coste de añadir nuevos datos a una matriz dispersa, ya que es necesario volver a ajustar la matriz dispersa para cada una de las peticiones de recomendación.\\
+Por otro lado se han intentado obtener las recomendaciones más cercanas a a otra mediante la implementación de un algoritmo de vecindad de Surprise, pero debido a que esta implementación no usa matrices dispersas, el consumo de memoria necesario para obtener las canciones más cercanas es demasiado alto, por lo que la implementación de esta característica no es viable a nivel de recursos.
+
+
+\section{Líneas de Trabajo Futuras}
+\subsection{Elastic Search}
+Se propone la creación de una base de datos con las instancias de los datos necesarios para el sistema de recomendación. Esta base de datos se debería ir expandiendo con nuevos contenidos a partir de las búsquedas de un usuario. 
+Para realizar la operación de búsqueda de vecinos de manera eficiente, se propone el uso de Elastic Search\cite{elastic}, un motor de búsqueda avanzado para bases de datos que incluye un sistema de vecindad.\\
+DynamoDB tiene integración con Elastic mediante OpenSearch, un fork de Elastic Search de AWS. 
+
+
+\subsection{Ventanas Virtuales}
+Los navegadores webs no están diseñados para tener un gran número de elementos en el DOM, por lo que la simple tarea de mostrar un gran número de canciones, álbumes, playlists o artistas  puede empeorar bastante el rendimiento, y con ello la experiencia de usuario. 
+
+Para evitar estos problemas de rendimiento se ha implementado un sistema de carga diferida (únicamente se muestran los elementos a medida que el usuarios se desplaza por la página) y de paginación, que limita el número de elementos por página para evitar sobrecargar al navegador. 
+
+Existe una solución mucho más elegante, la virtualización del HTML. Esta solución es muy utilizada en la web moderna por grandes plataformas como Twitter o Spotify. La virtualización consiste en añadir al DOM un número limitado de elementos (por ejemplo 20 tweets), y a medida que el usuario realiza scroll, desmontar del DOM los tweets antiguos y añadir los siguientes tweets en la parte inferior.
+Si bien esta técnica parece sencilla de implementar, aparece una pequeña limitación, y es mantener la barra de scroll en su posición correcta a medida que la ventana virtual avanza, así como cargar los elementos correctos al mover la barra de scroll a un punto intermedio.\\
+La solución más sencilla consiste en utilizar elementos con altura fija, ya que así podemos añadir un espacio en blanco que rellene los elementos que se han desmontado, manteniendo la posición del la barra de scroll. Por ejemplo, si sabemos que hemos desmontado 100 elementos con una altura de 100px cada uno, debemos añadir un espacio en blanco de 10000px para mantener la posición del scroll, y si el scroll está a 2000px del inicio, sabemos que estamos frente al elemento número 20 de la lista.
+
+En el caso de SpotMyFM, este tipo de cálculos no es posible realizarlo de forma eficiente ya que cada una de las tarjetas tiene una altura diferente, y el número de tarjetas por fila depende del ancho de la pantalla.
+Se plantea realizar un estudio que permita conocer los cambios necesarios para poder implementar esta técnica en el proyecto. 
+
+\subsection{Expandir Dataset y Otras Representaciones}
+Si bien se han empleado un gran número de técnicas para mejorar el rendimiento del clasificador de géneros, se ha llegado a la conclusión de que los datos son el principal limitante.\\
+Por un lado se ha planteado reemplazar los coeficientes cepstrales en las frecuencias de mel por espectrogramas en las frecuencias de mel. Este cambio de representación apenas mejora la confianza y tiene un elevado coste de memoria.\\
+Se plantea el uso de un dataset mucho más grande, ya que la augmentación de datos apenas tiene impacto sobre el resultado como expone \cite{augmentation}. Se plantea el uso de Million Song Dataset \cite{million_song_dataset} para intentar mejorar el rendimiento de los modelos. 
+
+\subsection{Refactorización de Enums con Strings}
+En algunos puntos del frontend se han utilizado Enums o Records con strings para identificar selecciones (principalmente en los selectores y menús desplegables). 
+Esto ha causado que algunos elementos no hayan podido ser internacionalizados correctamente debido a que los enums han sido declarados estáticamente fuera del alcance del hook\footnote{Una función especifica de ReactJS que permite re-renderizar la interfaz de usuario para actualizar cambios de manera declarativa} de traducción, y este hook únicamente funciona dentro de componentes ReactJS.
+
+\subsection{Otras Técnicas de Extracción de Información Musical}
+Existen muchas otras aproximaciones para trabajar con música, como la separación de las pistas que forman una canción \cite{demucs}, extraer las letras de canciones a partir del audio o extraer los sentimientos a partir de la letra para acompañar al clasificador de géneros, como explora \cite{moods_classification}.
+Se plantea el estudio e implementación de algunas de estas técnicas para expandir el funcionamiento de la plataforma.
