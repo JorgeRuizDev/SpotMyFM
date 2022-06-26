@@ -1,4 +1,5 @@
 import {
+  DownloadPreview,
   EnqueueButton,
   OpenLastFMButton,
   OpenSpotifyButton,
@@ -8,6 +9,7 @@ import {
 } from "./CardButtons";
 
 export {
+  DownloadPreview,
   EnqueueButton,
   SpotifyButton,
   OpenLastFMButton,

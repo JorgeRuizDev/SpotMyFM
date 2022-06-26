@@ -13,6 +13,8 @@ import {
 type AlbumSortingOptions =
   | "DEFAULT"
   | "ALBUM_NAME"
+  | "LAST_TAG_COUNT"
+  | "USER_TAG_COUNT"
   | "RELEASE_DATE"
   | "ALBUM_POPULARITY"
   | "ARTIST_NAME"
@@ -25,16 +27,19 @@ export const albumSortingOptions: Record<AlbumSortingOptions, string> = {
   ARTIST_NAME: "Artist Name",
   ARTIST_POPULARITY: "Artist Popularity",
   ALBUM_POPULARITY: "Album Popularity",
+  USER_TAG_COUNT: "User Tags",
+  LAST_TAG_COUNT: "LastFM Tags",
 };
+
+const so = albumSortingOptions;
+
 export default function useAlbumSorter(
   albums: Album[],
   option = albumSortingOptions.DEFAULT,
   isAscendent = false
 ) {
-  const so = albumSortingOptions;
-
   const [defaultAlbums, setDefaultAlbums] = useState([...albums]);
-  const [sortedAlbums, setSortedAlbums] = useState(albums);
+  const [sortedAlbums, setSortedAlbums] = useState([...albums]);
   const [optionState, setOptionState] = useState(option);
   const [isAscendentState, setIsAscendentState] = useState(isAscendent);
 
@@ -51,6 +56,9 @@ export default function useAlbumSorter(
   const sort = useCallback(() => {
     let t = albums;
     switch (optionState) {
+      case so.DEFAULT:
+        t = [...defaultAlbums];
+        break;
       case so.ALBUM_NAME:
         t = albums.sort(sortByName);
         break;
@@ -63,18 +71,24 @@ export default function useAlbumSorter(
       case so.ARTIST_POPULARITY:
         t = albums.sort(sortByArtistPop);
         break;
+      case so.LAST_TAG_COUNT:
+        t = albums.sort(
+          (a, b) => a.lastfmTagsNames.length - b.lastfmTagsNames.length
+        );
+        break;
+      case so.USER_TAG_COUNT:
+        t = albums.sort((a, b) => a.albumTags.length - b.albumTags.length);
+        break;
       case so.ARTIST_NAME:
         t = albums.sort(sortByArtistName);
         break;
-      case so.DEFAULT:
-        t = [...defaultAlbums];
     }
 
-    setSortedAlbums(isAscendentState ? [...t.reverse()] : [...t]);
-  }, [so, albums, optionState, isAscendentState, defaultAlbums]);
+    setSortedAlbums(Array.from(isAscendentState ? [...t.reverse()] : [...t]));
+  }, [albums, optionState, isAscendentState, defaultAlbums]);
 
   // On option change: Sort the albums
-  useEffect(sort, [sort, optionState, isAscendentState]);
+  useEffect(sort, [sort]);
 
   return {
     sortedAlbums,

@@ -1,8 +1,11 @@
+import { ActivePage } from "enums/ActivePage";
 import { isMobile } from "react-device-detect";
 import create from "zustand";
 
 interface IUseSessionStore {
   enableAnimations: boolean;
+  activePage: ActivePage;
+  setActivePage: (p: ActivePage) => void;
   isLoading: number;
   setAsLoading: () => void;
   unsetAsLoading: () => void;
@@ -13,6 +16,7 @@ interface IUseSessionStore {
  */
 export const useSessionStore = create<IUseSessionStore>((set, get) => {
   const enableAnimations = !isMobile;
+  const activePage = ActivePage.HOME;
   const isLoading = 0;
 
   const setAsLoading = () =>
@@ -21,9 +25,17 @@ export const useSessionStore = create<IUseSessionStore>((set, get) => {
     }));
 
   const unsetAsLoading = () =>
-    set((s) => {
-      isLoading: s.isLoading - 1;
-    });
+    set((s) => ({
+      isLoading: s.isLoading - 1,
+    }));
+  const setActivePage = (p: ActivePage) => set(() => ({ activePage: p }));
 
-  return { enableAnimations, isLoading, setAsLoading, unsetAsLoading };
+  return {
+    enableAnimations,
+    isLoading,
+    setAsLoading,
+    unsetAsLoading,
+    activePage,
+    setActivePage,
+  };
 });

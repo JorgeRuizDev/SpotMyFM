@@ -36,7 +36,7 @@ const ItemBox = tw.div`
 
 const Styled = {
   CenterContent,
-  ItemBox
+  ItemBox,
 };
 
 export default Styled;

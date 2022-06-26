@@ -8,15 +8,21 @@ import {
 } from "react-icons/md";
 
 import Styled from "./Paginate.styles";
+import useTranslation from "next-translate/useTranslation";
 interface IPaginateProps {
   currentPage: number;
   total: number;
   itemsPerPage: number;
   setCurrentPage: (page: number) => void;
   onChange: () => void;
-
-  goBackToTop?: boolean;
 }
+
+/**
+ * Pagination Bar
+ * Given a number of elements, and the number of elements per page, calls the function setCurrentPage and onChange on every click.
+ * @param props
+ * @returns
+ */
 
 function Paginate(props: IPaginateProps): JSX.Element {
   const totalPages = Math.ceil(props.total / props.itemsPerPage);
@@ -44,7 +50,7 @@ function Paginate(props: IPaginateProps): JSX.Element {
       </Styled.Page>
     );
   }
-
+  const { t } = useTranslation();
   return totalPages > 1 ? (
     <>
       <Styled.InlineCenter>
@@ -66,7 +72,7 @@ function Paginate(props: IPaginateProps): JSX.Element {
         }
 
         {/* Pages:  */}
-        {pages.map((p) => p)}
+        {pages}
 
         <Styled.Page
           isActive={false}
@@ -86,7 +92,10 @@ function Paginate(props: IPaginateProps): JSX.Element {
 
       <Styled.InlineCenter>
         <p>
-          {totalPages} pages ({props.total} items)
+          {t("cards:pages_items", {
+            totalPages: totalPages,
+            total: props.total,
+          })}
         </p>
       </Styled.InlineCenter>
     </>

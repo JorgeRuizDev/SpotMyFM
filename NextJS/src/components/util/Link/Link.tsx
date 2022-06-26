@@ -7,23 +7,6 @@ interface IA {
   fullWidth?: boolean;
 }
 
-const A = styled.a<IA>(({ fullWidth }) => [
-  tw`
-    hover:no-underline
-    h-full
-    width[inherit]
-
-    flex
-    flex-row
-
-    items-center
-    justify-center
-    space-x-2
-  `,
-
-  fullWidth && tw`w-full`
-]);
-
 interface ILinkProps {
   children?: ReactNode | ReactNode[];
   href?: string;
@@ -31,6 +14,13 @@ interface ILinkProps {
   style?: React.CSSProperties;
 }
 
+/**
+ * Dynamic Link Component
+ *
+ * Behaves as an HREF if the href attribute is active
+ * @param param0
+ * @returns
+ */
 function Link({ href, children, style }: ILinkProps) {
   return href ? (
     <Styled.NextLink href={href} passHref>

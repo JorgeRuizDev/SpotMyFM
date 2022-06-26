@@ -1,7 +1,7 @@
 import Paginate from "components/core/display/atoms/Paginate";
 import useInfiniteScrollArray from "hooks/infiniteScroll/useInfiniteScrollArray";
 import usePaginatedArray from "hooks/paginatedArray/usePaginatedArray";
-import React, { ReactNode, createRef } from "react";
+import React, { ReactNode, createRef, useMemo } from "react";
 import { isMobile } from "react-device-detect";
 import Styled from "./GenericCardView.styles";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -12,7 +12,10 @@ import { IFilterInputProps } from "interfaces/IFilterInputProps";
 import FilterInput from "components/core/input/atoms/FilterInput";
 import { BsFillGrid3X2GapFill, BsListUl } from "react-icons/bs";
 import MultipleSkeletonList from "../../listCards/MultipleSkeletonList";
+import { FaSortAmountDownAlt, FaSortAmountUpAlt } from "react-icons/fa";
+import useTranslation from "next-translate/useTranslation";
 export interface IGenericCardViewSortProps {
+  sortTitle?: string;
   options: Record<string, string>;
   isAscendant: boolean;
   selected: string;
@@ -38,7 +41,20 @@ interface IGenericCardViewProps<T> {
   isLoading?: boolean;
   setView?: (s: ViewTypeOption) => void;
   filterInputProps?: IFilterInputProps<T>;
+  scrollableTargetId?: string;
+  defaultPageSize?: number;
 }
+
+/**
+ * Function that renders tracks with lazy-loading + includes an input filter + sorting selector
+ *
+ * children: Cards to render
+ * sorting: An object with the sorting options
+ * view: The Current view (GRID or LIST)
+ * filterInputProps: An object with the filter input props
+ * isLoading: Boolean flag that shows track skeletons
+ * @returns
+ */
 
 function GenericCardView<T>({
   children,
@@ -47,9 +63,12 @@ function GenericCardView<T>({
   setView,
   filterInputProps,
   isLoading = false,
+  scrollableTargetId,
+  defaultPageSize,
 }: IGenericCardViewProps<T>): JSX.Element {
   // Paginate the current children
-  const pageSize = isMobile ? 20 : 50;
+  const pageSize = defaultPageSize ? defaultPageSize : isMobile ? 20 : 35;
+
   const { activePageItems, currentPage, setCurrentPage } = usePaginatedArray(
     children || [],
     pageSize,
@@ -69,7 +88,7 @@ function GenericCardView<T>({
   } = useInfiniteScrollArray(activePageItems, 10, 10, true);
 
   return (
-    <>
+    <div id={"scrollSi"}>
       <div ref={layoutStartRef}></div>
       <SortRow />
 
@@ -81,6 +100,7 @@ function GenericCardView<T>({
         next={next}
         scrollThreshold={0.6}
         hasMore={hasMore}
+        scrollableTarget={scrollableTargetId}
         loader={
           view.type == "GRID" ? (
             <MultipleSkeletonCards />
@@ -89,10 +109,14 @@ function GenericCardView<T>({
           )
         }
       >
-        <ItemLayout />
+        <ItemLayout
+          isLoading={isLoading}
+          scrollItems={scrollItems}
+          view={view}
+        />
       </InfiniteScroll>
       <PaginationBar />
-    </>
+    </div>
   );
 
   /**
@@ -114,50 +138,69 @@ function GenericCardView<T>({
       />
     );
   }
-  function ItemLayout(): JSX.Element {
-    return (
-      <Styled.CardLayout>
-        {view.type == "LIST" && view.ListHeader}
-        {scrollItems.length > 0 ? (
-          scrollItems
-        ) : isLoading ? (
-          view.type == "GRID" ? (
-            <MultipleSkeletonCards />
-          ) : (
-            <MultipleSkeletonList key={2} />
-          )
-        ) : (
-          <h3>No Items Found</h3>
-        )}
-      </Styled.CardLayout>
-    );
-  }
 
   function SortRow(): JSX.Element {
-    return (
-      <Styled.LayoutButtonsWrap>
-        {sorting && (
-          <>
-            <DropdownMenu
-              items={Object.entries(sorting.options).map((o) => {
+    const { t } = useTranslation();
+
+    const sortOptions = useMemo(
+      () =>
+        sorting
+          ? [
+              {
+                component: (
+                  <>
+                    {!sorting.isAscendant ? (
+                      <FaSortAmountDownAlt />
+                    ) : (
+                      <FaSortAmountUpAlt />
+                    )}
+                    <span>
+                      {t("cards:set")}{" "}
+                      {sorting.isAscendant ? "Descending" : "Ascending"}
+                    </span>
+                  </>
+                ),
+                onClick: () => sorting.setIsAscendant(!sorting.isAscendant),
+              },
+              {
+                component: "",
+              },
+              ...Object.entries(sorting.options).map((o) => {
                 return {
-                  component: o[1],
+                  component: (
+                    <span
+                      style={{
+                        textDecoration:
+                          sorting.selected === o[1] ? "underline" : "none",
+                      }}
+                    >
+                      {o[1]}
+                    </span>
+                  ),
                   onClick: () => {
                     sorting.setSorting(o[1]);
                   },
                 };
-              })}
-            >
-              <span>Sort Tracks</span>
+              }),
+            ]
+          : [],
+      []
+    );
+
+    return (
+      <Styled.LayoutButtonsWrap>
+        {sorting && (
+          <>
+            <DropdownMenu items={sortOptions}>
+              <>
+                {sorting.isAscendant ? (
+                  <FaSortAmountUpAlt />
+                ) : (
+                  <FaSortAmountDownAlt />
+                )}
+                <span>Sorting by {sorting.selected}</span>
+              </>
             </DropdownMenu>
-            <Buttons.SecondaryGreenButton
-              onClick={() => sorting.setIsAscendant(!sorting?.isAscendant)}
-            >
-              <span>
-                {sorting?.selected}{" "}
-                {sorting?.isAscendant ? "Ascending" : "Descending"}
-              </span>
-            </Buttons.SecondaryGreenButton>
           </>
         )}
 
@@ -172,6 +215,35 @@ function GenericCardView<T>({
       </Styled.LayoutButtonsWrap>
     );
   }
+}
+
+function ItemLayout({
+  view,
+  scrollItems,
+  isLoading,
+}: {
+  view: ViewType;
+  scrollItems: ReactNode[];
+  isLoading: boolean;
+}): JSX.Element {
+  const { t } = useTranslation();
+
+  return (
+    <Styled.CardLayout addSpace={view.type == "GRID"}>
+      {view.type == "LIST" && view.ListHeader}
+      {scrollItems.length > 0 ? (
+        scrollItems
+      ) : isLoading ? (
+        view.type == "GRID" ? (
+          <MultipleSkeletonCards />
+        ) : (
+          <MultipleSkeletonList key={2} />
+        )
+      ) : (
+        <h3>{t("cards:no_items_found")}</h3>
+      )}
+    </Styled.CardLayout>
+  );
 }
 
 export default GenericCardView;

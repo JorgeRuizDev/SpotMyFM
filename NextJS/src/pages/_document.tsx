@@ -41,7 +41,7 @@ export default class MyDocument extends Document {
 
   render() {
     return (
-      <Html lang="en" dir="ltr">
+      <Html dir="ltr">
         <Head>
           <meta charSet="utf-8" />
           {production && (

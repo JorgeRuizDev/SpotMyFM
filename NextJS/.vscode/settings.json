@@ -1,7 +1,12 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-	"typescript.tsdk": "node_modules\\typescript\\lib",
-	"workbench.tree.indent": 10,
-    "editor.detectIndentation": false,
-    "editor.tabSize": 2
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "workbench.tree.indent": 10,
+  "editor.detectIndentation": false,
+  "editor.tabSize": 2,
+  "i18n-ally.localesPaths": ["src/i18n"],
+  "i18n-ally.extract.autoDetect": true,
+  "i18n-ally.extract.keyMaxLength": 20,
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.translate.deepl.useFreeApiEntry": true
 }

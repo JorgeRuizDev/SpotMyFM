@@ -3,12 +3,25 @@ import { SpotifyClient } from "restClients/spotify/spotifyClient";
 import { CacheAdapter, CacheDb } from "./../data/cacheDB/CacheDB";
 import create from "zustand";
 import env from "env";
+import { BackendDBClient } from "restClients/backendDB/backendDBclient";
+import { LudwigClient } from "restClients/ludwigClient/ludwigClient";
 
 interface IClientStore {
   cacheClient: CacheAdapter;
   spotifyApi: SpotifyClient;
   lastfmApi: LastfmClient;
-  getUser: () => Promise<SpotifyApi.CurrentUsersProfileResponse>;
+  backendDbApi: BackendDBClient;
+  ludwigApi: LudwigClient;
+  getUser: (
+    isLogged?: boolean
+  ) => Promise<SpotifyApi.CurrentUsersProfileResponse | null>;
+  user: IStoreUser;
+  setIsPremium: (is: boolean) => void;
+}
+
+interface IStoreUser {
+  isPremium: boolean;
+  spotifyUser: SpotifyApi.CurrentUsersProfileResponse | null;
 }
 
 /**
@@ -19,13 +32,38 @@ export const useClientsStore = create<IClientStore>((set, get) => {
   const cacheClient = CacheDb;
   const spotifyApi = new SpotifyClient();
   const lastfmApi = new LastfmClient(env.LASTFM_KEY);
-  let _user: SpotifyApi.CurrentUsersProfileResponse;
-  const getUser = async () => {
-    if (!_user) {
-      _user = await spotifyApi.getMe();
+  const backendDbApi = new BackendDBClient();
+  const ludwigApi = new LudwigClient();
+  const user: IStoreUser = { isPremium: false, spotifyUser: null };
+
+  const setIsPremium = (is: boolean) => {
+    set((s) => ({ user: { isPremium: is, spotifyUser: s.user.spotifyUser } }));
+  };
+
+  const getUser = async (isLogged: boolean = false) => {
+    // Exit if the user is already fetched or the user is not logged in
+    if (!isLogged || get().user.spotifyUser) {
+      return null;
     }
 
-    return _user;
+    try {
+      const res = await spotifyApi.getMe();
+      set({
+        user: { isPremium: res.product == "premium", spotifyUser: res },
+      });
+      return res;
+    } catch (e) {
+      return null;
+    }
   };
-  return { cacheClient, spotifyApi, lastfmApi, getUser };
+  return {
+    cacheClient,
+    spotifyApi,
+    backendDbApi,
+    lastfmApi,
+    ludwigApi,
+    getUser,
+    user,
+    setIsPremium,
+  };
 });

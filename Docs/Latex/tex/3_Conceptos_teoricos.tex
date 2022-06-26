@@ -1,83 +1,358 @@
 \capitulo{3}{Conceptos teóricos}
 
-En aquellos proyectos que necesiten para su comprensión y desarrollo de unos conceptos teóricos de una determinada materia o de un determinado dominio de conocimiento, debe existir un apartado que sintetice dichos conceptos.
+\section{Clasificación mediante Redes Neuronales
+Convolucionales}\label{}
 
-Algunos conceptos teóricos de \LaTeX \footnote{Créditos a los proyectos de Álvaro López Cantero: Configurador de Presupuestos y Roberto Izquierdo Amo: PLQuiz}.
+Las redes neuronales convolucionales son una de las arquitecturas
+neuronales más utilizadas debido a su poder a la hora de trabajar con
+imágenes. Estas redes suelen estar formadas por una serie de bloques
+convolucionales, seguidos de una o varias capas densas en la salida de
+la red.
 
-\section{Secciones}
+\begin{figure}
+\centering
+\includegraphics[width=2.99679in,height=1.01667in]{img/memoria/3/cnn.png}
+\caption{Arquitectura de una red convolucional }
+\end{figure}
+\hypertarget{bloque-convolucional}{%
+\subsection{Bloque Convolucional}\label{bloque-convolucional}}
 
-Las secciones se incluyen con el comando section.
+Estos bloques, formados por capas, buscan resaltar los elementos más
+relevantes en los datos (normalmente imágenes) a partir de las
+operaciones de convolución y pooling.
 
-\subsection{Subsecciones}
+La operación de convolución está formada por un Kernel o filtro que se
+aplica a través de los datos. En el caso de la capa de convolución, los
+pesos entrenables de dicha capa son el propio kernel.
 
-Además de secciones tenemos subsecciones.
+\begin{figure}
+\centering
+    \includegraphics[]{img/memoria/3/kernel.png}
+    \caption{Kernel 3x3}
+\end{figure}
 
-\subsubsection{Subsubsecciones}
-
-Y subsecciones. 
-
-
-\section{Referencias}
-
-Las referencias se incluyen en el texto usando cite \cite{wiki:latex}. Para citar webs, artículos o libros \cite{koza92}.
-
-
-\section{Imágenes}
-
-Se pueden incluir imágenes con los comandos standard de \LaTeX, pero esta plantilla dispone de comandos propios como por ejemplo el siguiente:
-
-\imagen{escudoInfor}{Autómata para una expresión vacía}
+Esta operación puede estar acompañada por una función de activación para
+cada una de las neuronas, como por el ejemplo la función de activación
+RELU
 
 
+$$Relu(x) & = max(0,x)$$
 
-\section{Listas de items}
+\begin{figure}
+    \centering
+    \includegraphics[width=5.90556in,height=3.52639in]{img/memoria/3/convolution.png}
+    \caption{Aplicación del kernel 3x3 sobre un área 5x5}
+    \label{fig:cnn_operation}
+\end{figure}
 
-Existen tres posibilidades:
+Por otro lado, la operación de pooling intenta reducir el tamaño de la
+entrada, dejando solo los datos relevantes de un área. Se aplica de la
+misma manera que una convolución, pero en vez de aplicar un kernel,
+realizamos una operación aritmética sobre el área, como obtener el valor
+más grande del área (Max Pooling) o la media de todos los valores
+(Average Pooling)
+
+Un bloque convolucional puede contener otras capas, como capas de
+normalización, que normalizan de nuevo los datos para trabajar siempre
+en el intervalo {[}0,1{]}.
+
+\hypertarget{densa}{%
+\subsection{Densa}\label{densa}}
+
+La salida de una red neuronal está formada por capas densas, estas capas
+tienen una entrada unidimensional, por lo que si la salida del último
+bloque convolucional no es unidimensional, es necesario utilizar una
+operación de Flatten que transforma la matriz de entrada en una única
+fila concatenando cada una de las filas de la matriz.
+
+En este tipo de arquitectura, cada una de las neuronas de una capa se interconectan con todas las neuronas de la capa siguiente. 
+
+Cada neurona está formada por:
 
 \begin{itemize}
-	\item primer item.
-	\item segundo item.
+\item
+  Entradas ($[x_0 \dots x_n]$)
+\item
+  Salida  ($y$)
+\item
+  Vector de pesos entrenables ($[w_0 \dots w_n]$)
+\item
+  Función de activación ($fn(x)$)
+\item
+  Bias de activación entrenable ($b$)
 \end{itemize}
+
+Y la salida (o salidas) de una neurona se calculan de la siguiente manera
+$$
+    y = fn(x \cdot w + b)
+$$
+
+La salida de cada una de estas neuronas se propaga a la siguiente capa como la entrada de cada neurona.
+
+\hypertarget{capa-de-salida}{%
+\subsection{Capa de Salida}\label{capa-de-salida}}
+
+En tareas de clasificación, la capa de salida está formada por una o
+varias neuronas (dependiendo del número de clases), y una función de
+activación.
+
+En tareas de clasificación con \textbf{varias clases}, utilizamos la
+función de activación Softmax, que aplica una normalización en la salida
+para resaltar la salida con la clase resultante.
+
+Conociendo la salida de cada una de las neuronas, obtenemos la neurona
+con la salida más cercana a 1 (la salida más grande)
+$$
+\sigma(z_i) = \frac{e^{z_{i}}}{\sum_{j=1}^K e^{z_{j}}} \ \ \ for\ i=1,2,\dots,n
+$$
+
+Para obtener la salida más grande:
+$$clase = argmax([y_0 \dots y_n])$$
+
+
+En tareas de clasificación con \textbf{varias etiquetas}, utilizamos la
+función de activación Sigmoide, que permite a cada neurona tener una
+salida entre 0 y 1, siendo este la confianza de que la clase contenga
+dicha etiqueta.
+
+$$ sigmoide(x) =  \frac{\mathrm{1} }{\mathrm{1} + e^-x }  $$ 
+
+Consideramos que una entrada contiene una etiqueta si el resultado de la sigmoide es mayor o igual que 0.5
+
+
+\hypertarget{cuantizacion-de-redes-neuronales}{%
+\section{Cuantización de Redes
+Neuronales}\label{cuantizacion-de-redes-neuronales}}
+
+La cuantización de redes neuronales es una de las técnicas de
+optimización de redes neuronales entrenadas más utilizada.
+
+El proceso de cuantización consiste en convertir los distintos pesos (y
+por tanto operaciones) de la red neuronal a un tipo de datos con menos
+bits, lo que permite ahorrar memoria y acelerar las operaciones.
+
+Normalmente, la cuantización convierte los tensores de FLOAT32 (4 bytes
+por peso) a INT8 (1 byte por peso)
+
+\begin{figure}
+    \centering
+
+    \includegraphics[width=5in,height=2.46875in]{img/3/quant.png}
+    \caption{Cuantización INT8 en el intervalo $[-0.5,1.5$]}
+    \label{fig:quant}
+\end{figure}
+
+En el proceso de cuantización tenemos presente dos parámetros para cada
+uno de los tensores:
+
+\textbf{Escala ($S$)}: Es un número decimal que nos permite escalar los
+valores entre un número real y uno cuantizado.
+
+\textbf{Zero Point ($Z$):} Es un número dentro del rango de cuantización.
+Nos indica el valor del 0 real en valores cuantizados.
+
+Estos valores son calculados a partir de la distribución de entrada y la
+de salida.
+
+$$
+S = \frac{\beta - \alpha}{\beta_q - \alpha_q}
+$$
+
+$$
+Z = round(\frac{\beta\alpha_q - \alpha\beta_q}{\beta-\alpha})
+$$
+
+En el caso de la distribución de valores reales, debemos conocer el valor mínimo
+($\alpha$) y el máximo ($\beta$) del tensor.
+
+Para los tensores cuantizados, $\alpha_q$ y $\beta_q$ se corresponden con el mínimo y el máximo de
+los tipos de datos, para INT8,  $\alpha_q = -128$ y $\beta_q = 127$.
+
+Una vez obtenidos $S$, $Z$, $\alpha_q$ y $\beta_q$, ya podemos cuantizar o decuantizar los distintos tensores con la siguiente ecuación.
+$$
+x_q = clip(round(\frac{1}{s}x + z), \alpha_q, \beta_q)
+$$
+Siendo clip una operación de saturación que impide que resultado de la cuantización sea un valor sea menor que $\alpha_q$ o mayor que $\beta_q$.
+En la figura \ref{fig:quant} esta operación se ve reflejada en los valores que están fuera del intervalo $[\alpha,\beta]$
+
+
+\hypertarget{tecnicas-de-cuantizacion}{%
+\subsection{\texorpdfstring{Técnicas de Cuantización
+}{Técnicas de Cuantización }}\label{tecnicas-de-cuantizacion}}
+
+Existen dos técnicas de cuantización post entrenamiento:
+
+\textbf{Fake Quantization o Cuantización Dinámica:}
+
+Los pesos se almacenan en un tipo de datos inferior, pero los parámetros
+de cuantización se calculan en tiempo de inferencia.
+
+\textbf{Fixed Quantization:}
+
+En este caso los parámetros de la cuantización se calculan durante el
+proceso de cuantización. Este tipo de cuantización requiere utilizar un
+\textbf{conjunto de datos representativo} \textbf{de entrada} durante el
+proceso de cuantizado, con el que se calcularán los parámetros de
+cuantización de cada tensor.
+
+\hypertarget{resultados-de-la-cuantizaciuxf3n}{%
+\subsection{Resultados de la
+cuantización}\label{resultados-de-la-cuantizaciuxf3n}}
+\begin{figure}
+    \centering
+    \includegraphics[width=5in,height=1.45833in]{img/3/quant_res.png}
+    \includegraphics{}
+    \caption{Resultados del coste de la operaciones dependiendo del tipo de dato de una red neuronal}
+    \label{fig:quant-res}
+\end{figure}
+
+Si bien este proceso es muy eficiente, tiene un inconveniente muy
+importante, y es que la salida de una neurona está limitada a tantos
+valores como como el tipo de dato que utilicemos, en caso de int8 solo
+tenemos 256 valores.
+
+Por otro lado, esto no debería ser ningún problema si trabajamos con
+tareas de clasificación, pero es importante comprobar con un conjunto de
+prueba que la precisión de la red no se haya visto afectada por la
+cuantización.
+
+
+\hypertarget{ensembles-ova-y-ovo}{%
+\section{Ensembles, OVA y OVO}\label{ensembles-ova-y-ovo}}
+
+Existen múltiples técnicas para clasificar conjuntos de datos con múltiples
+clases. En este aparatado vamos a comentar dos tipos de ensembles que
+unen varios clasificadores binarios para obtener un único clasificador
+multiclase.
+En algunas situaciones, los ensembles binarios pueden ser mucho más robustos que un único clasificador multietiqueta. 
+
+\begin{figure}
+    \centering
+    \includegraphics[]{img/3/ova-ovo.jpg}
+    \caption{Comparación entre OVA y OVO}
+    \label{fig:ova-ovo}
+\end{figure}
+
+
+\hypertarget{one-vs-all}{%
+\subsection{One vs All}\label{one-vs-all}}
+
+El ensemble One vs All (OVA) divide un problema con N clases en N
+clasificadores binarios. Cada uno de estos clasificadores se encarga de
+identificar si una entrada se corresponde con una clase (1) o no (0). En
+este caso, es importante que el clasificador esté calibrado, es decir,
+su salida debe asemejarse con la confianza del resultado, ya que, si nos
+encontramos con un conflicto entre varios clasificadores base por tener
+la misma salida, no vamos a poder predecir la clase correctamente.
+
+\textbf{Ejemplo Red Neuronal Binaria}
+
+Si utilizamos la \textbf{función de activación escalón} en la neurona de
+salida de nuestra red neuronal, nos encontramos con que la salida
+únicamente tiene dos valores, 0 y 1, por lo que no conocemos la
+confianza de la predicción.
+
+Por otro lado, si utilizamos la \textbf{función sigmoide} como función
+de activación, nos encontramos con una función cuyo recurrido son
+valores reales en el intervalo {[}0, 1{]}, por lo que podríamos
+considerar que la salida es la confianza que tiene la red ante una
+predicción.
+
+\hypertarget{one-vs-one}{%
+\subsection{One vs One}\label{one-vs-one}}
+
+El ensemble One vs One (OVO), a diferencia del ensemble OVA, busca una
+clasificación más robusta entrenando un mayor número de clasificadores.
+
+Si en el ensemble OVA únicamente lidiábamos con las colisiones teniendo en cuenta
+la confianza, el ensemble OVO es capaz de conocer si un dato pertenece a
+una clase o a otra, ya que cada uno de los clasificadores se entrena con
+un subconjunto de datos formado solo por dos clases.
+
+En este caso, tenemos que entrenar $L = K(K-1)/2$ clasificadores binarios,
+un número mucho más grande que en el ensemble OVA, por lo que el coste
+en memoria y tiempo de entrenamiento es mucho mayor.
+
+En el caso del ensemble OVO, el clasificador base no solo tiene que
+estar correctamente calibrado, sino que además las salidas deben estar
+comprendidas en el intervalo {[}-1, 1{]}, siendo -1 la clase A, 1 la
+clase B, y 0 el valor correspondiente la clase desconocida.
+
+Para evaluar la salida de todos los clasificadores, debemos construir
+una matriz $N x L$ (\ref{fig:matrix-ovo}), que permita convertir el vector $L$ a un vector con $N$
+elementos con la confianza de cada clase. Cada fila de la matriz se
+corresponde con cada clase, y debemos asignar el mismo valor (1 o -1)
+que hemos utilizado como etiqueta durante el entrenamiento
+\begin{figure}
+\centering
+$$
+M = 
+\begin{bmatrix}
+1 & 1 & 1 & 0 & 0 & 0 \\
+-1 & 0 & 0 &  1 & 1 & 0 \\
+0 & -1 & 0 & -1 & 0 & 1 \\
+0 & 0 & -1 & 0 & -1 & -1 
+\label{fig:matrix-ovo}
+\end{bmatrix}
+
+$$
+\caption{Matriz para N=4}
+\end{figure}
+
+
+Haremos una multiplicación de matrices entre la matriz y la salida de
+los clasificadores, obteniendo una matriz N x L con la probabilidad de
+cada clase. Como hemos utilizado valores en el intervalo {[}-1, 1{]}
+como salida de cada clasificador, al realizar la multiplicación de
+matrices nos encontraremos con que únicamente tenemos valores positivos.
+
+Si sumamos todas las columnas, de la matriz anterior obtendremos la
+confianza del ensemble para cada uno de los datos.
+
+
+\hypertarget{coeficientes-cepstrales-en-las-frecuencias-de-mel}{%
+\section{Coeficientes Cepstrales en las Frecuencias de
+Mel}\label{coeficientes-cepstrales-en-las-frecuencias-de-mel}}
+
+
+\begin{figure}
+    \centering
+    \includegraphics{img/3/mfcc.png}
+    \caption{MFCC de un fragmento de 30s de una canción, extraido de spotmyfm/Ludwig/notebooks/gtzan/mfcc.ipynb}
+    \label{fig:my_label}
+\end{figure}
+Los coeficientes cepstrales en las frecuencias de mel o MFCC son un tipo
+de representación de la densidad espectral del sonido que intentan
+representar la percepción auditiva humana.
+
+Son muy utilizados en tareas de reconocimiento del habla y recuperación
+de información musical.
+
+Estos coeficientes están ajustados sobre la \textbf{escala de mel}, una
+escala que aproxima la escala de tono a una escala similar a la
+percepción humana, mejorando la representación del sonido.
+
+Para obtener los MFCC partimos del espectrograma de mel, un
+espectrograma ajustado a la escala de mel. En este caso, estamos
+intentando obtener el espectrograma de un espectrograma, un cepstrum.
+
+Un método para calcular los MFCCs puede ser el siguiente:
 
 \begin{enumerate}
-	\item primer item.
-	\item segundo item.
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Separar la señal en segmentos (hop\_length)
+\item
+  Aplicar la Transformada Discreta de Fourier a cada segmento para
+  obtener la \textbf{potencia espectral}.
+\item
+  Transformar los resultados del paso 2 a la escala de mel.
+\item
+  Aplicar el logaritmo a cada frecuencia de mel, (escala logarítmica en
+  \textbf{decibelios}).
+\item
+  Aplicar la Transformada Discreta del Coseno al resultado del paso 4
 \end{enumerate}
 
-\begin{description}
-	\item[Primer item] más información sobre el primer item.
-	\item[Segundo item] más información sobre el segundo item.
-\end{description}
-	
-\begin{itemize}
-\item 
-\end{itemize}
+Los pasos 1-3 se corresponden con la obtención de un espectrograma de mel.
 
-\section{Tablas}
-
-Igualmente se pueden usar los comandos específicos de \LaTeX o bien usar alguno de los comandos de la plantilla.
-
-\tablaSmall{Herramientas y tecnologías utilizadas en cada parte del proyecto}{l c c c c}{herramientasportipodeuso}
-{ \multicolumn{1}{l}{Herramientas} & App AngularJS & API REST & BD & Memoria \\}{ 
-HTML5 & X & & &\\
-CSS3 & X & & &\\
-BOOTSTRAP & X & & &\\
-JavaScript & X & & &\\
-AngularJS & X & & &\\
-Bower & X & & &\\
-PHP & & X & &\\
-Karma + Jasmine & X & & &\\
-Slim framework & & X & &\\
-Idiorm & & X & &\\
-Composer & & X & &\\
-JSON & X & X & &\\
-PhpStorm & X & X & &\\
-MySQL & & & X &\\
-PhpMyAdmin & & & X &\\
-Git + BitBucket & X & X & X & X\\
-Mik\TeX{} & & & & X\\
-\TeX{}Maker & & & & X\\
-Astah & & & & X\\
-Balsamiq Mockups & X & & &\\
-VersionOne & X & X & X & X\\
-} 

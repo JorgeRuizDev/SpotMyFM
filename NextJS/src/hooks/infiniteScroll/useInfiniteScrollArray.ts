@@ -16,19 +16,20 @@ function useInfiniteScrollArray<ArrayType>(
 ) {
   const [currentOffset, setCurrentOffset] = useState(initialItemsCount);
 
-  const currentLoadedElements = useMemo(() => array.slice(0, currentOffset), [
-    currentOffset,
-    array,
-  ]);
+  const currentLoadedElements = useMemo(
+    () => array.slice(0, currentOffset),
+    [currentOffset, array]
+  );
 
-  const hasMore = useMemo(() => currentLoadedElements.length < array.length, [
-    array.length,
-    currentLoadedElements.length,
-  ]);
+  const hasMore = useMemo(
+    () => currentLoadedElements.length < array.length,
+    [array.length, currentLoadedElements.length]
+  );
 
-  const length = useMemo(() => currentLoadedElements.length, [
-    currentLoadedElements.length,
-  ]);
+  const length = useMemo(
+    () => currentLoadedElements.length,
+    [currentLoadedElements.length]
+  );
 
   const next = useCallback(() => {
     setCurrentOffset(currentOffset + itemsPerScroll);

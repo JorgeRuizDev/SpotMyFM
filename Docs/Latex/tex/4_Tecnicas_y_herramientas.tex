@@ -1,6 +1,751 @@
 \capitulo{4}{Técnicas y herramientas}
 
-Esta parte de la memoria tiene como objetivo presentar las técnicas metodológicas y las herramientas de desarrollo que se han utilizado para llevar a cabo el proyecto. Si se han estudiado diferentes alternativas de metodologías, herramientas, bibliotecas se puede hacer un resumen de los aspectos más destacados de cada alternativa, incluyendo comparativas entre las distintas opciones y una justificación de las elecciones realizadas. 
-No se pretende que este apartado se convierta en un capítulo de un libro dedicado a cada una de las alternativas, sino comentar los aspectos más destacados de cada opción, con un repaso somero a los fundamentos esenciales y referencias bibliográficas para que el lector pueda ampliar su conocimiento sobre el tema.
+Este capítulo tiene la finalidad de resaltar las distintas tecnologías, técnicas y herramientas que han sido utilizadas a lo largo del desarrollo del proyecto. 
+\vspace{-0.35cm}
 
+
+
+\hypertarget{tecnologuxedas-y-dependencias}{%
+\section{Tecnologías y
+Dependencias}\label{tecnologuxedas-y-dependencias}}
+
+\hypertarget{frontend}{%
+\subsection{Frontend}\label{frontend}}
+
+\hypertarget{typescript}{%
+\subsubsection{\texorpdfstring{Typescript
+}{Typescript }}\label{typescript}}
+
+Typescript es un superset del lenguaje de programación Javascript, por
+lo que cualquier código escrito en Javascript puede ser utilizado como
+código Typescript. La principal característica de este superset es la
+inclusión de un sistema de tipado estático fuerte.
+
+Para el desarrollo de los componentes se ha utilizado TSX (Typescript
+Syntax Extensions), esta extensión de Typescript permite generar HTML
+junto con Typescript, facilitando la generación de HTML dinámico.
+
+Estas extensiones de lenguaje no están reflejadas en el estándar de
+ECMAscript, por lo que es necesario utilizar un transpilador que
+convierta estas extensiones en código Javascript.
+
+Se ha tenido en cuenta utilizar JavaScript y JSX como alternativa.
+
+\hypertarget{nextjs}{%
+\subsubsection{NextJS}\label{nextjs}}
+
+NextJS es un framework de Javascript compatible con Typescript que
+permite construir interfaces. NextJS está construido sobre la biblioteca
+ReactJS, y añade una gran variedad de características como:
+
+\begin{itemize}
+\item
+  Rutas o Páginas (/home, /about, etc)
+\item
+  Server Side Rendering
+\item
+  Rutas de API basadas en NodeJS
+\item
+  Empaquetamiento sin configuración
+\item
+  Api de internacionalización
+\end{itemize}
+
+ReactJS es una biblioteca de desarrollo de interfaces web que incluye un
+Virtual DOM que permite montar y desmontar componentes JSX en el DOM de
+manera transparente.
+
+Se ha tenido en cuenta utilizar ReactJS como una alternativa.
+
+\hypertarget{tailwind-css}{%
+\subsubsection{\texorpdfstring{Tailwind CSS
+}{Tailwind CSS }}\label{tailwind-css}}
+
+Tailwind CSS es una biblioteca de generación de hojas de estilo CSS de
+código abierto muy interesante. Su principal filosofía es la de la
+creación de clases de utilidad dinámicas con las que podemos seguir
+buenas prácticas de CSS. Esta biblioteca está acompañada con un
+preprocesador que se encarga de generar y optimizar las stylesheets a
+partir de las clases que hemos utilizado.
+
+Una de sus características más interesantes es la generación de clases
+de utilizado con variantes que permiten cambiar el estilo dependiendo de
+algunos condicionales
+
+Algunas de estas variantes de estado pueden ser:
+
+\begin{itemize}
+\item
+  hover:\textless clases de utilidad\textgreater{} estilo cuando el
+  ratón está encima de un elemento
+\item
+  sm:\textless clases de utilidad\textgreater{} estilo cuando el ancho
+  del viewport es mayor a 640px
+\item
+  dark:\textless clases de utilidad\textgreater{} estilo a aplicar
+  cuando estamos utilizando el modo oscuro
+\item
+  \ldots{}
+\end{itemize}
+
+Por último, esta biblioteca permite declarar nuestras propias paletas de
+colores, variantes de estado, clases de utilidad, etc, por lo que
+podemos expandirla manualmente.
+
+\hypertarget{twin-macro-y-styled-components}{%
+\subsubsection{Twin Macro y Styled
+Components}\label{twin-macro-y-styled-components}}
+
+En la actualidad, debido a las limitaciones de las hojas de estilo en
+cascada, existen múltiples métodos de escribir estilos CSS
+
+\begin{itemize}
+\item
+  Ficheros .css
+\item
+  Estilos en línea
+\item
+  Estilos como componentes
+\item
+  CSS in JS
+\end{itemize}
+
+Para esta aplicación hemos utilizado el paradigma CSS in JS, que nos
+permite declarar los estilos CSS en el propio código de la aplicación.
+La principal ventaja de este paradigma es que podemos modificar los
+atributos CSS directamente desde nuestro código.
+
+Twin macro es un adaptador de distintas bibliotecas \textbf{CSS in JS},
+que permite estilar mediante TailwindCSS con bibliotecas CSS in JS como
+PostCSS, Emotion o Styled Componets.
+
+En este caso hemos escogido la biblioteca \textbf{Styled Coponentes},
+que nos permite declarar o estilar componentes de ReactJS.
+
+\hypertarget{zustand}{%
+\subsubsection{Zustand}\label{zustand}}
+
+Zustand es una biblioteca de código abierto para la gestión de estado de
+React basada en hooks. Esta biblioteca permite declarar stores (espacios
+de almacenaje de estados) en los que podemos almacenar datos y sus
+operaciones que deseamos compartir entre varios componentes.
+
+En el caso de la aplicación, hemos utilizado esta biblioteca para
+almacenar estados globales, como el estilo de la web, la pestaña que
+tenemos activa o instancias únicas de los distintos clientes REST de la
+aplicación.
+
+\hypertarget{dexiedb}{%
+\subsubsection{DexieDB}\label{dexiedb}}
+
+DexieDB es un wrapper de IndexedDB, una \textbf{base de datos} NO-SQL
+que se encuentra en todos los navegadores modernos.
+
+Este wrapper, a parte de contener toda la funcionalidad de DexieDB, nos
+permite declarar los esquemas de la base de datos junto sus distintas
+operaciones y comprobaciones.\\
+DexieDB es compatible con Typescript, por lo que permite operar las
+tablas con supervisión de tipos.
+
+\hypertarget{jest}{%
+\subsubsection{Jest}\label{jest}}
+
+Jest es una biblioteca de código abierto de pruebas unitarias
+desarrollada por Facebook. Esta biblioteca tiene una gran variedad de
+características, como Mocking, compatibilidad con código asíncrono,
+compatibilidad con React, Typescript, Node, etc.
+
+Una de las principales ventajas de Jest son las extensiones de su
+comunidad. En este caso se ha utilizado la extensión \textbf{React
+Testing Library}, una extensión que permite renderizar internamente
+componentes de React y hacer comprobaciones sobre el DOM Virtual.
+
+\hypertarget{section}{%
+\subsubsection{}\label{section}}
+
+\hypertarget{cypress}{%
+\subsubsection{Cypress}\label{cypress}}
+
+Cypress es un framework de pruebas punto a punto de código abierto.
+Cypress es muy similar a Selenium, ambas realizan pruebas automatizadas
+sobre un navegador físico, pero Cypress es mucho más sencillo de
+configurar.
+
+Algunas de las características más relevantes de Cypress son:
+
+\begin{itemize}
+\item
+  Mayor velocidad de ejecución
+\item
+  Tests escritos en Javascript
+\item
+  Dashboard y grabación de ejecución de pruebas
+\item
+  Tamaño de viewport variable (Tests para tablets, móviles, escritorio,
+  etc)
+\item
+  Ejecución headless
+\item
+  Compatibilidad con Github Actions
+\end{itemize}
+
+\hypertarget{otras}{%
+\subsubsection{Otras:}\label{otras}}
+
+\begin{itemize}
+\item
+  \textbf{Recharts}: Es una biblioteca de código abierto para React que
+  permite generar gráficas interactivas.
+\item
+  \textbf{React Icons}: Una colección de iconos vectoriales que junta
+  múltiples bibliotecas de iconos.
+\item
+  \textbf{Framer Motion}: Biblioteca de código abierto que permite
+  añadir animaciones que dependen de los estados internos de un
+  componente.
+\end{itemize}
+
+\hypertarget{backend-nextjs}{%
+\subsection{Backend NextJS}\label{backend-nextjs}}
+
+\hypertarget{nextjs-api-rest}{%
+\subsubsection{NextJS API REST}\label{nextjs-api-rest}}
+
+NextJS incluye una API REST funcional basada muy simple basada en
+Node/Express. Esta API tiene como principal objetivo apoyar al
+funcionamiento del cliente en dos situaciones.
+
+\begin{itemize}
+\item
+  Renderizar en el servidor (SSR) elementos dinámicos de la web. Como
+  por el ejemplo vistas individuales para usuarios registrados.
+\item
+  Trabajar con peticiones que requieran autenticación.
+\end{itemize}
+
+En este api, un endpoint se define como un fichero .ts/.js que recibe
+dos objetos, la petición HTTP y la respuesta HTTP. Como cada endpoint se
+corresponde con un fichero único, la API permite el paradigma de cloud
+computing FaaS (Functions as a Service), en el que cada función puede
+actuar como un pequeño microservicio.
+
+Cada endpoint puede hostearse de manera independiente en plataformas
+como Cloudflare Workers o AWS Lambda.
+
+\hypertarget{jwt}{%
+\subsubsection{JWT}\label{jwt}}
+
+JWT (Json Web Tokens) es un método de representación de tokens en
+formato json basado en el estándar RFC 7519. Los tokens están formados
+por tres segmentos:
+
+\begin{itemize}
+\item
+  Cabecera: Es un json serializado en base64 que incluye el tipo del
+  token y el algoritmode firma utilizado (RSA, SHA256, etc)
+\item
+  Payload: Es otro json serializado en base 64 que incluye los
+  contenidos del token.
+\item
+  Firma de verificación: Firma hash generada a partir de una clave
+  privada y los campos anteriores. Permite comprobar que el payload no
+  ha sido modificado.
+\end{itemize}
+
+Una vez construidos y serializados los 3 segmentos, estos son
+concatenados mediante un punto (``.'') y pueden ser deserializados por
+cualquier receptor.
+
+\hypertarget{dynamodb-y-dynamoose}{%
+\subsubsection{DynamoDB y Dynamoose}\label{dynamodb-y-dynamoose}}
+
+\textbf{DynamoDB} es una base de datos NO-SQL basada en documentos clave
+valor desarrollada por Amazon para AWS, su plataforma de Cloud
+Computing.\\
+Algunas características de esta base de datos son:
+
+\begin{itemize}
+\item
+  Capacidad bajo demanda
+\item
+  Base de datos sin servidor (No utiliza sockets / conexiones físicas,
+  por lo que es apta para ser accedida por la arquitectura sin servidor,
+  como CaaS o FaaS.
+\item
+  Compatibilidad con AWS OpenSearch (ElasticSearch)
+\item
+  Copias de seguridad
+\item
+  Replicas
+\item
+  Transacciones ACID
+\end{itemize}
+
+Además, DynamoDB está incluida en el plan gratuito de AWS, y ofrece 25GB
+de por vida.
+
+\textbf{Dynamoose} es una herramienta de modelado muy similar a
+Mongoose, que permite utilizar las distintas características de AWS
+desde un api de alto nivel.
+
+La principal ventaja de Dynamoose es que permite modelar los esquemas de
+la base de datos en Typescript/Javascript. Estos esquemas serán
+validados por Dynamoose antes de crear, modificar o leer documentos.
+
+\textbf{Otras Bases de datos planteadas}
+
+    \begin{table}[h]
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{@{}llllll@{}}
+    \toprule
+                                                                                                    & Firestore                                                                & MongoDB       & Supabase    & DynamoDB         & Heroku        \\ \midrule
+    \textbf{Tipo}                                                                                   & Documentos                                                               & Documentos    & Relacional  & Documentos       & Relacional    \\
+    \textbf{Capacidad}                                                                              & 1GB                                                                      & 0.5GB         & 0.5GB       & 25GB             & 1000 filas    \\
+    \textbf{Lim.   Peticiones}                                                                      & \begin{tabular}[c]{@{}l@{}}50k R/doc/day  \\ 20k W/ doc/day\end{tabular} & No hay        & No Hay      & 200M R+W /mes    & No            \\
+    \textbf{Self-hosted}                                                                            & No                                                                       & Si            & Si          & NO               & Si            \\
+    \textbf{SSL}                                                                                    & Si                                                                       & Si            & Si          & Si               & Si            \\
+    \textbf{Escalable}                                                                              & Si                                                                       & Si            & Si          & Si               & Si              \\
+    \textbf{Pausa}                                                                                  & No                                                                       & No            & Si (7 días) & No               & Si (7 días)   \\
+    \textbf{\begin{tabular}[c]{@{}l@{}}ORM/   Bussiness Logic / \\ Model / Validation\end{tabular}} & No                                                                       & Si (Mongoose) & No          & Si   (Dynamoose) & Si (Postgres) \\
+    \textbf{Editor}                                                                                 & Si                                                                       & Si            & Si          & Si (De pago)     & Si            \\ \bottomrule
+    \end{tabular}%
+    }
+    \end{table}
+
+
+
+\hypertarget{backend-mir}{%
+\subsection{Backend MIR}\label{backend-mir}}
+
+El backend de \textbf{Music Information Retrieval (MIR)} está basando en
+Python 3.10
+
+\hypertarget{fastapi}{%
+\subsubsection{FASTAPI}\label{fastapi}}
+
+FastAPI es un framework web diseñado para construir APIs con Python
+3.6+.
+
+La principal característica de FastAPI es que utiliza el sistema de
+sugerencia de tipos de Python para validar las distintas peticiones
+HTTP.
+
+Este sistema permite asignar un tipo de forma estática a una variable,
+estos tipos son ignorados en tiempo de ejecución, pero pueden se
+utilizados para documentar o como comprobación en tiempo de desarrollo
+mediante un linter.
+\begin{verbatim}
+foo: int = 1 # No error
+foo: int = "bar" # typechcking error  
+\end{verbatim}
+
+
+Además de validar las peticiones de nuestra aplicación, FastAPI genera
+automáticamente \textbf{documentación interactiva} para cada endpoint
+con \textbf{OpenAPI y Redocs}.
+
+Por último, FastAPI utiliza el api de \textbf{corrutinas} de Python
+basada en la sintaxis Async/Await. Cada uno de los endpoints puede ser
+definido como una corrutina asíncrona con la que podemos esperar a
+ejecución de otras corrutinas utilizando la palabra clave await,
+facilitando el uso de bibliotecas concurrentes.
+
+\hypertarget{aiohttp}{%
+\subsubsection{AIOHTTP}\label{aiohttp}}
+
+\textbf{aiohttp} es una biblioteca de Python basada en \textbf{requests}
+que permite realizar \textbf{peticiones http concurrentes}. aiohttp
+utiliza el api de corrutinas, por lo que puede sen consumida
+directamente desde un endpoint de FastAPI.
+
+\hypertarget{section-1}{%
+\subsubsection{}\label{section-1}}
+
+\hypertarget{onnx-runtime-python}{%
+\subsubsection{ONNX Runtime Python}\label{onnx-runtime-python}}
+
+\textbf{ONNX Runtime} es una biblioteca de código abierto mantenida por
+Facebook y Microsoft. Esta biblioteca implementa múltiples motores de
+inferencias compatibles con el estándar \textbf{Open Neural Network
+eXchange (ONNX)}, un estándar que busca la interoperabilidad de modelos
+neuronales a partir de una \textbf{representación intermedia (IR).}
+
+La filosofía de ONNX es que un modelo neuronal pueda ser utilizado en
+cualquier hardware independientemente de su representación interna, para
+ello existen una serie herramientas para convertir y optimizar modelos
+basados en Pytorch, Keras, Caffé, etc en representación intermedia.
+
+Un modelo IR puede ser utilizado en múltiples \textbf{plataformas}
+
+\begin{itemize}
+\item
+  Windows
+\item
+  Linux
+\item
+  Android
+\item
+  IOS
+\item
+  Navegador
+\item
+  \ldots{}
+\end{itemize}
+
+Independientemente de la \textbf{arquitectura}
+
+\begin{itemize}
+\item
+  X86
+\item
+  X64
+\item
+  ARM64
+\item
+  \ldots{}
+\end{itemize}
+
+Desde múltiples \textbf{lenguajes de programación} o \textbf{entornos de
+ejcución}
+
+\begin{itemize}
+\item
+  Python
+\item
+  NodeJS / Javascript / Typescript
+\item
+  C++
+\item
+  Java
+\item
+  \ldots{}
+\end{itemize}
+
+Y compatible con una gran variedad de APIs para la aceleración por
+Hardware
+
+\begin{itemize}
+\item
+  CPU
+\item
+  Nvidia Cuda
+\item
+  Nvidia TensorRT
+\item
+  Intel OpenVINO
+\item
+  Windows DirectML
+\item
+  \ldots{}
+\end{itemize}
+
+\hypertarget{librosa}{%
+\subsubsection{Librosa}\label{librosa}}
+
+Librosa es una biblioteca de Python enfocada al análisis de audio y
+música. Esta biblioteca está basada en Scipy y es muy utilizada a la
+hora de trabajar con sonido en Python.
+
+Esta biblioteca incluye todos los componentes necesarios para poder
+trabajar con audio, desde la lectura / creación de ficheros de audio,
+conversión entre formatos, muestreo, visualización y extracción de
+características.
+
+En este apartado del proyecto utilizamos librosa para leer ficheros wav
+y extraer algunos datos como:
+
+\begin{itemize}
+\item
+  MFCCs
+\item
+  Tempo
+\item
+  Beat
+\item
+  Descomposición del espectrograma
+\end{itemize}
+
+Se tuvo en cuenta el uso de Torch Audio para las tareas de
+preprocesamiento.
+
+\hypertarget{ffmpeg}{%
+\subsubsection{FFMPEG}\label{ffmpeg}}
+
+FFMPEG es conjunto de bibliotecas de \textbf{alto rendimiento} que
+permiten trabajar con datos multimedia (ficheros y streams de vídeo,
+audio, imágenes, etc). FFMPEG permite grabar, editar, convertir,
+transcodificar o escalar datos multimedia.
+
+Este backend utiliza FFMPEG para convertir y muestrear ficheros .mp3 a
+.wav en 22050HZ rápidamente. Esto es debido a que Librosa no es
+compatible de forma nativa con ficheros .mp3.
+
+\hypertarget{section-2}{%
+\subsubsection{}\label{section-2}}
+
+\hypertarget{sklearn}{%
+\subsubsection{Sklearn}\label{sklearn}}
+
+Sklearn es una biblioteca basada en scipy diseñada para tareas de
+aprendizaje automático.
+
+Incluye una gran variedad de algoritmos para tareas de clasificación,
+regresión, clustering, reducción de dimensionalidad, selección de modelo
+o preprocesado.
+
+Este backend utiliza dos componentes de Sklearn:
+
+\begin{itemize}
+\item
+  \textbf{BallTree}: Utilizado para encontrar los vecinos más cercanos a
+  un dato.
+\item
+  \textbf{MinMaxScaler}: Utilizado para normalizar la entrada al
+  BallTree
+\end{itemize}
+
+\hypertarget{scikit-surprise}{%
+\subsubsection{Scikit Surprise}\label{scikit-surprise}}
+
+Surprise es una biblioteca de código abierto especializada en sistemas
+de recomendación colaborativos.
+
+El funcionamiento de esta biblioteca es muy simple, ya que permite
+generar la matriz de recomendación a partir de una lista formada por:
+
+\begin{itemize}
+\item
+  Id Usuario
+\item
+  Id Elemento
+\item
+  Votación numérica del Usuario
+\end{itemize}
+
+Surprise implementa una gran variedad de algoritmos, como SVD o NMF
+utilizados en descomposición de matrices, y otros más tradicionales como
+KNN, Co Clustering o Slope One.
+
+Por otro lado, Surprise además implementa un sistema de evaluación de
+recomendaciones, que valora la precisión del modelo a partir de intentar
+completar recomendaciones para usuarios incompletos.
+
+\hypertarget{herramientas-y-servicios}{%
+\section{Herramientas y Servicios}\label{herramientas-y-servicios}}
+
+\hypertarget{kaggle}{%
+\subsection{Kaggle}\label{kaggle}}
+
+Kaggle es una comunidad de ciencia de datos en la que se publican
+conjuntos de datos y competiciones.
+
+Uno de los servicios que incluye Kaggle es \textbf{Code}, un servicio
+para publicar y ejecutar notebooks que utilicen el Dataset, esta
+ejecución se realiza en unos contenedores virtuales con las siguientes
+características:
+
+\begin{itemize}
+\item
+  4 Núcleos
+\item
+  12GB de RAM
+\item
+  NVIDIA TESLA P100 de 16GB (opcional)
+\item
+  Google TPU (ocional)
+\end{itemize}
+
+En este caso se ha utilizado Kaggle para publicar los datasets y
+entrenar los modelos de forma remota.
+
+Se ha planteado el uso de Google Cloud Notebooks y Google Colab para el
+entrenamiento de los modelos.
+
+\hypertarget{tensorflow-keras}{%
+\subsection{Tensorflow Keras}\label{tensorflow-keras}}
+
+Tensorflow es una biblioteca de código abierto destinada a el
+entrenamiento e inferencia de modelos neuronales. Tensorflow está
+pensada para ser usada con Python, pero es compatible con otros
+lenguajes como C++ o incluso JavaScript.
+
+Keras es una API de Tensorflow para Python que simplifica la
+implementación y entrenamiento de redes neuronales mediante Tensorflow.
+
+Se ha planteado el uso de Pytorch como alternativa a Tensorflow Keras.
+
+\hypertarget{section-3}{%
+\subsection{}\label{section-3}}
+
+\hypertarget{onnx-tensorflow-converter-y-onnx-quantizer}{%
+\subsection{ONNX Tensorflow Converter y ONNX
+Quantizer}\label{onnx-tensorflow-converter-y-onnx-quantizer}}
+
+ONNX Tensorflow Converter es una herramienta de línea de comandos que
+permite convertir un modelo de Tensorflow en un modelo del estándar
+ONNX.
+
+ONNX Quantizer es una biblioteca de Python que permite cuantizar modelos
+de ONNX. Esta herramienta es compatible tanto con la cuantización
+dinámica como con la estática.
+
+Ambas herramientas forman parte del proyecto de código abierto ONNX,
+mantenido por Microsoft y Facebook.
+
+Se tuvo en cuenta el uso de TFLITE para cuantizar e inferir los modelos,
+pero este motor únicamente está optimizado para dispositivos móviles
+(ARM).
+
+\hypertarget{github}{%
+\subsection{Github}\label{github}}
+
+Github es una plataforma para hostear repositorios git. Esta plataforma
+permite crear y compartir repositorios públicos y privados, utilizar
+ramas, crear y gestionar pull requests, y muchas otras características
+como la creación de flujos de trabajo con Github Actions o el control de
+dependencias con Dependabot.
+
+Se ha utilizado Github y su sistema de Issues para el control de
+versiones del proyecto y la planificación temporal del proyecto.
+
+\hypertarget{zenhub}{%
+\subsection{Zenhub}\label{zenhub}}
+
+Zenhub es una herramienta de gestión de proyectos que intenta integrarse
+con Github. Esta biblioteca presenta un tablero Kanban en el que podemos
+encontrarnos cada una de las tareas del propio repositorio.
+
+Zenhub, además tiene un sistema de sprints, épicas y puntos de historia
+con el que podemos gestionar proyectos utilizando la metodología Scrum.
+
+\hypertarget{dependabot}{%
+\subsection{\texorpdfstring{Dependabot
+}{Dependabot }}\label{dependabot}}
+
+Dependabot es un servicio integrado en Github que permite analizar un
+respositorio en busca de brechas de seguridad.
+
+Este servicio analiza el código en busca de \textbf{filtraciones de
+claves o tokens secretos}, y como su propio nombre indica, analiza las
+\textbf{dependencias del proyecto} en busca de dependencias vulnerables.
+
+Si Dependabot detecta una vulnerabilidad en el proyecto, este intentará
+corregirla y publicará una \textbf{Pull Request} con la vulnerabilidad
+solucionada.
+
+\hypertarget{docker}{%
+\subsection{Docker}\label{docker}}
+
+Docker es una plataforma que permite crear y desplegar contenedores. Un
+contenedor es un ``paquete'' que contiene todos los requisitos para que
+una aplicación se pueda ejecutar en un entorno aislado, como el binario
+de la aplicación, dependencias, configuraciones de red, etc.
+
+Estos contenedores pueden ser considerados una pequeña máquina virtual,
+ya que cada contenedor tiene su propio sistema de ficheros, unidades, o
+LAN, pero a diferencia de una máquina virtual, el contenedor se ejecuta
+sobre el \textbf{Docker Engine} y no sobre un \textbf{hipervisor.}
+
+En este caso se ha utilizado Docker para crear los contenedores con los
+que poder desplegar las aplicaciones de NextJS y FastAPI.
+
+\hypertarget{github-copilot}{%
+\subsection{Github Copilot}\label{github-copilot}}
+
+Github Copilot es un servicio online que permite sugerir cambios o
+implementaciones de código basado en el contexto actual del fichero que
+estamos editando. Copilot se integra con el editor (VSCODE) o IDE
+(Webstorm) y necesita conexión a internet para procesar las sugerencias.
+
+La principal ventaja de Copilot frente a otros servicios de
+autocompletado como Intellisense es que Copilot utiliza los tipos de
+datos, comentarios, estilo del código, nombres de variables y nombres de
+funciones para sugerir cambios o implementaciones.
+
+\hypertarget{github-actions}{%
+\subsection{Github Actions}\label{github-actions}}
+
+Github Actions es un servicio integrado en Github que permite ejecutar
+flujos de trabajo sobre un repositorio a partir de distintos estados.
+
+En este caso, se han programado las siguientes acciones para cada push
+al repositorio:
+
+\begin{itemize}
+\item
+  \textbf{Prettier}: Aplica el formateador de código Prettier a todos
+  los ficheros compatibles (Typescript, Javascript, JSON, CSS, etc)
+\item
+  \textbf{Integración Continúa}: Asegura que el proyecto se compila
+  correctamente y ejecuta las pruebas unitarias sobre las distintas
+  clases del proyecto.
+\item
+  \textbf{Cypress:} Ejecuta las pruebas punto a punto sobre el
+  despliegue de la aplicación.
+\end{itemize}
+
+Se ha considerado el uso de los servicios TravisCI y CircleCI
+
+\hypertarget{vercel-plataforma}{%
+\subsection{Vercel (Plataforma)}\label{vercel-plataforma}}
+
+Vercel es una plataforma para publicar proyectos de frontend y webs
+estáticas. Está desarrollado por la empresa Vercel, la misma empresa que
+desarrolla NextJS, por lo que es compatible con todas las
+funcionalidades de NextJS.
+
+Vercel ofrece muchas otras características como:
+
+\begin{itemize}
+\item
+  Compatibilidad con \textbf{Edge Functions} (FaaS)
+\item
+  Despliegue Continuo desde un repositorio
+\item
+  SSL
+\item
+  Dominios Personalizados
+\end{itemize}
+
+Se ha planteado el uso de la plataforma Netlify pero se ha escogido
+Vercel por su integración con NextJS.
+
+\hypertarget{google-cloud-run}{%
+\subsection{Google Cloud Run}\label{google-cloud-run}}
+
+Google Cloud Run es un servicio de Google Cloud que permite el
+despliegue de contenedores (CaaS) de forma escalable.\\
+Su funcionamiento es muy simple, a partir de un contenedor con un puerto
+expuesto, Cloud Run creará un proxy para dicho puerto y dependiendo del
+tráfico el orquestador instanciará o mantendrá activos un número
+variable de contenedores.
+
+\hypertarget{visual-studio-code}{%
+\subsection{Visual Studio Code}\label{visual-studio-code}}
+
+Visual Studio Code es un editor de código de código abierto desarrollado
+por Microsoft. Este editor está construido sobre Chromium y Electron,
+con una filosofía en la que la interfaz está totalmente separada del
+editor, por lo que el editor en si puede encontrarse en un servidor,
+máquina virtual o local, mientras que editamos desde un navegador web o
+la propia aplicación de escritorio.
+
+La principal ventaja de Visual Studio Code es su gran comunidad, que ha
+desarrollado un gran número de extensiones para ajustar el desarrollo
+del editor para cada uno de los casos de uso.
+
+\hypertarget{openapi}{%
+\subsection{OpenAPI}\label{openapi}}
+
+La especificación OpenAPI es una especificación para definir la interfaz
+de un servicio REST. Esta interfaz puede declararse mediante un fichero.
+json o .yaml, y permite declarar los distintos endpoints de un servidor,
+así como las peticiones y respuestas esperados.
+
+La principal ventaja de OpenAPI es que puede ser integrada con un
+middleware para ofrecer validación de la API.
+
+Por otro lado, la especificación OpenAPI permite generar una interfaz
+interactiva con la que poder generar automáticamente peticiones de
+muestra a partir de la especificación de peticiones.
 

@@ -7,8 +7,8 @@ const LayoutButtonsWrap = tw.section`
 
 	items-center
 	justify-center
-`
+`;
 
-const Styled = {LayoutButtonsWrap};
+const Styled = { LayoutButtonsWrap };
 
 export default Styled;

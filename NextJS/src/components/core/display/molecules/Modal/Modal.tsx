@@ -5,6 +5,7 @@ import React, { createRef, useState } from "react";
 import { MouseEvent, useEffect } from "react";
 import Buttons from "styles/Buttons";
 import Styled from "./Modal.styles";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface IModalProps {
   children?: React.ReactNode | React.ReactNode[];
@@ -12,9 +13,9 @@ interface IModalProps {
   onClose: () => void;
   scrollOverflow?: boolean;
   lockBodyScroll?: boolean;
-
+  setModalBodyId?: (id: string) => void;
   // The modal BG is the same as the page body (instead of the card bg)
-  bodyBackgroundColor?: boolean;
+  bodyBackgroundColor?: "material" | "card" | "card-hover";
 
   // Hides the Modal instead of umonting it from the DOM, so the modal body keeps it's states
   doNotUmount?: boolean;
@@ -22,8 +23,11 @@ interface IModalProps {
 
 const variants = {
   open: { opacity: 1 },
+
   closed: { opacity: 0 },
 };
+
+const isBrowser = typeof window !== "undefined";
 
 /**
  *
@@ -41,11 +45,17 @@ function Modal({
   isOpen,
   onClose,
   doNotUmount = false,
-  bodyBackgroundColor = false,
+  bodyBackgroundColor = "material",
   scrollOverflow = true,
   lockBodyScroll = true,
+  setModalBodyId,
 }: IModalProps): JSX.Element {
   const [hasBeenOpened, setHasBeenOpened] = useState(false);
+  const [key, setKey] = useState(new Date().getTime());
+
+  useEffect(() => {
+    setModalBodyId && setModalBodyId(key.toString());
+  }, [key, setModalBodyId]);
 
   // Mark as opened on open:
   useEffect(() => {
@@ -74,33 +84,48 @@ function Modal({
 
     // On component unmount: Unlock
     return () => {
+      show_parent();
       !wasLocked && unlockBackScroll();
     };
   }, [isOpen, lockBodyScroll]);
 
   const modalBody = (
-    <Styled.FullScreenBackground
-      onClick={onClose}
+    <motion.div
       variants={variants}
-      animate={isOpen ? "open" : "closed"}
       transition={{ duration: 0.3 }}
-      data-testid="modal-bg"
+      animate={isOpen ? "open" : "closed"}
+      key={key}
     >
-      <Styled.ModalBody
-        onClick={disableClick}
-        darkBackground={bodyBackgroundColor}
+      <Styled.FullScreenBackground
+        onClick={onClose}
+        initial={{ opacity: 0, y: "-100vh" }}
+        animate={{ opacity: 1, y: "0vh" }}
+        exit={{ opacity: 0, y: "100vh" }}
+        transition={{ duration: 0.3 }}
+        data-testid="modal-bg"
       >
-        <Styled.TopRow>
-          <Buttons.GreenCloseButton
-            onClick={onClose}
-            data-testid="modal-close-btn"
-          />
-        </Styled.TopRow>
-        <div style={{ overflow: scrollOverflow ? "auto" : "hidden" }}>
-          {children}
-        </div>
-      </Styled.ModalBody>
-    </Styled.FullScreenBackground>
+        <Styled.ModalBody
+          onClick={disableClick}
+          darkBackground={bodyBackgroundColor}
+        >
+          <Styled.TopRow>
+            <Buttons.GreenCloseButton
+              onClick={onClose}
+              data-testid="modal-close-btn"
+            />
+          </Styled.TopRow>
+          <div
+            style={{
+              overflow: scrollOverflow ? "auto" : "hidden",
+              padding: "5px",
+            }}
+            id={key.toString()}
+          >
+            {children}
+          </div>
+        </Styled.ModalBody>
+      </Styled.FullScreenBackground>
+    </motion.div>
   );
 
   const modalHideLogic = doNotUmount
@@ -116,20 +141,44 @@ function Modal({
       )
     : // Mount / Umount conditionally.
       isOpen && <>{modalBody}</>;
-  return ReactDOM.createPortal(
-    modalHideLogic,
-    document.getElementById("modal-core") || document.createElement("div")
+  return isBrowser ? (
+    ReactDOM.createPortal(
+      <AnimatePresence exitBeforeEnter>{modalHideLogic}</AnimatePresence>,
+      document.getElementById("modal-core") || document.createElement("div")
+    )
+  ) : (
+    <></>
   );
 }
 
 function lockBackScroll(): void {
   document.body.style.overflow = "hidden";
+
   document.body.style.height = "100%";
+  const main = document.getElementById("main");
+  main && main.classList.add("hide-modal-body");
+}
+
+function show_parent(): void {
+  const main = document.getElementById("modal-core");
+  if (main) {
+    const children = main.children;
+    const upper_brother = children[Math.max(0, children.length - 2)];
+    if (upper_brother) {
+      upper_brother.classList.add("modal-second-last-child");
+      setTimeout(() => {
+        upper_brother.classList.remove("modal-second-last-child");
+      }, 300);
+    }
+  }
 }
 
 function unlockBackScroll(): void {
   document.body.style.overflow = "auto";
   document.body.style.height = "auto";
+  const main = document.getElementById("main");
+
+  main && main.classList.remove("hide-modal-body");
 }
 
 export default React.memo(Modal);

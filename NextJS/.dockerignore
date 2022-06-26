@@ -1,0 +1,5 @@
+.env.local
+**/node_modules
+**/.next
+./src/**/*.test.ts
+./src/**/*.test.tsx

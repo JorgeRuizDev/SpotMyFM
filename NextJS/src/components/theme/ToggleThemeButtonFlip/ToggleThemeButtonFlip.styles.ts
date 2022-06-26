@@ -1,5 +1,5 @@
 import { HiMoon, HiSun } from "react-icons/hi";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import tw from "twin.macro";
 
 interface StyleProps {
@@ -16,27 +16,28 @@ const Flip = tw.div`
   perspective[900px]
 `;
 
-const ButtonPos = styled.div<StyleProps>`
-  
-  ${tw`
+const ButtonPos = styled.div(({ isLogged }: { isLogged?: boolean }) => [
+  !isLogged && tw`flex`,
+  tw`
     fixed
     bottom-0 
     right-0 
-    md:p-8 
-    p-4
-    md:flex
+
+    md:m-8 
+    m-4
+
     filter
     drop-shadow-2xl
+
+    hidden
+    md:flex
     z-50
-  `}
-  display: ${props => (props.isLogged ? "none" : "")};
+  `,
+]);
 
-  
-`;
-
-const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [
-  flipped && tw`transform[rotateY(180deg)]`,
-  tw`
+const InnerFlip = styled.div(
+  ({ flipped, isLogged }: { flipped: boolean; isLogged?: boolean }) => [
+    tw`
     relative
     w-full
     h-full
@@ -46,8 +47,12 @@ const InnerFlip = styled.div(({ flipped }: { flipped: boolean }) => [
     ease-in-out
     cursor-pointer
     rounded-full
-  `
-]);
+  `,
+    flipped && tw`transform[rotateY(180deg)]`,
+
+    isLogged ? tw`hidden md:block` : tw`block`,
+  ]
+);
 
 const Side = tw.div`
   absolute
@@ -66,7 +71,6 @@ const Front = tw(Side)`
 `;
 
 const Back = tw(Side)`
-
   bg-gray-200
   hover:bg-gray-300
   transform[rotateY(180deg)]
@@ -84,5 +88,13 @@ const Sun = tw(HiSun)`
 	text-yellow-500
 `;
 
-const Styled = { Flip, InnerFlip, Front, Back, Moon, Sun, ButtonPos };
+const Styled = {
+  Flip,
+  InnerFlip,
+  Front,
+  Back,
+  Moon,
+  Sun,
+  ButtonPos,
+};
 export default Styled;

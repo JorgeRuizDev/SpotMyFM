@@ -1,0 +1,23 @@
+FROM node:16.10-alpine3.14
+ARG NEXT_PUBLIC_SPOTIFY_ID 
+ARG NEXT_PUBLIC_LAST_KEY 
+ARG NEXT_PUBLIC_LUDWIG_URL
+# Create app directory
+WORKDIR /usr/src/app
+ENV NODE_OPTIONS=--max_old_space_size=4096
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+ENV NEXT_PUBLIC_SPOTIFY_ID=$NEXT_PUBLIC_SPOTIFY_ID 
+ENV NEXT_PUBLIC_LAST_KEY=$NEXT_PUBLIC_LAST_KEY 
+ENV NEXT_PUBLIC_LUDWIG_URL=$NEXT_PUBLIC_LUDWIG_URL
+ENV NODE_ENV=production
+
+
+RUN npm run build --prod
+
+EXPOSE 3000
+CMD ["npm", "run", "start"]
+
+

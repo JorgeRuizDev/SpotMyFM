@@ -5,7 +5,7 @@ interface IHeadProps {
   subtitle?: string;
 }
 
-export default function Head({ title = "MySpotifyFM", subtitle }: IHeadProps) {
+export default function Head({ title = "SpotMyFM", subtitle }: IHeadProps) {
   return (
     <>
       <NextHead>
@@ -16,11 +16,11 @@ export default function Head({ title = "MySpotifyFM", subtitle }: IHeadProps) {
 
         <meta
           property="og:title"
-          content="MySpotifyFM - A Spotify Library Manager"
+          content="SpotMyFM - A Spotify Library Manager"
         />
         <meta
           property="og:description"
-          content="Explore and Filter your Spotify Library with beautiful cards. Search and Modify and Tag your favorite albums. MySpotifyFM combines LastFM Community and Spotify APIs, resulting in a richer library management experience!"
+          content="Explore and Filter your Spotify Library with beautiful cards. Search and Modify and Tag your favorite albums. SpotMyFM combines LastFM Community and Spotify APIs, resulting in a richer library management experience!"
         />
         <meta name="author" content="Jorge Ruiz Gómez" />
 

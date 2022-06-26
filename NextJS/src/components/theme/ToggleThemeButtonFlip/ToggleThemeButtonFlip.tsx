@@ -1,25 +1,37 @@
 import { Theme } from "enums/Theme";
 import Styled from "./ToggleThemeButtonFlip.styles";
 import { useThemeStore } from "store/useTheme";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-function ToggleThemeButtonFlip(): JSX.Element {
+function ToggleThemeButtonFlip({
+  isLogged,
+}: {
+  isLogged?: boolean;
+}): JSX.Element {
   const { currentTheme, toggleTheme } = useThemeStore();
 
+  const [isDarkTheme, setIsDarkTheme] = useState(false);
+
+  // Cool Initial Effect
+  useEffect(() => {
+    setIsDarkTheme(currentTheme === Theme.DARK);
+  }, [currentTheme]);
+
   return (
-    <Styled.ButtonPos isLogged={false}>
+    <Styled.ButtonPos isLogged={isLogged}>
       <Styled.Flip>
         <Styled.InnerFlip
           aria-label="Theme Button"
-          flipped={currentTheme === Theme.DARK}
+          flipped={isDarkTheme}
+          isLogged={isLogged}
           onClick={toggleTheme}
         >
-          <Styled.Front>
-            <Styled.Moon />
-          </Styled.Front>
           <Styled.Back>
             <Styled.Sun />
           </Styled.Back>
+          <Styled.Front>
+            <Styled.Moon />
+          </Styled.Front>
         </Styled.InnerFlip>
       </Styled.Flip>
     </Styled.ButtonPos>

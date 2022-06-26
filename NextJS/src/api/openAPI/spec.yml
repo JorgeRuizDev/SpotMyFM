@@ -1,0 +1,387 @@
+openapi: 3.0.0
+info:
+  title: SpotMyFM Api Specification
+  description: The SpotMyFM OpenAPI Swagger Specification
+  version: 0.1.9
+tags:
+  - name: lastFM
+    description: LastFM Related Operations
+  - name: spotify
+    description: Spotify Related Operations
+  - name: auth
+    description: Authentication related Operations
+  - name: data
+    description: Database Related Operations
+  - name: ludwig
+    description: Ludwig (Machine Learning Backend) related Operations
+servers:
+  - url: https://dev.spotmyfm.jorgeruizdev.com/api
+    description: "Development Server"
+  - url: https://spotmyfm.jorgeruizdev.com/api
+    description: "Production Server"
+paths:
+  /database/albums/tagAlbums:
+    get:
+      summary: Gets the tagged albums and their tags from the user
+      description: |
+        Gets the tagged albums and their tags from the user.
+        The user is identified with the JWT Token
+
+      responses:
+        "200":
+          description: The album tags were retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlbumTagsRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Not Authorized (Bad Token)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - data
+      security:
+        - jwt: []
+
+    post:
+      summary: Updates the album tags
+      description: |
+        Updates the album tags
+        The user is identified with the JWT Token
+        There is a limit of 50 album tags per request
+      requestBody:
+        description: A bunch of albums and artists. Each album has a Name, Artist name and ID, the ID is the response identifier, it must be unique
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PutAlbumTagsReq"
+
+      responses:
+        "200":
+          description: The album tags were retrieved.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlbumTagsRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Not Authorized (Bad Token)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - data
+      security:
+        - jwt: []
+
+  /database/user/drop:
+    post:
+      summary: Drops the current user document identified by the JWT Token
+      description: |
+        This endpoint tries to remove all the stored user's data from the database.
+
+      responses:
+        "200":
+          description: The user was successfully removed from the database.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Ok"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Not Authorized (Bad Token)"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - data
+      security:
+        - jwt: []
+
+  /lastFM/getBulkAlbumTags:
+    post:
+      summary: Gets album tags of given album names and artists
+      description: The endpoint only alllows a maximum of 50 pairs artist-album per request.
+      requestBody:
+        description: A bunch of albums and artists. Each album has a Name, Artist name and ID, the ID is the response identifier, it must be unique
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LastFMTagReq"
+
+      responses:
+        "200":
+          description: A successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LastFMTagResponse"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Not Authorized"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - lastFM
+      security:
+        - jwt: []
+
+  /spotify/oauth2/auth:
+    post:
+      summary: Obtains the Spotify Auth Code used in OAUTH2
+      description: |
+        This endpoint retrieves the authorization code from Spotify Api that is used in every single Spotify Endpoint.
+
+        It also serves as the main auth pipeline of SpotMyFM as it generates the JWS token used along all the endpoints.
+
+        Requirements:
+          - Response Code
+          - Authorized Url Callback
+
+      requestBody:
+        description: |
+          - Response Code
+          - Authorized Url Callback
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SpotifyAuthReq"
+
+      responses:
+        "200":
+          description: The Auth and JWT Token have been generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpotifyAuthRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - auth
+
+  /spotify/oauth2/refresh:
+    post:
+      summary: Obtains the Spotify Auth Code used in OAUTH2 given a Valid Refresh Token
+      description: |
+        This endpoint refreshes the authorization code from Spotify Api that is used in every single Spotify Endpoint.
+
+        It also serves as the main refresh token pipeline of SpotMyFM as it generates the JWS token used along all the endpoints.
+
+        Requirements:
+          - Refresh Token (obtained from /spotify/oauth2/auth)
+
+      requestBody:
+        description: |
+          - Response Code
+          - Authorized Url Callback
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SpotifyRefreshReq"
+
+      responses:
+        "200":
+          description: The Auth and JWT Token have been generated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpotifyAuthRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - auth
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+    Ok:
+      type: object
+      properties:
+        message:
+          type: string
+
+    PutAlbumTagsReq:
+      type: object
+      required:
+        - tags
+      properties:
+        tags:
+          type: array
+          maxItems: 50
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Spotify Album ID
+              tags:
+                description: New Album Tags
+                type: array
+                items:
+                  type: string
+
+    AlbumTagsRes:
+      type: object
+      required:
+        - tags
+      properties:
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Spotify Album ID
+              tags:
+                description: A list of strings that represent the current album tag
+                type: array
+                items:
+                  type: string
+
+    SpotifyRefreshReq:
+      type: object
+      required:
+        - refreshToken
+      properties:
+        refreshToken:
+          type: string
+          description: OAUTH2 Refresh Token obtained from /spotify/oauth2/auth
+
+    SpotifyAuthReq:
+      type: object
+      required:
+        - redirectUri
+        - responseCode
+      properties:
+        redirectUri:
+          type: string
+          description: Redirect Uri (Same as Response Code)
+        responseCode:
+          type: string
+          description: Response Code from the Spotify Server
+
+    SpotifyAuthRes:
+      type: object
+      required:
+        - access_token
+        - token_type
+        - expires_in
+        - Token
+        - refresh_token
+      properties:
+        access_token:
+          type: string
+          description: Valid Spotify Token
+        expires_in:
+          type: number
+          description: Token TTL (in seconds)
+        token:
+          type: string
+          description: Signed JWT used in every endpoint as Auth.
+        refresh_token:
+          type: string
+          description: Token used in the /spotify/refresh endpoint
+        token_type:
+          type: string
+          description: Http token Type (Possibly "Bearer")
+
+    LastFMTagReq:
+      type: object
+      required:
+        - albums
+      properties:
+        albums:
+          type: array
+          maxItems: 50
+          items:
+            type: object
+            properties:
+              album_name:
+                description: Album Name (Sgt. Pepper)
+                type: string
+              artist_name:
+                description: Artist Name (The Beatles)
+                type: string
+              album_id:
+                description: An ID used in the response object to identify the tags.
+                type: string
+
+    LastFMTagResponse:
+      type: object
+      required:
+        - album_tags
+      properties:
+        album_tags:
+          type: array
+          items:
+            $ref: "#/components/schemas/LastFMTag"
+
+    LastFMTag:
+      type: object
+      properties:
+        album_id:
+          type: string
+        tags:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              url:
+                type: string
+
+  securitySchemes:
+    jwt:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

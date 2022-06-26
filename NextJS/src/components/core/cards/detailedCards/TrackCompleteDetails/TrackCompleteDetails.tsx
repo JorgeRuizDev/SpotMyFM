@@ -11,11 +11,12 @@ import { Track } from "data/cacheDB/dexieDB/models/Track";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { useClientsStore } from "store/useClients";
-import { ILastFMAlbum } from "interfaces/lastFM";
+import { ILastFMAlbum, LastFMDetails } from "interfaces/lastFM";
 import useTrackPreview from "hooks/useTrackPreview/useTrackPreview";
 import ArtistHorizontalCard from "../../horizontalCards/ArtistHorizontalCard";
 import Collapsible from "components/core/display/atoms/Collapsible";
 import {
+  DownloadPreview,
   EnqueueButton,
   OpenLastFMButton,
   OpenSpotifyButton,
@@ -24,27 +25,51 @@ import {
   TagButton,
 } from "../../buttons/CardButtons";
 import formatPopularity from "util/spotify/formatPopularity";
+import { toast } from "react-toastify";
+import { SaveAlbum, SaveTrack } from "../../buttons/CardButtons/CardButtons";
+import HorizontalCardCarousell from "../../horizontalCards/HorizontalCardCarousell";
+import { motion } from "framer-motion";
+import AlbumTracksView from "../../views/AlbumTracksView";
+import useTranslation from "next-translate/useTranslation";
+import Buttons from "styles/Buttons";
+import Modal from "components/core/display/molecules/Modal";
+import { FaLessThanEqual } from "react-icons/fa";
+import ModifyAlbumTags from "../../other/ModifyAlbumTags";
+import Twemoji from "components/util/Twemoji";
+import { BsFillPencilFill } from "react-icons/bs";
+import LudwigResultsCard from "../../horizontalCards/LudwigResultsCard";
+import { useDataFacade } from "hooks/dataFacade/useDataFacade";
+import { ListTrackCard } from "../../listCards/ListTrackCard";
+import NewtonsCradle from "components/core/display/atoms/NewtonsCradle";
+import { useThemeStore } from "store/useTheme";
+import { Theme } from "enums/Theme";
 interface ITrackCompleteDetailsProps {
   track?: Track;
   album?: Album;
   artists?: Artist[];
+  isNested?: boolean;
+  isDemo?: boolean;
 }
 
 function TrackCompleteDetails({
   track,
   album,
   artists,
-}: ITrackCompleteDetailsProps) {
+  isNested = false,
+  isDemo = false,
+}: ITrackCompleteDetailsProps): JSX.Element {
   const [lastFMDetails, setLastFMDetails] = useState<ILastFMAlbum | null>(null);
-  const { lastfmApi } = useClientsStore();
-  useEffect(() => {
-    lastfmApi
-      .getAlbumDetails(artists?.[0]?.name || "", album?.name || "")
-      .then((res) => {
-        setLastFMDetails(res[0]);
-      });
-  }, [artists, album, lastfmApi]);
+  const [isTrackLiked, setIsTrackLiked] = useState(false);
+  const [isAlbumLiked, setIsAlbumLiked] = useState(false);
+  const { lastfmApi, spotifyApi, ludwigApi } = useClientsStore();
+  const { getTracksByIds } = useDataFacade();
+  const [showAlbumTracks, setShowAlbumTracks] = useState(false);
+  const { t } = useTranslation();
+  const [isMirLoading, setIsMirLoading] = useState(false);
 
+  const [recommendedTracks, setRecommendedTracks] = useState<
+    Track[] | undefined
+  >(undefined);
   const { play, pause, PreviewButton } = useTrackPreview(
     track?.spotifyPreviewURL || "",
     false,
@@ -57,6 +82,84 @@ function TrackCompleteDetails({
       pause();
     };
   }, [pause]);
+
+  // Get the LastFM items
+  useEffect(() => {
+    lastfmApi
+      .getAlbumDetails(artists?.[0]?.name || "", album?.name || "")
+      .then((res) => {
+        setLastFMDetails(res[0]);
+      });
+  }, [artists, album, lastfmApi]);
+
+  // Get Ludwig Analysis
+  useEffect(() => {
+    if (
+      !isDemo &&
+      track &&
+      track.spotifyPreviewURL &&
+      (track?.ludwigMoods == undefined || track.ludwigGenres == undefined)
+    ) {
+      setIsMirLoading(true);
+      const fn = async () => {
+        const [res, error] = await ludwigApi.getTrackDetails(track, true, true);
+
+        if (res && !error) {
+          track.ludwigGenres = res.genres;
+          track.ludwigMoods = res.moods;
+          track.ludwigSubgenres = res.subgenres;
+        } else {
+          toast.error(
+            `An error ocured while analyzing the track: ${error?.message}`
+          );
+        }
+        setIsMirLoading(false);
+      };
+
+      fn();
+    }
+  }, [isDemo, ludwigApi, setIsMirLoading, track]);
+
+  useEffect(() => {
+    const fn = async () => {
+      if (!track || !track.spotifyPreviewURL || isDemo) {
+        return setRecommendedTracks([]);
+      }
+      const [res, error] = await ludwigApi.getRecommendation(track);
+
+      if (res == null || error != null) {
+        toast.error(
+          `An error ocured while getting recommendations: ${error?.message}`
+        );
+      } else {
+        const tracks = await getTracksByIds(
+          [...res.users, ...res.similar],
+          false
+        );
+        setRecommendedTracks(tracks);
+      }
+    };
+    fn();
+  }, [getTracksByIds, isDemo, ludwigApi, track]);
+
+  // Check if the album & tracks are liked or not
+  useEffect(() => {
+    if (isDemo) {
+      return;
+    }
+
+    album &&
+      spotifyApi
+        .containsMySavedAlbums([album.spotifyId])
+        .then((res) => setIsAlbumLiked(res?.[0]))
+        .catch((e) => toast.error(spotifyApi.parse(e)?.message));
+
+    track &&
+      spotifyApi
+        .containsMySavedTracks([track.spotifyId])
+        .then((res) => setIsTrackLiked(res?.[0]))
+        .catch((e) => toast.error(spotifyApi.parse(e)?.message));
+  }, [album, track, spotifyApi, isDemo]);
 
   return (
     <div>
@@ -79,151 +182,306 @@ function TrackCompleteDetails({
           <Styled.InfoGrid>
             <Styled.Column>
               <Styled.AlbumColumn>
-                <Styled.Image
-                  src={album?.spotifyCoverUrl[0]}
-                  alt={album?.name}
+                <motion.div
                   onMouseEnter={play}
                   onMouseLeave={pause}
                   whileHover={{
                     scale: 1.1,
                     transition: { ease: "easeInOut", duration: 0.3 },
                   }}
+                >
+                  <Styled.Image
+                    src={album?.spotifyCoverUrl[0] || ""}
+                    alt={album?.name}
+                    height={"320px"}
+                    width={"320px"}
+                  />
+                </motion.div>
+
+                <AlbumCollapsible album={album} />
+
+                <CoverText
+                  album={album}
+                  track={track}
+                  artists={artists}
+                  lastFMDetails={lastFMDetails}
                 />
-                <AlbumCollapsible />
-                <hr />
-                <CoverText />
               </Styled.AlbumColumn>
-              <Buttons />
+              <Buttons_ />
               <LastFMTags />
+              <AlbumTags album={album} />
             </Styled.Column>
-            <RightColumn />
+            <RightColumn
+              track={track}
+              isMirLoading={isMirLoading}
+              artists={artists || []}
+              lastFMDetails={lastFMDetails}
+              recommendedTracks={recommendedTracks}
+            />
           </Styled.InfoGrid>
         </div>
       </Styled.Wrapper>
+      {album && !isNested && showAlbumTracks && !isDemo ? (
+        <AlbumTracksView album={album} />
+      ) : (
+        <Styled.CenterElement>
+          <Buttons.PrimaryGreenButton
+            onClick={() => setShowAlbumTracks(true)}
+            style={{ marginTop: "80px" }}
+          >
+            {t("cards:show-album-tracks")}
+          </Buttons.PrimaryGreenButton>
+        </Styled.CenterElement>
+      )}
     </div>
   );
 
-  function AlbumCollapsible() {
-    return (
-      <Styled.CenterElement>
-        <Collapsible>
-          <iframe
-            src={`https://open.spotify.com/embed/album/${album?.spotifyId}`}
-            width="100%"
-            height="380"
-            frameBorder="0"
-            allow="encrypted-media"
-          ></iframe>
-        </Collapsible>
-      </Styled.CenterElement>
-    );
-  }
-
-  function LastFMTags() {
-    return album?.lastfmTagsFull?.length || 0 > 0 ? (
+  function LastFMTags(): JSX.Element {
+    return (album?.lastfmTagsFull?.length || 0) > 0 ? (
       <>
-        <hr />
-        <h4>LastFM Tags:</h4>
+        <h4>{t("cards:lastfm-tags")}</h4>
         <Styled.TagsButtonRow>
           {album?.lastfmTagsFull?.map((t) => (
             <TagButton url={t.url} name={t.name} key={t.name} />
           ))}
         </Styled.TagsButtonRow>
       </>
-    ) : null;
+    ) : (
+      <></>
+    );
   }
 
-  function Buttons() {
+  function Buttons_(): JSX.Element {
     return (
-      <Styled.ButtonRow>
+      <Styled.TagsButtonRow>
         {track && <PreviewButton />}
         {track && <SpotifyButton track={track} artist={artists?.[0]} />}
         {track && <EnqueueButton track={track} artist={artists?.[0]} />}
+        {track && <DownloadPreview track={track} />}
+        {track && (
+          <SaveTrack
+            item={track}
+            api={spotifyApi}
+            isSaved={isTrackLiked}
+            setIsSaved={setIsTrackLiked}
+          />
+        )}
+        {album && (
+          <SaveAlbum
+            item={album}
+            api={spotifyApi}
+            isSaved={isAlbumLiked}
+            setIsSaved={setIsAlbumLiked}
+          />
+        )}
         <PlayAlbum album={album} />
         <OpenSpotifyButton url={album?.spotifyUrl || ""} />
         <OpenLastFMButton url={lastFMDetails?.lastfmURL || ""} />
-      </Styled.ButtonRow>
-    );
-  }
-
-  function RightColumn() {
-    return (
-      <Styled.Column>
-        {artists?.map((a) => (
-          <ArtistHorizontalCard artist={a} key={a.spotifyId} />
-        ))}
-        <Styled.DescriptionBox>
-          <p>{parse(lastFMDetails?.lastfmDescription || "")}</p>
-        </Styled.DescriptionBox>
-        {album?.lastfmTagsNames || 0 > 0 ? <Styled.BouncyArrow /> : null}
-      </Styled.Column>
-    );
-  }
-
-  function CoverText() {
-    return (
-      <ul>
-        <li>
-          <h5>
-            Released on{" "}
-            <StyledText.pGreen>
-              {album?.spotifyReleaseDate?.toLocaleDateString()}
-            </StyledText.pGreen>
-          </h5>
-        </li>
-
-        <li>
-          {track && (
-            <h5>
-              Track Length{" "}
-              <StyledText.pGreen>
-                {prettyMilliseconds(track.spotifyDurationMS)}
-              </StyledText.pGreen>
-            </h5>
-          )}
-        </li>
-        <li>
-          <h5>
-            Album Popularity:
-            <br />
-            <StyledText.pGreen>
-              &nbsp;&nbsp;
-              {formatPopularity(album?.spotifyPopularity || 0)}
-            </StyledText.pGreen>
-          </h5>
-        </li>
-        <li>
-          <h5>
-            Artist Popularity:
-            <br />
-            <StyledText.pGreen>
-              &nbsp;&nbsp;
-              {formatPopularity(artists?.[0]?.spotifyPopularity || 0)}
-            </StyledText.pGreen>
-          </h5>
-        </li>
-        <>
-          {" "}
-          <li>
-            <h5>
-              <StyledText.pGreen>
-                {lastFMDetails?.lastfmListenersCount}
-              </StyledText.pGreen>{" "}
-              LastFM Listeners
-            </h5>
-          </li>
-          <li>
-            <h5>
-              <StyledText.pGreen>
-                {lastFMDetails?.lastfmPlayCount}
-              </StyledText.pGreen>{" "}
-              LastFM Plays
-            </h5>
-          </li>{" "}
-        </>
-      </ul>
+      </Styled.TagsButtonRow>
     );
   }
 }
 
-export default TrackCompleteDetails;
+function AlbumTags({ album }: { album?: Album }): JSX.Element {
+  const [showModal, setShowModal] = useState(false);
+  const { t } = useTranslation();
+  return album ? (
+    <Styled.Column>
+      <h4 style={{ marginTop: 20 }}>
+        <Twemoji emoji="🏷" type="emoji" /> {t("views:album-tags")}
+      </h4>
+
+      <Styled.TagsButtonRow>
+        {album.albumTags.map((t) => (
+          <Buttons.SecondaryGreenButton key={t}>
+            {t}
+          </Buttons.SecondaryGreenButton>
+        ))}{" "}
+        <Buttons.PrimaryGreenButton
+          onClick={() => setShowModal(true)}
+          rounded={album.albumTags.length !== 0}
+        >
+          <BsFillPencilFill />{" "}
+          {album.albumTags.length === 0 && (
+            <span>{t("views:add-new-tags")}</span>
+          )}
+        </Buttons.PrimaryGreenButton>
+      </Styled.TagsButtonRow>
+
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <ModifyAlbumTags
+          album={album}
+          closeModal={() => {
+            setShowModal(false);
+          }}
+        />
+      </Modal>
+    </Styled.Column>
+  ) : (
+    <></>
+  );
+}
+
+function RightColumn({
+  artists,
+  track,
+  isMirLoading,
+  lastFMDetails,
+  recommendedTracks,
+}: {
+  artists: Artist[];
+  lastFMDetails: ILastFMAlbum | null;
+  track?: Track;
+  isMirLoading: boolean;
+  recommendedTracks?: Track[];
+}): JSX.Element {
+  const theme = useThemeStore((s) => s.currentTheme);
+  const { t } = useTranslation();
+  return (
+    <Styled.Column>
+      <HorizontalCardCarousell>
+        {artists.map((a) => (
+          <ArtistHorizontalCard artist={a} key={a.spotifyId} />
+        )) || []}
+      </HorizontalCardCarousell>
+
+      {track?.spotifyUrl ? (
+        <>
+          {" "}
+          <Styled.Card>
+            <LudwigResultsCard
+              isLoading={isMirLoading}
+              genres={track?.ludwigGenres}
+              moods={track?.ludwigMoods}
+              subgenres={track?.ludwigSubgenres}
+            />
+          </Styled.Card>
+          <Styled.Card>
+            <Styled.Column>
+              <h4>{t("cards:similar_tracks")}</h4>
+              {recommendedTracks ? (
+                <div>
+                  {recommendedTracks.map((t, i) => (
+                    <ListTrackCard track={t} key={i} small={true} />
+                  ))}
+                  {recommendedTracks.length == 0 && (
+                    <h3>No Track Recommendations</h3>
+                  )}
+                </div>
+              ) : (
+                <NewtonsCradle
+                  size={40}
+                  speed={1.4}
+                  color={theme == Theme.DARK ? "white" : "black"}
+                />
+              )}
+            </Styled.Column>
+          </Styled.Card>
+        </>
+      ) : null}
+
+      {lastFMDetails?.lastfmDescription ? (
+        <>
+          <h4>{t("cards:album_description")}</h4>
+          <Styled.DescriptionBox>
+            <p>{parse(lastFMDetails?.lastfmDescription || "")}</p>
+          </Styled.DescriptionBox>
+        </>
+      ) : (
+        <>
+          <h4>{t("cards:this_album_does_not_have_a_description")}</h4>
+        </>
+      )}
+    </Styled.Column>
+  );
+}
+
+function CoverText({
+  album,
+  track,
+  artists,
+  lastFMDetails,
+}: {
+  album?: Album;
+  track?: Track;
+  artists?: Artist[];
+  lastFMDetails: ILastFMAlbum | null;
+}): JSX.Element {
+  const { t } = useTranslation("cards");
+  return (
+    <ul>
+      <li>
+        <h6>
+          {t("cards:released-on")}{" "}
+          <StyledText.pGreen>
+            {album?.spotifyReleaseDate?.toLocaleDateString()}
+          </StyledText.pGreen>
+        </h6>
+      </li>
+
+      <li>
+        {track && (
+          <h6>
+            {t("cards:track-length")}h{" "}
+            <StyledText.pGreen>
+              {prettyMilliseconds(track.spotifyDurationMS)}
+            </StyledText.pGreen>
+          </h6>
+        )}
+      </li>
+      <li>
+        <h6>
+          {t("cards:album-popularity")} <br />
+          <StyledText.pGreen>
+            &nbsp;&nbsp;
+            {formatPopularity(album?.spotifyPopularity || 0)}
+          </StyledText.pGreen>
+        </h6>
+      </li>
+      <li>
+        <h6>
+          {t("cards:artist-popularity")} <br />
+          <StyledText.pGreen>
+            &nbsp;&nbsp;
+            {formatPopularity(artists?.[0]?.spotifyPopularity || 0)}
+          </StyledText.pGreen>
+        </h6>
+      </li>
+      <>
+        <li>
+          <h6>
+            <StyledText.pGreen>
+              {lastFMDetails?.lastfmListenersCount}
+            </StyledText.pGreen>{" "}
+            {t("cards:lastfm-listeners")}{" "}
+          </h6>
+        </li>
+        <li>
+          <h6>
+            <StyledText.pGreen>
+              {lastFMDetails?.lastfmPlayCount}
+            </StyledText.pGreen>{" "}
+            {t("cards:lastfm-plays")}{" "}
+          </h6>
+        </li>
+      </>
+    </ul>
+  );
+}
+
+function AlbumCollapsible({ album }: { album?: Album }): JSX.Element {
+  return (
+    <Styled.CenterElement>
+      <Collapsible>
+        <iframe
+          src={`https://open.spotify.com/embed/album/${album?.spotifyId}`}
+          width="100%"
+          height="380"
+          frameBorder="0"
+          allow="encrypted-media"
+        ></iframe>
+      </Collapsible>
+    </Styled.CenterElement>
+  );
+}
+export default React.memo(TrackCompleteDetails);

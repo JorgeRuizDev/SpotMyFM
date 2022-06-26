@@ -1,3 +1,6 @@
+import { AxiosError } from "axios";
+import { parseAxiosError } from "util/axios/parseError";
+
 enum Errors {
   AUTH = 0,
   OK = 200,
@@ -12,7 +15,7 @@ enum Errors {
   TOO_MANY_REQUEST = 429,
   INTERNAL_SERVER_ERROR = 500,
   BAD_GATEWAY = 502,
-  SERVICE_UNAVAILABLE = 503
+  SERVICE_UNAVAILABLE = 503,
 }
 
 /**
@@ -22,31 +25,8 @@ enum Errors {
  * @return {*}
  */
 function parse(e: any) {
-  try {
-    const error = JSON.parse(e.response).error;
-
-    // If the error is an AUTH error:
-    if (error?.error_description !== undefined) {
-      return {
-        status: 0,
-        message: error?.error?.toString() || "",
-        description: error?.error_description
-      };
-    }
-
-    // Normal Error:
-    return {
-      status: parseInt(error?.status) || 0,
-      message: error?.message?.toString() || "",
-      description: ""
-    };
-  } catch (e) {
-    return {
-      status: -1,
-      message: "Not Found",
-      description: (e as any)?.toString()
-    };
-  }
+  const error = parseAxiosError(e);
+  return error;
 }
 
 const spotifyResponseCodes = { Errors, parse };

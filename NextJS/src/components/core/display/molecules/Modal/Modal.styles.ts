@@ -20,7 +20,7 @@ const FullScreenBackground: ForwardRefComponent<
 
 	// Background:
 	backdrop-blur-2xl	
-	backdrop-filter
+
 
 
 	flex
@@ -28,7 +28,7 @@ const FullScreenBackground: ForwardRefComponent<
 	justify-center
 
 	// Overflow:
-	overflow-hidden
+	overflow-auto
   
   background[rgba(0,0,0, 0.5)]
 	
@@ -44,24 +44,25 @@ const TopRow = tw.div`
 
 	// Full Width
 	w-full
-
 `;
 
 interface IModalBody {
-  darkBackground?: boolean;
+  darkBackground?: string;
 }
 
 const ModalBody = styled.div<IModalBody>(({ darkBackground }) => [
   tw`
-    md:(m-2 p-2)
-    pt-0
-    md:(mt-20 mb-20)
-    rounded-2xl
+    p-2
+    md:rounded-2xl
+
+    
 
     // Size:
 
-    max-height[95vh]
-    max-width[95vw]
+    md:(max-height[95%])
+    md:(max-width[95%])
+    max-h-full
+    max-w-full
 
     //Flex:
     flex
@@ -73,15 +74,12 @@ const ModalBody = styled.div<IModalBody>(({ darkBackground }) => [
 
   `,
 
-  darkBackground && tw`dark:bg-darkMaterialBG-base bg-lightMaterialBG-base`
-]);
+  darkBackground == "material" &&
+    tw`dark:bg-darkMaterialBG-base bg-lightMaterialBG-base`,
+  darkBackground == "card" && tw`dark:bg-darkCard-base bg-lightCard-base`,
 
-interface IChildWrap {
-  overflowScroll: boolean;
-}
-
-const ChildWrap = styled.div<IChildWrap>(({ overflowScroll }) => [
-  overflowScroll ? tw`overflow-y-auto` : tw`overflow-y-hidden`
+  darkBackground == "card-hover" &&
+    tw`dark:bg-darkCard-hover bg-lightCard-hover`,
 ]);
 
 const Styled = { FullScreenBackground, ModalBody, TopRow };

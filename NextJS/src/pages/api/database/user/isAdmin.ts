@@ -10,9 +10,14 @@ interface IIsAdmin {
 
 export default async function isAdmin(
   req: NextApiRequest,
-  res: NextApiResponse<IIsAdmin | ApiError>
+  res: NextApiResponse<IIsAdmin | ApiError | {}>
 ) {
   const { spotifyAuthToken } = req.body;
+  // Preflight Check:
+  if (req.method == "OPTIONS") {
+    res.setHeader("Allow", "POST");
+    return res.status(202).json({});
+  }
 
   // Check the Method
   if (req.method !== "POST") {

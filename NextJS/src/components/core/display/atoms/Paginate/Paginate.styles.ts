@@ -1,11 +1,12 @@
 import styled from "styled-components";
+import Buttons from "styles/Buttons";
 import tw from "twin.macro";
 
 interface IActiveButton {
   isActive: boolean;
 }
 
-const Page = styled.button<IActiveButton>(({ isActive }) => [
+const Page = styled(Buttons.BasicButton)<IActiveButton>(({ isActive }) => [
   tw`
 		rounded-none
 
@@ -15,9 +16,9 @@ const Page = styled.button<IActiveButton>(({ isActive }) => [
 		text-darkGreen-base
 
 		disabled:(bg-gray-300 cursor-not-allowed shadow-none)
-	
+
 	`,
-  isActive && tw` hover:bg-lightGreen-hover	bg-lightGreen-base text-white`
+  isActive && tw` hover:bg-lightGreen-hover	bg-lightGreen-base text-white`,
 ]);
 
 const InlineCenter = tw.div`

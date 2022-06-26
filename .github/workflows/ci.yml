@@ -1,0 +1,60 @@
+name: Continuous Integration
+
+# This action works with pull requests and pushes
+on:
+  push:
+
+jobs:
+  Integration:
+
+    runs-on: ubuntu-latest
+    environment: Test
+    env:
+      NEXT_PUBLIC_SPOTIFY_ID: ${{secrets.NEXT_PUBLIC_SPOTIFY_ID}}
+      SPOTIFY_SECRET: ${{secrets.SPOTIFY_SECRET}}
+      NEXT_PUBLIC_LAST_KEY: ${{secrets.NEXT_PUBLIC_LAST_KEY}}
+      TEST_SPOTIFY_REFRESH: ${{secrets.TEST_SPOTIFY_REFRESH}}
+      
+      # AWS
+      DYNAMOOSE_USER_TABLE: ${{secrets.DYNAMOOSE_USER_TABLE}}
+      AWS_REGION_: ${{secrets.AWS_REGION_}}
+      AWS_SECRET_ACCESS_KEY_: ${{secrets.AWS_SECRET_ACCESS_KEY_}}
+      AWS_ACCESS_KEY_ID_: ${{secrets.AWS_ACCESS_KEY_ID_}}
+      TEST_BASE_URL: "https://dev.spotmyfm.jorgeruizdev.com/"
+    defaults:
+      run:
+        working-directory: ./NextJS
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+      - name: Install
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - run: npm install
+
+      - name: Run Jest Tests
+
+        run: npm run jest
+
+          
+  Prettier:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          # Make sure the actual branch is checked out when running on pull requests
+          ref: ${{ github.head_ref }}
+
+      - name: Prettify code
+        uses: JorgeRuizDev/prettier_action@v4.1
+        with:
+          # This part is also where you can pass other options, for example:
+          prettier_options: --write **/*.{js,md,ts,tsx}

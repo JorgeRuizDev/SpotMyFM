@@ -6,16 +6,17 @@ import cfg from "config";
 import { toast } from "react-toastify";
 import cookieManager from "util/cookies/loginCookieManager";
 import Head from "components/util/Head";
+import useTranslation from "next-translate/useTranslation";
 
 export default function Callback() {
   const router = useRef(useRouter());
+  const { t } = useTranslation();
 
   const { isLogged, logIn } = useLoginStore();
   const handleLogin = useCallback(async () => {
     const [res, err] = await getOauth().getAuthToken(
       `${window.location.origin}/${cfg.api_spotify_auth}`
     );
-
     if (err || res == null) {
       toast.error("An error occurred while getting the auth token : " + err);
       router.current.push("/");
@@ -27,6 +28,7 @@ export default function Callback() {
     if (canLog) {
       cookieManager.saveAuthToken(res.access_token, res.expires_in);
       cookieManager.saveRefreshToken(res.refresh_token);
+      cookieManager.saveJWT(res.token);
       router.current.push("/");
     } else {
       toast.error("Couldn't Log In");
@@ -44,7 +46,7 @@ export default function Callback() {
 
   return (
     <>
-      <Head title="Redirecting..."></Head>
+      <Head title={t("cards:redirecting")}></Head>
     </>
   );
 }

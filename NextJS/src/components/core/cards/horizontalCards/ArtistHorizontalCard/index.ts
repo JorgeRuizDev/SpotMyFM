@@ -1,3 +1,3 @@
-import ArtistHorizontalCard from './ArtistHorizontalCard'
+import ArtistHorizontalCard from "./ArtistHorizontalCard";
 
 export default ArtistHorizontalCard;

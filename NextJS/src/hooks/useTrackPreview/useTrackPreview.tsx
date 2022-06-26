@@ -1,7 +1,14 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { isMobile } from "react-device-detect";
 import { FaPause, FaPlay } from "react-icons/fa";
 import Buttons from "styles/Buttons";
+import useTranslation from "next-translate/useTranslation";
 
 /**
  * Small hook that allows the control of a track.
@@ -21,30 +28,37 @@ function useTrackPreview(
   isMuted: boolean,
   enablePreviewButton: boolean
 ) {
-  const tp = useRef(new Audio(previewURL));
+  const tp = useMemo(() => new Audio(previewURL), [previewURL]);
 
-  const isPlayable = previewURL !== null && previewURL.length !== 0;
+  const isPlayable = useMemo(
+    () => previewURL !== null && previewURL.length !== 0,
+    [previewURL]
+  );
   const [isPlaying, setIsPlaying] = useState(false);
 
   // Do not preload the song until it is required
-  tp.current.preload = "none";
+  useEffect(() => {
+    tp.preload = "none";
+  }, [tp]);
 
-  function play() {
+  const play = useCallback(() => {
     if (!isMuted) {
-      tp.current.play().catch((e) => e);
+      tp.volume = 0.4;
+      tp.play().catch((e) => e);
       setIsPlaying(true);
     }
-  }
+  }, [isMuted, tp]);
 
   const pause = useCallback(() => {
-    tp.current.pause();
+    tp.pause();
+    tp.currentTime = 0;
     setIsPlaying(false);
   }, [tp]);
 
   function toggleAudio() {
     isPlaying ? pause() : play();
   }
-
+  const { t } = useTranslation();
   const PreviewButton = () => (
     <>
       {isPlayable && (isMobile || enablePreviewButton) ? (
@@ -52,12 +66,12 @@ function useTrackPreview(
           {isPlaying ? (
             <>
               <FaPause />
-              <span>Pause</span>
+              <span>{t("cards:pause")}</span>
             </>
           ) : (
             <>
               <FaPlay />
-              <span>Preview</span>
+              <span>{t("cards:preview")}</span>
             </>
           )}
         </Buttons.PrimaryGreenButton>

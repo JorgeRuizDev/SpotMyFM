@@ -16,7 +16,8 @@ const TwoColumns = tw.div`
 	bg-lightCard-base
 	dark:bg-darkCard-base
 	shadow-md
-	rounded
+	rounded-md
+
 
 
 	p-3
@@ -24,7 +25,7 @@ const TwoColumns = tw.div`
 	mb-8
 `;
 
-const Inline = tw.section`
+const Inline = tw.label`
 	flex
 	flex-row
 	flex-nowrap

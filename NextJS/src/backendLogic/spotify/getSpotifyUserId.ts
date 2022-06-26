@@ -14,7 +14,6 @@ export async function getSpotifyUserId(
 
   try {
     // Configure the api
-    // TODO: Replace the object with the improved one
     const api = new SpotifyWebApi();
     api.setAccessToken(spotifyApiToken);
 
@@ -22,8 +21,6 @@ export async function getSpotifyUserId(
     const user = await api.getMe();
     return [user.body.id, null];
   } catch (e) {
-    // TODO: Parse the error
-
     return [null, e];
   }
 }

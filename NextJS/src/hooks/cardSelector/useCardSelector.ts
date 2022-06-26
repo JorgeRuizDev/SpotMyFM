@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * Hook that allows selecting / unselecting items
@@ -8,7 +8,8 @@ import { useState } from "react";
  */
 export function useCardSelector<E>(
   min: number,
-  max: number
+  max: number,
+  autoUnselectOnLimit: boolean = true
 ): {
   selectedArray: E[];
   toggleSelectedElement: (e: E) => void;
@@ -21,11 +22,12 @@ export function useCardSelector<E>(
     if (selectedElements.has(e)) {
       removeSelectedElement(e);
     } else {
-      if (selectedElements.size <= max) {
-        addSelectedElement(e);
+      if (selectedElements.size >= max && autoUnselectOnLimit) {
+        const del = selectedElements.values().next();
+        removeSelectedElement(del.value);
       }
+      addSelectedElement(e);
     }
-    setSelectedArray(Array.from(selectedElements.values()));
   }
   function addSelectedElement(e: E) {
     selectedElements.add(e);
@@ -44,6 +46,10 @@ export function useCardSelector<E>(
   function removeAll() {
     setSelectedElements(new Set());
   }
+
+  useEffect(() => {
+    setSelectedArray(Array.from(selectedElements.values()));
+  }, [selectedElements]);
 
   return {
     selectedArray,

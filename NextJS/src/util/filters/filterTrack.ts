@@ -18,10 +18,7 @@ export default function filterTrack(track: Track, query: string): boolean {
     track?.artists
       ?.map((a) => a.name.toUpperCase().includes(query))
       .includes(true) ||
-    track.album?.spotifyReleaseDate
-      ?.getFullYear()
-      .toString()
-      .includes(query) ||
+    track.album?.spotifyReleaseDate?.getFullYear().toString().includes(query) ||
     false
   );
 }

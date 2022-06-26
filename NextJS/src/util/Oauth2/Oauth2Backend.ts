@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from "util/axios";
 import qs from "query-string";
 import b64 from "base-64";
 import {
-  AuthTokenResponse,
-  RefreshTokenResponse,
+  AuthTokenJWTResponse,
+  RefreshTokenJWTResponse,
 } from "interfaces/oauth2Responses";
 
 class Oauth2Backend {
@@ -34,14 +34,14 @@ class Oauth2Backend {
    * @param endpoint Current Oauth Api Endpoint to ask fore the token
    * @param redirect_uri Current configured project uri
    * @param grantType Grant type data, defaults to "authorization_code"
-   * @returns a AuthTokenResponse or a null with an error as a second parameter.
+   * @returns a AuthTokenJWTResponse or a null with an error as a second parameter.
    */
   public async authUser(
     grantCode: string,
     endpoint: string,
     redirect_uri: string,
     grantType = "authorization_code"
-  ): Promise<[AuthTokenResponse | null, any]> {
+  ): Promise<[AuthTokenJWTResponse | null, any]> {
     const postData = {
       grant_type: grantType,
       code: grantCode,
@@ -66,6 +66,7 @@ class Oauth2Backend {
           refresh_token: data.refresh_token,
           token_type: data.token_type,
           scope: data.scope,
+          token: data.token,
         },
         null,
       ];
@@ -78,12 +79,12 @@ class Oauth2Backend {
    * Returns a new auth token from a refresh token
    * @param endpoint Api Endpoint to fetch the new Auth Token
    * @param refreshToken Current refresh Token
-   * @returns A RefreshTokenResponse or a null with an error
+   * @returns A RefreshTokenJWTResponse or a null with an error
    */
   public async refreshToken(
     endpoint: string,
     refreshToken: string
-  ): Promise<[RefreshTokenResponse | null, any]> {
+  ): Promise<[RefreshTokenJWTResponse | null, any]> {
     const postData = {
       grant_type: "refresh_token",
       refresh_token: refreshToken,
@@ -100,7 +101,11 @@ class Oauth2Backend {
       const data = response.data;
 
       return [
-        { access_token: data.access_token, expires_in: data.expires_in },
+        {
+          access_token: data.access_token,
+          expires_in: data.expires_in,
+          token: data.token,
+        },
         null,
       ];
     } catch (e) {

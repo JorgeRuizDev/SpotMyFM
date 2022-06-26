@@ -1,4 +1,5 @@
 import { Album } from "data/cacheDB/dexieDB/models/Album";
+
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
 import _ from "lodash";
@@ -6,13 +7,20 @@ import SpotifyWebApi from "spotify-web-api-js";
 import { parse } from "date-fns";
 import { IRestClient, RestError } from "interfaces/RestClient";
 import SpotifyResponse from "./spotifyResponseCodes";
+import { parseAxiosError } from "util/axios/parseError";
+import asyncPool from "tiny-async-pool";
+
+type include_groups = "album" | "single" | "appears_on" | "compilation";
 /**
  * Spotify Api Rest Client
  */
 export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   parse(e: any): RestError {
-    const res = SpotifyResponse.parse(e);
-    return { status: res.status, message: res.message };
+    if (!!e.status && !!e.response) {
+      const msg = JSON.parse(e.response)?.error?.message || "";
+      return { status: parseInt(e.status), message: msg };
+    }
+    return parseAxiosError(e);
   }
 
   /**
@@ -41,13 +49,66 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   async getFullAlbums(
     albumIds: string[]
   ): Promise<SpotifyApi.AlbumObjectFull[]> {
-    const albums = [];
-    for (const idChunk of _.chunk(albumIds, 20)) {
+    const albums: SpotifyApi.AlbumObjectFull[] = [];
+
+    const chunks = _.chunk(albumIds, 20);
+
+    await asyncPool(2, chunks, async (idChunk) => {
       const res = await this.getAlbums(idChunk);
       albums.push(...res.albums);
-    }
+    });
 
     return albums;
+  }
+
+  /**
+   * Retrieves the current user saved albums
+   */
+  async getAllMySavedAlbums(): Promise<SpotifyApi.SavedAlbumObject[]> {
+    const limit = 50;
+    let offset = 0;
+
+    const savedAlbums = [];
+    while (true) {
+      const albums = await this.getMySavedAlbums({ limit, offset });
+
+      savedAlbums.push(...albums.items);
+
+      if (offset > albums.total) {
+        break;
+      }
+
+      offset += limit;
+    }
+
+    return savedAlbums;
+  }
+
+  /**
+   * Retrieves an array with all the tracks of a given album
+   * @param albumId
+   * @returns SpotifyApi.TrackObjectSimplified[]
+   */
+  async getAllAlbumTracks(
+    albumId: string
+  ): Promise<SpotifyApi.TrackObjectSimplified[]> {
+    const limit = 50;
+    let offset = 0;
+
+    const tracks: SpotifyApi.TrackObjectSimplified[] = [];
+    while (true) {
+      const res = await this.getAlbumTracks(albumId, { limit, offset });
+
+      tracks.push(...res.items);
+
+      if (offset > limit) {
+        break;
+      }
+
+      offset += limit;
+    }
+
+    return tracks;
   }
 
   /**
@@ -58,30 +119,39 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   async getFullArtists(
     artistIds: string[]
   ): Promise<SpotifyApi.ArtistObjectFull[]> {
-    const artists = [];
-    for (const idChunk of _.chunk(artistIds, 50)) {
+    const artists: SpotifyApi.ArtistObjectFull[] = [];
+    const chunks = _.chunk(artistIds, 50);
+    await asyncPool(2, chunks, async (idChunk) => {
       const res = await this.getArtists(idChunk);
       artists.push(...res.artists);
-    }
+    });
 
     return artists;
   }
 
   /**
-   * Methods that retrieves all the playlists from an specific user.
-   * @param userId optional: The user we want to retrieve the playlists from
+   * Gets all the albums of an specific artist
+   * @param artistId Artist id to get albums from
+   * @param includeGroups A list of group types to include in the response
    * @returns
    */
-  async getAllPlaylists(userId?: string) {
-    const playlists = [];
+  async getAllArtistAlbums(
+    artistId: string,
+    includeGroups: include_groups[]
+  ): Promise<SpotifyApi.AlbumObjectSimplified[]> {
+    const albums = [];
     let offset = 0;
     let limit = 50;
 
+    // Filter the includeGroups duplicates
+    const groups = Array.from(new Set(includeGroups).values());
+
     while (true) {
       try {
-        const res = await this.getUserPlaylists(userId, { offset, limit });
-        playlists.push(...res.items);
-
+        const res = await this.getArtistAlbums(artistId, {
+          include_groups: groups.join(","),
+        });
+        albums.push(...res.items);
         if (offset > res.total) {
           break;
         }
@@ -91,7 +161,64 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
       }
     }
 
+    return albums;
+  }
+
+  /**
+   * Methods that retrieves all the playlists from an specific user.
+   * @param userId optional: The user we want to retrieve the playlists from
+   * @returns
+   */
+  async getAllPlaylists(
+    userId: string
+  ): Promise<SpotifyApi.PlaylistObjectSimplified[]> {
+    const playlists = [];
+    let offset = 0;
+    let limit = 50;
+
+    while (true) {
+      try {
+        const res = await this.getUserPlaylists(userId, { offset, limit });
+        playlists.push(...res.items);
+        if (offset > res.total) {
+          break;
+        }
+        offset += limit;
+      } catch (e) {
+        throw e;
+      }
+    }
     return playlists;
+  }
+
+  /**
+   * Fetches all the tracks inside a playlist.
+   * @param playlistId
+   * @returns
+   */
+  async getAllPlaylistTracks(playlistId: string) {
+    const tracks: SpotifyApi.TrackObjectFull[] = [];
+
+    const limit = 50;
+    var offset = 0;
+
+    while (true) {
+      const res = await this.getPlaylistTracks(playlistId, { limit, offset });
+
+      tracks.push(
+        //@ts-ignore
+        ...res.items
+          .map((i) => i.track)
+          // Add only the TRACKS
+          .filter((t) => t.type === "track")
+      );
+      if (res.total < offset) {
+        break;
+      }
+      offset += limit;
+    }
+
+    return tracks;
   }
 
   /**
@@ -132,6 +259,44 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
   }
 
   /**
+   * Parses a list of spotify tracks into a local track
+   * @param tracks
+   * @returns tracks list
+   */
+  static spotifySavedTracks2Tracks(
+    tracks: SpotifyApi.SavedTrackObject[]
+  ): Track[] {
+    const parsedTracks: Track[] = [];
+
+    for (const savedTrack of tracks) {
+      const track = savedTrack.track;
+      parsedTracks.push({
+        spotifyId: track.id,
+        spotifyUri: track.uri,
+        spotifyAlbumId: track.album.id,
+        name: track.name,
+        spotifyArtistsIds: track.artists.map((x) => x.id),
+        spotifyDurationMS: track.duration_ms,
+        spotifyIsExplicit: track.explicit,
+        spotifyIsPlayable: track.is_playable || false,
+        spotifyPreviewURL: track.preview_url,
+        spotifyTrackAlbumPos: track.track_number,
+        spotifyDiscNumber: track.disc_number,
+        spotifyUrl: track.external_urls.spotify,
+        artists: [],
+        genreVersion: 0,
+        isSaved: true,
+        savedAt: new Date(savedTrack.added_at),
+        spotifyPopularity: track.popularity,
+        type: track.type,
+        markets: track.available_markets,
+      });
+    }
+
+    return parsedTracks;
+  }
+
+  /**
    * Parses a list of spotify albums into a local album
    * @param albums
    * @returns album list
@@ -144,6 +309,7 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
         spotifyId: album.id,
         name: album.name,
         spotifyCoverUrl: album.images.map((x) => x.url),
+        spotifyCovers: album.images,
         spotifyUrl: album.external_urls.spotify,
         spotifyReleaseDate: parseReleaseDate(
           album.release_date,
@@ -182,6 +348,7 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
         spotifyGenres: artist.genres,
         spotifyPopularity: artist.popularity,
         spotifyImgs: artist.images.map((x) => x.url),
+        spotifyArtistImgs: artist.images,
         type: artist.type,
       });
     }
@@ -189,14 +356,18 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     return parsedArtists;
   }
 
-  async getMySavedTracksFull(): Promise<SpotifyApi.TrackObjectFull[]> {
-    const tracks: SpotifyApi.TrackObjectFull[] = [];
+  /**
+   * Gets all the user library in one single array.
+   * @returns
+   */
+  async getMySavedTracksFull(): Promise<SpotifyApi.SavedTrackObject[]> {
+    const tracks: SpotifyApi.SavedTrackObject[] = [];
     const limit = 50;
     let offset = 0;
 
     while (true) {
       const res = await this.getMySavedTracks({ limit, offset });
-      tracks.push(...res.items.map((t) => t.track));
+      tracks.push(...res.items);
 
       if (res.total < offset) {
         break;
@@ -205,23 +376,6 @@ export class SpotifyClient extends SpotifyWebApi implements IRestClient {
     }
 
     return tracks;
-  }
-
-  /**
-   * Parses an album release date response into a JS Date object
-   * @param date: Spotify Date String
-   * @param precision: Spotify Precision String
-   * @returns A Date
-   */
-  private parseReleaseDate(date: string, precision: string): Date {
-    switch (precision) {
-      case "year":
-        return parse(date, "yyyy", new Date());
-      case "day":
-        return parse(date, "yyyy-MM-dd", new Date());
-      default:
-        return new Date(-1);
-    }
   }
 }
 /**

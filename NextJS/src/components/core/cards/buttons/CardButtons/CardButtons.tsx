@@ -1,18 +1,28 @@
+import axios from "util/axios";
+import { parseAxiosError } from "util/axios/parseError";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
 import { Artist } from "data/cacheDB/dexieDB/models/Artist";
+import SpotifyBaseObject from "data/cacheDB/dexieDB/models/SpotifyObject";
 import { Track } from "data/cacheDB/dexieDB/models/Track";
+import useSpotifyPlayer from "hooks/spotify/useSpotifyPlayer";
 
-import React from "react";
+import React, { createRef, useCallback, useEffect, useMemo } from "react";
 import { BiAddToQueue } from "react-icons/bi";
-import { FaLastfm, FaMinus, FaPlus, FaSpotify } from "react-icons/fa";
+import {
+  FaDownload,
+  FaLastfm,
+  FaMinus,
+  FaPlus,
+  FaSpotify,
+} from "react-icons/fa";
 import { MdAlbum, MdQueueMusic } from "react-icons/md";
 import { toast } from "react-toastify";
+import { SpotifyClient } from "restClients/spotify/spotifyClient";
+import { useClientsStore } from "store/useClients";
 import Buttons from "styles/Buttons";
-import { BlockLike } from "typescript";
 import LikeIcon from "../LikeIcon";
 import Styled from "./CardButtons.styles";
-
-interface ICardButtonsProps {}
+import useTranslation from "next-translate/useTranslation";
 
 interface ITrackArtist {
   track: Track;
@@ -20,69 +30,197 @@ interface ITrackArtist {
 }
 
 interface IAlbum {
-  album?: Album;
+  album: Album | undefined;
 }
 
 interface ILastTag {
   name: string;
   url: string;
 }
-interface IonClick {
-  onClick: () => void;
-}
 
 interface IUrl {
   url: string;
 }
 
-function SpotifyButton({ track, artist }: ITrackArtist) {
+interface ISave {
+  item: SpotifyBaseObject;
+  api: SpotifyClient;
+  isSaved: boolean;
+  setIsSaved: (is: boolean) => void;
+}
+
+function SpotifyButton({ track, artist }: ITrackArtist): JSX.Element {
+  const isPremium = useClientsStore((s) => s.user.isPremium);
+  const { playTrack } = useSpotifyPlayer();
+  const { t } = useTranslation();
   return (
     <>
-      <Buttons.PrimaryGreenButton
-        onClick={() => {
-          toast.info(`🎵 Now Playing "${track.name}" by "${artist?.name}".`);
-        }}
-      >
-        <FaSpotify />
-        <span>Play Now</span>
-      </Buttons.PrimaryGreenButton>
+      {isPremium && (
+        <Buttons.PrimaryGreenButton
+          onClick={() => {
+            playTrack(track);
+          }}
+        >
+          <FaSpotify />
+          <span>{t("cards:play-now")}</span>
+        </Buttons.PrimaryGreenButton>
+      )}
     </>
   );
 }
 
-function EnqueueButton({ track, artist }: ITrackArtist) {
+function EnqueueButton({ track }: ITrackArtist): JSX.Element {
+  const isPremium = useClientsStore((s) => s.user.isPremium);
+  const { enqueue } = useSpotifyPlayer();
+  const { t } = useTranslation();
   return (
     <>
-      <Buttons.SecondaryGreenButton
-        onClick={() => {
-          toast.info(
-            `"${track.name}" by "${artist?.name}" has been added to the queue`
-          );
-        }}
-      >
-        <MdQueueMusic />
-        <span>Add to Queue</span>
-      </Buttons.SecondaryGreenButton>
+      {isPremium && (
+        <Buttons.SecondaryGreenButton
+          onClick={() => {
+            enqueue(track);
+          }}
+        >
+          <MdQueueMusic />
+          <span>{t("cards:add-to-queue")}</span>
+        </Buttons.SecondaryGreenButton>
+      )}
     </>
   );
 }
 
-function PlayAlbum({ album }: IAlbum) {
-  return (
+/**
+ * Small Button that Downloads the track preview or opens the preview source url in a new tab.
+ * @param param0
+ * @returns
+ */
+function DownloadPreview({ track }: { track: Track }): JSX.Element {
+  const url = useMemo(() => track.spotifyPreviewURL, [track.spotifyPreviewURL]);
+
+  const download = useCallback(async () => {
+    try {
+      const res = await axios({
+        url: track.spotifyPreviewURL || "",
+        method: "GET",
+        responseType: "blob", // important
+      });
+
+      // Create a new fake a tag
+      const a = document.createElement("a");
+      a.style.display = "none";
+
+      a.download = t("cards:30s_preview", {
+        name: track.artists[0]?.name,
+        name_2: track.name,
+      });
+      document.body.appendChild(a);
+
+      a.href = URL.createObjectURL(res.data);
+      a.click();
+    } catch (e) {
+      const err = parseAxiosError(e);
+      toast.error(`${err?.message}`);
+    }
+  }, [track.artists, track.name, track.spotifyPreviewURL]);
+  const { t } = useTranslation();
+
+  return url && url.length > 0 ? (
     <>
-      <Buttons.SecondaryGreenButton
-        onClick={() => {
-          toast.info(`🎵 Now Playing The Album "${album?.name}".`);
+      <a
+        href={url}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
         }}
       >
-        <MdAlbum />
-        <span>Play Full Album</span>
-      </Buttons.SecondaryGreenButton>
+        <Buttons.SecondaryGreenButton onClick={download}>
+          <FaDownload />
+          <span>{t("cards:preview")}</span>
+        </Buttons.SecondaryGreenButton>
+      </a>
+    </>
+  ) : (
+    <></>
+  );
+}
+
+function SaveAlbum({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
+  const { t } = useTranslation();
+  return (
+    <Buttons.SecondaryGreenButton
+      onClick={() => {
+        if (isSaved) {
+          api
+            .removeFromMySavedAlbums([item.spotifyId])
+            .then(() => setIsSaved(false))
+            .catch((e) => toast.error(api.parse(e)?.message));
+        } else {
+          api
+            .addToMySavedAlbums([item.spotifyId])
+            .then(() => setIsSaved(true))
+            .catch((e) => toast.error(api.parse(e)?.message));
+        }
+      }}
+    >
+      <LikeIcon isLiked={isSaved} />
+      {isSaved ? (
+        <span>{t("cards:remove-album")}</span>
+      ) : (
+        <span>{t("cards:save-album")}</span>
+      )}
+    </Buttons.SecondaryGreenButton>
+  );
+}
+
+function SaveTrack({ item, api, isSaved, setIsSaved }: ISave): JSX.Element {
+  const { t } = useTranslation();
+  return (
+    <Buttons.SecondaryGreenButton
+      onClick={() => {
+        if (isSaved) {
+          api
+            .removeFromMySavedTracks([item.spotifyId])
+            .then(() => setIsSaved(false))
+            .catch((e) => toast.error(api.parse(e)?.message));
+        } else {
+          api
+            .addToMySavedTracks([item.spotifyId])
+            .then(() => setIsSaved(true))
+            .catch((e) => toast.error(api.parse(e)?.message));
+        }
+      }}
+    >
+      <LikeIcon isLiked={isSaved} />
+      {isSaved ? (
+        <span>{t("cards:remove-track")}</span>
+      ) : (
+        <span>{t("cards:save-track")}</span>
+      )}
+    </Buttons.SecondaryGreenButton>
+  );
+}
+
+function PlayAlbum({ album }: IAlbum): JSX.Element {
+  const isPremium = useClientsStore((s) => s.user.isPremium);
+  const { playAlbum } = useSpotifyPlayer();
+  const { t } = useTranslation();
+  return (
+    <>
+      {isPremium && album && (
+        <Buttons.SecondaryGreenButton
+          onClick={() => {
+            playAlbum(album);
+          }}
+        >
+          <MdAlbum />
+          <span>{t("cards:play-full-album")}</span>
+        </Buttons.SecondaryGreenButton>
+      )}
     </>
   );
 }
 
-function TagButton({ name, url }: ILastTag) {
+function TagButton({ name, url }: ILastTag): JSX.Element {
   return (
     <Buttons.PrimaryRedButton
       onClick={() => {
@@ -94,33 +232,37 @@ function TagButton({ name, url }: ILastTag) {
   );
 }
 
-function OpenLastFMButton({ url }: IUrl) {
+function OpenLastFMButton({ url }: IUrl): JSX.Element {
+  const { t } = useTranslation();
   return (
-    <Styled.LastFMButton
-      aria-label={"Open LastFM"}
+    <Buttons.SecondaryRedButton
+      rounded
+      aria-label={"lastfm"}
       onClick={() => {
         window.open(url, "_blank");
       }}
     >
       <FaLastfm />
-    </Styled.LastFMButton>
+    </Buttons.SecondaryRedButton>
   );
 }
 
-function OpenSpotifyButton({ url }: IUrl) {
+function OpenSpotifyButton({ url }: IUrl): JSX.Element {
+  const { t } = useTranslation();
   return (
-    <Styled.SpotifyButton
-      aria-label={"Open Spotify"}
+    <Buttons.SecondaryGreenButton
+      rounded
+      aria-label={t("cards:open-spotify")}
       onClick={() => {
         window.open(url, "_blank");
       }}
     >
       <FaSpotify />
-    </Styled.SpotifyButton>
+    </Buttons.SecondaryGreenButton>
   );
 }
 
-function LikeButton({ isLiked }: { isLiked: boolean }) {
+function LikeButton({ isLiked }: { isLiked: boolean }): JSX.Element {
   return (
     <Buttons.SecondaryGreenButton rounded>
       <LikeIcon isLiked={isLiked} />
@@ -128,9 +270,10 @@ function LikeButton({ isLiked }: { isLiked: boolean }) {
   );
 }
 
-function PlusButton({ onClick }: { onClick: () => void }) {
+function PlusButton({ onClick }: { onClick: () => void }): JSX.Element {
+  const { t } = useTranslation();
   return (
-    <Buttons.SecondaryGreenButton rounded onClick={onClick} aria-label={"More"}>
+    <Buttons.SecondaryGreenButton rounded onClick={onClick} aria-label="more">
       <FaPlus />
     </Buttons.SecondaryGreenButton>
   );
@@ -147,7 +290,8 @@ function PlaylistButton({
   toggleFromPlaylist,
   track,
   showLabels = true,
-}: IPlaylistButton) {
+}: IPlaylistButton): JSX.Element | null {
+  const { t } = useTranslation();
   return (
     (toggleFromPlaylist !== undefined && (
       <>
@@ -157,12 +301,13 @@ function PlaylistButton({
         >
           {inPlaylist ? (
             <>
-              <FaMinus /> {showLabels && <span>Remove From Playlist</span>}
+              <FaMinus />{" "}
+              {showLabels && <span>{t("cards:remove-from-playlist")}</span>}
             </>
           ) : (
             <>
               <BiAddToQueue />
-              {showLabels && <span>Add to Playlist</span>}
+              {showLabels && <span>{t("cards:add-to-playlist")}</span>}
             </>
           )}
         </Buttons.SecondaryGreenButton>
@@ -171,6 +316,7 @@ function PlaylistButton({
     null
   );
 }
+
 export {
   EnqueueButton,
   SpotifyButton,
@@ -181,4 +327,7 @@ export {
   LikeButton,
   PlusButton,
   PlaylistButton,
+  DownloadPreview,
+  SaveAlbum,
+  SaveTrack,
 };

@@ -1,61 +1,66 @@
 import { RiArrowDropDownLine } from "react-icons/ri";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import tw from "twin.macro";
+import Buttons from "styles/Buttons";
 
 interface ITitle {
-  titleStyle?: "spotify";
+  titleStyle?: "spotify" | "input";
 }
 
-const Title = styled.div<ITitle>(({titleStyle}) => [
+const Title = styled.button<ITitle>(({ titleStyle }) => [
   tw`
-	rounded-full
+    p-0
+    pl-4
+    flex
+    flex-row
+    w-full
+    items-center
+    justify-center
+    space-x-2
 
-	p-0
-	pl-4
-	space-x-2
+    md:(min-height[40px] )
+    min-height[35px]
 
-	dark:(hover:bg-green-400 bg-green-500)
-
-	bg-green-600
-	hover:bg-green-500
-
-	
-	// Text Style
-	text-white
-	dark:text-white
-	text-lg
-	font-bold
-	select-none
-
-	cursor-pointer
-
-	flex
-	flex-row
-	items-center
-	justify-between
 	`,
 
   titleStyle == "spotify" &&
     tw`
-		bg-green-200
-		hover:bg-green-300
-		dark:(hover:bg-green-500 bg-green-400)
-		dark:text-white
-		text-gray-600
-		rounded-xl
+		bg-green-500
+    hover:bg-green-400 
+    text-white
+		
+		rounded-full
 	`,
+
+  titleStyle == "input" &&
+    tw`
+    rounded-none
+    text-textColor-lightTheme
+    
+
+    //dark:(bg-white hover:(bg-gray-200))
+    bg-white
+    m-0
+    shadow-none
+
+    hover:bg-gray-200 
+  `,
 ]);
 
 const Wrap = tw.div`
 	width[fit-content]
-	z-30
+  relative
 `;
 
-const DropIcon = tw(RiArrowDropDownLine)`
-	h-11
-	w-11
-	dark:text-white
-`;
+const DropIcon = styled(RiArrowDropDownLine)(({ titleStyle }: ITitle) => [
+  tw`
+    h-8
+    w-8
+    pr-1
+    text-white
+  `,
+  titleStyle == "input" && tw`text-textColor-lightTheme `,
+]);
 
 const ItemList = tw.ul`
 	hidden
@@ -63,8 +68,11 @@ const ItemList = tw.ul`
 
 
 	absolute
+  
+  z-10
+
 	text-gray-700
-	width[fit-content]
+	width[max-content]
 
 	ml-3
 	pl-0
@@ -73,11 +81,10 @@ const ItemList = tw.ul`
 `;
 
 interface itemStyle {
-  itemStyle?: "lastFM";
+  itemStyle?: "spotify" | "input" | "lastFM";
 }
 
-const Item = styled.a<itemStyle>(({itemStyle}) => [
-
+const Item = styled.a<itemStyle>(({ itemStyle }) => [
   tw`
 		text-gray-600
 		dark:text-white
@@ -102,16 +109,15 @@ const Item = styled.a<itemStyle>(({itemStyle}) => [
 		hover:no-underline
 		
 
-		`
-,
-	
-	itemStyle == "lastFM" ? tw`
+		`,
+  itemStyle == "lastFM"
+    ? tw`
 		bg-red-300
 		hover:(bg-red-400 )
 		dark:(hover:bg-red-400 bg-red-500 )
-	`: null
+	`
+    : null,
 ]);
-
 
 const Styled = {
   Title,

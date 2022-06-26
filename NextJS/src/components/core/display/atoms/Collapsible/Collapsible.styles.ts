@@ -46,8 +46,8 @@ const CenterChild = tw.div`
 	flex-col
 	items-center
 	justify-center
-`
+`;
 
-const Styled = { ToggleButton, Wrapper, ToggleIcon, CenterChild};
+const Styled = { ToggleButton, Wrapper, ToggleIcon, CenterChild };
 
 export default Styled;

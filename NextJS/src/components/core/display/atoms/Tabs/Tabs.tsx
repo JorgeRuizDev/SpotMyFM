@@ -37,7 +37,8 @@ function useActiveTabContext() {
 
 interface ITabsProps {
   defaultTabId: string;
-  children: React.ReactNode[];
+  sidedTabs?: boolean;
+  children: React.ReactNode[] | React.ReactNode;
 }
 function Tabs({ defaultTabId, children }: ITabsProps): JSX.Element {
   const [activeTab, setActiveTab] = useState(defaultTabId);
@@ -57,13 +58,18 @@ function Tabs({ defaultTabId, children }: ITabsProps): JSX.Element {
 
 interface ITabProps {
   id: string;
+  isColumn?: boolean;
   children: React.ReactNode[] | React.ReactNode;
 }
-function Tab({ id, children }: ITabProps): JSX.Element {
+function Tab({ id, children, isColumn }: ITabProps): JSX.Element {
   const { id: activeId, setId } = useActiveTabContext();
   return (
     <>
-      <Styled.Tab isActive={id === activeId} onClick={() => setId(id)}>
+      <Styled.Tab
+        isColumn={isColumn}
+        isActive={id === activeId}
+        onClick={() => setId(id)}
+      >
         {children}
       </Styled.Tab>
     </>
@@ -99,7 +105,7 @@ function TabContent({ id, children }: ITabContentProps): JSX.Element {
       initial={{ opacity: 0 }}
       animate={activeId === id ? "open" : "closed"}
       variants={variants}
-      style={{ display: activeId === id ? "block" : "none" }}
+      style={{ display: activeId === id ? "block" : "none", padding: "4px" }}
     >
       {children}
     </motion.div>

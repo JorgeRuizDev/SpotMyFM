@@ -1,11 +1,13 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import tw from "twin.macro";
+import Buttons from "styles/Buttons";
 interface ITab {
   isActive: boolean;
+  isColumn?: boolean;
 }
 
-const Tab = styled(motion.button)<ITab>(({ isActive }) => [
+const Tab = styled(Buttons.BasicButton)<ITab>(({ isActive, isColumn }) => [
   tw`
 		rounded-none
 		border-0
@@ -20,24 +22,33 @@ const Tab = styled(motion.button)<ITab>(({ isActive }) => [
 		bg-lightCard-base
 		hover:bg-lightCard-hover
 
-		transition-colors duration-500 ease-in-out
+    sm:w-auto
+    w-full
 	`,
 
-  isActive && tw`border-b-4 pb-0`
+  isColumn && tw`w-full sm:w-full`,
+
+  isActive && tw`border-2 sm:(border-0 border-b-4 ) pb-0 `,
 ]);
 
-interface IHide {
-  isActive: boolean;
+interface ITabWrap {
+  isColumn?: boolean;
 }
 
-const TabWrap = tw.div`
-	flex
-	flex-row
-	flex-wrap
-	flex-shrink-0
+const TabWrap = styled.div<ITabWrap>(({ isColumn = false }) => [
+  tw`
+    flex
+    sm:(flex-row space-y-0)
+    flex-col
+    space-y-2
 
-	items-center
-`;
+    flex-wrap
+    flex-shrink-0
+
+    items-center
+  `,
+  isColumn && tw`flex-col sm:flex-col w-full space-y-2`,
+]);
 
 const TabContentWrap = tw.div`
 	flex

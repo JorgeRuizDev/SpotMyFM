@@ -19,7 +19,8 @@ type TrackSortingOptions =
   | "RELEASE_DATE"
   | "TRACK_LENGTH"
   | "ARTIST_NAME"
-  | "ARTIST_POPULARITY";
+  | "ARTIST_POPULARITY"
+  | "ARTIST_COUNT";
 
 export const trackSortingOptions: Record<TrackSortingOptions, string> = {
   DEFAULT: "Default",
@@ -29,6 +30,7 @@ export const trackSortingOptions: Record<TrackSortingOptions, string> = {
   TRACK_LENGTH: "Track Length",
   ARTIST_NAME: "Artist Name",
   ARTIST_POPULARITY: "Artist Popularity",
+  ARTIST_COUNT: "Number of Artists",
 };
 
 export default function useTrackSorter(
@@ -73,6 +75,9 @@ export default function useTrackSorter(
         break;
       case so.ARTIST_NAME:
         t = tracks.sort(sortByArtistName);
+        break;
+      case so.ARTIST_COUNT:
+        t = tracks.sort((a, b) => a.artists.length - b.artists.length);
         break;
       case so.DEFAULT:
         t = [...defaultTracks];

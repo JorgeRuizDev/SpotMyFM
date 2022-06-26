@@ -6,6 +6,8 @@ const CardLayout = tw(CardStyles.Layout)``;
 
 const AlbumCover = tw(CardStyles.Image)``;
 
+const CardContent = tw(CardStyles.Content)``;
+
 const ButtonRow = tw(CardStyles.ButtonRow)``;
 
 const Mute = tw(RiVolumeMuteFill)`
@@ -17,6 +19,13 @@ const RoundButton = tw(Buttons.SecondaryGreenButton)`
 	px-3
 `;
 
-const Styled = { CardLayout, AlbumCover, ButtonRow, Mute, RoundButton };
+const Styled = {
+  CardLayout,
+  AlbumCover,
+  ButtonRow,
+  Mute,
+  RoundButton,
+  CardContent,
+};
 
 export default Styled;

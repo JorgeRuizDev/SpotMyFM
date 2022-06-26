@@ -11,9 +11,10 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useClientsStore } from "store/useClients";
 import { useSessionStore } from "store/useSession";
-import CreatePlaylist from "../CreatePlaylist";
-import SelectPlaylist from "../SelectPlaylist";
+import CreatePlaylist from "./CreatePlaylist";
+import SelectPlaylist from "./SelectPlaylist";
 import Styled from "./TracksToPlaylist.styles";
+import useTranslation from "next-translate/useTranslation";
 interface ITracksToPlaylistProps {
   tracks: string[];
   unselectAll: () => void;
@@ -23,23 +24,20 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
   const isAnimated = useSessionStore((s) => s.enableAnimations);
   const api = useClientsStore((s) => s.spotifyApi);
 
-  const [
-    user,
-    setUser,
-  ] = useState<SpotifyApi.CurrentUsersProfileResponse | null>(null);
-  const getUser = useClientsStore((s) => s.getUser().then((s) => setUser(s)));
+  const user = useClientsStore((s) => s.user);
 
-  const [userPlaylists, setUserPlaylists] = useState<
-    SpotifyApi.PlaylistObjectSimplified[]
-  >();
+  const [userPlaylists, setUserPlaylists] =
+    useState<SpotifyApi.PlaylistObjectSimplified[]>();
 
   // Get the Playlists
   useEffect(() => {
     if (user) {
-      api.getAllPlaylists(user.id).then((p) => setUserPlaylists(p));
+      api
+        .getAllPlaylists(user.spotifyUser?.id || "")
+        .then((p) => setUserPlaylists(p));
     }
   }, [api, user]);
-
+  const { t } = useTranslation();
   return (
     <AnimatePresence>
       <motion.div
@@ -50,7 +48,11 @@ function TracksToPlaylist({ tracks, unselectAll }: ITracksToPlaylistProps) {
       >
         <Styled.CenterContent>
           <Styled.ItemBox>
-            <h5>Save the {tracks.length} selected tracks to a Playlist</h5>
+            <h5>
+              {t("cards:save_the_selected_tracks_into_a_playlist", {
+                length: tracks.length,
+              })}
+            </h5>
             <TabComponent
               tracks={tracks}
               playlists={userPlaylists}
@@ -69,14 +71,15 @@ interface ITabComponent {
   unselectAll: () => void;
 }
 function TabComponent({ tracks, playlists, unselectAll }: ITabComponent) {
+  const { t } = useTranslation();
   return (
     <Tabs defaultTabId={"1"}>
       <TabWrap>
         <Tab id="1">
-          <p>Create a New Playlist</p>
+          <p>{t("cards:create_a_new_playlist")}</p>
         </Tab>
         <Tab id="2">
-          <p>Use An Existing Playlist</p>
+          <p>{t("cards:use_an_existing_playlist")}</p>
         </Tab>
       </TabWrap>
       <TabContentWrap>

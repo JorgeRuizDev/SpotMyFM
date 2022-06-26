@@ -2,13 +2,45 @@ import { useClientsStore } from "store/useClients";
 import { SpotifyClient as spotifyStatic } from "restClients/spotify/spotifyClient";
 import _ from "lodash";
 import { Album } from "data/cacheDB/dexieDB/models/Album";
-import { toast } from "react-toastify";
-import { useCallback, useState } from "react";
 
-export function useDataFacade() {
-  const { cacheClient: cache, spotifyApi, lastfmApi } = useClientsStore();
-  const [numberCaching, setNumberCaching] = useState(0);
-  const [trackStatus, setTrackStatus] = useState("");
+import { useCallback, useEffect, useMemo, useState } from "react";
+import asyncPool from "tiny-async-pool";
+import { useSessionStore } from "store/useSession";
+import { Track } from "data/cacheDB/dexieDB/models/Track";
+import cookieManager from "util/cookies/loginCookieManager";
+import { toast } from "react-toastify";
+import { createStore } from "reusable";
+import tagAlbums from "pages/api/database/albums/tagAlbums";
+
+export type facadeStatus =
+  | "default"
+  | "fetchingMissTracks"
+  | "gettingTracks"
+  | "parsingTracks"
+  | "gettingAlbums"
+  | "gettingArtists"
+  | "gettingAlbumTags"
+  | "gettingLastTags";
+
+export const useDataFacade = createStore(() => {
+  const cache = useClientsStore((s) => s.cacheClient);
+  const spotifyApi = useClientsStore((s) => s.spotifyApi);
+  const lastfmApi = useClientsStore((s) => s.lastfmApi);
+  const databaseApi = useClientsStore((s) => s.backendDbApi);
+  const ludwigApi = useClientsStore((s) => s.ludwigApi);
+  const [trackStatus, setTrackStatus] = useState<facadeStatus>("default");
+
+  const { setAsLoading, unsetAsLoading } = useSessionStore();
+
+  const [percentCount, setPercentCount] = useState(0);
+  const [percentCountTotal, setPercentCountTotal] = useState(1);
+
+  const incrementPercent = useCallback(() => setPercentCount((p) => p + 1), []);
+
+  const percent = useMemo(
+    () => Math.floor((percentCount / percentCountTotal) * 100),
+    [percentCount, percentCountTotal]
+  );
 
   /**
    * Returns and caches a given array of artists.
@@ -17,17 +49,17 @@ export function useDataFacade() {
    */
   const getArtists = useCallback(
     async (artists: SpotifyApi.ArtistObjectFull[]) => {
-      setNumberCaching((s) => s + 1);
+      setAsLoading();
       const missingIds = await cache.getMissingArtists(
         artists.map((a) => a.id)
       );
       const parsedArtists = spotifyStatic.spotifyArtists2Artists(artists);
       const missing = getMissingObject(parsedArtists, missingIds);
       await cache.addArtists(missing);
-      setNumberCaching((s) => s - 1);
+      unsetAsLoading();
       return parsedArtists;
     },
-    [cache]
+    [cache, setAsLoading, unsetAsLoading]
   );
 
   /**
@@ -37,7 +69,7 @@ export function useDataFacade() {
    */
   const getArtistsById = useCallback(
     async (spotifyIds: string[]) => {
-      setNumberCaching((s) => s + 1);
+      setAsLoading();
       const missingArtists = await cache.getMissingArtists(spotifyIds);
       const missingArtistsObjects = await spotifyApi.getFullArtists(
         missingArtists
@@ -46,35 +78,85 @@ export function useDataFacade() {
         missingArtistsObjects
       );
       await cache.addArtists(parsedArtists);
-      setNumberCaching((s) => s - 1);
+      unsetAsLoading();
+
       return await cache.getArtistsBySpotifyId(spotifyIds);
     },
-    [cache, spotifyApi]
+    [cache, setAsLoading, spotifyApi, unsetAsLoading]
   );
 
-  const addTags = useCallback(
-    async (albums: Album[]) => {
-      const tagged: Album[] = [];
-      for (const album of albums) {
-        const [res, err] = await lastfmApi.getAlbumTags(
-          album.artists[0]?.name,
-          album.name
-        );
+  /**
+   * Adds all the saved album tags to all the user albums.
+   * @param albums
+   * @returns
+   */
+  const addAlbumTags = useCallback(
+    async (albums: Album[]): Promise<Album[]> => {
+      const [tags, err] = await databaseApi.getAllAlbumTags(
+        cookieManager.loadJWT() || ""
+      );
 
-        if (err || !res) {
-          toast.error(`LASTFM TAG ${err?.status}: ${err?.message}`);
-          tagged.push(album);
-          continue;
-        }
+      const allAlbumTags = [];
 
-        album.lastfmTagsFull = res;
-        album.lastfmTagsNames = res.map((t) => t.name);
-        tagged.push(album);
+      if (err || !tags) {
+        toast.error("Couldn't add your tags to your albums: " + err?.message);
+        return albums;
       }
 
+      for (const album of albums) {
+        const albumTags = tags.get(album.spotifyId);
+        if (albumTags) {
+          allAlbumTags.push(...albumTags);
+          album.allAlbumTags = allAlbumTags;
+          album.albumTags = albumTags;
+        }
+      }
+
+      return albums;
+    },
+    [databaseApi]
+  );
+
+  /**
+   * Fills the album object with LastFM Tags
+   */
+  const addLastTags = useCallback(
+    async (albums: Album[]) => {
+      const chunks = _.chunk(albums, 50);
+      const tagged: Album[] = [];
+      setPercentCount(0);
+      setPercentCountTotal(chunks.length);
+      setTrackStatus("gettingLastTags");
+
+      for (albums of chunks) {
+        const [res, err] = await lastfmApi.getBulkAlbumTags(
+          albums,
+          cookieManager.loadJWT() || ""
+        );
+        incrementPercent();
+        if (err || !res) {
+          toast.error(err?.status);
+        } else {
+          tagged.push(...res);
+        }
+      }
       return tagged;
     },
-    [lastfmApi]
+    [incrementPercent, lastfmApi]
+  );
+
+  const _getAlbums = useCallback(
+    async (parsed: Album[]) => {
+      const missingIds = await cache.getMissingAlbums(
+        parsed.map((a) => a.spotifyId)
+      );
+      const missing = getMissingObject(parsed, missingIds);
+      await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
+      const joined = await cache.joinAlbums(missing, false);
+      const lastTagged = await addLastTags(joined);
+      return await cache.addAlbums(lastTagged);
+    },
+    [addLastTags, cache, getArtistsById]
   );
 
   /**
@@ -83,19 +165,33 @@ export function useDataFacade() {
    * @returns Album[]
    */
   const getAlbumsById = useCallback(
-    async (spotifyIds: string[]) => {
-      setNumberCaching((s) => s + 1);
+    async (spotifyIds: string[], addCustomTags = true) => {
+      setAsLoading();
       const missingIds = await cache.getMissingAlbums(spotifyIds);
-      const missingObjects = await spotifyApi.getFullAlbums(missingIds);
+      const missingObjects = await (
+        await spotifyApi.getFullAlbums(missingIds)
+      ).filter((n) => n);
       const parsedMissing = spotifyStatic.spotifyAlbums2Albums(missingObjects);
       await getArtistsById(parsedMissing.flatMap((a) => a.spotifyArtistsIds));
       const joined = await cache.joinAlbums(parsedMissing, false);
-      const tagged = await addTags(joined);
-      await cache.addAlbums(tagged);
-      setNumberCaching((s) => s - 1);
-      return await cache.getAlbumsBySpotifyId(spotifyIds);
+      const lastTagged = await addLastTags(joined);
+
+      // Save the new albums
+      await cache.addAlbums(lastTagged);
+
+      const cached = await cache.getAlbumsBySpotifyId(spotifyIds);
+      unsetAsLoading();
+      return addCustomTags ? await addAlbumTags(cached) : cached;
     },
-    [addTags, cache, getArtistsById, spotifyApi]
+    [
+      addAlbumTags,
+      addLastTags,
+      cache,
+      getArtistsById,
+      setAsLoading,
+      spotifyApi,
+      unsetAsLoading,
+    ]
   );
 
   /**
@@ -105,18 +201,88 @@ export function useDataFacade() {
    */
   const getAlbums = useCallback(
     async (albums: SpotifyApi.AlbumObjectFull[]) => {
-      setNumberCaching((s) => s + 1);
-      const missingIds = await cache.getMissingAlbums(albums.map((a) => a.id));
+      setAsLoading();
       const parsed = spotifyStatic.spotifyAlbums2Albums(albums);
-      const missing = getMissingObject(parsed, missingIds);
-      await getArtistsById(missing.flatMap((a) => a.spotifyArtistsIds));
-      const joined = await cache.joinAlbums(parsed, false);
-      const tagged = await addTags(joined);
-      await cache.addAlbums(tagged);
-      setNumberCaching((s) => s - 1);
+      await _getAlbums(parsed);
+      unsetAsLoading();
+
+      const cached = await cache.getAlbumsBySpotifyId(
+        parsed.map((p) => p.spotifyId)
+      );
+      return await addAlbumTags(cached);
+    },
+    [_getAlbums, addAlbumTags, cache, setAsLoading, unsetAsLoading]
+  );
+
+  /**
+   * Retrieves from the local cache or fetches a list of saved albums
+   * @param albums: An array of spotify albums
+   * @returns Album[]
+   */
+  const getSavedAlbums = useCallback(
+    async (albums: SpotifyApi.SavedAlbumObject[]) => {
+      setAsLoading();
+      const parsed = spotifyStatic.spotifyAlbums2Albums(
+        albums.map((a) => a.album)
+      );
+      await _getAlbums(parsed);
+      unsetAsLoading();
+
+      const saved = await cache.getAlbumsBySpotifyId(
+        parsed.map((p) => p.spotifyId)
+      );
+
+      const savedDates = new Map<string, SpotifyApi.SavedAlbumObject>();
+      for (const album of albums) {
+        savedDates.set(album.album.id, album);
+      }
+
+      for (const album of saved) {
+        const date = new Date(savedDates.get(album.spotifyId)?.added_at || 0);
+        album.savedAt = date;
+      }
+
+      const tagged = await addAlbumTags(saved);
+
       return tagged;
     },
-    [addTags, cache, getArtistsById]
+    [_getAlbums, addAlbumTags, cache, setAsLoading, unsetAsLoading]
+  );
+
+  /**
+   * "This function takes in an array of tracks and a promise that resolves to a map of track ids to
+   * track details. It then adds the track details to the tracks array."
+   *
+   * The function is called like this:
+   * @param {Track[]} tracks - Track[]
+   * @param ludwig - Promise<[Map<string, any> | null, any]>
+   */
+  const addLudwigToTracks = useCallback(
+    async (
+      tracks: Track[],
+      ludwig: Promise<[Map<string, any> | null, any]>
+    ) => {
+      setAsLoading();
+      const [ludwig_res, ludwig_error] = await ludwig;
+
+      if (!ludwig_error && ludwig_res) {
+        for (const track of tracks) {
+          const details = ludwig_res.get(track.spotifyId);
+
+          if (details) {
+            track.ludwigGenres = details.genres;
+            track.ludwigMoods = details.moods;
+            track.ludwigSubgenres = details.subgenres;
+          }
+        }
+        tracks.length > 20 && toast.info("Track Analysis is ready! ");
+        unsetAsLoading();
+      } else {
+        toast.error(ludwig_error?.message);
+        unsetAsLoading();
+      }
+    },
+    [setAsLoading, unsetAsLoading]
   );
 
   /**
@@ -125,24 +291,88 @@ export function useDataFacade() {
    * @returns Track[]
    */
   const getTracksByIds = useCallback(
-    async (spotifyIds: string[]) => {
-      setNumberCaching((s) => s + 1);
-      setTrackStatus("Getting Tracks");
+    async (spotifyIds: string[], markAsSaved: boolean = false) => {
+      setAsLoading();
+      setTrackStatus("fetchingMissTracks");
       const missingIds = await cache.getMissingTracks(spotifyIds);
       const missingObjects = await spotifyApi.getFullTracks(missingIds);
-      setTrackStatus("Parsing Tracks");
-      const parsedMissing = spotifyStatic.spotifyTracks2Tracks(missingObjects);
-      setTrackStatus("Getting Albums");
-      await getAlbumsById(parsedMissing.map((t) => t.spotifyAlbumId));
-      setTrackStatus("Getting Artists");
-      await getArtistsById(parsedMissing.flatMap((t) => t.spotifyArtistsIds));
-      await cache.joinTracks(parsedMissing, true);
-      setTrackStatus("");
-      setNumberCaching((s) => s - 1);
 
-      return await cache.getTracksBySpotifyId(spotifyIds);
+      setTrackStatus("parsingTracks");
+      const parsedMissing = spotifyStatic.spotifyTracks2Tracks(
+        missingObjects,
+        markAsSaved
+      );
+      setTrackStatus("gettingAlbums");
+      await getAlbumsById(
+        parsedMissing.map((t) => t.spotifyAlbumId),
+        false
+      );
+      setTrackStatus("gettingAlbums");
+      await getArtistsById(parsedMissing.flatMap((t) => t.spotifyArtistsIds));
+
+      await cache.joinTracks(parsedMissing, true);
+      setTrackStatus("default");
+      unsetAsLoading();
+
+      const tracks = await cache.getTracksBySpotifyId(spotifyIds);
+      const ludwig = ludwigApi.getTrackDetailsBulk(tracks, true, true);
+
+      await addAlbumTags(tracks.flatMap((t) => (t.album ? t.album : [])));
+      addLudwigToTracks(tracks, ludwig);
+      return tracks;
     },
-    [cache, getAlbumsById, getArtistsById, spotifyApi]
+    [
+      addAlbumTags,
+      addLudwigToTracks,
+      cache,
+      getAlbumsById,
+      getArtistsById,
+      ludwigApi,
+      setAsLoading,
+      spotifyApi,
+      unsetAsLoading,
+    ]
+  );
+
+  /* A function that is called when a user uploads a playlist. */
+  const _getTracks = useCallback(
+    async (parsed: Track[]) => {
+      setTrackStatus("fetchingMissTracks");
+      const missingIds = await cache.getMissingTracks(
+        parsed.map((t) => t.spotifyId)
+      );
+
+      const missing = getMissingObject(parsed, missingIds);
+
+      const ludwig = ludwigApi.getTrackDetailsBulk(parsed, true, true);
+
+      setTrackStatus("gettingAlbums");
+      await getAlbumsById(
+        missing.map((t) => t.spotifyAlbumId),
+        false
+      );
+      setTrackStatus("gettingArtists");
+      await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
+
+      await cache.joinTracks(missing);
+
+      setTrackStatus("default");
+
+      const tracks = await cache.getTracksBySpotifyId(
+        parsed.map((t) => t.spotifyId)
+      );
+      await addAlbumTags(tracks.flatMap((t) => (t.album ? t.album : [])));
+      addLudwigToTracks(tracks, ludwig);
+      return tracks;
+    },
+    [
+      addAlbumTags,
+      cache,
+      getAlbumsById,
+      getArtistsById,
+      ludwigApi,
+      addLudwigToTracks,
+    ]
   );
 
   /**
@@ -151,36 +381,60 @@ export function useDataFacade() {
    * @returns Track[]
    */
   const getTracks = useCallback(
-    async (tracks: SpotifyApi.TrackObjectFull[]) => {
-      setNumberCaching((s) => s + 1);
-      setTrackStatus("Getting Tracks");
-      const missingIds = await cache.getMissingTracks(tracks.map((t) => t.id));
-      setTrackStatus("Parsing Tracks");
-      const parsed = spotifyStatic.spotifyTracks2Tracks(tracks);
-      const missing = getMissingObject(parsed, missingIds);
-      setTrackStatus("Getting Albums");
-      await getAlbumsById(missing.map((t) => t.spotifyAlbumId));
-      setTrackStatus("Getting Artists");
-      await getArtistsById(missing.flatMap((t) => t.spotifyArtistsIds));
-      await cache.joinTracks(missing);
-      setNumberCaching((s) => s - 1);
-      setTrackStatus("");
-      return await cache.getTracksBySpotifyId(tracks.map((t) => t.id));
+    async (
+      tracks: SpotifyApi.TrackObjectFull[],
+      markAsSaved: boolean = false
+    ) => {
+      setAsLoading();
+
+      setTrackStatus("parsingTracks");
+      const parsed = spotifyStatic.spotifyTracks2Tracks(
+        tracks.filter((t) => t.id),
+        markAsSaved
+      );
+      const cached = await _getTracks(parsed);
+      unsetAsLoading();
+
+      setTrackStatus("default");
+      return cached;
     },
-    [cache, getAlbumsById, getArtistsById]
+    [_getTracks, setAsLoading, unsetAsLoading]
+  );
+
+  /**
+   * Retrieves from the local cache or fetches a list of tracks
+   * @param tracks: An array of spotify tracks
+   * @returns Track[]
+   */
+  const getSavedTracks = useCallback(
+    async (savedTracks: SpotifyApi.SavedTrackObject[]) => {
+      setAsLoading();
+
+      const parsed = spotifyStatic.spotifySavedTracks2Tracks(
+        savedTracks.filter((t) => t.track.id)
+      );
+      const cached = await _getTracks(parsed);
+      unsetAsLoading();
+      setTrackStatus("default");
+      return cached;
+    },
+    [_getTracks, setAsLoading, unsetAsLoading]
   );
 
   return {
-    numberCaching,
     trackStatus,
+    percent,
     getTracks,
+    getSavedTracks,
     getTracksByIds,
     getAlbums,
+    getSavedAlbums,
     getAlbumsById,
     getArtists,
     getArtistsById,
+    addAlbumTags,
   };
-}
+});
 
 /**
  * Given a collection of spotify api items, returns the ones that are in the missing ids.

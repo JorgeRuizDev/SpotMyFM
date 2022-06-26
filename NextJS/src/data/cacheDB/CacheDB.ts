@@ -27,6 +27,7 @@ export interface CacheAdapter {
 
   /**
    * Joins and persist the following elements
+   * Persist is True by default
    * @param {Track[]} tracks
    * @param {Album[]} albums
    * @param {Artist[]} artists
@@ -36,6 +37,7 @@ export interface CacheAdapter {
 
   /**
    * Joins and persists the following elements
+   * Persist is True by default
    * @param {Album[]} albums
    * @param {Artist[]} artists
    * @returns {Album[]} joined albums.
@@ -57,6 +59,11 @@ export interface CacheAdapter {
    * Gets al cached artists
    */
   getAllArtists(): Promise<Artist[]>;
+
+  /**
+   * Gets the tracks that include a saved date.
+   */
+  getSavedTracks(): Promise<Track[]>;
 
   /**
    * Retrieves every single track cached by an array of spotifyIds.

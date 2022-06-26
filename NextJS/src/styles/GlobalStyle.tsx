@@ -22,7 +22,7 @@ const BaseInput = `
 
   // Text
   text-gray-600
-  text-lg
+  text-base
 
   // Active Ring:
   focus:(ring-green-400 ring-2 border-transparent)
@@ -30,33 +30,11 @@ const BaseInput = `
 
 `;
 export const baseButton = `
-  shadow-md
-  outline-none
-  font-bold
   focus:outline-none
+  outline-none
+  font-semibold
 
-  transition-colors duration-300 ease-in-out
-
-  rounded-full
-  hover:bg-darkCard-hover
-  bg-darkCard-base
-  text-white
-  cursor-pointer
   
-
-  m-1
-  // Size
-  py-2
-  px-4
-  width[fit-content]
-  min-height[2.625rem]
-
-  flex
-  flex-row
-  justify-center
-  content-center
-  items-center
-  space-x-2
   disabled:(shadow-none opacity-30)
 
 `;
@@ -121,24 +99,19 @@ const CustomGlobalStyle = createGlobalStyle`
 
   button {
     ${tw`
-
-    
-    ${baseButton}
+      ${baseButton}
     `}
   }
 * { -webkit-tap-highlight-color: rgba(0,0,0,0); }
 
   p, h1, h2, h3, h4, h5, h6, li, a, tr{
     ${tw`
-      text-gray-600
-      dark:text-white
+      text-textColor-lightTheme
+      dark:text-textColor-darkTheme
       font-medium
       font-sans
       tracking-tight
       leading-normal
-      
-
-
     `}
   }
   span{
@@ -155,8 +128,8 @@ const CustomGlobalStyle = createGlobalStyle`
 
   b{
     ${tw`
-      text-gray-700
-      dark:text-white
+      text-textColor-lightTheme
+      dark:text-textColor-darkTheme
       text-base
       font-sans
       font-bold
@@ -174,32 +147,45 @@ const CustomGlobalStyle = createGlobalStyle`
   }
   h1{
     ${tw`
-      text-6xl
+      text-4xl
+      md:text-5xl
+      lg:text-6xl
     `}
   }
   h2{
     ${tw`
-      text-5xl
+      text-3xl
+      md:text-4xl
+      lg:text-5xl
     `}
   }
   h3{
     ${tw`
-      text-4xl
+      text-2xl
+      md:text-3xl
+      lg:text-4xl
     `}
   }
   h4{
     ${tw`
-      text-3xl
+      text-xl
+      lg:text-3xl
     `}
   }
   h5{
     ${tw`
-      text-2xl
+      text-xl
+      lg:text-2xl
+    `}
+  }
+  h6{
+    ${tw`
+      text-xl
     `}
   }
   p,b{
     ${tw`
-      text-lg
+      text-base
     `}
   }
   p{
@@ -212,8 +198,6 @@ const CustomGlobalStyle = createGlobalStyle`
   body {
     ${tw`
       bg-gradient-to-r
-      //dark:from-gray-800
-      //dark:to-gray-900
       dark:bg-darkMaterialBG-base
       bg-gray-200
       h-screen
@@ -242,31 +226,6 @@ const CustomGlobalStyle = createGlobalStyle`
   }
 
 
-  ::-webkit-scrollbar {
-    ${tw`
-      w-3.5
-      rounded-full
-      `}
-  }
-  
-  ::-webkit-scrollbar-track {
-    ${tw`
-      background[#323739]
-      bg-opacity-70
-    `}
-  }
-  ::-webkit-scrollbar-thumb {
-    ${tw`
-      hover:bg-gray-400
-      bg-gray-500
-    `}
-  }
-  ::-webkit-scrollbar-corner {
-    ${tw`
-    `}
-  }
-
-
   hr {
     ${tw`
       mt-2
@@ -277,9 +236,12 @@ const CustomGlobalStyle = createGlobalStyle`
       rounded-full
       
       bg-darkCard-base
-      dark:bg-white
+      dark:bg-gray-400
 
-      width[90%]
+      ml-0.5
+      mr-0.5
+
+      w-full
 
       `}
   }

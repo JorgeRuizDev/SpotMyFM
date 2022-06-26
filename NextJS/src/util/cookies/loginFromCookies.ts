@@ -12,6 +12,7 @@ import cfg from "config";
  */
 export default async function getAuthToken(): Promise<string | null> {
   let authToken = LoginCookieManager.loadAuthToken();
+  let jwt = LoginCookieManager.loadJWT();
   const refreshToken = LoginCookieManager.loadRefreshToken();
   const spotifyApi = new Spotify();
   let lifespan = -1;
@@ -35,10 +36,11 @@ export default async function getAuthToken(): Promise<string | null> {
 
     authToken = res.access_token;
     lifespan = res.expires_in;
+    jwt = res.token;
   }
 
   // Try using the authToken if it is still valid.
-  if (authToken !== undefined) {
+  if (authToken !== undefined && jwt !== undefined) {
     try {
       spotifyApi.setAccessToken(authToken);
       spotifyApi.getMe();
@@ -46,6 +48,7 @@ export default async function getAuthToken(): Promise<string | null> {
       // If we have refreshed the Auth Token: save it as a Cookie.
       if (lifespan > 0) {
         CookieManager.saveAuthToken(authToken, lifespan);
+        CookieManager.saveJWT(jwt);
       }
 
       // Auth Token is valid:

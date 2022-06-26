@@ -1,33 +1,32 @@
 import { motion } from "framer-motion";
+import Buttons from "styles/Buttons";
 import tw from "twin.macro";
 
 const HorizontalCard = tw.article`
 	flex
-
+  scroll-snap-align[center]
 	// Wrap
-	2xl:flex-nowrap
-	xl:flex-wrap
-	md:flex-nowrap
-	sm:flex-wrap
+	2xl:(flex-nowrap justify-start)
+	xl:(flex-wrap justify-center)
+	md:(flex-nowrap justify-start)
+	sm:(flex-wrap justify-center)
+  justify-center
+  content-start
 	flex-wrap
 
-	
-	md:items-start
-	
-	justify-center
-
 	// Colors
-	bg-gray-200
-	dark:bg-darkCard-hover
+	bg-lightCard-base
+	dark:bg-darkCard-base
 
 	// Shape:
-	m-4
-	min-width[fit-content]
+  
+	min-width[90%]
+  height[fit-content]
 	rounded-2xl
 
 	shadow-xl
-
-`
+  p-1
+`;
 
 const Inline = tw.div`
 
@@ -38,7 +37,7 @@ const Inline = tw.div`
 	items-center
 
 	space-x-2
-`
+`;
 
 const ColumnItems = tw.section`
 	p-2
@@ -47,36 +46,40 @@ const ColumnItems = tw.section`
 
 
 	space-y-4
-`
+`;
 
-
-
-const GenrePill = tw.button`
+const GenrePill = tw(Buttons.BasicButton)`
 	bg-blue-400
 	hover:bg-blue-500
 
 	cursor-default
-`
+`;
 
 const GenrePillWrap = tw.section`
 	flex
 	flex-row
 	flex-wrap
-`
-
-
+  justify-center
+  sm:justify-start
+`;
 
 const Image = tw(motion.img)`
-	max-width[210px]
-	min-width[185px]
-	rounded
+	max-width[300px]
+  min-width[200px]
+  self-center
+
+	rounded-xl
 	m-2
 	z-50
-	overflow-scroll
+`;
 
-	row-span-4
-`
-
-const Styled = {HorizontalCard, ColumnItems, Image, GenrePill, GenrePillWrap,  Inline};
+const Styled = {
+  HorizontalCard,
+  ColumnItems,
+  Image,
+  GenrePill,
+  GenrePillWrap,
+  Inline,
+};
 
 export default Styled;

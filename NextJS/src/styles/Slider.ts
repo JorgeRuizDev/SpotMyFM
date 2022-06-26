@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 const StyledThumb = tw.div`
 
-	margin-top[-0.8rem]	
-	h-8
+	margin-top[-0.55rem]	
+	h-6
 	line-height[25px]
-	w-8
+	w-6
 
 	rounded-full
 
@@ -21,7 +21,7 @@ const StyledThumb = tw.div`
 `;
 
 const ThumbBox = tw.div`
-	w-8
+	w-6
 	
 	outline-none
 	flex
@@ -59,22 +59,13 @@ const ValueBox = tw.div`
 	overflow-visible
 `;
 
-const StyledSlider = tw(ReactSlider)`
-	flex
-	items-start
-	
-	justify-start
-	w-full
-	h-2
-`;
-
 interface ITrackIndex {
   index: any;
 }
 
-const StyledTrack = styled.div<ITrackIndex>(index => [
+const StyledTrack = styled.div<ITrackIndex>((index) => [
   tw`
-		h-2
+		h-1.5
 		top-0
 		left-0
 		right-0
@@ -86,13 +77,13 @@ const StyledTrack = styled.div<ITrackIndex>(index => [
 
   index.index === 0 && tw`bg-blue-500`,
   index.index === 1 && tw`bg-blue-400`,
-  index.index === 2 && tw`bg-red-400`
+  index.index === 2 && tw`bg-red-400`,
 ]);
 
-const StyledDoubleTrack = styled(StyledTrack)<ITrackIndex>(index => [
+const StyledDoubleTrack = styled(StyledTrack)<ITrackIndex>((index) => [
   index.index === 0 && tw`bg-blue-300`,
   index.index === 1 && tw`bg-blue-500`,
-  index.index === 2 && tw`bg-blue-300`
+  index.index === 2 && tw`bg-blue-300`,
 ]);
 
 const Styled = {
@@ -100,7 +91,7 @@ const Styled = {
   StyledTrack,
   StyledDoubleTrack,
   ValueBox,
-  ThumbBox
+  ThumbBox,
 };
 
 export default Styled;

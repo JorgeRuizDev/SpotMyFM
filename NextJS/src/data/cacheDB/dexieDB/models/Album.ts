@@ -1,15 +1,21 @@
 import { Artist } from "./Artist";
 import { LastfmTag } from "interfaces/lastFM";
-import SpotifyBaseObject from "./SpotifyObject";
+import SpotifyBaseObject, { SpotifyImage } from "./SpotifyObject";
 
 export interface Album extends SpotifyBaseObject {
   // Spotify:
 
   spotifyCoverUrl: string[];
 
+  spotifyCovers: SpotifyImage[];
+
   spotifyArtistsIds: string[];
 
+  // Current album album tags
   albumTags: string[];
+
+  // All the album tags among all the albums
+  allAlbumTags?: string[];
 
   artists: Artist[];
 
@@ -18,6 +24,8 @@ export interface Album extends SpotifyBaseObject {
   spotifyReleaseDate?: Date;
 
   spotifyGenres: string[];
+
+  savedAt?: Date;
 
   // LastFM:
   lastfmTagsFull?: LastfmTag[];

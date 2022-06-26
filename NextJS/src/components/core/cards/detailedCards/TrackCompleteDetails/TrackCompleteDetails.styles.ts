@@ -1,31 +1,15 @@
 import { FaArrowDown } from "react-icons/fa";
+import styled from "styled-components";
 import tw from "twin.macro";
 import StyledCards from "../../Card.styles";
 const Wrapper = tw.div`
-	
-	lg:max-height[80vh]
-	lg:max-width[80vw]
-	max-height[90vh]
-	max-width[90vw]
-	
 	h-auto
-
-	p-4
-
 	rounded-2xl
-
-	bg-lightCard-base
-	dark:bg-darkCard-base
-
-
 	flex
 	md:(flex-row )
-	
 	flex-col
-
-	overflow-y-auto
-	
 `;
+
 const ImgSize = "350px";
 
 const BouncyArrow = tw(FaArrowDown)`
@@ -62,12 +46,18 @@ const DescriptionBox = tw.article`
 	m-2
 `;
 
-const Column = tw.div`
+const Column = styled.div(({ centerCol }: { centerCol?: boolean }) => [
+  tw`
 	flex
 	flex-col
-	
+	space-y-4
 	items-center
-`;
+  
+  m-2
+  `,
+
+  centerCol && tw`justify-center`,
+]);
 const AlbumColumn = tw.div`
 	flex
 	flex-col
@@ -89,15 +79,55 @@ const InfoGrid = tw.section`
 `;
 
 const ButtonRow = tw(StyledCards.ButtonRow)`
+
 	max-width[70%]
 	justify-center
-	
+
+	height[fit-content]
 	mt-4
 	mb-4
 `;
 
 const TagsButtonRow = tw(ButtonRow)`
-	max-width[95%]
+	2xl:max-width[700px]
+  xl:max-width[600px]
+  min-width[40%]
+`;
+
+const NoDescLayout = tw.div`
+  p-4
+  w-auto
+  grid
+  justify-items-center  
+  md:grid-cols-2
+  grid-cols-1
+  gap-6
+
+`;
+
+const Card = tw.div`
+  
+  flex
+  flex-col
+
+  // Colors
+  bg-lightCard-base
+  dark:bg-darkCard-base
+  
+
+  // Shape:
+
+  
+  height[fit-content]
+  rounded-2xl
+  md:w-9/12
+  w-full
+  shadow-xl
+  p-4
+  
+
+
+
 `;
 
 const Styled = {
@@ -111,6 +141,8 @@ const Styled = {
   TagsButtonRow,
   BouncyArrow,
   CenterElement,
+  NoDescLayout,
+  Card,
 };
 
 export default Styled;

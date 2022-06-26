@@ -1,0 +1,3 @@
+EXECUTION_PROVIDERS = [
+    'CPUExecutionProvider',
+]
