@@ -53,7 +53,7 @@ Esta vista únicamente contiene los botones a cada una de las páginas, así com
 - (2) Gestor de Biblioteca
 - (3) Gestor de Álbumes
 - (4) Gestor de Playlists
-- (5) Búsqueda
+- (5) Búsqueda (el sombreado indica que es la página activa)
 - (6) Menú Auxiliar con el resto de contenidos (Alternar tema, cerrar sesión, reproductor, etc)
 
 ![chrome_P3w353DXCy](https://user-images.githubusercontent.com/10118909/176041075-2c91a098-3792-4dda-8bd0-7b777a38c9f8.png)
