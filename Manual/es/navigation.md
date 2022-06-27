@@ -1,11 +1,11 @@
 # Navegación
+
 La navegación únicamente está disponible si el usuario ha iniciado sesión.
 
 ![chrome_OdkYeqODbD](https://user-images.githubusercontent.com/10118909/176039215-e6be6dc0-9aa2-4fdd-8a00-ae7ead0ed4ab.gif)
 
-
-
 ## Escritorio
+
 ![image](https://user-images.githubusercontent.com/10118909/176038364-beb79505-1c8e-4178-8672-6016d99eb64d.png)
 
 En escritorio, la barra de navegación se encuentra ne la parte superior de la página.
@@ -21,9 +21,11 @@ En escritorio, la barra de navegación se encuentra ne la parte superior de la p
 - (10) Detalles
 
 ### Menú Auxiliar Desplegable
+
 ![image](https://user-images.githubusercontent.com/10118909/176039422-9fa4a81c-e251-4b1f-9280-b8788c846549.png)
 
 Se puede desplegar un menú contextual a partir de (1), que contiene los siguientes elementos.
+
 - (2) Hipervínculo al manual de usuario
 - (3) Hipervínculo al repositorio del proyecto
 - (4) Selector de Idioma
@@ -31,10 +33,10 @@ Se puede desplegar un menú contextual a partir de (1), que contiene los siguien
 - (6) Acceso al menú de opciones
 - (7) Boton para alternar entre modo claro y modo oscuro
 - (8) Hipervínculo a la documentación de la API en formato OpenAPI
-- (9)(10) Botón para cerrar sesión. Al cerrar la sesión se eliminan todos los datos del usuario, incluyendo la caché de datos. 
-
+- (9)(10) Botón para cerrar sesión. Al cerrar la sesión se eliminan todos los datos del usuario, incluyendo la caché de datos.
 
 ## Tablet / Vista Vertical
+
 ![chrome_Qr8u9L1KKt](https://user-images.githubusercontent.com/10118909/176039842-7339f9a8-6231-429b-8b21-2d338bb89f31.png)
 
 Si tenemos una pantalla más pequeña es posible que la barra de navegación no quepa, por ello se ha diseñado una versión más reducida en la que se elimina el título de la página y el navegador.
@@ -55,5 +57,3 @@ Esta vista únicamente contiene los botones a cada una de las páginas, así com
 - (6) Menú Auxiliar con el resto de contenidos (Alternar tema, cerrar sesión, reproductor, etc)
 
 ![chrome_P3w353DXCy](https://user-images.githubusercontent.com/10118909/176041075-2c91a098-3792-4dda-8bd0-7b777a38c9f8.png)
-
-
