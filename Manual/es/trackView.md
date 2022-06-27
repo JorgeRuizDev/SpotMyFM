@@ -68,7 +68,8 @@ El orden en el que se generará la playlist es el mismo que en el que se han sel
 - (4) Número de subplaylists a generar
 - (5) Selectores que permiten escoger si una playlist es pública (Es indexable por el buscador y aparece en el perfil del usuario) y si es colaborativa (Es pública y además cualquier usuario puede editarla)
 
-https://user-images.githubusercontent.com/10118909/175974610-76d4dbdc-a06c-44a0-966f-741533e87730.mp4
+![175974610-76d4dbdc-a06c-44a0-966f-741533e87730](https://user-images.githubusercontent.com/10118909/175977066-69ebb46f-07e6-41c0-8546-26f0ef17ca55.gif)
+
 Se puede escoger si reemplazar una playlist ya existente, o añadir las canciones seleccionadas al final de la playlist.
 
 ## Estadísticas
