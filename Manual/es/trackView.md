@@ -23,10 +23,10 @@ Todas las canciones contienen la siguiente interfaz:
 
 ![image](https://user-images.githubusercontent.com/10118909/175971052-c2b565ed-1832-48cf-afb1-a1d22f30c9cc.png)
 
-- (1) Reproducir en Spotify
+- (1) Reproducir en Spotify (Premium)
 - (2) Seleccionar para añadir a la playlist
 - (3) Detalles
-- (4) Añadir al final de la cola de reproducción actual
+- (4) Añadir al final de la cola de reproducción actual (Premium)
 
 ## Listado
 
@@ -75,6 +75,7 @@ Se puede escoger si reemplazar una playlist ya existente, o añadir las cancione
 ### Obtener recomendaciones para una playlist
 
 ![image](https://user-images.githubusercontent.com/10118909/176023157-ff421339-0eba-4f2d-a652-ee68ab86a758.png)
+
 Una vez seleccionados una o más canciones (2), podemos obtener canciones similares pulsando el botón de "Recomendación" (1).
 
 ![image](https://user-images.githubusercontent.com/10118909/176023253-e560512c-4422-497b-97ac-f2097de361fb.png)
@@ -82,6 +83,7 @@ Una vez seleccionados una o más canciones (2), podemos obtener canciones simila
 Podemos añadir estas recomendaciones a nuestra playlist a partir del botón (1).
 
 ![image](https://user-images.githubusercontent.com/10118909/176023463-b6236105-e143-485f-aa39-f8fbbd4bd12c.png)
+
 Las canciones seleccinadas estarán en nuestra playlist
 
 ## Estadísticas
@@ -91,6 +93,7 @@ Las canciones seleccinadas estarán en nuestra playlist
 ### Intervalos de selección
 
 ![image](https://user-images.githubusercontent.com/10118909/175975372-fd046317-5b8a-4aaf-9a73-e2030fb957a8.png)
+
 Los intervalos de selección que están pesentes en varias de las gráficas permiten mostrar las estadísticas para un grupo muy concreto de canciones.
 
 - (1) Se muestran las canciones que fueron guradadas en un año en específico, permite revivir los estilos favoritos de un usuario en un año específico.
