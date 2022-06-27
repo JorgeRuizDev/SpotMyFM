@@ -40,7 +40,7 @@ function RecommendationView({
 
   useEffect(() => {
     toast.info("Add tracks to your playlist!");
-  });
+  }, []);
 
   useEffect(() => {
     const fn = async () => {
