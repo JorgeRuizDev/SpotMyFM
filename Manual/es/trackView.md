@@ -73,6 +73,7 @@ El orden en el que se generará la playlist es el mismo que en el que se han sel
 Se puede escoger si reemplazar una playlist ya existente, o añadir las canciones seleccionadas al final de la playlist.
 
 ### Obtener recomendaciones para una playlist
+
 ![image](https://user-images.githubusercontent.com/10118909/176023157-ff421339-0eba-4f2d-a652-ee68ab86a758.png)
 Una vez seleccionados una o más canciones (2), podemos obtener canciones similares pulsando el botón de "Recomendación" (1).
 
@@ -82,8 +83,6 @@ Podemos añadir estas recomendaciones a nuestra playlist a partir del botón (1)
 
 ![image](https://user-images.githubusercontent.com/10118909/176023463-b6236105-e143-485f-aa39-f8fbbd4bd12c.png)
 Las canciones seleccinadas estarán en nuestra playlist
-
-
 
 ## Estadísticas
 
@@ -106,18 +105,14 @@ En este caso se puede observar como el género Classic Rock ha ido perdiendo fue
 - (2) Filtro, Permite seleccionar todas las canciones, o aquellas que fueron guardadas en un año en específico.
 - (3) Eje X, la década.
 
-
 ![image](https://user-images.githubusercontent.com/10118909/176016514-189f1e01-3e42-4ded-8fa8-538ea012a9fa.png)
 
-En este apartado se pueden consultar la distribución de los estados de ánimo extraidos de Ludwig, así como el número de álbumes y canciones que se han guardao en cada década. 
-
+En este apartado se pueden consultar la distribución de los estados de ánimo extraidos de Ludwig, así como el número de álbumes y canciones que se han guardao en cada década.
 
 ![image](https://user-images.githubusercontent.com/10118909/176016818-e0758bc3-2218-4e6c-a3c2-0cb0107ad794.png)
 
-Este gráfico muestra el número de canciones que se han guardado cada mes. Se puede escoger el año o utilizar el intervalo completo. 
+Este gráfico muestra el número de canciones que se han guardado cada mes. Se puede escoger el año o utilizar el intervalo completo.
 
 ![image](https://user-images.githubusercontent.com/10118909/176016962-29eed2b9-3f56-4b9e-9f95-9116de3e4e4f.png)
 
-Se pueden consultar los álbume que han salido el mismo día que hoy. 
-
-
+Se pueden consultar los álbume que han salido el mismo día que hoy.
