@@ -1,5 +1,17 @@
 # Manual de Usuario de SpotMyFM
-
+- [Manual de Usuario de SpotMyFM](#manual-de-usuario-de-spotmyfm)
+  - [Vistas](#vistas)
+    - [Listado de Vistas](#listado-de-vistas)
+  - [Navegación](#navegación)
+    - [Escritorio](#escritorio)
+      - [Menú Auxiliar Desplegable](#menú-auxiliar-desplegable)
+    - [Tablet / Vista Vertical](#tablet--vista-vertical)
+    - [Móvil](#móvil)
+  - [FAQ](#faq)
+    - [¿Cómo Inicio Sesión?](#cómo-inicio-sesión)
+    - [¿Cómo cambio el tema de usuario?](#cómo-cambio-el-tema-de-usuario)
+    - [¿Cómo elimino mi cuenta?](#cómo-elimino-mi-cuenta)
+    - [¿Cómo puedo cambiar el idioma?](#cómo-puedo-cambiar-el-idioma)
 ## Vistas
 
 Las vistas son la base de SpotMyFM, ya que permiten renderizar e interactuar con los distintos elementos de Spotify.
@@ -23,11 +35,19 @@ Ejemplo de Vista de Canciones
 
 ## Navegación
 
-- [Navegación](#navegación)
-  - [Escritorio](#escritorio)
-    - [Menú Auxiliar Desplegable](#menú-auxiliar-desplegable)
-  - [Tablet / Vista Vertical](#tablet--vista-vertical)
-  - [Móvil](#móvil)
+- [Manual de Usuario de SpotMyFM](#manual-de-usuario-de-spotmyfm)
+  - [Vistas](#vistas)
+    - [Listado de Vistas](#listado-de-vistas)
+  - [Navegación](#navegación)
+    - [Escritorio](#escritorio)
+      - [Menú Auxiliar Desplegable](#menú-auxiliar-desplegable)
+    - [Tablet / Vista Vertical](#tablet--vista-vertical)
+    - [Móvil](#móvil)
+  - [FAQ](#faq)
+    - [¿Cómo Inicio Sesión?](#cómo-inicio-sesión)
+    - [¿Cómo cambio el tema de usuario?](#cómo-cambio-el-tema-de-usuario)
+    - [¿Cómo elimino mi cuenta?](#cómo-elimino-mi-cuenta)
+    - [¿Cómo puedo cambiar el idioma?](#cómo-puedo-cambiar-el-idioma)
 
 La navegación únicamente está disponible si el usuario ha iniciado sesión.
 
