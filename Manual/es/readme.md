@@ -69,7 +69,7 @@ En escritorio, la barra de navegación se encuentra ne la parte superior de la p
 - (7) [Búsqueda](./search.md)
 - (8) Indicador de carga. Si es visible significa que la fachada que gestiona las canciones está a la espera de datos
 - (9) [Canción en Reproducción](./player.md)
-- (10) Detalles
+- (10) Menú auxiliar Desplegable
 
 #### Menú Auxiliar Desplegable
 
