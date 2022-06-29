@@ -2,16 +2,17 @@
 
 ## Vistas
 
-Las vistas son la base de SpotMyFM, ya que permiten renderizar e interactuar con los distintos elementos de Spotify. 
+Las vistas son la base de SpotMyFM, ya que permiten renderizar e interactuar con los distintos elementos de Spotify.
 
-Algunas vistas pueden contener vistas anidadas. Por ejemplo, la vista de playlists contiene la vista de canciones al listar las canciones de una playlist. 
-Y la vista canciones contiene en su interior una vista de artistas (y estos una vista con los álbumes de los artistas) y una vista de álbumes, con las canciones que forman cada álbum. 
+Algunas vistas pueden contener vistas anidadas. Por ejemplo, la vista de playlists contiene la vista de canciones al listar las canciones de una playlist.
+Y la vista canciones contiene en su interior una vista de artistas (y estos una vista con los álbumes de los artistas) y una vista de álbumes, con las canciones que forman cada álbum.
 
-Existen 4 tipos de vistas, y cada vista tiene dos modos, el modo tarjetas y el modo lista. 
+Existen 4 tipos de vistas, y cada vista tiene dos modos, el modo tarjetas y el modo lista.
 
-Todas la vistas pueden ser ordenadas e incluyen un pequeño filtro basado en una cadena de texto. 
+Todas la vistas pueden ser ordenadas e incluyen un pequeño filtro basado en una cadena de texto.
 
 ### Listado de Vistas
+
 - [Vista de Canciones](./views/trackView.md)
 - [Vista de Álbumes](./views/albumView.md)
 - [Vista de Artistas](./views/artistView.md)
@@ -19,8 +20,6 @@ Todas la vistas pueden ser ordenadas e incluyen un pequeño filtro basado en una
 
 Ejemplo de Vista de Canciones
 ![Track View](https://i.imgur.com/p5qSGiM.png)
-
-
 
 ## Navegación
 
@@ -88,19 +87,20 @@ Esta vista únicamente contiene los botones a cada una de las páginas, así com
 
 ![chrome_P3w353DXCy](https://user-images.githubusercontent.com/10118909/176041075-2c91a098-3792-4dda-8bd0-7b777a38c9f8.png)
 
-
-
-
-
 ## FAQ
+
 ### ¿Cómo Inicio Sesión?
+
 Debes tener una cuenta de Spotify y haber iniciado sesión en [Spotify](https://spotify.com). Podrás iniciar sesión aceptando los permisos de SpotMyFM al dar click en el botón de "Iniciar Sesión" en la página principal.
 
 ### ¿Cómo cambio el tema de usuario?
+
 Puedes consultar esa información [aquí.](./other.md#cambiar-de-tema-clarooscuro)
 
 ### ¿Cómo elimino mi cuenta?
+
 Puedes consultar esa información [aquí.](./other.md#opciones-de-usuario)
 
 ### ¿Cómo puedo cambiar el idioma?
+
 Puedes consultar esa información [aquí.](./other.md#cambiar-de-idioma)
