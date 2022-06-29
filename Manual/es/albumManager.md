@@ -6,4 +6,4 @@ El gestor de álbumes permite consultar todos los álbumes que han sido guardado
 - (1) Se muestran aquellos álbumes que han sido creados por un usuario
 - (2) Se muestran aquellos álbumes que han sido etiquetados manualmente por un usuario (Mediante el [editor de etiquetas](./views/albumView.md#gestor-de-etiquetas))
 - (3) Se muestran todos los álbumes de la plataforma.
-- (4) [Visa de Álbum](./views/albumView.md)
+- (4) [Vista de Álbumes](./views/albumView.md)
