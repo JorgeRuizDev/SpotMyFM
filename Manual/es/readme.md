@@ -1,4 +1,5 @@
 # Manual de Usuario de SpotMyFM
+
 - [Manual de Usuario de SpotMyFM](#manual-de-usuario-de-spotmyfm)
   - [Vistas](#vistas)
     - [Listado de Vistas](#listado-de-vistas)
@@ -12,6 +13,7 @@
     - [¿Cómo cambio el tema de usuario?](#cómo-cambio-el-tema-de-usuario)
     - [¿Cómo elimino mi cuenta?](#cómo-elimino-mi-cuenta)
     - [¿Cómo puedo cambiar el idioma?](#cómo-puedo-cambiar-el-idioma)
+
 ## Vistas
 
 Las vistas son la base de SpotMyFM, ya que permiten renderizar e interactuar con los distintos elementos de Spotify.
