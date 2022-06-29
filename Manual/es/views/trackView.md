@@ -13,7 +13,6 @@
   - [Estadísticas](#estadísticas)
     - [Intervalos de selección](#intervalos-de-selección)
 
-
 En este apartado se va a detallar los contenidos de la vista de las canciones. Esta vista se utiliza para detallar los contenidos de la biblioteca, playlists, álbumes o resultados de búsqueda.
 
 ![image](https://user-images.githubusercontent.com/10118909/175969433-0f322f11-87a3-4ce9-85e4-476cb0ad6e58.png)

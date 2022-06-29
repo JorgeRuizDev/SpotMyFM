@@ -1,9 +1,9 @@
 # Vista de Álbumes
+
 - [Vista de Álbumes](#vista-de-álbumes)
   - [Vista de Tarjetas](#vista-de-tarjetas)
   - [Vista en Lista](#vista-en-lista)
   - [Gestor de Etiquetas](#gestor-de-etiquetas)
-
 
 Esta vista permite navegar y filtrar una serie de álbumes.
 
