@@ -55,6 +55,7 @@ Todas las canciones contienen la siguiente interfaz:
 (4) Disco al que pertenece la canción (Cara A del disco)
 
 ## Filtros Avanzados
+
 ### Filtros de Etiquetas
 
 En este apartado se van a estudiar los filtros de eitquetas. Estos filtros permiten seleccionar uno o más álbumes que contienen una o todas las etiquetas seleccionadas.
@@ -65,15 +66,15 @@ En este ejemplo de LastFM podemos encontrarnos con todas las etiquetas de los á
 
 - (1) Etiquetas seleccionadas. Para eliminar pulsar sobre la etiqueta.
 - (2) Desplegable de Etiquetas. Aparecen las etiquetas disponibles en (4).
-- (3) Selector binario. Permite al usuario escoger si desea que los resultados incluyan al menos una de las etiquetas o TODAS. 
-
+- (3) Selector binario. Permite al usuario escoger si desea que los resultados incluyan al menos una de las etiquetas o TODAS.
 
 ![image](https://user-images.githubusercontent.com/10118909/176418092-e4c0c157-3e3b-47fb-9458-2e13f847e07b.png)
 ![image](https://user-images.githubusercontent.com/10118909/176418083-0572c7fd-2726-47e2-8331-f483dfe9a813.png)
 
-Podemos añadir todas las etiquetas de golpe mediante la barra de búsqueda (1). Esto permite que se puedan añadir todas las etiquetas disponibles (2) al pulsar sobre el botón (3). En el ejemplo hemos añadido a los filtros que nos muestren todas las canciones que sean de algún subgénero del pop. 
+Podemos añadir todas las etiquetas de golpe mediante la barra de búsqueda (1). Esto permite que se puedan añadir todas las etiquetas disponibles (2) al pulsar sobre el botón (3). En el ejemplo hemos añadido a los filtros que nos muestren todas las canciones que sean de algún subgénero del pop.
 
 #### Otros filtros:
+
 ![image](https://user-images.githubusercontent.com/10118909/176419345-b57f3269-c1d8-434a-9836-6e4f6267646b.png)
 ![image](https://user-images.githubusercontent.com/10118909/176419388-ce390044-2e9c-48ea-a71f-78dd061f3d1d.png)
 ![image](https://user-images.githubusercontent.com/10118909/176419434-c34b539f-538f-4ec2-ad8d-13d758d14f49.png)
@@ -81,7 +82,7 @@ Podemos añadir todas las etiquetas de golpe mediante la barra de búsqueda (1).
 
 ### Filtros de Intervalos
 
-En este apartado se van a estudiar los filtros que permiten seleccionar las canciones a partir de atributos continuos, como la duración o la fecha de lanzamiento. 
+En este apartado se van a estudiar los filtros que permiten seleccionar las canciones a partir de atributos continuos, como la duración o la fecha de lanzamiento.
 
 ![image](https://user-images.githubusercontent.com/10118909/176419752-c923eee8-8f5b-4880-bb93-0261928c9cfc.png)
 ![image](https://user-images.githubusercontent.com/10118909/176419785-51342acf-9e83-4052-b4ec-990239139ec1.png)
@@ -95,7 +96,7 @@ Se pueden filtrar según la fecha de lanzamiento. La granuladidad puede ser:
 
 ![image](https://user-images.githubusercontent.com/10118909/176419870-7ccaf8b6-5549-4c9c-a822-45460bad97e6.png)
 
-Además, se puede filtrar según la duración de las canciones o la popularidad de los álbumes, artistas o canciones. 
+Además, se puede filtrar según la duración de las canciones o la popularidad de los álbumes, artistas o canciones.
 
 ## Crear o Modificar Playlist
 
