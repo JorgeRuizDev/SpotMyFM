@@ -39,8 +39,8 @@ La navegación únicamente está disponible si el usuario ha iniciado sesión.
 
 En escritorio, la barra de navegación se encuentra ne la parte superior de la página.
 
-- (1)(2) Van a la raíz de la plataforma, en este caso el Top de canciones y artistas. (2) está marcado porque es la sección activa
-- (3) [Gestor de Biblioteca](./home.md)
+- (1)(2) Van a la raíz de la plataforma, en este caso el [Top de canciones y artistas](./home.md). (2) está marcado porque es la sección activa
+- (3) [Gestor de Biblioteca](./libraryManager.md)
 - (4) [Gestor de Álbumes](./albumManager.md)
 - (5) [Gestor de Playlists](./playlistManager.md)
 - (6) [Analizador de Canciones a partir de ficheros de audios](trackAnalyzer.md)
