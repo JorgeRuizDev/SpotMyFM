@@ -9,7 +9,8 @@ Se puede subir una canción en cualquier formato (1).
 ![image](https://user-images.githubusercontent.com/10118909/176487774-271cdba4-9203-4e28-b83b-b649f1140fce.png)
 
 Los resultados devuelven.
+
 - (1) Géneros
 - (1) Subgéneros
 - (1) Estados de Ánimo
-- (2) 5 canciones similares 
+- (2) 5 canciones similares
