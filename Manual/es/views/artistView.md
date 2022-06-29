@@ -1,13 +1,16 @@
 # Vista de Artistas
 
+- [Vista de Artistas](#vista-de-artistas)
+  - [Detalles del artista](#detalles-del-artista)
+
 Esta vista permite listar a uno o varios artistas.
 
 ![image](https://user-images.githubusercontent.com/10118909/176406493-2b74cfde-ca51-46de-9316-df76a56bc1e8.png)
 
 - (1) Ordenar la vista de álbumes
-- (2) Alternarn entre orden ascendente y descendente
+- (2) Alternar entre orden ascendente y descendente
 - (3) Orden seleccionado
-- (4) Altenrar entre vista de tarjetas y lista.
+- (4) Alternar entre vista de tarjetas y lista.
 - (5) Filtro básico (Nombre o géneros)
 
 ![image](https://user-images.githubusercontent.com/10118909/176407526-15e61bfc-0245-42e2-bca8-0e69ba14bf9d.png)

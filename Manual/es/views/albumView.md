@@ -1,10 +1,15 @@
 # Vista de Álbumes
+- [Vista de Álbumes](#vista-de-álbumes)
+  - [Vista de Tarjetas](#vista-de-tarjetas)
+  - [Vista en Lista](#vista-en-lista)
+  - [Gestor de Etiquetas](#gestor-de-etiquetas)
+
 
 Esta vista permite navegar y filtrar una serie de álbumes.
 
 El filtro de los álbumes es muy similar al filtro de canciones (únicamente permite filtrar datos de álbumes, como artistas, popularidad, fecha de lanzamiento o etiquetas).
 
-Los detalles de los álbumes son muy similes a los detalles de las canciones, algunos elementos (canciones simialres, análisis de canción, previsualización, etc) no están disponibles.
+Los detalles de los álbumes son muy similares a los detalles de las canciones, algunos elementos (canciones similares, análisis de canción, previsualización, etc) no están disponibles.
 
 ## Vista de Tarjetas
 
@@ -12,13 +17,13 @@ Los detalles de los álbumes son muy similes a los detalles de las canciones, al
 
 - (1) Listado de opciones para ordenar las tarjetas / lista.
 - (2) Selección actual del método de ordenamiento
-- (3) Alternar entre orden ascendente y descendente (Está sleccionado el descendente)
+- (3) Alternar entre orden ascendente y descendente (Está seleccionado el descendente)
 - (4) Abrir Filtros Avanzados
 - (5) Resetear filtros
 - (6) Alternar entre vista de tarjetas y vista de lista
 - (7) Filtros rápidos (Por año de lanzamiento o nombre del álbum/artista)
 - (8) Control de la paginación
-- (9) Etiquetas de lálbum
+- (9) Etiquetas del álbum
 - (10) Marcar álbum como me gusta
 - (11) [Gestor de etiquetas](#gestor-de-etiquetas)
 
@@ -40,4 +45,4 @@ Los detalles de los álbumes son muy similes a los detalles de las canciones, al
 - (2) Etiqueta actuales. Pulsar encima de una etiqueta para eliminarla
 - (3) Etiquetas Sugeridas
 - (4) Guardar los Cambios, se persiste en una base de datos
-- (5) Salir. Si se cierra el modal no se gurdan los cambios
+- (5) Salir. Si se cierra el modal no se guardan los cambios

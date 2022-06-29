@@ -1,5 +1,7 @@
 # Gestor de Álbumes
 
+- [Gestor de Álbumes](#gestor-de-álbumes)
+
 El gestor de álbumes permite consultar todos los álbumes que han sido guardados o etiquetados por el usuario.
 
 ![image](https://user-images.githubusercontent.com/10118909/176485139-05a82d0e-8254-4554-9d49-8783f659f012.png)

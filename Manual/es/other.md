@@ -1,5 +1,13 @@
 # Otros
 
+- [Otros](#otros)
+  - [Modal.](#modal)
+  - [Cambiar de Tema claro/oscuro](#cambiar-de-tema-clarooscuro)
+  - [Cambiar de Idioma](#cambiar-de-idioma)
+  - [Opciones](#opciones)
+    - [Opciones de Caché](#opciones-de-caché)
+    - [Opciones de Usuario](#opciones-de-usuario)
+
 Este apartado contiene los manuales de pequeños fragmentos de la plataforma.
 
 ## Modal.

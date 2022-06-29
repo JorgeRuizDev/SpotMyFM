@@ -1,5 +1,11 @@
 # Navegación
 
+- [Navegación](#navegación)
+  - [Escritorio](#escritorio)
+    - [Menú Auxiliar Desplegable](#menú-auxiliar-desplegable)
+  - [Tablet / Vista Vertical](#tablet--vista-vertical)
+  - [Móvil](#móvil)
+
 La navegación únicamente está disponible si el usuario ha iniciado sesión.
 
 ![chrome_OdkYeqODbD](https://user-images.githubusercontent.com/10118909/176039215-e6be6dc0-9aa2-4fdd-8a00-ae7ead0ed4ab.gif)
@@ -14,7 +20,7 @@ En escritorio, la barra de navegación se encuentra ne la parte superior de la p
 - (3) Gestor de Biblioteca
 - (4) Gestor de Álbumes
 - (5) Gestor de Playlists
-- (6) Analizador de Canciones a patir de ficheros de audios
+- (6) Analizador de Canciones a partir de ficheros de audios
 - (7) Búsqueda
 - (8) Indicador de carga. Si es visible significa que la fachada que gestiona las canciones está a la espera de datos
 - (9) Canción en Reproducción
@@ -31,7 +37,7 @@ Se puede desplegar un menú contextual a partir de (1), que contiene los siguien
 - (4) Selector de Idioma
 - (5) Reproductor (Copia)
 - (6) Acceso al menú de opciones
-- (7) Boton para alternar entre modo claro y modo oscuro
+- (7) Botón para alternar entre modo claro y modo oscuro
 - (8) Hipervínculo a la documentación de la API en formato OpenAPI
 - (9)(10) Botón para cerrar sesión. Al cerrar la sesión se eliminan todos los datos del usuario, incluyendo la caché de datos.
 

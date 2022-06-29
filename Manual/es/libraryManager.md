@@ -1,6 +1,8 @@
 # Gestor de Biblioteca
 
-El gestor de bibliteca requiere que el usuario haya cacheado su biblioteca.
+- [Gestor de Biblioteca](#gestor-de-biblioteca)
+
+El gestor de biblioteca requiere que el usuario haya cacheado su biblioteca.
 
 ![image](https://user-images.githubusercontent.com/10118909/176482684-0d034ed7-4dbc-4cbd-8fd5-1f5766d18bea.png)
 

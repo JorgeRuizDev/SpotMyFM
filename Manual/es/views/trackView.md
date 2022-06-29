@@ -1,5 +1,19 @@
 # Vista de Canciones
 
+- [Vista de Canciones](#vista-de-canciones)
+  - [Tarjeta](#tarjeta)
+  - [Listado](#listado)
+  - [Detalles](#detalles)
+  - [Filtros Avanzados](#filtros-avanzados)
+    - [Filtros de Etiquetas](#filtros-de-etiquetas)
+      - [Otros filtros:](#otros-filtros)
+    - [Filtros de Intervalos](#filtros-de-intervalos)
+  - [Crear o Modificar Playlist](#crear-o-modificar-playlist)
+    - [Obtener recomendaciones para una playlist](#obtener-recomendaciones-para-una-playlist)
+  - [Estadísticas](#estadísticas)
+    - [Intervalos de selección](#intervalos-de-selección)
+
+
 En este apartado se va a detallar los contenidos de la vista de las canciones. Esta vista se utiliza para detallar los contenidos de la biblioteca, playlists, álbumes o resultados de búsqueda.
 
 ![image](https://user-images.githubusercontent.com/10118909/175969433-0f322f11-87a3-4ce9-85e4-476cb0ad6e58.png)
@@ -8,7 +22,7 @@ Todas las canciones contienen la siguiente interfaz:
 
 - (1) Selecciona todas las canciones y las añade a una playlist. El - a la izquierda elimina todas las canciones, desactivado si no hay canciones seleccionadas.
 - (2) Abre el filtro de canciones
-- (3) Resetea las canciones filtradas. Desactivado si no hay ningún cambiom
+- (3) Resetea las canciones filtradas. Desactivado si no hay ningún cambio
 - (4) Abre el la ventana que muestra las estadísticas de todas las canciones seleccionadas.
 - (5) Abre el menú de recomendaciones para las canciones seleccionadas.
 - (6) Desactiva que las canciones puedan ser previsualizadas al pasar por encima. En el nuevo modo se reproducen con un nuevo botón.
@@ -32,7 +46,7 @@ Todas las canciones contienen la siguiente interfaz:
 
 ![image](https://user-images.githubusercontent.com/10118909/175971628-88e50c1f-97c9-456c-a457-6d028ae72c5d.png)
 
-- (1) Seleccionar/Deseleccionar para ñadir a la playlist
+- (1) Seleccionar/Deseleccionar para añadir a la playlist
 - (2) Pulsar en cualquier lugar para abrir la vista de detalle
 
 ## Detalles
@@ -43,7 +57,7 @@ Todas las canciones contienen la siguiente interfaz:
 - (2) Abrir el artista en Spotify y detalles del artista
 - (3) Resultados del análisis de la canción por Ludwig. Los colores indican la fiabilidad del análisis (Rojo -> Baja, Amarilla -> Neutra, Verde -> Alta)
 - (4) Canciones anidadas
-- (5) (6) Previsualización de la canción, al pulsar el botón o al pasar por encima de la carátula del álbum con el ratón.
+- (5) (6) Previsualización de la canción, al pulsar el botón o al pasar por encima de la caratula del álbum con el ratón.
 - (7) Descarga de la previsualización en formato .mp3
 - (8) (9) Marcar/Desmarcar como me gusta
 - (10) Mostrar en Spotify / LastFM
@@ -128,7 +142,7 @@ Podemos añadir estas recomendaciones a nuestra playlist a partir del botón (1)
 
 ![image](https://user-images.githubusercontent.com/10118909/176023463-b6236105-e143-485f-aa39-f8fbbd4bd12c.png)
 
-Las canciones seleccinadas estarán en nuestra playlist
+Las canciones seleccionadas estarán en nuestra playlist
 
 ## Estadísticas
 
@@ -138,9 +152,9 @@ Las canciones seleccinadas estarán en nuestra playlist
 
 ![image](https://user-images.githubusercontent.com/10118909/175975372-fd046317-5b8a-4aaf-9a73-e2030fb957a8.png)
 
-Los intervalos de selección que están pesentes en varias de las gráficas permiten mostrar las estadísticas para un grupo muy concreto de canciones.
+Los intervalos de selección que están presentes en varias de las gráficas permiten mostrar las estadísticas para un grupo muy concreto de canciones.
 
-- (1) Se muestran las canciones que fueron guradadas en un año en específico, permite revivir los estilos favoritos de un usuario en un año específico.
+- (1) Se muestran las canciones que fueron guardadas en un año en específico, permite revivir los estilos favoritos de un usuario en un año específico.
 - (2) Se muestran las canciones que fueron lanzadas en una década en específico, permite conocer los estilos más populares de una década en específico.
 
 ![image](https://user-images.githubusercontent.com/10118909/175976181-9496807c-b267-481a-9689-efbe6bf60303.png)
@@ -154,7 +168,7 @@ En este caso se puede observar como el género Classic Rock ha ido perdiendo fue
 
 ![image](https://user-images.githubusercontent.com/10118909/176016514-189f1e01-3e42-4ded-8fa8-538ea012a9fa.png)
 
-En este apartado se pueden consultar la distribución de los estados de ánimo extraidos de Ludwig, así como el número de álbumes y canciones que se han guardao en cada década.
+En este apartado se pueden consultar la distribución de los estados de ánimo extraídos de Ludwig, así como el número de álbumes y canciones que se han guardado en cada década.
 
 ![image](https://user-images.githubusercontent.com/10118909/176016818-e0758bc3-2218-4e6c-a3c2-0cb0107ad794.png)
 
@@ -162,4 +176,4 @@ Este gráfico muestra el número de canciones que se han guardado cada mes. Se p
 
 ![image](https://user-images.githubusercontent.com/10118909/176016962-29eed2b9-3f56-4b9e-9f95-9116de3e4e4f.png)
 
-Se pueden consultar los álbume que han salido el mismo día que hoy.
+Se pueden consultar los álbumes que han salido el mismo día que hoy.

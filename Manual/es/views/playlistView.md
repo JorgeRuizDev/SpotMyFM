@@ -1,13 +1,16 @@
 # Vista de Playlist
 
+- [Vista de Playlist](#vista-de-playlist)
+  - [Detalles de la Playlist](#detalles-de-la-playlist)
+
 Esta vista permite explorar las distintas playlists, así como detallar sus contenidos.
 
 ![image](https://user-images.githubusercontent.com/10118909/176411418-60f638a0-e2e8-4727-8886-d99d59926eb6.png)
 
 - (1) Ordenar la vista de álbumes
-- (2) Alternarn entre orden ascendente y descendente
+- (2) Alternar entre orden ascendente y descendente
 - (3) Orden seleccionado
-- (4) Altenrar entre vista de tarjetas y lista.
+- (4) Alternar entre vista de tarjetas y lista.
 - (5) Filtro básico (Nombre o dueño)
 - (6) Detallar Playlist
 - (7) Detalles de la playlist

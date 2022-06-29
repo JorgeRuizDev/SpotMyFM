@@ -1,5 +1,7 @@
 # Reproductor
 
+- [Reproductor](#reproductor)
+
 Nota: No todas las características del reproductor están disponibles para los usuarios que no son suscriptores de Spotify Premium.
 
 El reproductor es accesible desde la barra de navegación (escritorio), menú desplegable de navegación (escritorio y tablet), y desde el menú auxiliar de la vista móvil.
@@ -13,8 +15,8 @@ El reproductor permite conocer y detallar la canción que está sonando en este 
 
 - (1) Resumen del Reproductor
 - (2) Selector de Dispositivos
-- (3) Carátula. Al pulsar sobre la carátula se puede acceder a la vista detallada de la canción
-- (4) Controles de Reproducción. De izquierda a derecha, canción anterior, pausar/continuar, ciguiente Canción.
+- (3) Caratula. Al pulsar sobre la caratula se puede acceder a la vista detallada de la canción
+- (4) Controles de Reproducción. De izquierda a derecha, canción anterior, pausar/continuar, siguiente Canción.
 
 ![image](https://user-images.githubusercontent.com/10118909/176043671-b292e105-859c-4d73-acf7-a5f433a0e697.png)
 
