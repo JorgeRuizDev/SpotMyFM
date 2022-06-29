@@ -13,6 +13,7 @@ Esta vista permite explorar las distintas playlists, así como detallar sus cont
 - (7) Detalles de la playlist
 
 ## Detalles de la Playlist
+
 ![image](https://user-images.githubusercontent.com/10118909/176411614-db81c8d8-f2c6-4853-8b6a-44c82644a4b4.png)
 
 - (1) Nombre de la playlist
