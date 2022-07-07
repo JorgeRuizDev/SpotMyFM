@@ -14,6 +14,8 @@ $ pip install -r requirements.txt
 $ uvicorn main:app
 ```
 
+Open [http://localhost:8000](http://localhost:8000) with your browser to see the result.
+
 ### Tag image & Push To Google Cloud Container Registry:
 
 ```
