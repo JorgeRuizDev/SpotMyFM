@@ -5,7 +5,7 @@
 
 ## A Spotify Library Manager
 
-### Check SpotMyFM at [spotmyfm.jorgeruizdev.com](spotmyfm.jorgeruizdev.com)
+### Check SpotMyFM at [spotmyfm.jorgeruizdev.com](https://spotmyfm.jorgeruizdev.com)
 
 <hr/>
 
