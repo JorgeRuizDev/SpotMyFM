@@ -9,12 +9,16 @@
 \usepackage{microtype}
 \usepackage{placeins}
 \usepackage{booktabs}
-
+\usepackage[smartEllipses]{markdown}
+\usepackage{pdfpages}
+\usepackage[hashEnumerators,smartEllipses]{markdown}
 \RequirePackage{booktabs}
 \RequirePackage[table]{xcolor}
 \RequirePackage{xtab}
 \RequirePackage{multirow}
+\usepackage{longtable}
 
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 % Links
 \PassOptionsToPackage{hyphens}{url}\usepackage[colorlinks]{hyperref}
 \hypersetup{
@@ -26,6 +30,9 @@
 
 % Rutas de fichero / paquete
 \newcommand{\ruta}[1]{{\sffamily #1}}
+
+\usepackage{tikz}
+\def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 
 % Párrafos
 \nonzeroparskip
@@ -354,9 +361,9 @@
 
 
 % Datos de portada
-\title{título del TFG \\Documentación Técnica}
-\author{nombre alumno}
-\tutor{nombre tutor}
+\title{SpotMyFM \\Documentación Técnica}
+\author{Jorge Ruiz Gómez}
+\tutor{Bruno Baruque Zanón}
 \date{\today}
 
 \begin{document}
@@ -400,6 +407,7 @@
 \include{./tex/C_Diseno}
 \include{./tex/D_Manual_programador}
 \include{./tex/E_Manual_usuario}
+
 
 
 \bibliographystyle{plain}

@@ -15,33 +15,9 @@ en los sistemas de reconocimiento de géneros musicales.
 
 Este conjunto de datos está formado por 10 géneros, cada uno con 100
 segmentos diferentes en formato .wav, mono, 16 bits de profundidad y una
-frecuencia de muestreo de 22050HZ.
+frecuencia de muestreo de 22050HZ. Los géneros son: Blues, Classical, Country, Disco, Hip Hop, Jazz, Metal, Pop, Reggae y Rock.
 
-\begin{itemize}
-\itemsep0em
-\item
-  Blues
-\item
-  Classical
-\item
-  Country
-\item
-  Disco
-\item
-  Hip Hop
-\item
-  Jazz
-\item
-  Metal
-\item
-  Pop
-\item
-  Reggae
-\item
-  Rock
-\end{itemize}
-
-Si bien este conjunto de datos es muy variado al contener 10 géneros muy diferentes entre sí y múltiples fuentes, presenta varios problemas:
+Si bien este conjunto de datos es muy variado al contener 10 géneros muy diferentes entre sí y múltiples fuentes de audio, presenta varios problemas:
 
 \begin{itemize}
 \itemsep0em
@@ -68,9 +44,11 @@ Si bien este conjunto de datos es muy variado al contener 10 géneros muy difere
 
 Como alternativa al conjunto de datos GTZAN, se decidió crear una versión
 extendida con 300 canciones por cada género. Este conjunto de datos fue
-creado a partir de playlists de Spotify creadas por la comunidad.
+creado a partir de playlists de Spotify creadas por la comunidad o por la propia Spotify.
 
-Si bien este nuevo conjunto de datos extendido incluye múltiples
+Para esta tarea se ha utilizado la herramienta \textbf{dataset-tools node}, introducida en el manual de programador, que permite descargar las previsualizaciones de canciones de 30s. Para seleccionar las playlists se ha usado el explorador de Spotify, y se han descargado playlists del género en concreto. 
+
+Si bien este nuevo conjunto de datos extendido incluye 2000
 canciones nuevas, fue creado a partir de las canciones más populares de
 Spotify del siglo XX, por lo que no tenemos una variedad real de
 canciones.
@@ -100,15 +78,15 @@ proyecto.
 \item
   Canciones asociadas con Spotify
 \item
-  Etiquetas Revisadas. 
+  Etiquetas Supervisadas. 
 \end{itemize}
 
 Para poder crear este conjunto de datos, ha sido necesario cruzar tres
-fuentes de datos distintas mediante el proceso de la figura \ref{fig:ludwig_dataset}
+fuentes de datos distintas. El proceso de generación ha sido detallado mediante un diagrama en el anexo C (Diseño). 
 \begin{itemize}
 \itemsep0em
 \item
-  \textbf{Discogs}: Es el Marketplace de música más importante del mundo, cada
+  \textbf{Discogs}: Discogs \cite{a2022_discogs} es el Marketplace de música más importante del mundo, cada
   item está categorizado por género y subgéneros. Discogs dispone de una
   API pública que permite obtener datos sobre los distintos elementos.
 \item
@@ -122,179 +100,73 @@ fuentes de datos distintas mediante el proceso de la figura \ref{fig:ludwig_data
   Este proyecto incluye una API pública en la que se pueden consultar detalles de
   canciones, como estados de ánimo o etiquetas obtenidas a partir de múltiples clasificadores. Se puede consultar los datos de una canción a partir de su MBID.
 \item
-  \textbf{Spotify}: La API pública de Spotify dispone de un endpoint de búsqueda a partir del
+  \textbf{Spotify}: La API pública de Spotify \cite{spotify_docs} dispone de un endpoint de búsqueda a partir del
   nombre. La gran mayoría de las canciones de Spotify permiten descargar
   un fragmento de 30s con la parte más relevante de la canción.
 \end{itemize}
 
 Además de las canciones en formato .mp3, cada una de las canciones tiene dos ficheros de numpy (\textit{.npy}) asociados con 10 segmentos de 3s con los  MFFCs y Espectrogramas en Frecuencias de Mel extraidos mediante Librosa.
 
-\begin{figure}
-    \centering
-    \includegraphics[width=12cm]{img/5/ludwig_dataset.png}
-    \caption{Proceso de obtención de los datos de Ludwig Dataset}
-    \label{fig:ludwig_dataset}
-\end{figure}
+
+
+El dataset contiene las siguientes etiquetas, e incluye un fichero \textbf{subgenres.json} que incluye una 600 canciones por cada uno de los subgéneros.\\
+\textbf{Géneros y Subgéneros}
 
 \begin{itemize}
 \itemsep0em
 \item
   Rock
-  \begin{itemize}
-  \item
-    Pop Rock
-  \item
-    Hard Rock
-  \item
-    Prog Rock
-  \item
-    Rock Alternativo
-  \item
-    Goth Rock
-  \item
-    Art Rock
-  \item
-    New Wave
-  \item
-    Shoegaze
-  \end{itemize}
+  
+  \textbf{Subgéneros:} Pop Rock, Hard Rock, Prog Rock, Rock Alternativo, Goth Rock, Art Rock, New Wave, Shoegaze.
+
 \item
   Metal
-
-  \begin{itemize}
-  \item
-    Heavy Metal
-  \item
-    Nu Metal
-  \item
-    Death Metal
-  \end{itemize}
+    
+  \textbf{Subgéneros:} Heavy Metal, Nu Metal, Death Metal.
 \item
   Punk
 
-  \begin{itemize}
-  \item
-    Punk
-  \item
-    Post Punk
-  \end{itemize}
+  \textbf{Subgéneros:} Punk, Post Punk.
 \item
   Blues
-
-  \begin{itemize}
-  \item
-    Country Blues
-  \item
-    Electric Blues
-  \end{itemize}
+    
+  \textbf{Subgéneros}: Country Blues, Electric Blues.
 \item
   Latina
 
-  \begin{itemize}
-  \item
-    Reggaeton
-  \item
-    Salsa
-  \item
-    Flamenco
-  \item
-    Reggae
-  \item
-    Samba
-  \item
-    Cubano
-  \end{itemize}
+  \textbf{Subgéneros}: Reggaeton, Salsa, Flamenco, Reggae, Samba, Cubano.
+
 \item
   Hip Hop
 
-  \begin{itemize}
-  \item
-    Trap
-  \item
-    Pop Rap
-  \item
-    Instrumental
-  \item
-    Consciuos
-  \item
-    Gangsta
-  \item
-    Trip Hop
-  \end{itemize}
+    \textbf{Subgéneros}: Trap, Pop Rap, Instrumental, Conscious, Gangsta, Trip Hop
+
 \item
   Pop
+\textbf{Subgéneros}: Indie Pop, Europop, Ballad Pop
 
-  \begin{itemize}
-  \item
-    Indie Pop
-  \item
-    Europop
-  \item
-    Ballad Pop
-  \end{itemize}
 \item
   Jazz
 
-  \begin{itemize}
-  \item
-    Jazz Contemporáneo
-  \item
-    Swing
-  \item
-    Soul Jazz
-  \end{itemize}
+\textbf{Subgéneros}: Jazz Contemporáneo, Swing Jazz, Soul Jazz
+
 \item
   Clásica
 
-  \begin{itemize}
-  \item
-    Clásica
-  \item
-    Romántica
-  \item
-    Barroca
-  \item
-    Moderna
-  \item
-    Ópera
-  \end{itemize}
+\textbf{Subgéneros}: Clásica, Romántica, Barroca, Moderna, Ópera, 
+
 \item
   Electrónica
 
-  \begin{itemize}
-  \item
-    Ambient
-  \item
-    Synth Pop
-  \item
-    Disco
-  \item
-    House
-  \item
-    Drum n Bass
-  \item
-    Downtempo
-  \item
-    New Wave
-  \item
-    Electro
-  \item
-    Trip Hop
-  \end{itemize}
+\textbf{Subgéneros}: Ambient, Synth Pop, Disco, House, Drum n Bass, Downtempo, Electro, Trip Hop
+
 \item
   Funk / Soul
 
-  \begin{itemize}
-  \item
-    Disco
-  \item
-    R\&B
-  \item
-    Soul
-  \end{itemize}
-\end{itemize}
+\textbf{Subgéneros}: Dsico, R\&B, Soul
 
-Y los siguientes estados de ánimo
+\end{itemize}
+\textbf{Estados de Ánimo}
 
 \begin{itemize}
 \itemsep0em
@@ -313,6 +185,7 @@ Este conjunto de datos ha sido publicado en Kaggle \cite{LudwigMu18:online}.
 \subsection{Dataset Recomendaciones}\label{dataset_similitud}
 Se ha generado un dataset de recomendaciones a partir de playlists aleatorias de Spotify extraídas del dataset oficial Millon Playlist Dataset \cite{million_playlist_dataset}. El dataset aleatorio contiene 32.000 canciones\footnote{El nombre de cada canción contiene el id de Spotify, \{id\_spotify\}.mp3} con una popularidad de al menos el 30\%.
 
+Este dataset está diseñado para intentar completar una playlist incompleta mediante la biblioteca Surprise \ref{scikit-surprise} mediante filtrado colaborativo. No obstante, se han obtenido todos los ficheros .mp3 de las canciones para intentar complementar este sistema de filtrado colaborativo con un sistema basado en los contenidos de las canciones. 
 
 \section{Unificación de las fuentes de
 datos}\label{unificacion-de-las-fuentes-de-datos}
@@ -375,7 +248,7 @@ homogéneos.
 \hypertarget{lastfm}{%
 \subsection{LastFM}\label{lastfm}}
 
-El principal inconveniente del diseño de la API de LastFM es que
+El principal inconveniente del diseño de la API de LastFM\cite{last.fm_2022} es que
 únicamente permite realizar una consulta por recurso, por lo que si
 queremos detallar los datos de 50 álbumes distintos debemos realizar 50
 peticiones por separado.\\
@@ -404,8 +277,8 @@ acelerar el proceso.
 
 \subsection{Analizador de Canciones}\label{analizador-de-canciones}
 
-Una de las características del frontend es poder visualizar y poder
-filtrar por los resultados de un backend que analizar las canciones a
+Una de las características del frontend es poder visualizar y 
+filtrar por los resultados del servidor de análisis de canciones a
 partir de un fichero de audio correspondiente a un fragmento de la
 canción.
 
@@ -437,15 +310,22 @@ lentos.
   La descarga está limitada por la latencia red de distribución de
   contenidos.
 \item
-  La conversión a WAV es un proceso pesado
+  La conversión a WAV es un proceso pesado.
 \end{itemize}
 
-Para poder acelerar estos procesos se ha planteado la arquitectura CaaS, que permite distribuir las peticiones contra
-este analizador entre varios contenedores.
+Para poder acelerar estos procesos se ha planteado la arquitectura CaaS \ref{fig:caas_ludwig}, que permite distribuir las peticiones contra
+este analizador entre varios contenedores. Estos contenedores contienen una API REST que permite analizar un bloque de hasta 25 canciones. Como balanceador de carga se ha utilizado Cloud Run \ref{google-cloud-run}, que expone un único Endpoint e instancia nuevos contenedores a medida que el sistema recibe peticiones. \\
+Para evitar saturar la memoria de los contenedores, se ha implementado una cola de espera que evite que los contenedores pueden analizar una gran cantidad de peticiones de forma concurrente.
 
 Como el proceso es extremadamente pesado, se ha implementado en la base
-de datos una tabla que almacena los resultados del analizador.
+de datos una tabla que almacena los resultados del analizador. 
 
+\begin{figure}
+    \centering
+    \includegraphics{img/5/ludwig_caas.png}
+    \caption{Diagrama de la arquitectura CaaS del analizador.}
+    \label{fig:caas_ludwig}
+\end{figure}
 
 \subsection{Etiquetas de Álbumes}\label{etiquetas-de-uxe1lbumes}
 
@@ -502,44 +382,55 @@ permite obtener todos los datos de manera eficiente.\\
 Esta fachada permite obtener a partir de un ID o respuesta de Spotify,
 un objeto completo con todos los atributos de las distintas fuentes de
 datos.
+Los destalles de implementación de la fachada pueden encontrarse en el Anexo C (Diseño).
 
 \section{Aprendizaje Automático}
+Para las tareas de aprendizaje automático se han utilizado redes neuronales convolucionales \ref{clasificacion_cnn}.
 
-\subsection{Datos y Votación}
-
-Para cada clasificador, se han dividido las canciones del dataset Ludwig \ref{ludwig-dataset} en dos subconjuntos aleatorios. Por un lado, tenemos el conjunto de entrenamiento que contiene el 70\% de las canciones que vamos a utilizar, este subconjunto será utilizado para ajustar el modelo. Por otro lado, tenemos un pequeño conjunto de validación con el 30\% de las canciones restantes, que utilizaremos para evaluar la precisión final de los modelos.
-
-Para aumentar la variedad de datos, mejorar la generalización de la red, y evitar entradas muy grandes, se han dividido todas las canciones, de 30 segundos de duración, en segmentos de 3 segundos.
-Para cada uno de los segmentos se han extraído 32 MFCCs \footnote{La entrada a la red es una matriz de $32\times130$} \ref{coeficientes-cepstrales-en-las-frecuencias-de-mel}, que serán utilizados como entrada de la red.
-
-Por último, para mejorar la confianza de la predicción se realiza una votación para decidir la clase de la canción, esta votación tiene en cuenta cuales son las clases más populares entre todos los segmentos de 3s de la canción.
-
-\subsection{Clasificador de Géneros}
+\subsection{Clasificador de Géneros y Subgéneros}
 Para el clasificador de géneros se ha utilizado una red neuronal convolucional basada en la arquitectura EfficientNetB0 \cite{efficientnet} de Google. Se ha utilizado esta red como base debido a su capacidad de generalización para este problema.\\
 En este caso, la función de activación de la capa de salida es una función $softmax()$, que normaliza la salida para que solo se active una única neurona. 
 
-\subsubsection{Inicialización de los Pesos}
-Durante el proceso de experimentación se ha detectado una mejora en la precisión del clasificador gracias a inicializar los pesos a partir de otra red basada en EfficientNetB0. Esta red ha sido entrenada con el conjunto de datos GTZAN Extended \ref{gtzan-extended}.
+Esta red se ha entrenado con todos los géneros del Ludwig Dataset \ref{ludwig-dataset}, pero se han agrupado los géneros rock, metal y punk en un único género para reducir el número de etiquetas. Para poder diferenciar estos géneros se ha utilizado una pequeña red entrenada para diferenciar entre estos 3 géneros. 
 
-Para esta tarea se ha entrenado la red por completo y se ha reemplazado la capa de salida de 10 neuronas por la capa correspondiente a los géneros del Ludwig Dataset. 
+\subsubsection{Transfer Learning}
+Durante el proceso de experimentación se ha detectado una mejora en la precisión del clasificador gracias a inicializar los pesos a partir de otra red basada en EfficientNetB0. Esta red inicial ha sido entrenada con el conjunto de datos GTZAN Extended \ref{gtzan-extended}.
+
+Una vez entrenada la red al completo con GTZAN Extended, se ha reemplazado la capa de salida de 10 neuronas por una capa de 9 neuronas, y se han vuelto a entrenar todas las capas con los nuevos datos.
+
+\subsubsection{Clasificador de Subgéneros}
+La clasificación de subgéneros es un problema de clasificación multietiqueta, ya que una canción puede tener uno o más subgéneros.
+
+En este caso, debido a la gran cantidad de subgéneros que puede tener cada género, 
+se han entrenado 11 clasificadores multietiqueta, por cada uno de los géneros principales del Ludwig Dataset \ref{ludwig-dataset}.\\
+La función de activación de la capa de salida \footnote{La salida de la red tiene tantas neuronas como subgéneros.} es la función $sigmoide()$, en la que cada neurona puede tomar un valor entre 0 y 1 para indicar si la canción se corresponde a una etiqueta o no.
 
 \subsection{Clasificador de Estados de Ánimo} \label{mood_ensemble}
 La clasificación de los estados de ánimo es un problema de clasificación multietiqueta, en el que el una canción puede tener varios estados de ánimo. 
 
-En este caso, la clasificación de los estados de ánimo se ha realizado mediante un ensemble de tipo OVA \ref{one-vs-all}, ya que el número de modelos base es relativamente pequeño, y podemos mejorar la confianza final del modelo. Cada modelo que forma el ensemble se especializa en detectar si una canción tiene un estado de ánimo en específico o no. 
-
+En este caso, la clasificación de los estados de ánimo se ha realizado mediante un ensemble de 7 CNNs binarias de tipo OVA \ref{one-vs-all}. Cada modelo que forma el ensemble se especializa en detectar si una canción tiene un estado de ánimo en específico o no. \\
 Por último, se han juntado todos los modelos en una única red neuronal para crear el ensemble, concatenando todas las salidas binarias en un único tensor de salida. 
 
-El modelo base utilizado para este ensemble es una red neuronal convolucional muy básica, en la que la capa de salida tiene una función de activación $sigmoide()$ para que la salida sea binaria.  
+\subsection{Datos}
 
-\subsection{Clasificador de Subgéneros}
-Al igual que en en el clasificador de estados de ánimo \ref{mood_ensemble}, la clasificación de subgéneros es un problema de clasificación multietiqueta, ya que una canción puede tener uno o más subgéneros. 
-En este caso, debido a la gran cantidad de subgéneros que puede tener cada género, 
-se ha entrenado un clasificador multietiqueta por cada uno de los géneros principales.\\
-En este caso, la función de activación de la capa de salida \footnote{La salida de la red tiene tantas neuronas como subgéneros.} es la función $sigmoide()$, en la que cada neurona puede tomar un valor entre 0 y 1 para indicar si la canción se corresponde a una etiqueta o no.
+Para el entrenamiento se ha utilizado undersampling para balancear el número de datos por etiquetas.\\
+\\
+El clasificador de géneros ha sido entrenado con 5000 canciones por etiqueta. \\
+Cada clasificador de subgéneros ha sido entrenado con 600 canciones por cada subgénero. \\
+Cada clasificador de estados de ánimo ha sido entrenado con conjunto de datos en el que la mitad de los datos contienen el estado de ánimo que se desea identificar y la otra mitad no.
+
+Estos conjuntos balanceados se han dividido en dos subconjuntos aleatorios. Por un lado, tenemos el conjunto de entrenamiento que contiene el 70\% de las canciones que vamos a utilizar, este subconjunto será utilizado para ajustar el modelo. Por otro lado, tenemos un pequeño conjunto de validación con el 30\% de las canciones restantes, que utilizaremos para evaluar la precisión final de los modelos.
+
+Para aumentar la variedad de datos, mejorar la generalización de la red, y evitar entradas muy grandes, se han dividido todas las canciones, de 30 segundos de duración, en segmentos de 3 segundos.
+Para cada uno de los segmentos se han extraído 32 MFCCs \footnote{La entrada a la red es una matriz de $32\times130$} \ref{coeficientes-cepstrales-en-las-frecuencias-de-mel}, que serán utilizados como entrada de la red. 
 
 
-\section{Vecindad como Métrica de Similaridad de Audio}
+\subsection{Votación}
+Por último, para mejorar la confianza de la predicción de cada clasificador se realiza una votación para decidir la clase final de la canción. Esta votación se realiza a partir de inferir un conjunto de fragmentos de 3s y se selecciona la etiqueta más popular de los resultados como la etiqueta final de la canción. 
+
+
+\section{Sistemas de Recomendación} \label{recomend_contenido}
+\subsection{Vecindad como métrica de similitud entre canciones}
 Para crear un sistema de recomendación basado en contenidos se ha decidido utilizar un sistema de vecindad. Este sistema permite encontrar las canciones más cercanas o similares a una canción específica.
 
 Para generar las instancias que van a ser comparadas, se ha decidido extraer el máximo número de datos de una canción mediante Librosa. Para resumir los resultados vectoriales o matriciales, como los MFCCs o los espectrogramas de mel \ref{coeficientes-cepstrales-en-las-frecuencias-de-mel}, se han reemplazado por su media y varianza.\\
@@ -559,28 +450,27 @@ Los datos finales utilizados para crear el vecindario son:
 Una vez creado el vecindario a partir del conjunto de datos \ref{dataset_similitud}, se normalizan los datos y se entrena un ball tree \ref{ball_tree} para poder consultar los ids de Spotify de las canciones más similares de forma eficiente.
 
 
+\subsection{Sistema de Recomendación Colaborativo basado en Playlists} \label{recomend_colab}
+Se ha implementado un prototipo de sistema de recomendación colaborativo basado en los contenidos de 200.000 playlists. Estas playlists de Spotify han sido recopiladas y anonimizadas por la promia compañía en \cite{million_playlist_dataset}. Para la creación y evaluación de las recomendaciones se ha utilizado la biblioteca Scikit Suprise \cite{supriselib}.\\
+Este sistema de recomendación está basado en una puntuación a cada uno de los elementos de la playlist con una nota del 0 al 5, calculada a partir de la popularidad de la playlist, frecuencia de actualización, \% de canciones del mismo artista o álbum, etc.\\
+Las recomendaciones iban a integrarse con la plataforma como un sistema para completar la playlist de un usuario a partir de canciones ya existentes. Se ha descartado la idea por el elevado coste de añadir nuevos datos a una matriz dispersa, ya que es necesario volver a ajustar la matriz dispersa para cada una de las peticiones de recomendación.\\
+Por otro lado se han intentado obtener las recomendaciones más cercanas a a otra mediante la implementación de un algoritmo de vecindad de Surprise, pero debido a que esta implementación no usa matrices dispersas, el consumo de memoria necesario para obtener las canciones más cercanas es demasiado alto, por lo que la implementación de esta característica no es viable a nivel de recursos.
+
 
 \section{Arquitectura Contenedores}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=\textwidth]{img/5/arch.png}
-    \caption{Arquitectura del Proyecto}
-    \label{fig:arquitectura_contenedores}
-\end{figure}
-
-Se ha dividido la arquitectura en cuatro servicios, \textbf{frontend}, \textbf{backend principal o backend NextJS}, \textbf{base de datos} y \textbf{backend recuperación de información musical}\footnote{También referido como Backend MIR o Backend Ludwig}. 
+Se ha dividido la arquitectura en cuatro servicios, \textbf{frontend}, \textbf{servidor principal o servidor NextJS}, \textbf{base de datos} y \textbf{servidor recuperación de información musical}\footnote{También referido como Backend MIR o Backend Ludwig}. 
 
 Estos cuatro servicios se han agrupado en tres contenedores Docker\ref{docker} distintos interconectados, como muestra la figura \ref{fig:arquitectura_contenedores}.\\
 El servicio puede levantarse en una sola máquina gracias a Docker Compose, se recomienda consultar el manual de instalación y despliegue en los anexos. 
 
 \subsection{Contenedor NextJS}
-El contenedor NextJS contiene el frontend y el backend principal, ya que ambos se ejecutan sobre un mismo servidor de NextJS. 
+El contenedor NextJS contiene el frontend y el servidor principal, ya que ambos se ejecutan sobre un mismo servidor de NextJS. 
 
 El servicio de frontend se encarga del renderizado parcial en el servidor de las distintas páginas y componentes web, así como de la distribución de las páginas y ficheros estáticos.
 
-El servicio de backend NextJS es una pequeña API REST que se encarga de gestionar operaciones con datos sensibles, como la autenticación del usuario, eliminación de la cuenta o la gestión de tokenes JWT \ref{jwt}. Por otro lado, para reducir el acoplamiento del sistema, se ha decidido que este servicio sea el único servicio con acceso a la base de datos.\\
-Esta API Rest ha sido configurada para permitir la política de seguridad CORS\footnote{Intercambio de Recursos de Origen Cruzado, el frontend puede acceder a recursos del backend sin necesidad de compartir dominio.}, por lo que el frontend y el backend pueden desplegarse por separado.
+El servicio de servidor NextJS es una pequeña API REST que se encarga de gestionar operaciones con datos sensibles, como la autenticación del usuario, eliminación de la cuenta o la gestión de tokenes JWT \ref{jwt}. Por otro lado, para reducir el acoplamiento del sistema, se ha decidido que este servicio sea el único servicio con acceso a la base de datos.\\
+Esta API Rest ha sido configurada para permitir la política de seguridad CORS\footnote{Intercambio de Recursos de Origen Cruzado, el frontend puede acceder a recursos del servidor sin necesidad de compartir dominio.}, por lo que el frontend y el servidor pueden desplegarse por separado.
 
 
 \subsection{Contenedor DynamoDB}
@@ -590,7 +480,7 @@ Este contenedor no está pensado para ser desplegado a producción, ya que una d
 \subsection{Contenedor Ludwig MIR}
 El contenedor Ludwig MIR contiene una API de python que se encarga del preprocesamiento y análisis de canciones en cualquier formato de audio\footnote{Gracias a FFMPEG}.\\
 La política de seguridad de este contenedor obliga a todas las peticiones a portar un token de seguridad en la cabecera  \code{Authentication}. Este token es un código secreto estático que debe ser compartido entre todos los servicios que desean interactuar con el contenedor. En este caso, únicamente el contenedor NextJS tiene acceso a este código, por lo que actúa como intermediario.\\
-Debido al elevado coste de descargar, preprocesar y analizar canciones, se ha planteado el uso de una pequeña caché que almacene los resultados en DynamoDB. La lógica de esta caché está gestionada por el backend de NextJS.
+Debido al elevado coste de descargar, preprocesar y analizar canciones, se ha planteado el uso de una pequeña caché que almacene los resultados en DynamoDB. La lógica de esta caché está gestionada por el servidor de NextJS.
 
 
 \section{Pruebas e Integración Continua}
@@ -625,9 +515,10 @@ El propio frontend de NextJS es transpilado, optimizado y desplegado por la plat
 Vercel, a diferencia de Google Cloud Run, no admite contenedores personalizados, pero está diseñada para optimizar, desplegar y escalar proyectos de NextJS.\\
 Se ha configurado Vercel para realizar un despliegue automáticamente por cada push y pull request que se realice en el repositorio del proyecto\footnote{Al igual que GCP, se puede automatizar mediante Github Actions}. 
 
-El backend de NextJS no se ha desplegado junto a su frontend por las limitaciones del plan gratuito de Vercel, ya que una petición al backend no puede durar más de 10s, un tiempo muy bajo para que Ludwig pueda inferir los bloques de 25 canciones. 
+El servidor web de NextJS no se ha desplegado junto a su frontend por las limitaciones del plan gratuito de Vercel, ya que una petición al servidor no puede durar más de 10s, un tiempo muy bajo para que Ludwig pueda inferir los bloques de 25 canciones. 
 
 \subsection{Amazon Web Services}
 En este caso se ha utilizado el servicio DynamoDB \ref{dynamodb-y-dynamoose} para la base de datos. Este servicio permite controlar y escalar la base de datos en al menos dos clusters, dividiendo los datos a patir del hash de los índices. 
 Las tablas son gestionadas automáticamente gracias a Dynamoose, por lo que todas las actualizaciones se propagan a la base de datos de AWS. 
+
 

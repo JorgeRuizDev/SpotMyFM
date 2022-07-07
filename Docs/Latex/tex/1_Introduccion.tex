@@ -1,10 +1,8 @@
 \capitulo{1}{Introducción}
 
-SpotMyFM es una plataforma diseñada para gestionar la biblioteca y playlists personales de un usuario de Spotify. La principal motivación para enfocar el proyecto alrededor de Spotify es que es una plataforma es muy conservadora a la hora gestionar playlists, bibliotecas y recomendaciones, ya que tienen como filosofía mantener al usuario en un entorno lo más familiar posible.\\
-Este comportamiento se ve reflejado en servicios como Discovery Weekly\footnote{Descubrimiento Semanal}, Mix o incluso el modo de reproducción aleatorio ya que tienden a favorecer canciones que has escuchado recientemente, evitando mostrar un gran número de canciones o artistas diferentes. \\
-Esta filosofía ha sido objeto de estudio, como explora \cite{spotify_recommendations}, llegando a la conclusión de que cuanto más familiar es el contenido para el usuario, más horas pasa en la plataforma.
+SpotMyFM es una plataforma diseñada para gestionar la biblioteca y playlists personales de un usuario de Spotify.
 
-Para compensar esta decisión de diseño y mejorar la experiencia de usuario de Spotify, se ha decidido diseñar e implementar una palataforma que permita gestionar la biblioteca personal del usuario, así como sus playlists, de una manera más avanzada. 
+Este proyecto busca estudiar el diseño de Spotify y sus distintos sistemas, como sistemas de recomendación o generación de playlists automáticas. Para llevar a cabo este objetivo se ha decidido implementar en un servicio a parte una expansión de la funcionalidad de Spotify que complemente a los servicios ya existentes, como consultar estadísticas, canciones favoritas o generar playlists específicas a partir de filtros y/o recomendaciones.
 
 La plataforma web incluye 7 servicios diferenciados:
 \begin{enumerate}
@@ -17,19 +15,18 @@ La plataforma web incluye 7 servicios diferenciados:
     \item \textbf{Reproductor:} Permite reproducir álbumes o canciones específicas, así como añadir a la cola, saltar o retroceder una canción.
 \end{enumerate}
 
-Cada una de estos servicios incluye una vista con los distintos elementos en formato tarjeta interactiva o listado compacto, que pueden ser detallados. Esta lista puede ser filtrada (mediante texto) u ordenada por algún atributo.
 
-\begin{enumerate}
-    \item \textbf{Canciones:} Esta vista permite filtrar canciones, crear o editar playlists y consultar las estadísticas generales y recibir recomendaciones para una selección de canciones.\\
-    Las canciones pueden ser detalladas con detalles como los géneros, estados de ánimo, fecha de lanzamiento, canciones similares, etc.
-    Por otro lado incluye los detalles de de los artistas y álbumes asociados, como las etiquetas de los álbumes, géneros de los artistas, descripción del álbum o un listado con las propias canciones que incluye el álbum de la canción.
-    \item \textbf{Playlists:} Esta vista permite listar todas las playlists del usuario. Cada playlist puede ser detallada junto a sus canciones, con todas las características de la vista anterior. 
-    \item \textbf{Álbumes:} Esta vista permite filtrar álbumes, así como etiquetarlos. Los detalles de los álbumes son los mismos que los mencionados en el apartado de las canciones.
-    \item \textbf{Artistas:} Esta vista permite listar y detallar a los distintos artistas. Al detallar un artista se pueden explorar sus géneros, así como detallar los álbumes, singles y recopilatorios que ha publicado.
-\end{enumerate}
+Para implementar todas estas características se ha usado la API pública de LastFM, y se ha desarrollado una arquitectura de contenedores escalables interconectados \ref{fig:arquitectura_contenedores}.
 
-Para acompañar todas estas características se ha usado la API pública de LastFM, y se ha desarrollado Ludwig, un servicio que permite, a partir del un fragmento de una canción, obtener canciones similares en Spotify, géneros, subgéneros y los estado de ánimo de una canción. \\
-Este segundo servicio utiliza redes neuronales convolucionales (CNN) para clasificar las canciones a partir de su representación mediante sus coeficientes cepstrales en la frecuencia de mel.
+Ludwig es un servicio que permite, a partir del un fragmento de una canción, obtener canciones similares en Spotify, géneros, subgéneros y los estado de ánimo de una canción. Este servicio utiliza redes neuronales convolucionales (CNN) para clasificar las canciones a partir de su representación mediante sus coeficientes cepstrales en la frecuencia de mel.
+
+NextJS actúa como intermediario entre el cliente, Ludwig y la base de datos. Se encarga de la generación de las páginas web, la autenticación de usuario, comunicación con Ludwig y la gestión de las transacciones de la base de datos. 
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth,keepaspectratio]{img/arch_full.jpg}
+    \caption{Arquitectura del Proyecto}
+    \label{fig:arquitectura_contenedores}
+\end{figure}
 
 Se ha desplegado el proyecto en \href{https://spotmyfm.jorgeruizdev.com}{spotmyfm.jorgeruizdev.com} con una pequeña demo interactiva sin necesidad de registro con algunas de las funcionalidades. 
 
@@ -59,9 +56,13 @@ Se ha desplegado el proyecto en \href{https://spotmyfm.jorgeruizdev.com}{spotmyf
 
 \subsection{Otros Materiales}
 
+Todos los materiales están disponibles en los USBs con las fuentes. 
+
 \begin{enumerate}
-    \item \textbf{Datasets}: Contiene los distintos conjuntos de datos utilizados para los sistemas de clasificación y recomendación.
+    \item \textbf{Datasets}: Contiene los distintos conjuntos de datos utilizados para los sistemas de clasificación y recomendación. 
     \item \textbf{NextJS}: Contiene la aplicación de Frontend y Backend Principal.
     \item \textbf{Ludwig}: Contiene las herramientas, notebooks y backend utilizados para el servicio de recuperación de la información musical y recomendación.
-    \item \textbf{Docker}: Contiene un fichero compose.yml que permite levantar todos los servicios automáticamente.
+    \item \textbf{Docker}: Contiene un fichero \textbf{tcompose.yml} que permite levantar todos los servicios automáticamente.
+    \item \textbf{Manual}: Contiene un fichero \textbf{readme.md} principal con el manual de la plataforma. Este fichero enlaza con archivos locales markdown más concretos que detallan una funcionalidad o vista.
+    \item \textbf{Docs}: Contiene los diagramas, ficheros fuente \LaTeX de la memoria y la guía de estilo. 
 \end{enumerate}

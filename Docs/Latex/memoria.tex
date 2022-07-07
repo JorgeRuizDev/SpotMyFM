@@ -13,7 +13,7 @@
 \RequirePackage[table]{xcolor}
 \RequirePackage{xtab}
 \RequirePackage{multirow}
-\usepackage{hyperref}
+
 
 \def\code#1{\texttt{#1}}
 
@@ -322,7 +322,10 @@
       \vspace{.5cm}\Large
       \begin{center}
       \textbf{TFG del Grado en Ingeniería Informática}\vspace{.6cm}\\
-      \textbf{\LARGE\@title{}}\\
+      \textbf{\LARGE\@title{}}\\\\
+      \vspace{.3cm}
+      \large{Sistema de Gestión, Análisis y Recomendación de Biblioteca Musical de Spotify apoyado por Inteligencia Artificial}\\
+      \vspace{.2cm}
       \small{\href{https://spotmyfm.jorgeruizdev.com}{spotmyfm.jorgeruizdev.com}}
       \end{center}
       \vspace{.2cm}
@@ -373,11 +376,11 @@
 
 \noindent\includegraphics[width=\textwidth]{cabecera}\vspace{1cm}
 
-\noindent D. nombre tutor, profesor del departamento de nombre departamento, área de nombre área.
+\noindent D. Bruno Baruque Zanón, profesor del departamento de Ingeniería Informática, área de Ciencia de la Computación e Ingeligencia Artificial.
 
 \noindent Expone:
 
-\noindent Que el alumno D. \nombre, con DNI dni, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado título de TFG. 
+\noindent Que el alumno D. \nombre, con DNI ---, ha realizado el Trabajo final de Grado en Ingeniería Informática titulado SpotMyFM. 
 
 \noindent Y que dicho trabajo ha sido realizado por el alumno bajo la dirección del que suscribe, en virtud de lo cual se autoriza su presentación y defensa.
 
@@ -391,16 +394,10 @@ En Burgos, {\large \today}
 \begin{minipage}{0.45\textwidth}
 \begin{flushleft} %\large
 Vº. Bº. del Tutor:\\[2cm]
-D. nombre tutor
+D. Bruno Baruque Zanón
 \end{flushleft}
 \end{minipage}
 \hfill
-\begin{minipage}{0.45\textwidth}
-\begin{flushleft} %\large
-Vº. Bº. del co-tutor:\\[2cm]
-D. nombre co-tutor
-\end{flushleft}
-\end{minipage}
 \hfill
 
 \vfill
@@ -425,13 +422,13 @@ Spotify es una de las plataformas de música en streaming más importantes del m
 
 Se plantea el desarrollo y despliegue de una plataforma web que permita a los usuarios de Spotify explorar y gestionar su biblioteca de una manera más avanzada y transparente a la que ofrece Spotify por defecto. 
 
-La plataforma estará acompañada por una base de datos y un servicio de recuperación de información musical, que extraerá características de la señal de sonido de la canción y permitirá asociar géneros, subgéneros y estados de ánimo musicales a las distintas pistas; se utilizarán tres fuentes de datos, la API pública de Spotify, la API pública de LastFM y la API de SpotMyFM.
+La plataforma estará acompañada por una base de datos y un servicio de recuperación de información musical\footnote{Campo de investigación dedicado al análisis, modificación y creación de música a partir de diversas técnicas.}, que extraerá características de la señal de sonido de la canción y permitirá asociar géneros, subgéneros y estados de ánimo musicales a las distintas pistas; se utilizarán tres fuentes de datos, la API pública de Spotify, la API pública de LastFM y la API de SpotMyFM.
 
 \end{abstract}
 
 \renewcommand*\abstractname{Descriptores}
 \begin{abstract}
-Recuperación de información musical, CNN, Spotify, plataforma web, sistema de recomendación.
+Recuperación de información musical, CNN, Spotify, plataforma web, sistema de recomendación musical\footnote{Sistema que permite predecir la preferencia de usuario ante una serie de canciones.}.
 \end{abstract}
 
 \clearpage

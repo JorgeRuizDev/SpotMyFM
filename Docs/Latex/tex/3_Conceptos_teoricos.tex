@@ -1,15 +1,74 @@
-\capitulo{3}{Conceptos teóricos}
+\capitulo{3}{Conceptos Teóricos}
 
-\section{Clasificación mediante Redes Neuronales
-Convolucionales}\label{}
+Una de las funcionalidades planteadas para la plataforma es etiquetar automáticamente los géneros, subgéneros y estados de ánimo de canciones a partir de su onda sonora. Para ello se han utilizado técnicas de aprendizaje aprendizaje profundo, ya que según el artículo \cite{deeplearn_vs_trad} presentan un mejor resultado que las técnicas de aprendizaje automático tradicionales.\footnote{KNN, SVM, Random Forest, MLP y Regresión Logística.}
 
-Las redes neuronales convolucionales son una de las arquitecturas
-neuronales más utilizadas debido a su poder a la hora de trabajar con
-imágenes. Estas redes suelen estar formadas por una serie de bloques
-convolucionales, seguidos de una o varias capas densas en la salida de
-la red, como muestra \ref{fig:bloque_conv}
+
+\section{Conceptos Sonido}
+\subsection{Onda Digital y Frecuencia de Muestreo}
+Una onda analógica es una señal continua a lo largo del tiempo. Para poder trabajar con una onda digitalmente, es necesario discretizar la señal analógica en una señal digital.
+Para ello, se declara una frecuencia de muestreo que indica cada cuantas medidas discretas se realizan sobre la amplitud de la onda en una señal analógica a lo largo del tiempo. En nuestro caso vamos a trabajar con una frecuencia de muestreo de $22050 Hz$, es decir, se van a tomar $22050$ puntos discretos de la amplitud de una onda cada segundo.\\
+Este proceso de discretización de una señal digital es conocido como \textbf{modulación por impulsos codificados}. El formato de audio .wav almacena el audio sin comprimir directamente con esta modulación, por eso será utilizado a lo largo del proyecto en vez de otros formatos con mejor compresión como .mp3.
+
+
+\subsection{Coeficientes Cepstrales en las Frecuencias de
+Mel}\label{coeficientes-cepstrales-en-las-frecuencias-de-mel}
+
 
 \begin{figure}
+    \centering
+    \includegraphics{img/3/mfcc.png}
+    \caption{MFCC de un fragmento de 30s de una canción. Extraído de spotmyfm/Ludwig/notebooks/gtzan/mfcc.ipynb}
+    \label{fig:MFCC}
+\end{figure}
+Los coeficientes cepstrales en las frecuencias de mel o MFCC Fig.\ref{fig:MFCC} son un tipo
+de representación de la densidad espectral del sonido que intentan
+representar la percepción auditiva humana.
+
+Son muy utilizados en tareas de reconocimiento del habla y recuperación
+de información musical.
+
+Estos coeficientes están ajustados sobre la \textbf{escala de mel}, una
+escala que aproxima la escala de tono a una escala similar a la
+percepción humana, mejorando la representación del sonido.
+
+Para obtener los MFCC partimos del espectrograma de mel, un
+espectrograma ajustado a la escala de mel. En este caso, estamos
+intentando obtener el espectrograma de un espectrograma, también conocido como cepstrum.
+
+Un método para calcular los MFCCs puede\footnote{Cada biblioteca tiene una aproximación diferente.} ser el siguiente:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Separar la señal en segmentos (hop\_length)
+\item
+  Aplicar la Transformada Discreta de Fourier a cada segmento para
+  obtener la \textbf{potencia espectral}.
+\item
+  Transformar los resultados del paso 2 a la escala de mel.
+\item
+  Aplicar el logaritmo a cada frecuencia de mel, (escala logarítmica en
+  \textbf{decibelios}).
+\item
+  Aplicar la Transformada Discreta del Coseno al resultado del paso 4
+\item
+  Escoger $N$ MFFCs\footnote{En \ref{fig:MFCC} se han escogido $N=13$ MFCCs}.
+\end{enumerate}
+
+Los pasos 1-3 se corresponden con la obtención de un espectrograma de mel.
+
+Se recomienda consultar el apéndice A de \cite{book_mfcc} para consultar los detalles de la extracción. 
+
+\section{Clasificación mediante Redes Neuronales
+Convolucionales}\label{clasificacion_cnn}
+
+Las redes neuronales convolucionales son una de las arquitecturas
+neuronales más utilizadas en visión artificial debido a su poder para detectar patrones en imágenes, en nuestro caso vamos a buscar patrones en una representación bidimensional del sonido, los MFCCs \ref{coeficientes-cepstrales-en-las-frecuencias-de-mel}. Estas redes suelen estar formadas por una serie de bloques
+convolucionales, seguidos de una o varias capas densas en la salida de
+la red, como muestra \ref{fig:bloque_conv}.
+La zona aizquierda de la línea discontinua roja compone la parte convolucional de la red, mientras que a la derecha de la línea se encuentra la parte densa de la red. Las última capa densa, compuesta por 3 neuronas, hace referencia a la capa de salida. 
+
+\begin{figure}[h]
 \centering
 \label{fig:bloque_conv}
 \includegraphics[width=2.99679in,height=1.01667in]{img/memoria/3/cnn.png}
@@ -19,7 +78,7 @@ la red, como muestra \ref{fig:bloque_conv}
 \subsection{Bloque Convolucional}\label{bloque-convolucional}}
 
 Estos bloques, formados por capas, buscan resaltar los elementos más
-relevantes en los datos (normalmente imágenes) a partir de las
+relevantes en los datos a partir de las
 operaciones de convolución y pooling.
 
 La operación de convolución está formada por un kernel o filtro Fig.\ref{fig:kernel} que se
@@ -29,7 +88,7 @@ pesos entrenables de dicha capa son el propio kernel.
 \begin{figure}
     \centering
     \label{fig:kernel}
-    \includegraphics[]{img/memoria/3/kernel.png}
+    \includegraphics{img/memoria/3/kernel.png}
     \caption{Kernel 3x3. Extraído de \cite{convolution_guide}}
 \end{figure}
 
@@ -98,9 +157,7 @@ La salida de cada una de estas neuronas se propaga a la siguiente capa como la e
 
 En tareas de clasificación, la capa de salida está formada por una o
 varias neuronas \footnote{Depende del número de clases a clasificar}, y una función de
-activación.
-
-En tareas de clasificación con \textbf{varias clases}, utilizamos la
+activación. Si debemos clasificar \textbf{varias clases}, utilizamos la
 función de activación Softmax, que aplica una normalización en la salida
 para resaltar la salida con la clase resultante.
 
@@ -116,12 +173,11 @@ con la salida más cercana a 1 (la salida más grande)
 Para obtener la clase, calculamos cual es la neurona con la activación más elevada.
 \begin{equation}
     clase = argmax([y_0 \dots y_n])
-
 \end{equation}
 
 
 
-En tareas de clasificación con \textbf{varias etiquetas}, utilizamos la
+En tareas de clasificación con \textbf{varias etiquetas} (multietiqueta), utilizamos la
 función de activación Sigmoide, que permite a cada neurona tener una
 salida entre 0 y 1, siendo este la confianza de que la clase contenga
 dicha etiqueta.
@@ -170,13 +226,13 @@ Estos valores son calculados a partir de analizar las distribución de los disti
 \end{equation}
 
 \begin{equation}
-    Z = round(\frac{\beta\alpha_q - \alpha\beta_q}{\beta-\alpha})
+    Z = \left\lceil\frac{\beta\alpha_q - \alpha\beta_q}{\beta-\alpha}\right\rfloor
 \end{equation}
 
 
 
 En el caso de la distribución de valores reales, debemos conocer el valor mínimo
-($\alpha$) y el máximo ($\beta$) del tensor a cuantizar.\footnote{Existen otras técnicas más avanzadas que tienen en cuenta la existencia de outliers en la distribución, lo que puede aumentar el ruido de cuantización.} 
+($\alpha$) y el máximo ($\beta$) del tensor/distribución a cuantizar.\footnote{Existen otras técnicas más avanzadas que tienen en cuenta la existencia de outliers en la distribución, lo que puede aumentar el ruido de cuantización.} 
 
 Para los tensores cuantizados, $\alpha_q$ y $\beta_q$ se corresponden con el mínimo y el máximo de
 los tipos de datos, para INT8,  $\alpha_q = -128$ y $\beta_q = 127$.
@@ -233,8 +289,9 @@ clases. En este aparatado vamos a comentar dos tipos de ensembles que
 unen varios clasificadores binarios para obtener un único clasificador
 multiclase.
 En algunas situaciones, los ensembles binarios pueden ser mucho más robustos que un único clasificador multietiqueta. 
+Hemos planteado el uso de ensembles para mejorar el rendimiento de los distintos clasificadores de clasificación de géneros y estados de ánimo.
 
-\begin{figure}
+\begin{figure}[h]
     \centering
     \includegraphics[]{img/3/ova-ovo.jpg}
     \caption{Comparación entre OVA y OVO. Extraído de \cite{OVA_vs_OVO}}
@@ -290,7 +347,7 @@ una matriz $N \times L$ (\ref{fig:matrix-ovo}), que permita convertir el vector 
 elementos con la confianza de cada clase. Cada fila de la matriz se
 corresponde con cada clase, y debemos asignar el mismo valor (1 o -1)
 que hemos utilizado como etiqueta durante el entrenamiento
-\begin{figure}
+\begin{figure}[h]
     \centering
     $$
     M = 
@@ -317,8 +374,11 @@ confianza del ensemble para cada uno de los datos.
 
 
 \section{Ball Tree}\label{ball_tree}
-Un ball tree o árbol de bolas es una estructura de datos jerárquica utilizada para la gestión de vecindarios de instancias. Esta estructura de datos permite conocer de una manera eficiente el vecindario de una instancia.\\
-Durante la construcción del árbol, las instancias se dividen en dos clusters o bolas\footnote{También conocido como esferas o hiperesferas}, siendo cada cluster una rama del árbol. Los cluseters son calculados de la siguiente manera:
+Un ball tree o árbol de bolas es una estructura de datos jerárquica utilizada para la gestión de vecindarios de instancias. Esta estructura de datos permite conocer de una manera eficiente el vecindario de una instancia.
+
+Se ha utilizado esta estructura de datos para buscar los vecinos más cercanos a una canción, como una posible técnica para identificar canciones similares.
+
+Para construir un árbol de bolas, las instancias se dividen en dos clusters o bolas\footnote{También conocido como esferas o hiperesferas}, siendo cada cluster una rama del árbol. Los cluseters son calculados de la siguiente manera:
 \begin{enumerate}
     \item Se selecciona una instancia aleatoria
     \item Se busca la instancia más alejada a la instancia seleccionada
@@ -331,60 +391,10 @@ Repetimos el proceso para cada una de las esferas hasta alcanzar el número de i
 
 Hecho esto, podemos consultar rápidamente el vecindario correspondiente a una nueva instancia a partir de los centroides más cercanos a nuestra instancia, sin necesidad de explorar todos los vecinos posibles. 
 
+\section{Sistemas de Recomendación}
+Un sistema de recomendación es un algoritmo que intenta predecir la valoración o interés que puede tener un usuario ante un nuevo elemento. Existen dos tipos principales de sistemas de recomendación, los sistemas basados en contenido y los filtrados colaborativos. 
 
+Los sistemas basados en contenido realizan recomendaciones a partir de las etiquetas o metadatos del elemento. Se ha usado este tipo de sistema de recomendación para recomendar canciones similares basados en características extraídas del audio de las canciones. Se ha explorado el uso de estos sistemas en el apartado \ref{recomend_contenido}.
 
-\section{Conceptos Sonido}
-\subsection{Onda Digital y Frecuencia de Muestreo}
-Una onda analógica es una señal continua a lo largo del tiempo. Para poder trabajar con una onda digitalmente, es necesario discretear la señal analógica en una señal digital.
-Para ello, se declara una frecuencia de muestreo que indica cada cuantas medidas discretas se realizan sobre la amplitud de la onda en una señal analógica a lo largo del tiempo. En nuestro caso vamos a trabajar con una frecuencia de muestreo de $22050 Hz$, es decir, se van a tomar $22050$ puntos discretos de la amplitud de una onda cada segundo.\\
-Este proceso de discretización de una señal digital es conocido como \textbf{modulación por impulsos codificados}. El formato de audio .wav almacena el audio sin comprimir directamente con esta modulación, por eso será utilizado a lo largo del proyecto en vez de otros formatos más eficientes como .mp3.
-
-
-\subsection{Coeficientes Cepstrales en las Frecuencias de
-Mel}\label{coeficientes-cepstrales-en-las-frecuencias-de-mel}
-
-
-\begin{figure}
-    \centering
-    \includegraphics{img/3/mfcc.png}
-    \caption{MFCC de un fragmento de 30s de una canción. Extraído de spotmyfm/Ludwig/notebooks/gtzan/mfcc.ipynb}
-    \label{fig:MFCC}
-\end{figure}
-Los coeficientes cepstrales en las frecuencias de mel o MFCC Fig.\ref{fig:MFCC} son un tipo
-de representación de la densidad espectral del sonido que intentan
-representar la percepción auditiva humana.
-
-Son muy utilizados en tareas de reconocimiento del habla y recuperación
-de información musical.
-
-Estos coeficientes están ajustados sobre la \textbf{escala de mel}, una
-escala que aproxima la escala de tono a una escala similar a la
-percepción humana, mejorando la representación del sonido.
-
-Para obtener los MFCC partimos del espectrograma de mel, un
-espectrograma ajustado a la escala de mel. En este caso, estamos
-intentando obtener el espectrograma de un espectrograma, también conocido como cepstrum.
-
-Un método para calcular los MFCCs puede ser el siguiente:
-
-\begin{enumerate}
-\def\labelenumi{\arabic{enumi}.}
-\item
-  Separar la señal en segmentos (hop\_length)
-\item
-  Aplicar la Transformada Discreta de Fourier a cada segmento para
-  obtener la \textbf{potencia espectral}.
-\item
-  Transformar los resultados del paso 2 a la escala de mel.
-\item
-  Aplicar el logaritmo a cada frecuencia de mel, (escala logarítmica en
-  \textbf{decibelios}).
-\item
-  Aplicar la Transformada Discreta del Coseno al resultado del paso 4
-\item
-  Escoger $N$ MFFCs\footnote{En \ref{fig:MFCC} se han escogido $N=13$ MFCCs}.
-\end{enumerate}
-
-Los pasos 1-3 se corresponden con la obtención de un espectrograma de mel.
-
-Se recomienda consultar el apéndice A de \cite{book_mfcc} para consultar los detalles de la extracción. 
+Los sistemas colaborativos tienen en cuenta las valoraciones o gustos de otros usuarios para realizar las recomendaciones.
+Estos sistemas funciona a partir de la creación de una matriz usuario/elemento, en la que se almacena las valoraciones de los usuarios. De esta matriz se puede extraer una matriz usuario/usuario con la similitud que hay entre los gustos de los distintos usuarios. Para estos sistemas de filtrado se recomienda usar Suprise \ref{scikit-surprise}, una biblioteca que implementa una gran variedad de algoritmos para trabajar con sistemas colaborativos. Se ha usado este sistema de recomendación para rellenar playlists de usuario, como explora el apartado \ref{recomend_colab}.

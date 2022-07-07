@@ -2,10 +2,294 @@
 
 \section{Introducción}
 
+El proyecto está dividido en dos servicios principales, \textbf{Nextjs} y \textbf{Ludwig/mir-backend}, siendo estas rutas en el USB o Repositorio.
+
 \section{Estructura de directorios}
+
+\subsection{NextJS}
+Todo el código se encuentra en subdirectorio \textbf{/src}, el resto de ficheros de la raíz son ficheros de configuración de cada uno de los componentes y no deberían ser modificados a menos que se realicen cambios en la estructura general del proyecto. 
+\begin{enumerate}
+    \item \textbf{public/}: Contiene todos los ficheros estáticos que son accesibles desde el navegador. 
+    \item \textbf{cypress/}: Contiene los distintos ficheros correspondiente con Cypress, la herramienta de testing E2E.
+    \item \textbf{\_\_mocks\_\_/}: Contiene la configuración de mocks de algunos elementos que no pueden ser ejecutados mediante JEST por requerir de un navegador.
+    \item \textbf{node\_modules/}: Contiene todos los módulos de NodeJS, esta carpeta debería modificarse mediante el gestor de paquetes npm, al igual que los ficheros pacage.json y package-lock.json.
+\end{enumerate}
+
+\subsubsection{Componentes del Proyecto NextJS src/}
+
+\begin{enumerate}
+    \item \textbf{api/}: Contiene la especificación de la API en formato OpenAPI. La implementación de la API se encuentra bajo pages/api.
+    \item \textbf{backendLogic/}: Contiene ficheros auxiliares que deben ser utilizados desde el Backend, como JWT.
+    \item \textbf{Componentes/}: Contiene todos los componentes de ReactJS que han sido utilizados, se recomienda consultar el apartado \ref{componentes_dir}
+    \item \textbf{data/}: Contiene la especificación y clases con las transacciones de la capa de datos del cliente (DexieDB) y del servidor (Dynamoose).
+    \item \textbf{enums/}: Contiene varios enums públicos, como por ejemplo el del tema Claro/Oscuro. 
+    \item \textbf{hooks/}: Contiene Todos los hooks de ReactJS que han sido definidos.
+    \item \textbf{i18n/}: Contiene la configuración y ficheros de internacionalización.
+    \item \textbf{interfaces/}: Contiene la definición de algunas de las interfaces públicas. Otras de las interfaces se exportan desde el mismo fichero en el que son definidas y utilizadas. 
+    \item \textbf{pages/}: Contiene la API pública y todas las rutas de la página. Cada fichero .tsx de este directorio se corresponde con una ruta de la web.
+    \item \textbf{restClients/}: Contiene los distintos clientes rest que se han definido, como el cliente para interactuar con Spotify, LastFM, o el backend de NextJS.
+    \item\textbf{store/}: Contiene los distintos contenedores de datos definidos por Zustand. 
+    \item\textbf{syltes/}: Contiene los ficheros CSS y estilos de Styled Components.
+    \item\textbf{Typings/}: Contiene ficheros que declaran los tipos de datos en Typescript de algunas bibliotecas que no tienen definición de tipos. En este caso no hay ninguna biblioteca que no tenga definición de tipos. 
+    \item\textbf{util/}: Contiene las definiciones de clases auxiliares e instancias de bibliotecas. Algunas de estas clases son el cliente Oauth2, par iniciar sesión, gestor de cookies, filtros y herramientas para ordenar arrays de canciones, álbumes, etc...
+\end{enumerate}
+
+\subsubsection{Estructura de src/components}\label{componentes_dir}
+
+La estructura de este directorio ha seguido dos patrones. Por un lado se han agrupado los componentes según sus características. 
+
+Por ejemplo, pages/ contiene todos los componentes que se utilizan para construir una página o ruta al completo, mientras que core/ contiene todos los componentes que son utilizados entre varios componentes, como botones, menús desplegables, etc.
+
+Dentro de core/ nos encontramos a los componentes repartidos en varias categorías.
+\begin{enumerate}
+    \item \textbf{cards/}: Son las tarjetas, listas y vistas de la aplicación.
+    \item \textbf{display/}: Son los componentes que muestra información, por ejemplo el Modal o el menú de paginación.
+    \item \textbf{input/}: Son los componentes que reciben una entrada del usuario, por ejemplo los sliders.
+    \item \textbf{navigation/}: Son los componentes utilizados para la navegación, como la barra superior y la barra inferior de la página web.
+    \item \textbf{notification/}: Son los componentes utilizados para notificar al usuario. 
+\end{enumerate}
+
+Por otro lado, estos grupos se dividen según la relevancia del componente siguiente una \textbf{estructura atómica.}
+En este caso, los componentes se agrupan en átomos, moléculas y organismos según su tamaño.\\
+A medida que un componente utiliza componentes de categorías inferiores para construirse, aumenta la categoría del componente.
+Si tenemos un componente que utiliza una barra de búsqueda y un botón, pasará de ser un componente atómico a ser un componente molecular. 
+
+\subsubsection{Estructura de un Componente}
+Cada componente es un directorio que incluye cuatro ficheros.
+\begin{enumerate}
+    \item \textbf{index.ts}: Exporta por defecto al componente. Esto permite importar un componente desde cualquier módulo sin necesidad de conocer en que punto del directorio se encuentra.
+    
+    \item\textbf{*.styles.ts}: Contiene la definición de estilos utilizados por ese componente mediante Styled Componentes. Este fichero exporta un único diccionario por defecto.
+    
+    \item\textbf{*.test.ts}: Contiene los tests unitarios del componente para se ejecutados mediante Jest.
+    
+    \item\textbf{*.tsx}: Incluye el componente a renderizar. 
+\end{enumerate}
+
+
+\subsection{Ludwig}
+
+Este subdirectorio contiene los datos del proyecto de extracción de características musicales Ludwig.
+
+Está formado por los siguientes directorios:
+
+\begin{enumerate}
+    \item \textbf{dataset-tools/}: Contiene las herramientas desarrolladas en NodeJS y Python para la generación de los distintos datasets. Se ha detallado en la sección \ref{dataset-tools}.
+    \item \textbf{mir-backend/}: Contiene la API de Ludwig en FastAPI. Se ha detallado su uso en \ref{mir-backend}
+    \item \textbf{models/}: Contiene el modelo base para inicializar los pesos del clasificador de música. Esta en esta carpeta para poder acceder a él mediante curl/wget desde los notebooks utilizados durante el entrenamiento.
+    \item \textbf{notebooks/}: Contiene los distintos notebooks utilizados para entrenar  con los modelos y explorar los conjuntos de datos. 
+\end{enumerate}
+
+\subsubsection{dataset-tools}\label{dataset-tools}
+
+Por un lado, la herramienta en NodeJS contiene una aplicación de línea de comandos que permite:
+
+\begin{enumerate}
+    \item Descargar una playlist pública / usuario en formato .mp3
+    \item Normalizar una playlist. Esta normalización elimina aquellas canciones que no contienen 30s de previsualización. 
+    \item Leer Discogs. Lee el dataset de Discogs en formato .csv, lo cruza con Spotify y AcousticBrainZ y lo guarda en DynamoDB. Para más detalles consultar la memoria.
+\end{enumerate}
+
+Por otro lado, las herramientas de Python permiten descargar el dataset almacenado en DynamoDB y extraer las características mediante Librosa. 
+
+\begin{enumerate}
+    \item \textbf{downloadDataset.py}: Descarga el dataset de dynamoDB y genera un fichero .json con todas las canciones. 
+    \item \textbf{2mfccs.py}\label{2mfccs_py}: Dado un directorio con ficheros .wav, divide la canción en segmentos de 3s y genera los MFFCs en cad segmente. Almacena en un fichero .npy con el mismo nombre del fichero .wav un array con los MFCCs. 
+    \item \textbf{2sftf.py}: Realiza la misma operación que el paso anterior, pero convierte los segmentos en espectrogramas en escala de mel. 
+    \item \textbf{dynamo2labels}: A partir del json obtenido en \ref{2mfccs_py}, genera un json que agrupa las distintas canciones por subgéneros.
+\end{enumerate}
+
+
+\subsubsection{mir-backend}\label{mir-backend}
+
+Este directorio incluye la implementación del backend de recuperación de información musical. 
+
+\begin{enumerate}
+    \item \textbf{inference\_engine/}: Contiene la implementación del motor de inferencia para géneros, subgéneros y estado de ánimo.
+    \item \textbf{models/}: Contiene los modelos finales. Este directorio contiene los binarios de Keras orignales (.h5), así como sus versiones compatibles con ONNX (.onnx y \_quantized.onnx)
+    \item \textbf{request\_specifications/}: Contiene las especificaciones de los cuerpos de las peticiones HTTP.
+    \item \textbf{util/}: Contiene los módulos para descargar y extraer las características de las canciones. En este caso se dividen las canciones, se convierten a .wav y se remuestrean a 22050Hz. Estas canciones son cargadas por Librosa, divididas en fragmentos de 3s y transformadas en MFCCs.
+\end{enumerate}
+
 
 \section{Manual del programador}
 
+En esta sección se van a detallar los aspectos más importantes del proyecto de cara al programador. 
+
+\subsection{Variables de Entorno} \label{env:}
+
+Las variables de entorno son muy utilizadas para configurar valores secretos sin necesidad de incluirlas en el código.
+
+\subsubsection{Variables de entorno de NextJS}
+NextJS permite cargar variables de entorno a partir de un fichero \textbf{.env.local} que se encuentra en la raíz del proyecto. 
+
+Se diferencian dos tipos de variables de entorno, las variables del frontend y las variables del backend. Las variables del frontend se identifican por empezar por \textbf{NEXT\_PUBLIC\_}, y son accesibles desde el frontend ya que se cargan en tiempo de compilación. Las variables del backend no tienen ningún prefijo y se cargan en tiempo de ejecución, al arrancar el servidor.\\
+Si por ejemplo modificamos una variable de entorno en una del frontend, es necesario volver a construir la imagen de Docker. 
+
+Para facilitar el acceso a estas variables, se ha declarado un diccionario en el archivo \textbf{env.ts}, localizado en el subdirectorio \textbf{src/}.
+
+\begin{enumerate}
+    \item \textbf{NEXT\_PUBLIC\_SPOTIFY\_ID}: Almacena el código público que debe conocer el frontend para poder iniciar sesión el usuario, se genera desde https://developer.spotify.com/.
+    \item \textbf{SPOTIFY\_SECRET}: Almacena el código privado que se utiliza para validar el inicio de sesión desde el backend, se genera junto al ID Público de Spotify. 
+    \item \textbf{JWT\_SIGN\_KEY}: Almacena la clave de firma utilizada para emitir Json Web Tokens.
+    \item \textbf{AWS\_ACCESS\_KEY\_ID\_}: Almacena el ID de Amazon Web Services utilizado para conectar Dynamoose con DynamoDB. Se puede obtener desde IAM en AWS.
+    \item \textbf{AWS\_SECRET\_ACCESS\_KEY\_ }: Almacena la clave de inicio de AWS, se usa en conjunto con el elemento anterior.
+    \item \textbf{AWS\_REGION\_}: Identifica la región en la que se despliega la base de datos. No todas las regiones están disponibles para Dynamoose, se recomienda consultar \href{https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html}{la documentación}.
+    \item \textbf{DYNAMOOSE\_USER\_TABLE}: Nombre de la tabla en la que se van a almacenar los datos de usuario, por defecto la tabla se llama TEST\_TABLE.
+    \item \textbf{DYNAMOOSE\_TRACK\_TABLE}: Nombre de la tabla en la que se van a almacenar los datos de ludwig, por defecto la tabla se llama TEST\_TABLE.
+    \item \textbf{DYNAMOOSE\_LOCAL}: Por defecto está vacía. Puede contener la dirección de una instancia de DynamoDB Local.
+    \item \textbf{NEXT\_PUBLIC\_LAST\_KEY}: Almacena la clave pública de LastFM.
+    \item \textbf{NEXT\_PUBLIC\_API\_BASE\_URL}: Almacena la URL al servidor que almacena la API de SpotMyFM. Por defecto usa /, es decir, el mismo servidor que el frontend.
+    \item \textbf{NEXT\_PUBLIC\_LUDWIG\_URL}: Almacena la url al servidor de la api Ludwig.
+    \item \textbf{LUDWIG\_SECRET}\label{env:ludwig_secret}: Almacena el código secreto que permite al backend de NextJS conectarse con Ludwig.
+\end{enumerate}
+
+\subsubsection{Variables de entorno de Ludwig Mir Backend}
+Este backend es mucho más sencillo, las variables de entorno pueden almacenarse en un fichero \textbf{.env} en la raíz del proyecto. 
+
+Este fichero únicamente contiene una variable de entorno, \textbf{SECURITY\_TOKEN}, que almacena el mismo valor que \ref{env:ludwig_secret}.
+
 \section{Compilación, instalación y ejecución del proyecto}
 
-\section{Pruebas del sistema}
+\subsection{Instalación de Docker}
+
+\hypertarget{gnulinux}{%
+\subsubsection{GNU/Linux}\label{gnulinux}}
+
+La instalación para GNU/Linux es independiente para cada distribución,
+por lo que es recomendable
+\href{https://docs.docker.com/engine/install/ubuntu/}{consultar la
+documentació}n para conocer los distintos pasos. En nuestro caso vamos a
+utilizar Ubuntu, por lo que vamos a seguir los pasos con esta
+distribución.
+
+\hypertarget{ubuntu}{%
+\paragraph{Ubuntu}\label{ubuntu}}
+
+Vamos a utilizar el script oficial de instalación:
+
+\begin{verbatim}
+$ curl -fsSL https://get.docker.com -o get-docker.sh
+$ sudo sh get-docker.sh
+\end{verbatim}
+
+Hecho esto, tendremos Docker instlado en nuestro equipo, pero es
+recomendable añadir a los usuarios que vayan a usar este servicio a el
+grupo \textbf{docker} para poder usarlo sin necesidad de permisos de
+superusuario.
+
+Para añadir al usuario actual:
+
+\begin{verbatim}
+$ sudo groupadd docker
+$ sudo usermod -aG docker $USER
+\end{verbatim}
+
+Hecho esto es recomendable reiniciar el equipo para que el proceso se
+complete de forma satisfactoria. Podemos probar que todo está
+correctamente instalado usando el siguiente comando:
+
+\begin{verbatim}
+ $ docker run hello-world
+\end{verbatim}
+
+Si utilizamos el comando \texttt{\$\ docker\ ps} podemos comprobar si el
+contenedor está en ejecución.
+
+\hypertarget{microsoft-windows}{%
+\subsubsection{Microsoft Windows}\label{microsoft-windows}}
+
+La instalación de Docker en Windows es algo más complicada ya que
+requiere de un servicio de virtualización.
+
+\hypertarget{instalaciuxf3n-wsl}{%
+\paragraph{Instalación WSL}\label{instalaciuxf3n-wsl}}
+
+El primer requisito que necesitamos es instalar el Subsistema de Linux
+para Windows (Windows Subsystem for Linux) Es recomendable seguir la
+\href{https://docs.microsoft.com/en-us/windows/wsl/install}{guía de
+instalación actualizada} para este proceso, ya que ha cambiado mucho a
+lo largo de los últimos años.
+
+Suponiendo que tengamos una versión relativamente actualizada de Window
+10 o Windows 11, deberíamos poder ejecutar el siguiente comando con
+permisos de administrador para la instalación:
+
+\begin{verbatim}
+wsl --install
+\end{verbatim}
+
+
+Hecho esto buscamos la distribución que más nos guste en la tienda de
+aplicaciones de Windows (En las últimas versiones WSL se puede instalar
+directamente desde esta tienda). En nuestro caso vamos a escoger
+\href{https://www.microsoft.com/store/productId/9N6SVWS3RX71}{Ubuntu
+20.04 LTS}
+
+Se nos habrá instalado como una aplicación más que podemos encontrar en
+el menú de inicio, en el PATH ( \texttt{ubuntu2004.exe}), etc. Podemos
+abrir la distribución que tengamos por defecto con los comandos
+
+\begin{verbatim}
+wsl
+\end{verbatim}
+ó
+\begin{verbatim}
+bash
+\end{verbatim}
+
+Como únicamente tenemos una distribución instalada, podemos abrir Ubuntu
+directamente con este proceso. Hecho esto abrimos la distribución y la
+configuramos como cualquier otro sistema operativo.
+
+\hypertarget{actualizar-la-distribuciuxf3n-a-wsl2}{%
+\paragraph{Actualizar la distribución a
+WSL2}\label{actualizar-la-distribuciuxf3n-a-wsl2}}
+
+Para poder utilizar la distribución con Docker, debemos utilizar la
+versión 2 de WSL que virtualiza el Kernel de Linux. Este paso es tan
+sencillo como utilizar el siguiente comando:
+\begin{verbatim}
+wsl --set-version <Distro> 2
+\end{verbatim}
+
+
+Podemos obtener \texttt{\textless{}Distro\textgreater{}} a partir del
+siguiente comando:
+
+\begin{verbatim}
+wsl --list  
+\end{verbatim}
+
+
+En nuestro caso tenemos las distribuciones que va a instalar Docker ya
+instaladas, pero podemos ver el nombre exacto de nuestra distribución
+Ubuntu. 
+
+Hecho esto ya podemos instalar Docker.
+
+\hypertarget{instalaciuxf3n-de-docker}{%
+\paragraph{Instalación de DOCKER}\label{instalaciuxf3n-de-docker}}
+
+Podemos seguir la siguiente
+\href{https://docs.docker.com/desktop/windows/install/}{guía oficial} o
+usar Winget, en nuestro caso vamos a usar el gestor de paquetes.
+
+\begin{verbatim}
+winget install -e --id Docker.DockerDesktop
+\end{verbatim}
+
+\hypertarget{configuraciuxf3n-de-docker}{%
+\paragraph{Configuración de DOCKER}\label{configuraciuxf3n-de-docker}}
+
+Si queremos acceder a los comandos de docker desde Ubuntu, debemos
+indicar a Docker que pueda utilizar Ubuntu como una interfaz más. Para
+ello podemos utilizar la interfaz gráfica de Docker Desktop.
+
+\subsection{Construir y Ejecutar los Contenedores}
+
+Se pueden levantar los tres contenedores con el fichero \textbf{Docker/compose.yml} mediante el comando \textbf{docker-compose up}.
+
+Es necesario definir un fichero \textbf{.env} con todas las variables de entorno mencionadas en el apartado \ref{env:}.
+
+Se pueden construir y ejecutar los contenedores de forma individual con \textbf{docker build -t nombre\_del\_servicio . \&\& docker run nombre\_del\_servicio}\footnote{Es necesario ejecutarlo sobre la raíz de cada proyecto, NextJS/ y Ludwig/ludwig-mir/}
