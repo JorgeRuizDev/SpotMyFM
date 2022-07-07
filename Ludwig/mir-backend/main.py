@@ -2,6 +2,7 @@ import asyncio
 from multiprocessing import Pool
 import os
 import tempfile
+import threading
 from fastapi import FastAPI, UploadFile
 from typing import List, Optional, Union
 import numpy as np
@@ -35,6 +36,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+bulk_lock = threading.Lock()
 
 
 security = HTTPBearer()
@@ -138,7 +142,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
         [u.url for u in body.tracks], loop
     )
     times.append(time())
-
+    bulk_lock.acquire()
     # multiprocessing: Convert with multiple processes the different tracks to wav
     input_data: List[Union[np.ndarray, None]] = []
 
@@ -183,6 +187,7 @@ async def spotify_mir_url_bulk(body: LudwigTrackUrlBulk, _=Depends(authorize_tok
 
     response_list = [request.to_json() for request in inference_requests]
     del inference_requests
+    bulk_lock.release()
     return {
         "tracks": response_list,
         "took": {

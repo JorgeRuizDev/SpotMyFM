@@ -21,7 +21,7 @@
   "between": "Entre:",
   "biography_for": "Biografía para",
   "browse_filter_create_personalized_playlists_and_ch": "Navega, filtra, crea listas de reproducción personalizadas y consulta tus estadísticas personales de",
-  "by": "Por %nombre_de_la_pantalla",
+  "by": "Por {{display_name}}",
   "cache_my_library": "Guardar mi biblioteca en la memoria caché",
   "collaborative": "Colaboración",
   "connect_genre_skips": "Conectar los saltos de género",
@@ -135,7 +135,7 @@
   "showing_your_mood_distribution_from": "Mostrando la distribución de su estado de ánimo desde",
   "shuffled_sample": "muestra barajada",
   "similar_tracks": "🔊 Pistas similares",
-  "singles": "Solteros",
+  "singles": "Sencillos",
   "some_features_like_library_manager_or_real_shuffle": "Algunas funciones como \"Library Manager\" o \"Real Shuffle\" necesitan conocer todas tus canciones favoritas para funcionar correctamente. <b/>Este proceso puede llevar mucho tiempo dependiendo del número de canciones que hayas marcado como favoritas.",
   "sort_albums": "Ordenar álbumes",
   "spotify_search": "Búsqueda en Spotify",
@@ -235,8 +235,8 @@
   "with_the_awesome": "con la increíble",
   "your_favorite_songs": "tus canciones favoritas!",
   "your_playlists_with_your_personalized_track_select": "tus listras de reproducción personalizadas con una selección de caciones!",
-  "cards": {
-    "filtra": "Filtra"
-  },
+  
+  "filtra": "Filtra",
+  
   "try-now": "¡Pruébame! 👋"
 }
