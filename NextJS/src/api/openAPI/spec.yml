@@ -159,6 +159,46 @@ paths:
       security:
         - jwt: []
 
+
+  /ludwig/track/bulk:
+    post:
+      summary: Analyzes a bulk of songs
+      description: This endpoint analyzes as bulk of songs, extracting the genre, subgenres and moods of each song. 
+      requestBody:
+        description: A bunch of tracks. Each track ID should be unique
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MirRequest"
+
+      responses:
+        "200":
+          description: A successful operation.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LudwigRes"
+
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: "Not Authorized"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      tags:
+        - lastFM
+      security:
+        - jwt: []
+
+
+
   /spotify/oauth2/auth:
     post:
       summary: Obtains the Spotify Auth Code used in OAUTH2
@@ -268,6 +308,65 @@ components:
                 items:
                   type: string
 
+    MirResult:
+      type: object
+      description: Music Information Retrieval Result (includes the confidence of each label)
+      properties:
+        label: 
+          type: string
+        confidence:
+          type: number
+
+    MirRequest:
+      type: object
+      required:
+        - tracks
+      properties:
+        moods: 
+          type: boolean
+          description: If the result should include moods
+        genres: 
+          type: boolean
+          description: If the result should include genres and subgenres.
+
+        tracks:
+          type: array
+          items: 
+            type: object
+            properties:
+              id: 
+                type: string
+                description: Track ID
+              url:
+                type: string
+                description: Track Preview URL to analyze the track if necessary. 
+            
+    LudwigRes:
+      type: object
+      required:
+        - tracks
+      properties:
+        tracks:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Spotify ID / Unique id
+              genres:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/MirResult"
+              subgenres:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/MirResult"
+              moods:
+                type: array
+                items: 
+                  $ref: "#/components/schemas/MirResult"
+
     AlbumTagsRes:
       type: object
       required:
@@ -354,6 +453,9 @@ components:
               album_id:
                 description: An ID used in the response object to identify the tags.
                 type: string
+
+
+
 
     LastFMTagResponse:
       type: object
