@@ -5,7 +5,7 @@
 
 ## A Spotify Library Manager
 
-### Check SpotMyFM at [spotmyfm.jorgeruizdev.com](spotmyfm.jorgeruizdev.com)
+### Check SpotMyFM at [spotmyfm.jorgeruizdev.com](https://spotmyfm.jorgeruizdev.com)
 
 <hr/>
 
@@ -31,6 +31,8 @@ Some of the features are:
 
 #### Datasets
 
+Three datasets were created through the development of this project. Two of them are published at Kaggle
+
 [Ludwig Dataset - Genres, Subgenred & Moods - 13k+ Songs (Kaggle)](https://www.kaggle.com/datasets/jorgeruizdev/ludwig-music-dataset-moods-and-subgenres)
 
 This is the main dataset that has been used to train all the neural networks
@@ -42,6 +44,8 @@ This dataset has been used to initialize the weights of the main neural network.
 <hr/>
 
 #### Teaser
+
+![ezgif-5-abe8f0cb94](https://user-images.githubusercontent.com/10118909/177742138-b604abb5-9473-4f22-8cc8-fe1bd6cf8107.gif)
 
 #### Architecture
 
