@@ -47,7 +47,6 @@ This dataset has been used to initialize the weights of the main neural network.
 
 ![ezgif-5-abe8f0cb94](https://user-images.githubusercontent.com/10118909/177742138-b604abb5-9473-4f22-8cc8-fe1bd6cf8107.gif)
 
-
 #### Architecture
 
 ![Poster](Docs/image.png)
