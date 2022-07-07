@@ -1,4 +1,5 @@
 # Manual de Usuario de SpotMyFM
+
 - [Manual de Usuario de SpotMyFM](#manual-de-usuario-de-spotmyfm)
   - [Vistas](#vistas)
     - [Listado de Vistas](#listado-de-vistas)
@@ -12,6 +13,7 @@
     - [¿Cómo cambio el tema de usuario?](#cómo-cambio-el-tema-de-usuario)
     - [¿Cómo elimino mi cuenta?](#cómo-elimino-mi-cuenta)
     - [¿Cómo puedo cambiar el idioma?](#cómo-puedo-cambiar-el-idioma)
+
 ## Vistas
 
 Las vistas son la base de SpotMyFM, ya que permiten renderizar e interactuar con los distintos elementos de Spotify.
@@ -35,20 +37,6 @@ Ejemplo de Vista de Canciones
 
 ## Navegación
 
-- [Manual de Usuario de SpotMyFM](#manual-de-usuario-de-spotmyfm)
-  - [Vistas](#vistas)
-    - [Listado de Vistas](#listado-de-vistas)
-  - [Navegación](#navegación)
-    - [Escritorio](#escritorio)
-      - [Menú Auxiliar Desplegable](#menú-auxiliar-desplegable)
-    - [Tablet / Vista Vertical](#tablet--vista-vertical)
-    - [Móvil](#móvil)
-  - [FAQ](#faq)
-    - [¿Cómo Inicio Sesión?](#cómo-inicio-sesión)
-    - [¿Cómo cambio el tema de usuario?](#cómo-cambio-el-tema-de-usuario)
-    - [¿Cómo elimino mi cuenta?](#cómo-elimino-mi-cuenta)
-    - [¿Cómo puedo cambiar el idioma?](#cómo-puedo-cambiar-el-idioma)
-
 La navegación únicamente está disponible si el usuario ha iniciado sesión.
 
 ![chrome_OdkYeqODbD](https://user-images.githubusercontent.com/10118909/176039215-e6be6dc0-9aa2-4fdd-8a00-ae7ead0ed4ab.gif)
@@ -67,7 +55,7 @@ En escritorio, la barra de navegación se encuentra ne la parte superior de la p
 - (7) [Búsqueda](./search.md)
 - (8) Indicador de carga. Si es visible significa que la fachada que gestiona las canciones está a la espera de datos
 - (9) [Canción en Reproducción](./player.md)
-- (10) Detalles
+- (10) Menú auxiliar Desplegable
 
 #### Menú Auxiliar Desplegable
 
