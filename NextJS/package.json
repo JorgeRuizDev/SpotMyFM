@@ -93,7 +93,7 @@
     "fake-indexeddb": "3.1.7",
     "jest": "27.3.1",
     "jest-mock-axios": "4.5.0",
-    "lint": "0.7.0",
+    "lint": "0.8.19",
     "react-test-renderer": "17.0.2",
     "tailwindcss": "2.2.9",
     "ts-jest": "27.0.7",
